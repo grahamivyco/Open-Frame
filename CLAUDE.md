@@ -22,6 +22,12 @@ Live at **https://openframe.design**.
 - **`404.html`** — GitHub Pages SPA redirect (rafgraph technique) so clean URLs work on refresh/direct hit.
 - **`CNAME`**, **`Graham-Ivy-Resume.pdf`**, **`.nojekyll`**.
 
+## Icons (single library)
+- All functional icons come from **one inline Lucide line-icon sprite** defined once at the top of `<body>` (`<svg style="position:absolute"><defs><symbol id="i-…">…</symbol>…</defs></svg>`).
+- **Use an icon with `<svg class="…"><use href="#i-…"/></svg>`** — never paste raw icon `<path>`s inline (that's what caused mismatched résumé/mail icons before). To add an icon, add one `<symbol>` to the sprite, then reference it.
+- Icons inherit color via `currentColor`: set `color` on the outer `<svg>` (e.g. `style="color:#f24333"`) or via a class. Size via the outer svg's `width`/`height` or CSS (`.mi`, `.ico`, `.pico`, `.bi`, `.ic svg`).
+- The brand **spark** (4-point star) and the **open-frame mark** are brand motifs, NOT part of the icon set — leave them as-is.
+
 ## How the site works (routing)
 - SPA: `const PAGES=[...]`; `show(id)` toggles the visible `.page.active`.
 - **Clean path URLs** via the History API. The slug↔id map is `SLUG2ID` in the script. Paths: `/work`, `/services`, `/about`, `/contact`, `/brand-identity-strategy`, `/web-product-design`, `/marketing-content`, `/brand-growth-consulting`, `/park-n-go`, `/hmong-cultural-center`, `/hellospoke`, `/wellness-in-the-woods`, `/needlework-guild-of-mn`.
@@ -41,7 +47,7 @@ Live at **https://openframe.design**.
 - Keep copy tight and on-brand; prefer tasteful/minimal over busy.
 
 ## Current state (Jul 2026)
-Recently shipped: clean path URLs + `404.html`; banner case-study heroes; big "next case study" cards; icon-only filled footer; white outlined service cards; removed pointer-hand cursor; site email → **hello@openframe.design**.
+Recently shipped: clean path URLs + `404.html`; banner case-study heroes; big "next case study" cards; white outlined service cards; removed pointer-hand cursor (custom cursor hides native cursor everywhere on desktop); site email → **hello@openframe.design**. **Unified all functional icons to one inline Lucide sprite (`#i-*` via `<use>`)**; contact icons are square-less line icons that color on hover; the "Schedule a call" card is a whole-card link (no button).
 Open/optional: finish a Figma design-system component library; add per-page `<title>`/meta for SEO.
 
 ## Working with Graham
