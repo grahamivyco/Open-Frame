@@ -279,10 +279,11 @@ p{text-wrap:pretty}
 .bento{margin-top:16px;display:grid;grid-template-columns:1.5fr 1fr;gap:16px;grid-template-areas:"cal mail" "cal link" "cal res"}
 .bx{border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;display:flex;flex-direction:column;justify-content:center;transition:transform .4s var(--ease),background .3s,border-color .3s}
 /* tiles: corner-peel only, no lift or color change */
-.bx .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--card);color:#fff;margin-bottom:16px;transition:background .3s var(--ease),color .3s var(--ease)}
+.bx .ic,.book .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--card);color:#fff;margin-bottom:16px;transition:background .3s var(--ease),color .3s var(--ease)}
 .bx.tile.mail:hover .ic{background:var(--red)}
 .bx.tile.link:hover .ic{background:var(--blue)}
 .bx.tile.res:hover .ic{background:var(--yellow);color:var(--ink)}
+.book:hover .ic{background:var(--green)}
 .bx h3{font-size:1.25rem;margin-bottom:3px}.bx p{font-family:var(--sans);color:var(--muted);font-size:.95rem}
 .bx.cal{grid-area:cal;padding:0;overflow:hidden;min-height:600px}
 .bx.cal #calEmbed{width:100%;height:100%;min-height:600px}
@@ -294,7 +295,11 @@ p{text-wrap:pretty}
 /* equal gap: say-hello -> book-row (margin-top) == book-row -> footer (this padding + 30px footer) */
 .contact-body{padding-bottom:calc(clamp(40px,6vw,72px) - 30px)}
 .book{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--r-lg);background:#fff;text-align:left;padding:clamp(38px,4.5vw,66px);display:flex;flex-direction:column;justify-content:center}
-.book .bkmark{width:74px;height:74px;color:var(--ink);margin-bottom:26px}
+.book .fold{position:absolute;top:0;right:0;width:0;height:0;border-bottom-left-radius:100%;transition:width .45s var(--ease),height .45s var(--ease);z-index:1}
+.book:hover .fold{width:108px;height:108px}
+.book .arr{position:absolute;top:16px;right:16px;color:#fff;opacity:0;transform:translate(10px,-10px) scale(.5);transition:opacity .4s var(--ease) .06s,transform .5s var(--ease) .06s;z-index:2}
+.book .arr svg{width:30px;height:30px}
+.book:hover .arr{opacity:1;transform:none}
 .book h2{font-size:clamp(2rem,3.6vw,2.9rem);font-weight:500;line-height:1.04;max-width:16ch;margin:0}
 .book p{font-family:var(--sans);color:var(--ink-2);max-width:42ch;margin:16px 0 30px;font-size:clamp(1.02rem,1.4vw,1.14rem)}
 .book .btn{align-self:flex-start}
@@ -806,10 +811,11 @@ p{text-wrap:pretty}
     </div>
     <div class="book-row">
     <div class="book reveal">
-      <svg class="bkmark mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
+      <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
       <h2>Schedule a free 30-minute call.</h2>
       <p>Have a project in mind? Grab a 30-minute video call and we'll talk through what you're building — no pressure, no pitch.</p>
       <a class="btn btn-dark" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Book a time</a>
+      <span class="fold" style="background:var(--green)"></span><span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
     </div>
     <div class="tiles3 reveal">
       <a class="bx tile mail" href="mailto:hello@openframe.design">
