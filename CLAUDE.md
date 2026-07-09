@@ -48,7 +48,8 @@ Live at **https://openframe.design**.
 
 ## Current state (Jul 2026)
 Recently shipped: clean path URLs + `404.html`; banner case-study heroes; big "next case study" cards; white outlined service cards; removed pointer-hand cursor (custom cursor hides native cursor everywhere on desktop); site email → **hello@openframe.design**. **Unified all functional icons to one inline Lucide sprite (`#i-*` via `<use>`)**; contact icons are square-less line icons that color on hover; the "Schedule a call" card is a whole-card link (no button).
-Open/optional: finish a Figma design-system component library; add per-page `<title>`/meta for SEO.
+Case-study media: `.cs-figure`/`.cs-hero-media` reserve a min-height with a loading shimmer (cleared via the `of-imgok` class on img `load`) so images no longer collapse to a thin line then jump; images use `decoding="async"` and the page preconnects to `grahamivy.com`/`s.wordpress.com`.
+Open/optional: **self-host case-study images** in `images/` (they load from grahamivy.com + slow wordpress mshots — moving them onto GitHub Pages would load much faster); finish a Figma design-system component library; add per-page `<title>`/meta for SEO.
 
 ## Working with Graham
 Non-technical by background (learning as he goes) — explain what a change does and why, and prefer safe, reversible steps. He often works on **one page at a time**.
