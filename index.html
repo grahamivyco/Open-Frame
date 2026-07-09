@@ -1700,7 +1700,7 @@ p{text-wrap:pretty}
   function idFromLoc(){var p=location.pathname.replace(/^\/+|\/+$/g,"");if(p in SLUG2ID)return SLUG2ID[p];if(location.hash){var h=location.hash.slice(1);if(PAGES.includes(h))return h;}return "home";}
   function go(id){id=PAGES.includes(id)?id:"home";history.pushState({},"","/"+(ID2SLUG[id]||""));show(id);}
   addEventListener("popstate",function(){show(idFromLoc());});
-  document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.getAttribute("data-go"));}});
+  document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.getAttribute("data-go"));return;}var a=e.target.closest('a[href^="#"]');if(a){var id=a.getAttribute("href").slice(1);if(PAGES.includes(id)){e.preventDefault();go(id);}}});
   (function(){if(location.search&&location.search.charAt(1)==="/"){var d=location.search.slice(2).split("&").map(function(s){return s.replace(/~and~/g,"&");}).join("?");history.replaceState(null,null,"/"+d+location.hash);}})();
   show(idFromLoc());
 
