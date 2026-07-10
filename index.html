@@ -370,13 +370,14 @@ p{text-wrap:pretty}
 .cs-block h4.kicker{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .cs-block p{font-family:var(--sans);color:var(--ink-2);margin-bottom:14px}.cs-block p strong{color:var(--ink);font-weight:600}
 .cs-figure{margin:34px 0;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:#fff}
-/* reserve space + loading shimmer so images don't collapse to a thin line then jump */
+/* reserve space + a skeleton shimmer (YouTube/Google-style): a solid placeholder
+   block with a light band sweeping across, which fades out once the image loads */
 .cs-figure,.cs-hero-media{position:relative;min-height:clamp(150px,20vw,240px)}
-@keyframes of-shim{to{background-position:200% 0}}
-.cs-figure::after,.cs-hero-media::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(100deg,transparent 25%,rgba(0,0,0,.05) 50%,transparent 75%);background-size:220% 100%;animation:of-shim 1.4s linear infinite;transition:opacity .5s var(--ease)}
-.cs-figure.of-imgok::after,.cs-hero-media.of-imgok::after{opacity:0}
+@keyframes of-shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.cs-figure::after,.cs-hero-media::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(100deg,#e9e7e0 30%,#f7f5ef 48%,#e9e7e0 66%);background-size:200% 100%;animation:of-shim 1.4s ease-in-out infinite;transition:opacity .45s var(--ease)}
+.cs-figure.of-imgok::after,.cs-hero-media.of-imgok::after{opacity:0;animation:none}
 .cs-figure img,.cs-hero-media img{position:relative;z-index:1}
-@media (prefers-reduced-motion:reduce){.cs-figure::after,.cs-hero-media::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.cs-figure::after,.cs-hero-media::after{animation:none;background:#edeae3}}
 .cs-figure img{width:100%}
 .cs-figure figcaption{font-family:var(--sans);padding:14px 20px;font-size:13.5px;color:var(--muted);background:var(--panel);border-top:1px solid var(--line)}
 .cs-ph{aspect-ratio:16/10;border:2px dashed var(--line-2);border-radius:var(--r);display:grid;place-items:center;text-align:center;color:var(--muted);font-family:var(--sans);font-size:.92rem;background:var(--panel);padding:24px;margin:34px 0}
