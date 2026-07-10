@@ -38,7 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&family=Nunito:wght@700;800&family=Lexend:wght@700&family=Poppins:wght@500&family=Outfit:wght@600;700&family=Merriweather:wght@700&family=Open+Sans:wght@600&family=Staatliches&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Structured data: tells search engines Open Frame is a design studio (not the openFrame microscope) -->
 <script type="application/ld+json">
@@ -508,6 +508,20 @@ p{text-wrap:pretty}
 /* caption that can sit under any mockup, matching cs-figure's */
 .mock-cap{font-family:var(--sans);margin-top:14px;font-size:13.5px;color:var(--muted);text-align:center}
 .cs-hero-grid .tstage,.cs-hero-grid .pscene{margin:0;width:100%}
+
+/* ---- brand design system: minimal color-swatch + typography cards ---- */
+.bsys{margin:30px 0}
+.bsys-sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:12px}
+.bsys .sw{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.bsys .sw .chip{display:block;height:86px;box-shadow:inset 0 0 0 1px rgba(17,17,16,.06)}
+.bsys .sw .lab{display:block;padding:11px 14px 13px}
+.bsys .sw .lab b{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink);display:block;margin-bottom:2px}
+.bsys .sw .lab span{font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.bsys-type{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:12px;margin-top:12px}
+.bsys .tf{border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;background:var(--panel);display:flex;flex-direction:column;overflow:hidden}
+.bsys .tf .aa{font-size:clamp(38px,5.5vw,56px);line-height:.92;color:var(--ink);margin-bottom:14px}
+.bsys .tf .nm{font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink)}
+.bsys .tf .ro{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin-top:3px}
 .cs-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:32px 0}
 .cs-stat{border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;background:var(--panel)}
 .cs-stat b{font-family:var(--serif);display:block;font-size:clamp(2rem,4vw,2.8rem);font-weight:600}
@@ -1289,7 +1303,19 @@ p{text-wrap:pretty}
     <figure class="cs-figure"><img src="images/png-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"><figcaption>Mid-fidelity wireframes, built in a tight two-day turnaround.</figcaption></figure>
     <div class="cs-block"><h4 class="kicker">UI design kit</h4><h3>Accessible, modern, full of movement.</h3>
       <p>We curated a high-contrast palette meeting <strong>AAA compliance</strong>, with colors and a logo inspired by street aesthetics to reflect dynamic movement — clean, crisp, and modern throughout.</p></div>
-    <figure class="cs-figure"><img src="images/png-uikit.webp" alt="UI design kit" loading="lazy" decoding="async"></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
+        <div class="sw"><span class="chip" style="background:#212121"></span><span class="lab"><b>Charcoal</b><span>#212121</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FFC857"></span><span class="lab"><b>Signal Gold</b><span>#FFC857</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FFFFFF"></span><span class="lab"><b>White</b><span>#FFFFFF</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Lexend',sans-serif;font-weight:700">Aa</span><span class="nm">Lexend Bold</span><span class="ro">Headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</span><span class="nm">Poppins</span><span class="ro">Buttons &amp; body</span></div>
+      </div>
+    </div>
+    <figure class="cs-figure"><img src="images/png-uikit.webp" alt="Park n Go icons and components" loading="lazy" decoding="async"><figcaption>Icons and components from the Park n Go UI kit.</figcaption></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
@@ -1405,7 +1431,19 @@ p{text-wrap:pretty}
     <figure class="cs-figure"><img src="images/hcc-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">UI design kit — vibrant clarity</h4>
       <p>We built a vibrant palette of <strong>fluorescent greens, pinks, and blacks</strong> for striking contrast, inspired by traditional color schemes. Our logo drew on the <strong>elephant's foot</strong> — a symbol of community and family — and we chose the <strong>Outfit</strong> typeface for its clean, uniform, and bold appearance.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-uikit.webp" alt="UI design kit" loading="lazy" decoding="async"></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
+        <div class="sw"><span class="chip" style="background:#329459"></span><span class="lab"><b>Jade</b><span>#329459</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FF6388"></span><span class="lab"><b>Fuchsia</b><span>#FF6388</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F2F2F2"></span><span class="lab"><b>Cloud</b><span>#F2F2F2</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:700">Aa</span><span class="nm">Outfit Bold</span><span class="ro">Headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:400">Ag</span><span class="nm">Outfit Regular</span><span class="ro">Body &amp; UI</span></div>
+      </div>
+    </div>
+    <figure class="cs-figure"><img src="images/hcc-uikit.webp" alt="Hmong Cultural Center icons and components" loading="lazy" decoding="async"><figcaption>Icons and components from the design kit.</figcaption></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
@@ -1523,17 +1561,20 @@ p{text-wrap:pretty}
     <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Consistency that scales.</h3>
       <p>I built a reusable system — typography, color, buttons, cards, spacing, icons, illustration, and responsive rules — so new product pages could be assembled quickly and stay on-brand.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#f3f1ea"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#16324f"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#2f7bd0"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#5fbb5a"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#bfe6fb"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#ffffff" stroke="#e0ddd4"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#77756f"><text x="30" y="120">Navy #16324F</text><text x="160" y="120">Blue #2F7BD0</text><text x="290" y="120">Green #5FBB5A</text><text x="420" y="120">Sky #BFE6FB</text><text x="550" y="120">White</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#16324f">Aa</text>
-      <text x="132" y="184" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#16324f">HelloSpoke</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#77756f">Clear communication, simply designed.</text>
-      <rect x="30" y="236" width="176" height="46" rx="23" fill="#16324f"/><text x="118" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Book a demo</text>
-      <rect x="222" y="236" width="200" height="46" rx="23" fill="none" stroke="#16324f" stroke-width="1.6"/><text x="322" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#16324f" text-anchor="middle">See how it works</text>
-    </svg><figcaption>Design system — color, type, and components, drawn from the HelloSpoke brand.</figcaption></figure>
-    <div class="cs-imgs"><img src="images/hs-color.png" alt="Brand color system"><img src="images/hs-font.png" alt="Typography scale"><img src="images/hs-shapes.png" alt="Brand shapes and illustration"><img src="images/hs-ai.png" alt="Lou — the AI assistant mascot"><img src="images/hs-logo.png" alt="Logo"></div>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#003A5D"></span><span class="lab"><b>Navy</b><span>#003A5D</span></span></div>
+        <div class="sw"><span class="chip" style="background:#24C676"></span><span class="lab"><b>Emerald</b><span>#24C676</span></span></div>
+        <div class="sw"><span class="chip" style="background:#182D3A"></span><span class="lab"><b>Spoke Navy</b><span>#182D3A</span></span></div>
+        <div class="sw"><span class="chip" style="background:#7CD0F4"></span><span class="lab"><b>Sky Foam</b><span>#7CD0F4</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F8F8F7"></span><span class="lab"><b>Fog</b><span>#F8F8F7</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Nunito',sans-serif;font-weight:800">Aa</span><span class="nm">Nunito Bold</span><span class="ro">Headings &amp; UI</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Nunito',sans-serif;font-weight:400">Ag</span><span class="nm">Nunito Regular</span><span class="ro">Body copy</span></div>
+      </div>
+    </div>
+    <div class="cs-imgs"><img src="images/hs-shapes.png" alt="Brand shapes and illustration"><img src="images/hs-ai.png" alt="Lou — the AI assistant mascot"><img src="images/hs-logo.png" alt="Logo"></div>
   </div></section>
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Key Pages</span>
@@ -1639,16 +1680,19 @@ p{text-wrap:pretty}
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Warm, accessible, unmistakable.</h3>
       <p>The system pairs color, typography, iconography, photography, and graphic treatments into a recognizable, recovery-centered look — drawn directly from the organization's brand guide.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#efe9db"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#3a3730"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#b8862f"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#9aa878"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#c9b892"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#f6f0e2" stroke="#ddd3bf"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#6b6456"><text x="30" y="120">Ink #3A3730</text><text x="160" y="120">Gold #B8862F</text><text x="290" y="120">Sage #9AA878</text><text x="420" y="120">Tan #C9B892</text><text x="550" y="120">Cream</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#3a3730">Aa</text>
-      <text x="132" y="182" font-family="Georgia,serif" font-size="22" font-weight="600" fill="#3a3730">Wellness in the Woods</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#6b6456">Hope · inclusion · dignity · support.</text>
-      <rect x="30" y="236" width="176" height="46" rx="8" fill="#fff" stroke="#e2d9c4"/><text x="118" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#b8862f" text-anchor="middle">Get Support</text>
-      <rect x="222" y="236" width="150" height="46" rx="8" fill="#b8862f"/><text x="297" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Donate</text>
-    </svg><figcaption>A warm, recovery-centered system — cream, gold, and sage with serif display type.</figcaption></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#57463D"></span><span class="lab"><b>Bark</b><span>#57463D</span></span></div>
+        <div class="sw"><span class="chip" style="background:#949D79"></span><span class="lab"><b>Sage</b><span>#949D79</span></span></div>
+        <div class="sw"><span class="chip" style="background:#5F6E9C"></span><span class="lab"><b>Periwinkle</b><span>#5F6E9C</span></span></div>
+        <div class="sw"><span class="chip" style="background:#8E724E"></span><span class="lab"><b>Tan</b><span>#8E724E</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F8F5E4"></span><span class="lab"><b>Cream</b><span>#F8F5E4</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Staatliches',sans-serif;letter-spacing:.02em">Aa</span><span class="nm">Staatliches</span><span class="ro">Display &amp; headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Lato',sans-serif;font-weight:400">Ag</span><span class="nm">Lato</span><span class="ro">Body copy</span></div>
+      </div>
+    </div>
   </div></section>
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results</span>
@@ -1720,17 +1764,21 @@ p{text-wrap:pretty}
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Classic, warm, and welcoming.</h3>
-      <p>A heritage-inspired palette of forest, gold, and wine on cream, paired with a classic serif — timeless enough to honor the craft, warm enough to invite newcomers.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#efe7d6"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#2a2622"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#7c3b48"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#2f5d3a"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#c19a3e"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#f0e8d8" stroke="#dccdb2"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#6b5d4a"><text x="30" y="120">Ink #2A2622</text><text x="160" y="120">Wine #7C3B48</text><text x="290" y="120">Forest #2F5D3A</text><text x="420" y="120">Gold #C19A3E</text><text x="550" y="120">Cream</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#2f5d3a">Aa</text>
-      <text x="132" y="182" font-family="Georgia,serif" font-size="22" font-weight="600" fill="#2f5d3a">Needlework Guild</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#6b5d4a">Excellence in needlework since 1972.</text>
-      <rect x="30" y="236" width="150" height="46" rx="8" fill="#2f5d3a"/><text x="105" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Join us</text>
-      <rect x="196" y="236" width="180" height="46" rx="8" fill="none" stroke="#7c3b48" stroke-width="1.6"/><text x="286" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#7c3b48" text-anchor="middle">Browse classes</text>
-    </svg><figcaption>A heritage-inspired system built to feel warm and welcoming.</figcaption></figure>
+      <p>A documented brand system — Deep Indigo, Cranberry, and Golden Thread on Linen, paired with a warm serif (Merriweather) and a clean sans (Open Sans) — timeless enough to honor the craft, welcoming enough to invite newcomers.</p></div>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#2A3A6E"></span><span class="lab"><b>Deep Indigo</b><span>#2A3A6E</span></span></div>
+        <div class="sw"><span class="chip" style="background:#A43E4F"></span><span class="lab"><b>Cranberry</b><span>#A43E4F</span></span></div>
+        <div class="sw"><span class="chip" style="background:#D4AF37"></span><span class="lab"><b>Golden Thread</b><span>#D4AF37</span></span></div>
+        <div class="sw"><span class="chip" style="background:#356859"></span><span class="lab"><b>Spruce</b><span>#356859</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F7F4EF"></span><span class="lab"><b>Linen</b><span>#F7F4EF</span></span></div>
+        <div class="sw"><span class="chip" style="background:#333333"></span><span class="lab"><b>Charcoal</b><span>#333333</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Merriweather',serif;font-weight:700">Aa</span><span class="nm">Merriweather</span><span class="ro">Headlines &amp; titles</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Open Sans',sans-serif;font-weight:600">Ag</span><span class="nm">Open Sans</span><span class="ro">Body &amp; UI</span></div>
+      </div>
+    </div>
     <figure class="cs-figure"><img src="images/ngm-brandhero.png" alt="Needlework Guild brand hero" loading="lazy" decoding="async"></figure>
     <div class="cs-imgs"><img src="images/ngm-logo.png" alt="Logo"><img src="images/ngm-patterns.png" alt="Brand pattern"><img src="images/ngm-collage.png" alt="Brand marks"></div>
   </div></section>
