@@ -1918,6 +1918,36 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   /* router */
   const pages=document.querySelectorAll(".page");
   const navLinks=document.querySelectorAll(".nav-links a[data-nav]");
+  /* per-page SEO: title + description + canonical/OG/Twitter, updated on each SPA navigation */
+  const SITE="https://openframe.design/";
+  const PAGE_META={
+    home:{t:"Open Frame — Brand & Product Design Studio | Graham Ivy",d:"Open Frame is the design studio of Graham Ivy — brand identity, websites, and marketing that help growing brands, startups, and nonprofits show up and stand out."},
+    work:{t:"Work — Brand, Product & Marketing Design | Open Frame",d:"Selected brand identity, web, product, and marketing projects by Open Frame — Graham Ivy, Minneapolis."},
+    services:{t:"Services — Brand, Web, Marketing & Growth | Open Frame",d:"Brand identity & strategy, web & product design, marketing & content, and brand growth consulting from Open Frame."},
+    about:{t:"About Graham Ivy — Brand & Product Designer | Open Frame",d:"Graham Ivy is a Minneapolis brand & product designer. Open Frame helps growing brands, startups, and nonprofits show up and stand out."},
+    contact:{t:"Contact — Start a Project | Open Frame",d:"Start a project or book a call with Open Frame — brand identity, websites, and marketing for growing brands."},
+    "svc-brand":{t:"Brand Identity & Strategy | Open Frame",d:"Logos, visual systems, positioning, and brand guidelines that make your brand look and sound the part."},
+    "svc-web":{t:"Web & Product Design | Open Frame",d:"Websites and product UX from research to responsive build — clear, modern, and scalable."},
+    "svc-marketing":{t:"Marketing & Content | Open Frame",d:"Campaigns, social, email, and content that carry your brand across every touchpoint."},
+    "svc-growth":{t:"Brand Growth & Consulting | Open Frame",d:"A clear roadmap to scale — brand audits, positioning, and ongoing consulting."},
+    parkngo:{t:"Park n Go — Event Parking App (UX/UI Case Study) | Open Frame",d:"A mobile app that lets event-goers reserve parking in advance — UX research, UI design, and a scalable brand system."},
+    hmong:{t:"Hmong Cultural Center — Responsive Website Redesign | Open Frame",d:"A responsive redesign for a Saint Paul cultural hub, built around accessibility, belonging, and a clear path to resources."},
+    hellospoke:{t:"HelloSpoke — Product-Marketing Website (B2B SaaS) | Open Frame",d:"Product-marketing design that turns a complex unified-communications platform into a clear, scalable marketing site."},
+    wellness:{t:"Wellness in the Woods — Nonprofit Brand System | Open Frame",d:"A scalable brand and communications system for a statewide mental-health nonprofit — one consistent voice across every channel."},
+    needlework:{t:"Needlework Guild of MN — Brand & Web Design | Open Frame",d:"A warmer, easier digital home for a 50-year craft guild — an identity refresh and a membership-focused website."}
+  };
+  function setMeta(id){
+    const m=PAGE_META[id]||PAGE_META.home, url=SITE+(ID2SLUG[id]||"");
+    document.title=m.t;
+    const set=(sel,attr,val)=>{const el=document.querySelector(sel);if(el)el.setAttribute(attr,val);};
+    set('meta[name="description"]','content',m.d);
+    set('link[rel="canonical"]','href',url);
+    set('meta[property="og:title"]','content',m.t);
+    set('meta[property="og:description"]','content',m.d);
+    set('meta[property="og:url"]','content',url);
+    set('meta[name="twitter:title"]','content',m.t);
+    set('meta[name="twitter:description"]','content',m.d);
+  }
   function show(id){
     if(!PAGES.includes(id)) id="home";
     pages.forEach(p=>p.classList.toggle("active",p.id===id));
@@ -1926,6 +1956,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     const active=document.getElementById(id);
     requestAnimationFrame(()=>active.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")));
     if(id==="contact") initCalendly();
+    setMeta(id);
     scrollTo(0,0);
     document.querySelector(".nav").classList.remove("open");
   }
