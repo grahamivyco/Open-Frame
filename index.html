@@ -232,6 +232,13 @@ p{text-wrap:pretty}
 .pj .lw img{max-width:64%;max-height:60%}
 .pj .cover{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
 .pj:hover .cover{transform:scale(1.04)}
+/* hover: brand-tinted panel with the project wordmark (in its own typeface) + a one-line description */
+.pj .pj-desc{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,2vw,24px);opacity:0;pointer-events:none;transition:opacity .45s var(--ease);background:linear-gradient(to top,var(--accent,#111110),color-mix(in srgb,var(--accent,#111110) 62%,transparent) 52%,color-mix(in srgb,var(--accent,#111110) 12%,transparent) 82%,transparent)}
+.pj:hover .pj-desc{opacity:1}
+.pj .pj-desc .pw{color:var(--on-accent,#fff);font-size:clamp(1.2rem,2.1vw,1.55rem);font-weight:700;line-height:1.02;letter-spacing:.01em;transform:translateY(12px);transition:transform .5s var(--ease)}
+.pj .pj-desc p{font-family:var(--sans);color:var(--on-accent,#fff);font-size:clamp(.9rem,1.15vw,1rem);line-height:1.42;font-weight:500;margin-top:9px;opacity:.94;transform:translateY(12px);transition:transform .55s var(--ease) .04s}
+.pj:hover .pj-desc .pw,.pj:hover .pj-desc p{transform:none}
+@media (hover:none){.pj .pj-desc{display:none}}
 /* same curved corner reveal as the services cards */
 .pj .fold{position:absolute;top:0;right:0;width:0;height:0;border-bottom-left-radius:100%;transition:width .45s var(--ease),height .45s var(--ease);z-index:2}
 .pj:hover .fold{width:104px;height:104px}
@@ -1964,6 +1971,31 @@ p{text-wrap:pretty}
   document.querySelectorAll(".svc-faq").forEach(function(g){g.querySelectorAll(".faq-q").forEach(function(b){b.addEventListener("click",function(){var it=b.parentElement,was=it.classList.contains("open");g.querySelectorAll(".faq-item").forEach(function(i){i.classList.remove("open");});if(!was)it.classList.add("open");});});});
 
   document.querySelectorAll("[data-year]").forEach(el=>el.textContent=new Date().getFullYear());
+
+  /* project covers: brand accent (fold + arrow) + a wordmark/description hover overlay, applied across every grid */
+  var PROJECTS={
+    parkngo:{name:"Park n Go",font:"'Lexend',sans-serif",accent:"#FFC857",desc:"A mobile app that lets event-goers reserve parking in advance — turning a stressful scramble into a few taps."},
+    hmong:{name:"Hmong Cultural Center",font:"'Outfit',sans-serif",accent:"#FF6388",desc:"A responsive redesign for a Saint Paul cultural hub — built around accessibility, belonging, and a clear path to resources."},
+    wellness:{name:"Wellness in the Woods",font:"'Staatliches',sans-serif",accent:"#5F6E9C",desc:"A scalable brand & communications system for a statewide mental-health nonprofit — one consistent voice across every channel."},
+    hellospoke:{name:"HelloSpoke",font:"'Nunito',sans-serif",accent:"#003A5D",desc:"Product-marketing design that turns a complex unified-communications platform into a clear, scalable marketing site."},
+    needlework:{name:"Needlework Guild",font:"'Merriweather',serif",accent:"#2A3A6E",desc:"A warmer, easier digital home for a 50-year craft guild — heritage kept, barriers lowered."}
+  };
+  function onAccent(hex){var r=parseInt(hex.substr(1,2),16),g=parseInt(hex.substr(3,2),16),b=parseInt(hex.substr(5,2),16);return (0.299*r+0.587*g+0.114*b)/255>0.62?"#111110":"#ffffff";}
+  document.querySelectorAll(".pj[data-go]").forEach(function(pj){
+    var p=PROJECTS[pj.getAttribute("data-go")]; if(!p) return;
+    var oc=onAccent(p.accent);
+    pj.style.setProperty("--accent",p.accent);
+    pj.style.setProperty("--on-accent",oc);
+    var fold=pj.querySelector(".fold"); if(fold) fold.style.background=p.accent;
+    var arr=pj.querySelector(".arr"); if(arr) arr.style.color=oc;
+    var face=pj.querySelector(".face");
+    if(face && !face.querySelector(".pj-desc")){
+      var d=document.createElement("div"); d.className="pj-desc";
+      var w=document.createElement("span"); w.className="pw"; w.style.fontFamily=p.font; w.textContent=p.name;
+      var para=document.createElement("p"); para.textContent=p.desc;
+      d.appendChild(w); d.appendChild(para); face.appendChild(d);
+    }
+  });
 
   /* case-study media: clear the loading shimmer once each image is in (or on error / inline-svg figures) */
   document.querySelectorAll(".cs-figure,.cs-hero-media").forEach(function(f){
