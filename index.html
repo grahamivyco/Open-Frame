@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Open Frame — Brand &amp; Product Design Studio</title>
-<meta name="description" content="Open Frame is the design studio of Graham Ivy — a design studio for brand identity, websites, and marketing that take growing brands to their next stage.">
+<title>Open Frame — Brand &amp; Product Design Studio | Graham Ivy</title>
+<meta name="description" content="Open Frame is the design studio of Graham Ivy — brand identity, websites, and marketing that help growing brands, startups, and nonprofits show up and stand out.">
+<meta name="author" content="Graham Ivy">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://openframe.design/">
 <meta name="theme-color" content="#f3f1ea">
 
 <!-- Icons -->
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 
 <!-- Open Graph / Facebook / LinkedIn -->
 <meta property="og:type" content="website">
@@ -39,6 +43,54 @@
 <link rel="preconnect" href="https://s.wordpress.com" crossorigin>
 <link rel="dns-prefetch" href="https://s.wordpress.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Structured data: tells search engines Open Frame is a design studio (not the openFrame microscope) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": "https://openframe.design/#organization",
+      "name": "Open Frame",
+      "alternateName": "Open Frame Design Studio",
+      "url": "https://openframe.design/",
+      "logo": "https://openframe.design/icon-512.png",
+      "image": "https://openframe.design/og-image.png",
+      "description": "Open Frame is the design studio of Graham Ivy — brand identity, websites, and marketing for growing brands, startups, and nonprofits.",
+      "slogan": "Bring your brand into frame.",
+      "email": "hello@openframe.design",
+      "founder": { "@id": "https://openframe.design/#graham" },
+      "areaServed": "Worldwide",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Minneapolis",
+        "addressRegion": "MN",
+        "addressCountry": "US"
+      },
+      "knowsAbout": ["Brand identity", "Brand strategy", "Web design", "Product design", "UX design", "Marketing", "Graphic design"],
+      "sameAs": ["https://www.linkedin.com/in/graham-ivy/"]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://openframe.design/#graham",
+      "name": "Graham Ivy",
+      "url": "https://openframe.design/about",
+      "jobTitle": "Brand & Product Designer",
+      "worksFor": { "@id": "https://openframe.design/#organization" },
+      "sameAs": ["https://www.linkedin.com/in/graham-ivy/"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://openframe.design/#website",
+      "url": "https://openframe.design/",
+      "name": "Open Frame",
+      "publisher": { "@id": "https://openframe.design/#organization" },
+      "inLanguage": "en"
+    }
+  ]
+}
+</script>
 <style>
 :root{
   --bg:#ffffff;--ink:#111110;--ink-2:#4b4a46;--muted:#84827b;
