@@ -206,8 +206,8 @@ p{text-wrap:pretty}
 
 /* services bento (dark cards, unique icons) */
 .svc-bento{display:grid;gap:16px;grid-template-columns:1fr 1fr;grid-template-areas:"a b" "a c" "d d"}
-.svc-card{position:relative;overflow:hidden;background:var(--panel);color:var(--ink);border-radius:var(--r-lg);padding:clamp(28px,3vw,42px);display:flex;flex-direction:column;cursor:pointer;transition:transform .5s var(--ease)}
-.svc-card:hover{transform:translateY(-6px)}
+.svc-card{position:relative;overflow:hidden;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(28px,3vw,42px);display:flex;flex-direction:column;cursor:pointer;transition:transform .5s var(--ease),border-color .3s var(--ease)}
+.svc-card:hover{transform:translateY(-6px);border-color:var(--line-2)}
 .svc-card.s1{grid-area:a}.svc-card.s2{grid-area:b}.svc-card.s3{grid-area:c}.svc-card.s4{grid-area:d}
 .svc-card .ico{width:52px;height:52px;margin-bottom:26px}
 .svc-card h3{color:var(--ink);font-size:clamp(1.5rem,2.3vw,2.05rem);font-weight:500;margin-bottom:12px;line-height:1.05}
@@ -223,6 +223,42 @@ p{text-wrap:pretty}
 .svc-card .arr{position:absolute;top:16px;right:16px;color:#fff;opacity:0;transform:translate(10px,-10px) scale(.5);transition:opacity .4s var(--ease) .06s,transform .5s var(--ease) .06s;z-index:2}
 .svc-card .arr svg{width:30px;height:30px}
 .svc-card:hover .arr{opacity:1;transform:none}
+
+/* home services — full-viewport panel; uniform 2×2 outlined cards, centred; bullets reveal on hover */
+.svc-stage{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(88px,12vh,116px) 0 clamp(24px,4vh,44px)}
+.svc-stage>.wrap{width:100%}
+.svc-stage .section-head{margin-bottom:clamp(16px,3vh,30px)}
+.svc-stage .section-head h2{font-size:clamp(1.9rem,4vw,3.05rem)}
+.svc-stage .svc-bento{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;grid-template-areas:"a b" "c d";gap:clamp(12px,1.4vw,16px)}
+.svc-stage .svc-card{padding:clamp(18px,2vw,30px);justify-content:flex-start;min-height:clamp(150px,30svh,280px)}
+.svc-stage .svc-card .ico{width:40px;height:40px;margin-bottom:13px}
+.svc-stage .svc-card h3{font-size:clamp(1.2rem,1.9vw,1.6rem);margin-bottom:8px}
+.svc-stage .svc-card p{font-size:.96rem;line-height:1.44}
+.svc-stage .svc-card.s4{flex-direction:column;align-items:flex-start}
+.svc-stage .svc-card.s4 .ico{margin-bottom:13px}
+.svc-stage .svc-card.s4 .s4txt{min-width:0}
+.svc-stage .svc-card ul{margin-top:auto;padding-top:0;max-height:0;opacity:0;overflow:hidden;transform:translateY(8px);transition:max-height .45s var(--ease),padding-top .45s var(--ease),opacity .4s var(--ease),transform .45s var(--ease)}
+.svc-stage .svc-card:hover ul{max-height:11em;padding-top:14px;opacity:1;transform:none}
+@media (hover:none){.svc-stage .svc-card ul{display:none}}
+@media (max-width:560px){
+  .svc-stage{padding:clamp(70px,9.5vh,86px) 0 14px}
+  .svc-stage .svc-bento{gap:10px}
+  .svc-stage .svc-card{min-height:0;padding:14px}
+  .svc-stage .svc-card .ico{width:30px;height:30px;margin-bottom:8px}
+  .svc-stage .svc-card h3{font-size:1rem;margin-bottom:5px;line-height:1.12}
+  .svc-stage .svc-card p{font-size:.82rem;line-height:1.34;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+}
+/* very short viewports (landscape phones) — drop copy so 4 cards still fit */
+@media (max-height:640px){
+  .svc-stage{padding-top:60px;padding-bottom:12px;justify-content:flex-start}
+  .svc-stage .section-head{margin-bottom:10px}
+  .svc-stage .section-head h2{font-size:clamp(1.4rem,3.6vw,2rem)}
+  .svc-stage .svc-bento{gap:8px}
+  .svc-stage .svc-card{min-height:0;padding:12px}
+  .svc-stage .svc-card .ico{width:26px;height:26px;margin-bottom:6px}
+  .svc-stage .svc-card h3{font-size:.95rem;margin-bottom:4px}
+  .svc-stage .svc-card p{display:none}
+}
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
 .pj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(240px,30vw,320px),1fr));gap:clamp(18px,2.4vw,28px)}
@@ -741,7 +777,7 @@ p{text-wrap:pretty}
     </div>
   </section>
 
-  <section class="sect-narrow">
+  <section class="svc-stage">
     <div class="wrap">
       <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Services</span>
         <h2>A full toolkit for your brand's next stage.</h2></div>
@@ -1858,7 +1894,7 @@ p{text-wrap:pretty}
     const it="a,button,[data-go],[data-nav],.nav-toggle,.pj,.bx,input,textarea,.link-arrow,.cs-back,.np-big,.svc-card";
     document.addEventListener("mouseover",e=>{if(e.target.closest(it))cur.classList.add("grow");});
     document.addEventListener("mouseout",e=>{if(e.target.closest(it))cur.classList.remove("grow");});
-    const darkSel=".svc-card,.cta-dark,.btn-dark,.cs-next .np-plate,.nav-cta";
+    const darkSel=".cta-dark,.btn-dark,.cs-next .np-plate,.nav-cta";
     (function loop(){
       cx+=(tx-cx)*.42; cy+=(ty-cy)*.42;
       cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;
