@@ -38,11 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://grahamivy.com" crossorigin>
-<link rel="dns-prefetch" href="https://grahamivy.com">
-<link rel="preconnect" href="https://s.wordpress.com" crossorigin>
-<link rel="dns-prefetch" href="https://s.wordpress.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&family=Nunito:wght@700;800&family=Lexend:wght@700&family=Poppins:wght@500&family=Outfit:wght@600;700&family=Merriweather:wght@700&family=Open+Sans:wght@600&family=Staatliches&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Structured data: tells search engines Open Frame is a design studio (not the openFrame microscope) -->
 <script type="application/ld+json">
@@ -236,6 +232,13 @@ p{text-wrap:pretty}
 .pj .lw img{max-width:64%;max-height:60%}
 .pj .cover{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
 .pj:hover .cover{transform:scale(1.04)}
+/* hover: brand-tinted panel with the project wordmark (in its own typeface) + a one-line description */
+.pj .pj-desc{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,2vw,24px);opacity:0;pointer-events:none;transition:opacity .45s var(--ease);background:linear-gradient(to top,var(--accent,#111110),color-mix(in srgb,var(--accent,#111110) 62%,transparent) 52%,color-mix(in srgb,var(--accent,#111110) 12%,transparent) 82%,transparent)}
+.pj:hover .pj-desc{opacity:1}
+.pj .pj-desc .pw{color:var(--on-accent,#fff);font-size:clamp(1.2rem,2.1vw,1.55rem);font-weight:700;line-height:1.02;letter-spacing:.01em;transform:translateY(12px);transition:transform .5s var(--ease)}
+.pj .pj-desc p{font-family:var(--sans);color:var(--on-accent,#fff);font-size:clamp(.9rem,1.15vw,1rem);line-height:1.42;font-weight:500;margin-top:9px;opacity:.94;transform:translateY(12px);transition:transform .55s var(--ease) .04s}
+.pj:hover .pj-desc .pw,.pj:hover .pj-desc p{transform:none}
+@media (hover:none){.pj .pj-desc{display:none}}
 /* same curved corner reveal as the services cards */
 .pj .fold{position:absolute;top:0;right:0;width:0;height:0;border-bottom-left-radius:100%;transition:width .45s var(--ease),height .45s var(--ease);z-index:2}
 .pj:hover .fold{width:104px;height:104px}
@@ -512,6 +515,20 @@ p{text-wrap:pretty}
 /* caption that can sit under any mockup, matching cs-figure's */
 .mock-cap{font-family:var(--sans);margin-top:14px;font-size:13.5px;color:var(--muted);text-align:center}
 .cs-hero-grid .tstage,.cs-hero-grid .pscene{margin:0;width:100%}
+
+/* ---- brand design system: minimal color-swatch + typography cards ---- */
+.bsys{margin:30px 0}
+.bsys-sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:12px}
+.bsys .sw{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.bsys .sw .chip{display:block;height:86px;box-shadow:inset 0 0 0 1px rgba(17,17,16,.06)}
+.bsys .sw .lab{display:block;padding:11px 14px 13px}
+.bsys .sw .lab b{font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink);display:block;margin-bottom:2px}
+.bsys .sw .lab span{font-family:var(--sans);font-size:11px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+.bsys-type{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:12px;margin-top:12px}
+.bsys .tf{border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;background:var(--panel);display:flex;flex-direction:column;overflow:hidden}
+.bsys .tf .aa{font-size:clamp(38px,5.5vw,56px);line-height:.92;color:var(--ink);margin-bottom:14px}
+.bsys .tf .nm{font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink)}
+.bsys .tf .ro{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin-top:3px}
 .cs-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:32px 0}
 .cs-stat{border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;background:var(--panel)}
 .cs-stat b{font-family:var(--serif);display:block;font-size:clamp(2rem,4vw,2.8rem);font-weight:600}
@@ -1220,7 +1237,7 @@ p{text-wrap:pretty}
 <section class="page sub" id="parkngo">
   <section class="cs-hero"><div class="wrap">
     <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>App Design · UX Research</span><h1>Park n Go</h1><p class="lead">Reimagining the event parking experience — a mobile app that lets event-goers reserve their spot in advance, before the stress ever starts.</p></div><div class="cs-hero-media"><img src="https://grahamivy.com/wp-content/uploads/2024/07/pnghi.svg" alt="Park n Go hero" loading="lazy" decoding="async"></div></div>
+    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>App Design · UX Research</span><h1>Park n Go</h1><p class="lead">Reimagining the event parking experience — a mobile app that lets event-goers reserve their spot in advance, before the stress ever starts.</p></div><div class="cs-hero-media"><img src="images/png-hero.webp" alt="Park n Go hero" loading="lazy" decoding="async"></div></div>
   </div></section>
   <section class="cs-section" style="padding-top:0"><div class="wrap">
     <div class="cs-meta">
@@ -1236,14 +1253,14 @@ p{text-wrap:pretty}
     <div class="cs-block"><h3>Parking is the one part of a night out no one plans for.</h3>
       <p>Venue parking is an often-overlooked yet crucial part of the concert and live-event experience. Attendees prepare for every other part of a show — <strong>except where they're going to park</strong> — which turns arrival into something stressful and confusing.</p></div>
     <div class="cs-quote"><p>How might we take the most stressful part of attending an event and make it feel effortless?</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/image-1-1.svg" alt="Context" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-context.webp" alt="Context" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section" style="padding-top:0"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
     <div class="cs-block"><h3>The Double Diamond.</h3>
       <p>My team worked through four phases — <strong>Discover, Define, Develop, Deliver</strong> — moving from a wide-open problem space to a focused, shippable solution.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/png-design.svg" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-process.webp" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
@@ -1252,7 +1269,7 @@ p{text-wrap:pretty}
       <p>We began with a broad mission — simplify everyday parking. To pressure-test it, we sent out a survey and ran four in-depth user interviews.</p></div>
     <div class="cs-block"><h4 class="kicker">The pivot</h4><h3>Then we noticed something.</h3>
       <p>A majority of survey responses — and <strong>all four</strong> interviews — pointed to the same pain point: parking for <strong>events and concerts</strong> specifically. As a team we asked ourselves: stick to the plan, or follow the signal? The insight was too strong to ignore.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/user-insights.svg" alt="User insights" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-insights.webp" alt="User insights" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Affinity mapping — top insights</h4></div>
     <div class="cs-stats">
       <div class="cs-stat"><b>100%</b><span>struggle to find parking at an event</span></div>
@@ -1263,57 +1280,68 @@ p{text-wrap:pretty}
     </div>
     <div class="cs-block"><h4 class="kicker">Market research</h4>
       <p>A competitive analysis of the top three apps our interviewees already used showed that <strong>none of them solved event parking directly.</strong> The plan changed.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/competitor-analysis.svg" alt="Competitive analysis" loading="lazy" decoding="async"><figcaption>Competitive analysis — a clear gap in the market.</figcaption></figure>
+    <figure class="cs-figure"><img src="images/png-competitors.webp" alt="Competitive analysis" loading="lazy" decoding="async"><figcaption>Competitive analysis — a clear gap in the market.</figcaption></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 02</p><div class="cs-phase-label">Define</div>
     <div class="cs-block"><h4 class="kicker">Redefined problem</h4><h3>Locating parking at venues during events and concerts.</h3>
       <p>Venue parking is the part of the live-event experience attendees are least able to plan for — the goal became clear.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/parking-picture.svg" alt="The problem" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-problem.webp" alt="The problem" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">The goal</h4>
       <p>Enhance the event parking experience by creating a platform that lets users <strong>reserve parking spots in advance</strong> — reducing the stress and uncertainty of finding a spot, and making the whole night smoother and more enjoyable.</p></div>
     <div class="cs-block"><h4 class="kicker">User journey</h4><h3>Every stage, every emotion.</h3>
       <p>From the redefined goal, I built a user-journey map to illustrate each stage — from searching for parking to securing a spot — and the emotions felt throughout.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/User-Journey.svg" alt="User journey map" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/guiding-questions.svg" alt="Guiding questions" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-journey.webp" alt="User journey map" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-questions.webp" alt="Guiding questions" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 03</p><div class="cs-phase-label">Develop</div>
     <div class="cs-block"><h4 class="kicker">Idea brainstorming</h4><h3>What could we do differently?</h3>
       <p>Collaborative sessions turned user pain points and competitive gaps into ideas, evaluated on feasibility, user impact, and alignment with our goal. We focused on three main areas of improvement.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/ideas.svg" alt="Idea brainstorming" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-ideas.webp" alt="Idea brainstorming" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Paper wireframes</h4><h3>Visualizing the concept, fast.</h3>
       <p>As the sole designer, I sketched paper wireframes to iterate quickly on layout and flow, then built a clickable prototype to gather early feedback before higher fidelity.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Paper-Wireframes-1.svg" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-wireframes.webp" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">A/B testing</h4><h3>Refining how you pick a spot.</h3>
       <p><strong>Option A</strong> used a detailed map of individual spots; <strong>Option B</strong> divided lots into simple, modular sections with pricing and availability. Users clearly preferred Option B for its simplicity — a choice that also let us ship an MVP faster.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/anb-testing.svg" alt="A/B testing" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Midfi-screens.svg" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"><figcaption>Mid-fidelity wireframes, built in a tight two-day turnaround.</figcaption></figure>
+    <figure class="cs-figure"><img src="images/png-abtest.webp" alt="A/B testing" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"><figcaption>Mid-fidelity wireframes, built in a tight two-day turnaround.</figcaption></figure>
     <div class="cs-block"><h4 class="kicker">UI design kit</h4><h3>Accessible, modern, full of movement.</h3>
       <p>We curated a high-contrast palette meeting <strong>AAA compliance</strong>, with colors and a logo inspired by street aesthetics to reflect dynamic movement — clean, crisp, and modern throughout.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/ui-design-kit-1.svg" alt="UI design kit" loading="lazy" decoding="async"></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
+        <div class="sw"><span class="chip" style="background:#212121"></span><span class="lab"><b>Charcoal</b><span>#212121</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FFC857"></span><span class="lab"><b>Signal Gold</b><span>#FFC857</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FFFFFF"></span><span class="lab"><b>White</b><span>#FFFFFF</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Lexend',sans-serif;font-weight:700">Aa</span><span class="nm">Lexend Bold</span><span class="ro">Headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</span><span class="nm">Poppins</span><span class="ro">Buttons &amp; body</span></div>
+      </div>
+    </div>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 04</p><div class="cs-phase-label">Deliver</div>
     <div class="cs-block"><h3>Park n Go: seamless event parking.</h3>
       <p>With branding finalized and screens user-tested, I moved into high fidelity. A component-driven Figma process made the jump from mid- to high-fidelity seamless — and produced the final product.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/final-design-1.svg" alt="Final design" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-final.webp" alt="Final design" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 01 — Venue search</h4>
       <p>Users quickly find their event with full details, exact location, and the specific parking options tied to that venue.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/venue-search.svg" alt="Venue search" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-venue-search.webp" alt="Venue search" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 02 — Booking your spot</h4>
       <p>Preview the parking map, check availability, add driving details, and complete the purchase — all in a few taps.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/reserving-spot.svg" alt="Reserving a spot" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-reserving.webp" alt="Reserving a spot" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 03 — Reservation receipt</h4>
       <p>Every booking lives in "My Parking," with upcoming and past reservations, full event and parking details, and the option to cancel — a complete, user-friendly management system.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/reservation-receipt-1.svg" alt="Reservation receipt" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Other-screens-1.svg" alt="Other screens" loading="lazy" decoding="async"><figcaption>A vibrant, cohesive brand carried consistently across the app.</figcaption></figure>
+    <figure class="cs-figure"><img src="images/png-receipt.webp" alt="Reservation receipt" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-other-screens.webp" alt="Other screens" loading="lazy" decoding="async"><figcaption>A vibrant, cohesive brand carried consistently across the app.</figcaption></figure>
     <div class="cs-block"><h4 class="kicker">Future developments</h4><h3>There's always room for improvement.</h3>
       <p>We were thrilled with what we shipped in three weeks — research to prototyping to dev handoff — but there's more we envisioned. These are some of the future features I explored.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/future-developments-1.svg" alt="Future developments" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/png-future.webp" alt="Future developments" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
@@ -1336,7 +1364,7 @@ p{text-wrap:pretty}
 <section class="page sub" id="hmong">
   <section class="cs-hero"><div class="wrap">
     <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive Redesign</span><h1>Hmong Cultural Center</h1><p class="lead">Revitalizing a community's online identity — a responsive redesign for a Saint Paul cultural hub, built around accessibility, belonging, and a clear path to resources.</p></div><div class="cs-hero-media"><img src="https://grahamivy.com/wp-content/uploads/2024/07/hcchi.svg" alt="Hmong Cultural Center hero" loading="lazy" decoding="async"></div></div>
+    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive Redesign</span><h1>Hmong Cultural Center</h1><p class="lead">Revitalizing a community's online identity — a responsive redesign for a Saint Paul cultural hub, built around accessibility, belonging, and a clear path to resources.</p></div><div class="cs-hero-media"><img src="images/hcc-hero.webp" alt="Hmong Cultural Center hero" loading="lazy" decoding="async"></div></div>
   </div></section>
   <section class="cs-section" style="padding-top:0"><div class="wrap">
     <div class="cs-meta">
@@ -1353,7 +1381,7 @@ p{text-wrap:pretty}
       <p>We set out to revitalize the center's branding, streamline its information architecture, and build a compelling visual identity — ultimately improving access to resources, fostering engagement, and deepening the connection between the center and the people it serves.</p></div>
     <div class="cs-block"><h4 class="kicker"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>My role</h4>
       <p>I served as the <strong>sole prototyper</strong> while also leading user research, interviews, testing, finalizing the design screens, and developing the visual identity.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/other.svg" alt="Project overview" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-overview.webp" alt="Project overview" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section" style="padding-top:0"><div class="wrap">
@@ -1370,66 +1398,77 @@ p{text-wrap:pretty}
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
     <div class="cs-block"><h3>The Double Diamond.</h3>
       <p>We worked through four phases — <strong>Discover, Define, Develop, Deliver</strong> — exploring the problem space, synthesizing findings into a focused brief, prototyping solutions, then refining and implementing a design that meets both user needs and the center's goals.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/design-process-hcc.svg" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-process.webp" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 01</p><div class="cs-phase-label">Discover</div>
     <div class="cs-block"><h4 class="kicker">What's already there?</h4><h3>Auditing the current site.</h3>
       <p>We began by reviewing the current HCC website and running a <strong>heuristic analysis</strong> of its functionality, aesthetics, and accessibility. Because the center is unique in its area, we analyzed sites serving <strong>similar markets and goals</strong> rather than direct competitors.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/old-site.svg" alt="Heuristic analysis of the original site" loading="lazy" decoding="async"><figcaption>Heuristic analysis of the original site.</figcaption></figure>
+    <div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="url">hmongcc.org · before</span></div><div class="mock-view"><img src="images/hcc-old-site.webp" alt="The original Hmong Cultural Center site" loading="lazy" decoding="async"></div></div><p class="mock-cap">Heuristic analysis of the original site.</p>
     <div class="cs-block"><h4 class="kicker">Listening to users</h4>
       <p>We distributed a survey to people who engage with nonprofit sites or seek community connection, and had users react to the original HCC site through interview questions. Together these sessions gave us the skeleton of what a successful new-user experience needed to feel like.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/insights.svg" alt="Research insights" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-insights.webp" alt="Research insights" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 02</p><div class="cs-phase-label">Define</div>
     <div class="cs-block"><h4 class="kicker">User persona</h4><h3>Meet Mai Yer Xiong.</h3>
       <p>A 29-year-old first-generation immigrant from Laos living in Saint Paul. She has limited English proficiency and a deep desire to connect with her Hmong community while integrating into broader society. Frustrated by dense, text-heavy sites, she often relies on her children to translate, and needs clear pathways to <strong>citizenship and English classes</strong>.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/user-persona-1.svg" alt="User persona: Mai Yer Xiong" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-persona.webp" alt="User persona: Mai Yer Xiong" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Empathy map</h4>
       <p>To serve Mai Yer, the site needs to prominently feature easy-to-find links for citizenship and English classes, showcase community resources, and offer a friendly, low-text interface — with hyperlinks placed to guide her through an intuitive journey toward confidence, jobs, and social connection.</p></div>
     <div class="cs-block"><h4 class="kicker">Problem statement</h4></div>
     <div class="cs-quote"><p>Mai Yer and users like her need a website that's more visually oriented — with prominent iconography, easy access to English-language and citizenship classes, and an overall sense of welcome and community.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/guiding-questions-1.svg" alt="Guiding questions" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-questions.webp" alt="Guiding questions" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 03</p><div class="cs-phase-label">Develop</div>
     <div class="cs-block"><h4 class="kicker">Information architecture</h4><h3>Information overload.</h3>
       <p>The old site map was the biggest problem for our users: too much information. Links were redundant or unnecessary, and the most important resources were buried several clicks deep — a frustrating journey, especially for English-language learners.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/site-map.svg" alt="Site map" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-sitemap.webp" alt="Site map" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">User flow</h4><h3>One question, answered fast.</h3>
       <p>Our guiding user question was simple — <strong>"How do I sign up for language classes?"</strong> — and we mapped a flow that gets Mai Yer there quickly, with minimal visual noise.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/user-flow.svg" alt="User flow" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-user-flow.webp" alt="User flow" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Paper &amp; mid-fidelity wireframes</h4><h3>Modular design, fast.</h3>
       <p>I sketched paper prototypes, then moved to mid-fidelity after user testing. On a one-day deadline, I prioritized interaction design and modular patterns to keep the experience consistent, centered, and intuitive despite the rapid turnaround.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/paper-wireframes-3.svg" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/mid-fidelity-wireframes-hcc.svg" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-wireframes.webp" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">UI design kit — vibrant clarity</h4>
       <p>We built a vibrant palette of <strong>fluorescent greens, pinks, and blacks</strong> for striking contrast, inspired by traditional color schemes. Our logo drew on the <strong>elephant's foot</strong> — a symbol of community and family — and we chose the <strong>Outfit</strong> typeface for its clean, uniform, and bold appearance.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/ui-design-kit-hcc.svg" alt="UI design kit" loading="lazy" decoding="async"></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
+        <div class="sw"><span class="chip" style="background:#329459"></span><span class="lab"><b>Jade</b><span>#329459</span></span></div>
+        <div class="sw"><span class="chip" style="background:#FF6388"></span><span class="lab"><b>Fuchsia</b><span>#FF6388</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F2F2F2"></span><span class="lab"><b>Cloud</b><span>#F2F2F2</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:700">Aa</span><span class="nm">Outfit Bold</span><span class="ro">Headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:400">Ag</span><span class="nm">Outfit Regular</span><span class="ro">Body &amp; UI</span></div>
+      </div>
+    </div>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
     <p class="cs-phase-num">Phase 04</p><div class="cs-phase-label">Deliver</div>
     <div class="cs-block"><h3>Mid- to high-fidelity in three days.</h3>
       <p>I translated the mid-fidelity mobile wireframes into polished, pixel-perfect mockups for <strong>both mobile and desktop</strong> — keeping the simplicity of the wireframes while adding the detailed visual elements that bring the center's vision to life.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Frame-404.svg" alt="High-fidelity designs" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-hifi.webp" alt="High-fidelity designs" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 01 — ESL &amp; citizenship</h4><h3>A hero built for signup.</h3>
       <p>A centralized hero image routes users with limited English proficiency straight to ESL and citizenship signup — eliminating menu navigation and streamlining the whole journey.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/header-image-for-website.svg" alt="Hero for ESL and citizenship programs" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-esl-hero.webp" alt="Hero for ESL and citizenship programs" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 02 — Navigation</h4><h3>Simplified &amp; color-coded.</h3>
       <p>A cohesive menu system for mobile and desktop organizes items intuitively, with a distinct color per page to reinforce the brand. Navigation is central and brightly highlighted, making key sections — especially English classes — far easier to find.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/design-systems-2.svg" alt="Navigation system" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-nav-system.webp" alt="Navigation system" loading="lazy" decoding="async"></figure>
     <div class="cs-block"><h4 class="kicker">Feature 03 — Branded headers</h4><h3>Focused section banners.</h3>
       <p>Header banners built from the brand palette and a triangular frame draw focus to each section's content — improving readability and helping users identify where they are.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/header-systems-1.svg" alt="Branded header banners" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Frame-366-1.svg" alt="Other screens across mobile and desktop" loading="lazy" decoding="async"><figcaption>Consistent branding across every screen, mobile and desktop.</figcaption></figure>
+    <figure class="cs-figure"><img src="images/hcc-header-banners.webp" alt="Branded header banners" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-other-screens.webp" alt="Other screens across mobile and desktop" loading="lazy" decoding="async"><figcaption>Consistent branding across every screen, mobile and desktop.</figcaption></figure>
     <div class="cs-block"><h4 class="kicker">Future developments</h4><h3>The journey continues.</h3>
       <p>We were thrilled with what we achieved in three weeks — from research to prototyping — but there's more we'd love to build. These are some of the future features and designs I explored for the next chapter.</p></div>
-    <figure class="cs-figure"><img src="https://grahamivy.com/wp-content/uploads/2024/07/Group-169.svg" alt="Future developments" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/hcc-future.webp" alt="Future developments" loading="lazy" decoding="async"></figure>
   </div></section>
 
   <section class="cs-section"><div class="wrap">
@@ -1527,17 +1566,20 @@ p{text-wrap:pretty}
     <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Consistency that scales.</h3>
       <p>I built a reusable system — typography, color, buttons, cards, spacing, icons, illustration, and responsive rules — so new product pages could be assembled quickly and stay on-brand.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#f3f1ea"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#16324f"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#2f7bd0"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#5fbb5a"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#bfe6fb"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#ffffff" stroke="#e0ddd4"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#77756f"><text x="30" y="120">Navy #16324F</text><text x="160" y="120">Blue #2F7BD0</text><text x="290" y="120">Green #5FBB5A</text><text x="420" y="120">Sky #BFE6FB</text><text x="550" y="120">White</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#16324f">Aa</text>
-      <text x="132" y="184" font-family="Inter,sans-serif" font-size="22" font-weight="700" fill="#16324f">HelloSpoke</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#77756f">Clear communication, simply designed.</text>
-      <rect x="30" y="236" width="176" height="46" rx="23" fill="#16324f"/><text x="118" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Book a demo</text>
-      <rect x="222" y="236" width="200" height="46" rx="23" fill="none" stroke="#16324f" stroke-width="1.6"/><text x="322" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#16324f" text-anchor="middle">See how it works</text>
-    </svg><figcaption>Design system — color, type, and components, drawn from the HelloSpoke brand.</figcaption></figure>
-    <div class="cs-imgs"><img src="images/hs-color.png" alt="Brand color system"><img src="images/hs-font.png" alt="Typography scale"><img src="images/hs-shapes.png" alt="Brand shapes and illustration"><img src="images/hs-ai.png" alt="Lou — the AI assistant mascot"><img src="images/hs-logo.png" alt="Logo"></div>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#003A5D"></span><span class="lab"><b>Navy</b><span>#003A5D</span></span></div>
+        <div class="sw"><span class="chip" style="background:#24C676"></span><span class="lab"><b>Emerald</b><span>#24C676</span></span></div>
+        <div class="sw"><span class="chip" style="background:#182D3A"></span><span class="lab"><b>Spoke Navy</b><span>#182D3A</span></span></div>
+        <div class="sw"><span class="chip" style="background:#7CD0F4"></span><span class="lab"><b>Sky Foam</b><span>#7CD0F4</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F8F8F7"></span><span class="lab"><b>Fog</b><span>#F8F8F7</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Nunito',sans-serif;font-weight:800">Aa</span><span class="nm">Nunito Bold</span><span class="ro">Headings &amp; UI</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Nunito',sans-serif;font-weight:400">Ag</span><span class="nm">Nunito Regular</span><span class="ro">Body copy</span></div>
+      </div>
+    </div>
+    <div class="cs-imgs"><img src="images/hs-shapes.png" alt="Brand shapes and illustration"><img src="images/hs-ai.png" alt="Lou — the AI assistant mascot"><img src="images/hs-logo.png" alt="Logo"></div>
   </div></section>
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Key Pages</span>
@@ -1643,16 +1685,19 @@ p{text-wrap:pretty}
     <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Warm, accessible, unmistakable.</h3>
       <p>The system pairs color, typography, iconography, photography, and graphic treatments into a recognizable, recovery-centered look — drawn directly from the organization's brand guide.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#efe9db"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#3a3730"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#b8862f"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#9aa878"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#c9b892"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#f6f0e2" stroke="#ddd3bf"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#6b6456"><text x="30" y="120">Ink #3A3730</text><text x="160" y="120">Gold #B8862F</text><text x="290" y="120">Sage #9AA878</text><text x="420" y="120">Tan #C9B892</text><text x="550" y="120">Cream</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#3a3730">Aa</text>
-      <text x="132" y="182" font-family="Georgia,serif" font-size="22" font-weight="600" fill="#3a3730">Wellness in the Woods</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#6b6456">Hope · inclusion · dignity · support.</text>
-      <rect x="30" y="236" width="176" height="46" rx="8" fill="#fff" stroke="#e2d9c4"/><text x="118" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#b8862f" text-anchor="middle">Get Support</text>
-      <rect x="222" y="236" width="150" height="46" rx="8" fill="#b8862f"/><text x="297" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Donate</text>
-    </svg><figcaption>A warm, recovery-centered system — cream, gold, and sage with serif display type.</figcaption></figure>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#57463D"></span><span class="lab"><b>Bark</b><span>#57463D</span></span></div>
+        <div class="sw"><span class="chip" style="background:#949D79"></span><span class="lab"><b>Sage</b><span>#949D79</span></span></div>
+        <div class="sw"><span class="chip" style="background:#5F6E9C"></span><span class="lab"><b>Periwinkle</b><span>#5F6E9C</span></span></div>
+        <div class="sw"><span class="chip" style="background:#8E724E"></span><span class="lab"><b>Tan</b><span>#8E724E</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F8F5E4"></span><span class="lab"><b>Cream</b><span>#F8F5E4</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Staatliches',sans-serif;letter-spacing:.02em">Aa</span><span class="nm">Staatliches</span><span class="ro">Display &amp; headings</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Lato',sans-serif;font-weight:400">Ag</span><span class="nm">Lato</span><span class="ro">Body copy</span></div>
+      </div>
+    </div>
   </div></section>
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results</span>
@@ -1724,17 +1769,21 @@ p{text-wrap:pretty}
   <section class="cs-section"><div class="wrap">
     <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
     <div class="cs-block"><h3>Classic, warm, and welcoming.</h3>
-      <p>A heritage-inspired palette of forest, gold, and wine on cream, paired with a classic serif — timeless enough to honor the craft, warm enough to invite newcomers.</p></div>
-    <figure class="cs-figure"><svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="720" height="300" fill="#efe7d6"/>
-      <rect x="30" y="30" width="118" height="72" rx="10" fill="#2a2622"/><rect x="160" y="30" width="118" height="72" rx="10" fill="#7c3b48"/><rect x="290" y="30" width="118" height="72" rx="10" fill="#2f5d3a"/><rect x="420" y="30" width="118" height="72" rx="10" fill="#c19a3e"/><rect x="550" y="30" width="118" height="72" rx="10" fill="#f0e8d8" stroke="#dccdb2"/>
-      <g font-family="Inter,system-ui,sans-serif" font-size="11" fill="#6b5d4a"><text x="30" y="120">Ink #2A2622</text><text x="160" y="120">Wine #7C3B48</text><text x="290" y="120">Forest #2F5D3A</text><text x="420" y="120">Gold #C19A3E</text><text x="550" y="120">Cream</text></g>
-      <text x="30" y="208" font-family="Georgia,serif" font-size="62" fill="#2f5d3a">Aa</text>
-      <text x="132" y="182" font-family="Georgia,serif" font-size="22" font-weight="600" fill="#2f5d3a">Needlework Guild</text>
-      <text x="132" y="210" font-family="Inter,sans-serif" font-size="13" fill="#6b5d4a">Excellence in needlework since 1972.</text>
-      <rect x="30" y="236" width="150" height="46" rx="8" fill="#2f5d3a"/><text x="105" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#fff" text-anchor="middle">Join us</text>
-      <rect x="196" y="236" width="180" height="46" rx="8" fill="none" stroke="#7c3b48" stroke-width="1.6"/><text x="286" y="264" font-family="Inter,sans-serif" font-size="14" font-weight="600" fill="#7c3b48" text-anchor="middle">Browse classes</text>
-    </svg><figcaption>A heritage-inspired system built to feel warm and welcoming.</figcaption></figure>
+      <p>A documented brand system — Deep Indigo, Cranberry, and Golden Thread on Linen, paired with a warm serif (Merriweather) and a clean sans (Open Sans) — timeless enough to honor the craft, welcoming enough to invite newcomers.</p></div>
+    <div class="bsys">
+      <div class="bsys-sw">
+        <div class="sw"><span class="chip" style="background:#2A3A6E"></span><span class="lab"><b>Deep Indigo</b><span>#2A3A6E</span></span></div>
+        <div class="sw"><span class="chip" style="background:#A43E4F"></span><span class="lab"><b>Cranberry</b><span>#A43E4F</span></span></div>
+        <div class="sw"><span class="chip" style="background:#D4AF37"></span><span class="lab"><b>Golden Thread</b><span>#D4AF37</span></span></div>
+        <div class="sw"><span class="chip" style="background:#356859"></span><span class="lab"><b>Spruce</b><span>#356859</span></span></div>
+        <div class="sw"><span class="chip" style="background:#F7F4EF"></span><span class="lab"><b>Linen</b><span>#F7F4EF</span></span></div>
+        <div class="sw"><span class="chip" style="background:#333333"></span><span class="lab"><b>Charcoal</b><span>#333333</span></span></div>
+      </div>
+      <div class="bsys-type">
+        <div class="tf"><span class="aa" style="font-family:'Merriweather',serif;font-weight:700">Aa</span><span class="nm">Merriweather</span><span class="ro">Headlines &amp; titles</span></div>
+        <div class="tf"><span class="aa" style="font-family:'Open Sans',sans-serif;font-weight:600">Ag</span><span class="nm">Open Sans</span><span class="ro">Body &amp; UI</span></div>
+      </div>
+    </div>
     <figure class="cs-figure"><img src="images/ngm-brandhero.png" alt="Needlework Guild brand hero" loading="lazy" decoding="async"></figure>
     <div class="cs-imgs"><img src="images/ngm-logo.png" alt="Logo"><img src="images/ngm-patterns.png" alt="Brand pattern"><img src="images/ngm-collage.png" alt="Brand marks"></div>
   </div></section>
@@ -1920,6 +1969,31 @@ p{text-wrap:pretty}
   document.querySelectorAll(".svc-faq").forEach(function(g){g.querySelectorAll(".faq-q").forEach(function(b){b.addEventListener("click",function(){var it=b.parentElement,was=it.classList.contains("open");g.querySelectorAll(".faq-item").forEach(function(i){i.classList.remove("open");});if(!was)it.classList.add("open");});});});
 
   document.querySelectorAll("[data-year]").forEach(el=>el.textContent=new Date().getFullYear());
+
+  /* project covers: brand accent (fold + arrow) + a wordmark/description hover overlay, applied across every grid */
+  var PROJECTS={
+    parkngo:{name:"Park n Go",font:"'Lexend',sans-serif",accent:"#FFC857",desc:"A mobile app that lets event-goers reserve parking in advance — turning a stressful scramble into a few taps."},
+    hmong:{name:"Hmong Cultural Center",font:"'Outfit',sans-serif",accent:"#FF6388",desc:"A responsive redesign for a Saint Paul cultural hub — built around accessibility, belonging, and a clear path to resources."},
+    wellness:{name:"Wellness in the Woods",font:"'Staatliches',sans-serif",accent:"#5F6E9C",desc:"A scalable brand & communications system for a statewide mental-health nonprofit — one consistent voice across every channel."},
+    hellospoke:{name:"HelloSpoke",font:"'Nunito',sans-serif",accent:"#003A5D",desc:"Product-marketing design that turns a complex unified-communications platform into a clear, scalable marketing site."},
+    needlework:{name:"Needlework Guild",font:"'Merriweather',serif",accent:"#2A3A6E",desc:"A warmer, easier digital home for a 50-year craft guild — heritage kept, barriers lowered."}
+  };
+  function onAccent(hex){var r=parseInt(hex.substr(1,2),16),g=parseInt(hex.substr(3,2),16),b=parseInt(hex.substr(5,2),16);return (0.299*r+0.587*g+0.114*b)/255>0.62?"#111110":"#ffffff";}
+  document.querySelectorAll(".pj[data-go]").forEach(function(pj){
+    var p=PROJECTS[pj.getAttribute("data-go")]; if(!p) return;
+    var oc=onAccent(p.accent);
+    pj.style.setProperty("--accent",p.accent);
+    pj.style.setProperty("--on-accent",oc);
+    var fold=pj.querySelector(".fold"); if(fold) fold.style.background=p.accent;
+    var arr=pj.querySelector(".arr"); if(arr) arr.style.color=oc;
+    var face=pj.querySelector(".face");
+    if(face && !face.querySelector(".pj-desc")){
+      var d=document.createElement("div"); d.className="pj-desc";
+      var w=document.createElement("span"); w.className="pw"; w.style.fontFamily=p.font; w.textContent=p.name;
+      var para=document.createElement("p"); para.textContent=p.desc;
+      d.appendChild(w); d.appendChild(para); face.appendChild(d);
+    }
+  });
 
   /* case-study media: clear the loading shimmer once each image is in (or on error / inline-svg figures) */
   document.querySelectorAll(".cs-figure,.cs-hero-media").forEach(function(f){
