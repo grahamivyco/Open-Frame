@@ -99,7 +99,8 @@
   --ease:cubic-bezier(.22,1,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-snap-type:y proximity}
+.hero-sect{scroll-snap-align:start}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;font-size:16.5px;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,svg,canvas{display:block;max-width:100%}
@@ -224,40 +225,44 @@ p{text-wrap:pretty}
 .svc-card .arr svg{width:30px;height:30px}
 .svc-card:hover .arr{opacity:1;transform:none}
 
-/* home services — full-viewport panel; uniform 2×2 outlined cards, centred; bullets reveal on hover */
-.svc-stage{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(88px,12vh,116px) 0 clamp(24px,4vh,44px)}
+/* home services — full-viewport snap panel; icon-forward cards, no bullets */
+.svc-stage{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:clamp(88px,11vh,112px) 0 clamp(24px,4vh,44px);scroll-snap-align:start}
 .svc-stage>.wrap{width:100%}
-.svc-stage .section-head{margin-bottom:clamp(16px,3vh,30px)}
+.svc-stage .section-head{margin-bottom:clamp(16px,2.6vh,28px)}
 .svc-stage .section-head h2{font-size:clamp(1.9rem,4vw,3.05rem)}
-.svc-stage .svc-bento{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;grid-template-areas:"a b" "c d";gap:clamp(12px,1.4vw,16px)}
-.svc-stage .svc-card{padding:clamp(18px,2vw,30px);justify-content:flex-start;min-height:clamp(150px,30svh,280px)}
-.svc-stage .svc-card .ico{width:40px;height:40px;margin-bottom:13px}
-.svc-stage .svc-card h3{font-size:clamp(1.2rem,1.9vw,1.6rem);margin-bottom:8px}
-.svc-stage .svc-card p{font-size:.96rem;line-height:1.44}
-.svc-stage .svc-card.s4{flex-direction:column;align-items:flex-start}
-.svc-stage .svc-card.s4 .ico{margin-bottom:13px}
-.svc-stage .svc-card.s4 .s4txt{min-width:0}
-.svc-stage .svc-card ul{margin-top:auto;padding-top:0;max-height:0;opacity:0;overflow:hidden;transform:translateY(8px);transition:max-height .45s var(--ease),padding-top .45s var(--ease),opacity .4s var(--ease),transform .45s var(--ease)}
-.svc-stage .svc-card:hover ul{max-height:11em;padding-top:14px;opacity:1;transform:none}
-@media (hover:none){.svc-stage .svc-card ul{display:none}}
+.svc-stage .svc-bento{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;grid-template-areas:"a b" "c d";gap:clamp(14px,1.6vw,22px)}
+.svc-stage .svc-card{padding:clamp(20px,2.4vw,38px);justify-content:flex-start;min-height:clamp(178px,28svh,300px)}
+.svc-stage .svc-card .ico{width:clamp(56px,7vw,116px);height:clamp(56px,7vw,116px);margin:0 0 auto}
+.svc-stage .svc-card .svc-txt{min-width:0}
+/* normalise the growth card (global .s4 rules make it row/wrap elsewhere) */
+.svc-stage .svc-card.s4{flex-direction:column;align-items:stretch;gap:0;flex-wrap:nowrap}
+.svc-stage .svc-card.s4 .ico{margin:0 0 auto}
+.svc-stage .svc-card h3{font-size:clamp(1.25rem,2vw,1.72rem);margin-bottom:7px}
+.svc-stage .svc-card p{font-size:clamp(.92rem,1.05vw,1.06rem);line-height:1.44;color:var(--muted)}
+.svc-stage .svc-card ul{display:none}
+/* mobile — full-width horizontal cards stacked, all fitting one viewport */
 @media (max-width:560px){
-  .svc-stage{padding:clamp(70px,9.5vh,86px) 0 14px}
-  .svc-stage .svc-bento{gap:10px}
-  .svc-stage .svc-card{min-height:0;padding:14px}
-  .svc-stage .svc-card .ico{width:30px;height:30px;margin-bottom:8px}
-  .svc-stage .svc-card h3{font-size:1rem;margin-bottom:5px;line-height:1.12}
-  .svc-stage .svc-card p{font-size:.82rem;line-height:1.34;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .svc-stage{padding:clamp(78px,10vh,94px) 0 clamp(16px,3vh,24px)}
+  .svc-stage .section-head{margin-bottom:clamp(12px,2vh,18px)}
+  .svc-stage .section-head h2{font-size:clamp(1.5rem,6.4vw,2rem)}
+  .svc-stage .svc-bento{grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"a" "b" "c" "d";gap:clamp(9px,1.6vh,13px)}
+  .svc-stage .svc-card,.svc-stage .svc-card.s4{flex-direction:row;align-items:center;gap:15px;min-height:0;padding:clamp(13px,3.6vw,17px) clamp(15px,4vw,18px)}
+  .svc-stage .svc-card .ico,.svc-stage .svc-card.s4 .ico{width:clamp(34px,10vw,46px);height:clamp(34px,10vw,46px);margin:0;flex-shrink:0}
+  .svc-stage .svc-card .svc-txt{flex:1}
+  .svc-stage .svc-card h3{font-size:clamp(1rem,4vw,1.12rem);margin-bottom:2px;line-height:1.15}
+  .svc-stage .svc-card p{font-size:clamp(.8rem,3.2vw,.9rem);line-height:1.32;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 }
-/* very short viewports (landscape phones) — drop copy so 4 cards still fit */
-@media (max-height:640px){
-  .svc-stage{padding-top:60px;padding-bottom:12px;justify-content:flex-start}
-  .svc-stage .section-head{margin-bottom:10px}
-  .svc-stage .section-head h2{font-size:clamp(1.4rem,3.6vw,2rem)}
-  .svc-stage .svc-bento{gap:8px}
-  .svc-stage .svc-card{min-height:0;padding:12px}
-  .svc-stage .svc-card .ico{width:26px;height:26px;margin-bottom:6px}
-  .svc-stage .svc-card h3{font-size:.95rem;margin-bottom:4px}
-  .svc-stage .svc-card p{display:none}
+/* very short viewports (landscape phones) — keep 2×2 but compress so 4 cards fit */
+@media (max-height:640px) and (min-width:561px){
+  .svc-stage{padding-top:clamp(66px,8.5vh,80px);padding-bottom:10px;justify-content:flex-start}
+  .svc-stage .section-head{margin-bottom:8px}
+  .svc-stage .section-head h2{font-size:clamp(1.3rem,3.4vw,1.85rem)}
+  .svc-stage .svc-bento{gap:9px}
+  .svc-stage .svc-card{min-height:0;padding:clamp(11px,1.6vw,16px)}
+  .svc-stage .svc-card .ico{width:clamp(36px,5vw,54px);height:clamp(36px,5vw,54px)}
+  .svc-stage .svc-card .svc-txt{margin-top:6px}
+  .svc-stage .svc-card h3{font-size:clamp(1rem,1.6vw,1.22rem);margin-bottom:3px}
+  .svc-stage .svc-card p{font-size:.86rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 }
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
@@ -754,7 +759,7 @@ p{text-wrap:pretty}
 
 <!-- ==================== HOME ==================== -->
 <section class="page" id="home">
-  <section style="padding-top:clamp(84px,9vh,102px)">
+  <section class="hero-sect" style="padding-top:clamp(84px,9vh,102px)">
     <div class="wrap">
       <div class="hero">
         <div class="hero-shapes" aria-hidden="true">
@@ -785,46 +790,26 @@ p{text-wrap:pretty}
         <div class="svc-card s1 reveal" data-go="svc-brand">
           <span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
           <svg class="ico" style="color:#f24333"><use href="#i-brand"/></svg>
-          <h3>Brand Identity &amp; Strategy</h3>
-          <p>Logos, visual systems, positioning, and the story that ties it together — so your brand looks and sounds the part.</p>
-          <ul>
-            <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Logo &amp; visual identity</li>
-            <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand guidelines</li>
-            <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; messaging</li>
-          </ul>
+          <div class="svc-txt"><h3>Brand Identity &amp; Strategy</h3>
+            <p>Logos, visual systems, positioning, and the story that ties it together — so your brand looks and sounds the part.</p></div>
         </div>
         <div class="svc-card s2 reveal d1" data-go="svc-web">
           <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
           <svg class="ico" style="color:#2f6bf0"><use href="#i-web"/></svg>
-          <h3>Web &amp; Product Design</h3>
-          <p>Websites and product UX, from research to responsive build.</p>
-          <ul>
-            <li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Websites &amp; landing pages</li>
-            <li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Product UX &amp; UI design</li>
-            <li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive build &amp; handoff</li>
-          </ul>
+          <div class="svc-txt"><h3>Web &amp; Product Design</h3>
+            <p>Websites and product UX, from research to responsive build.</p></div>
         </div>
         <div class="svc-card s3 reveal d2" data-go="svc-marketing">
           <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
           <svg class="ico" style="color:#f4bf3a"><use href="#i-marketing"/></svg>
-          <h3>Marketing &amp; Content</h3>
-          <p>Campaigns, social, and content across every touchpoint.</p>
-          <ul>
-            <li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Campaigns &amp; social</li>
-            <li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Content &amp; copywriting</li>
-            <li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Email &amp; collateral</li>
-          </ul>
+          <div class="svc-txt"><h3>Marketing &amp; Content</h3>
+            <p>Campaigns, social, and content across every touchpoint.</p></div>
         </div>
         <div class="svc-card s4 reveal" data-go="svc-growth">
           <span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
           <svg class="ico" style="color:#33ac66"><use href="#i-growth"/></svg>
-          <div class="s4txt"><h3>Brand Growth &amp; Consulting</h3>
-          <p>A clear roadmap to scale — turning where you are today into where you want your brand to go.</p>
-          <ul>
-            <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; roadmap</li>
-            <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand audits</li>
-            <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Ongoing consulting</li>
-          </ul></div>
+          <div class="svc-txt"><h3>Brand Growth &amp; Consulting</h3>
+            <p>A clear roadmap to scale — turning where you are today into where you want your brand to go.</p></div>
         </div>
       </div>
     </div>
