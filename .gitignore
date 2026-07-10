@@ -1,0 +1,10 @@
+# Dependencies
+node_modules/
+
+# Build output (design-system port / local tooling — not part of the deployed site)
+dist/
+*.tsbuildinfo
+
+# Logs & OS cruft
+*.log
+.DS_Store
