@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Saint Paul Yoga Center — concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Fraunces",serif;font-weight:500;line-height:1.04;letter-spacing:-.01em}
+img{display:block;max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 26px}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{font-family:"Fraunces",serif;font-weight:600;font-size:23px;letter-spacing:-.02em}
+.nav .links a{color:var(--ink2);text-decoration:none;margin:0 14px;font-size:15px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;text-decoration:none;padding:12px 22px;border-radius:100px;font-weight:500;font-size:14px}
+.pill.ghost{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.5);color:#fff}
+.pill.line{background:transparent;color:var(--ink);border:1px solid rgba(0,0,0,.14)}
+.spark{width:14px;height:14px;fill:currentColor}
+.hero{position:relative;border-radius:38px;overflow:hidden;margin:6px 0 20px;min-height:560px;display:flex;align-items:flex-end}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,12,10,.72),rgba(15,12,10,.15) 55%,transparent)}
+.hero .in{position:relative;padding:clamp(28px,5vw,60px);color:#fff;max-width:640px}
+.kick{font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;font-weight:500}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);margin:14px 0}
+.hero p{font-size:clamp(1.05rem,1.6vw,1.2rem);opacity:.92;max-width:460px;margin-bottom:26px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.lead{text-align:center;max-width:720px;margin:44px auto 60px;font-family:"Fraunces",serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:400;line-height:1.3}
+.lead em{font-style:italic;color:var(--acc)}
+.sec-h{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;gap:16px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(1.8rem,3.5vw,2.6rem)}
+.sec-h .lbl{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:66px}
+.mcard{background:#fff;border-radius:26px;overflow:hidden}
+.mcard img{width:100%;height:230px;object-fit:cover}
+.mcard .b{padding:20px 22px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mcard h3{font-size:1.25rem}
+.mcard .pr{font-family:"Fraunces",serif;color:var(--acc);font-weight:500;white-space:nowrap}
+.mcard .b p{width:100%;color:var(--ink2);font-size:.92rem;margin-top:4px}
+.gal{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:180px;gap:14px;margin-bottom:66px}
+.gal img{width:100%;height:100%;object-fit:cover;border-radius:26px}
+.gal .big{grid-row:span 2}
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:#fff;border-radius:38px;padding:clamp(28px,4vw,56px);margin-bottom:66px}
+.visit h2{font-size:clamp(1.8rem,3.5vw,2.6rem);margin-bottom:18px}
+.hours{list-style:none;font-size:1.02rem}
+.hours li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #eee;max-width:360px}
+.hours li span{color:var(--ink2)}
+.visit .addr{margin-top:20px;color:var(--ink2)}
+.visit .ph{aspect-ratio:4/5;border-radius:26px;overflow:hidden}
+.visit .ph img{width:100%;height:100%;object-fit:cover}
+.cta{position:relative;border-radius:38px;overflow:hidden;margin-bottom:40px;text-align:center;color:#fff}
+.cta>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cta .scrim{position:absolute;inset:0;background:rgba(15,12,10,.58)}
+.cta .in{position:relative;padding:clamp(52px,8vw,110px) 24px}
+.cta h2{font-size:clamp(2rem,4.5vw,3.4rem);margin-bottom:14px}
+.cta p{opacity:.9;max-width:460px;margin:0 auto 26px}
+.cta .pill{background:#fff;color:var(--ink)}
+footer{text-align:center;color:var(--ink2);font-size:13px;padding:10px 0 54px;line-height:1.7}
+footer a{color:var(--ink)}
+@media(max-width:820px){.menu{grid-template-columns:1fr}.visit{grid-template-columns:1fr}.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gal .big{grid-column:span 2;grid-row:auto;height:220px}.nav .links{display:none}}
+</style><style>:root{--bg:#f5f4f0;--ink:#26302b;--ink2:#5a635d;--acc:#5f8c72}</style></head><body>
+<header><div class="wrap nav">
+  <div class="logo">The Saint Paul Yoga Center</div>
+  <div class="links"><a href="#s2">Offerings</a><a href="#visit">Visit</a><a href="#visit">Contact</a></div>
+  <a class="pill" href="#visit"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Book a class</a>
+</div></header>
+<div class="wrap">
+  <section class="hero"><img src="https://images.pexels.com/photos/8436684/pexels-photo-8436684.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt="The Saint Paul Yoga Center"><div class="scrim"></div>
+    <div class="in"><div class="kick">Saint Paul, MN · Studio</div><h1>Room to breathe.</h1>
+      <p>A calm space for movement, rest, and reconnecting — guided by teachers who meet you where you are.</p>
+      <div class="row"><a class="pill" href="#s2">See classes</a><a class="pill ghost" href="#visit">Book a session</a></div></div>
+  </section>
+  <p class="lead">Come as you are — <em>slow down, soften,</em> and give yourself a little space to just be.</p>
+  <section id="s2"><div class="sec-h"><div><span class="lbl">Offerings</span><h2>Ways to practice.</h2></div></div>
+    <div class="menu"><div class="mcard"><img src="https://images.pexels.com/photos/16131310/pexels-photo-16131310.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt="Vinyasa Flow"><div class="b"><h3>Vinyasa Flow</h3><span class="pr">60 min</span><p>A gentle, breath-led flow for all levels — mornings and evenings.</p></div></div><div class="mcard"><img src="https://images.pexels.com/photos/7663031/pexels-photo-7663031.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt="Restorative"><div class="b"><h3>Restorative</h3><span class="pr">75 min</span><p>Deep rest with props and long holds. Leave lighter than you came.</p></div></div><div class="mcard"><img src="https://images.pexels.com/photos/6648583/pexels-photo-6648583.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt="Private Sessions"><div class="b"><h3>Private Sessions</h3><span class="pr">By appt.</span><p>One-on-one guidance, tailored to your body and your goals.</p></div></div></div></section>
+  <section><div class="sec-h"><div><span class="lbl">The Space</span><h2>Warm, quiet, yours.</h2></div></div>
+    <div class="gal"><img class="big" src="https://images.pexels.com/photos/4323341/pexels-photo-4323341.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""><img src="https://images.pexels.com/photos/31416062/pexels-photo-31416062.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""><img src="https://images.pexels.com/photos/7490531/pexels-photo-7490531.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""><img src="https://images.pexels.com/photos/18120173/pexels-photo-18120173.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""><img src="https://images.pexels.com/photos/6246682/pexels-photo-6246682.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""></div></section>
+  <section id="visit" class="visit">
+    <div><span class="lbl">Visit</span><h2>Find your time.</h2>
+      <ul class="hours"><li>Mon – Thu <span>6a – 8p</span></li><li>Fri – Sat <span>7a – 5p</span></li><li>Sunday <span>8a – 2p</span></li></ul><p class="addr">1162 Selby Avenue, Saint Paul, MN 55104 · (651) 646-4656</p></div>
+    <div class="ph"><img src="https://images.pexels.com/photos/7490531/pexels-photo-7490531.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""></div>
+  </section>
+</div>
+<div class="wrap"><section class="cta"><img src="https://images.pexels.com/photos/8436610/pexels-photo-8436610.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=650&amp;w=940" alt=""><div class="scrim"></div>
+  <div class="in"><h2>Your first class is on us.</h2><p>New here? Come try a class and see how it feels.</p><a class="pill" href="#visit">Book a class</a></div></section>
+  <footer>A concept design for <strong>The Saint Paul Yoga Center</strong> — crafted by <a href="https://openframe.design">Open Frame</a>.<br>Unaffiliated; made to show what's possible. Stock photos via Pexels (placeholders).</footer>
+</div></body></html>
