@@ -168,13 +168,13 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
 .hint{font-size:11.5px;color:var(--muted);padding-left:2px}
 .hint.ok{color:#4fd08a}
 /* Home signature search (gold) */
-.search{display:flex;align-items:center;gap:12px;background:var(--gold);border-radius:15px;padding:15px 18px;color:#111;transition:filter .2s,transform .12s var(--e)}
+.search{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.055);border:1px solid var(--line-2);border-radius:15px;padding:15px 18px;color:var(--white);transition:border-color .2s,box-shadow .2s,transform .12s var(--e)}
 .search:active{transform:scale(.99)}
-.search svg{flex:0 0 auto;color:#111}
-.search input{border:none;background:transparent;outline:none;font-family:var(--sans);font-size:15px;color:#111;width:100%;font-weight:500}
-.search input::placeholder{color:rgba(0,0,0,.5)}
-.search.dark{background:var(--card);border:1.5px solid var(--line-2);color:var(--white)}
-.search.dark input,.search.dark svg{color:var(--white)}.search.dark input::placeholder{color:var(--muted)}
+.search:focus-within{border-color:var(--gold);box-shadow:0 0 0 4px var(--focus)}
+.search svg{flex:0 0 auto;color:var(--muted)}
+.search input{border:none;background:transparent;outline:none;font-family:var(--sans);font-size:15px;color:var(--white);width:100%;font-weight:400}
+.search input::placeholder{color:var(--muted)}
+.search.dark{background:rgba(255,255,255,.055)}
 /* select */
 .selwrap{position:relative}
 .selwrap svg{position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--gold)}
@@ -893,7 +893,7 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
           <p class="kit-group">06 — Inputs</p>
           <div class="kit-stack">
             <div class="kit-cell block"><div class="kit-stage stretch"><div class="field"><label>Email</label><div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-mail"/></svg></span><input class="input pl" value="sarah.johnson@gmail.com" readonly></div></div></div><span class="kit-lab">Text field</span></div>
-            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly></div></div><span class="kit-lab">Search (primary)</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly></div></div><span class="kit-lab">Search field</span></div>
             <div class="kit-cell block"><div class="kit-stage stretch"><div class="selwrap"><select><option>7:30pm</option></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div><span class="kit-lab">Select</span></div>
             <div class="kit-cell"><div class="kit-stage"><span class="tgl on" data-tgl style="cursor:default"></span></div><span class="kit-lab">Toggle</span></div>
             <div class="kit-cell"><div class="kit-stage"><span class="chip-pill" style="cursor:default"><svg width="14" height="14"><use href="#i-star"/></svg>Concerts</span></div><span class="kit-lab">Chip</span></div>
