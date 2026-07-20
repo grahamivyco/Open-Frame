@@ -44,10 +44,22 @@ Example: `index.html?bare&nodev#confirm`.
 Route hashes: `login · signup · home · search · event · lot · confirm · myparking · receipt ·
 cancelled · profile · pinfo · payment · help · kit`.
 
+## Imagery
+The app is photo-forward: the home hero and event banners/thumbnails use real photographic
+concert-light imagery in **`img/`** (generated offline as stage-light bokeh, one warm-toned
+variant per event). The surfaces use a warm layered dark palette with an ambient gold glow and
+soft depth rather than flat black.
+
+**Swap in your own photos** — files in `img/` are used automatically if present:
+- `img/ev-<id>.jpg` — event banner (Event detail + home hero), `img/th-<id>.jpg` — list
+  thumbnail. IDs: `bayou · dallas · first · reaily · newmoon · austin`.
+- `img/hero.jpg` — fallback home hero when there's no reservation.
+
 ## Profile photo
-The avatar defaults to a self-contained illustrated portrait (no external assets). To use a
-**real photo**, drop a square image named **`avatar.jpg`** into this folder — it's picked up
-automatically everywhere the avatar appears (profile, menu, personal info). No code change.
+The avatar defaults to a self-contained illustrated portrait (the sandbox this was built in
+couldn't fetch a stock face photo). To use a **real photo**, drop a square image named
+**`avatar.jpg`** into this folder — it's picked up automatically everywhere the avatar appears
+(profile, menu, personal info). No code change.
 
 ## Deploy
 It's static — served as-is by GitHub Pages. Once merged to `main` it's live at
