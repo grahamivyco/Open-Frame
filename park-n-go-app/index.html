@@ -13,14 +13,17 @@
 <style>
 /* ============ Park n Go — design tokens ============ */
 :root{
-  /* surfaces */
-  --ink:#060606;        /* app background */
-  --s1:#111112;         /* screen surface */
-  --card:#18181a;       /* cards */
-  --card-2:#202023;     /* inset rows */
-  --card-3:#2a2a2e;     /* pressed / darker inset */
-  --line:rgba(255,255,255,.07);
-  --line-2:rgba(255,255,255,.13);
+  /* surfaces — warm layered dark */
+  --ink:#0b0a0d;        /* app background */
+  --s1:#131217;         /* screen surface */
+  --card:#17161c;       /* cards */
+  --card-2:#211f27;     /* inset rows */
+  --card-3:#2b2933;     /* pressed / darker inset */
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --hi:inset 0 1px 0 rgba(255,255,255,.05);   /* top highlight */
+  --elev:0 16px 34px -24px rgba(0,0,0,.9);     /* soft lift */
+  --glow:radial-gradient(130% 58% at 50% -8%, rgba(255,193,94,.13), transparent 60%);
   /* brand */
   --gold:#FFC857; --gold-deep:#F0B93E; --gold-soft:rgba(255,200,87,.14);
   --focus:rgba(255,200,87,.28);
@@ -54,7 +57,8 @@ body::before{content:"";position:fixed;inset:0;z-index:0;
 .device{position:relative;width:var(--screen-w);height:var(--screen-h);border-radius:54px;background:#0a0a0a;padding:13px;
   box-shadow:0 2px 3px rgba(0,0,0,.4),0 40px 80px -28px rgba(20,20,25,.6),inset 0 0 0 2px #232323,inset 0 0 0 7px #050505}
 .device::after{content:"";position:absolute;left:-2px;top:150px;width:3px;height:64px;border-radius:3px;background:#141414}
-.app{position:relative;width:100%;height:100%;background:var(--ink);border-radius:42px;overflow:clip;display:grid;grid-template-rows:auto auto minmax(0,1fr);isolation:isolate}
+.app{position:relative;width:100%;height:100%;border-radius:42px;overflow:clip;display:grid;grid-template-rows:auto auto minmax(0,1fr);isolation:isolate;
+  background:var(--glow), linear-gradient(180deg,#100e14 0%,#0a090c 55%,#08070a 100%)}
 body.bare{background:#000}body.bare::before{display:none}
 body.bare .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}
 body.bare .device::after{display:none}body.bare .app{border-radius:0}
@@ -70,7 +74,7 @@ body.bare .device::after{display:none}body.bare .app{border-radius:0}
 
 /* ============ Global sticky header ============ */
 .header{flex:0 0 auto;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;
-  padding:0 var(--pad);z-index:8;background:var(--ink);transition:background .3s var(--e)}
+  padding:0 var(--pad);z-index:8;background:transparent;transition:background .3s var(--e)}
 .app[data-tone="gold"] .header{background:var(--gold)}
 .header .logo{font-size:25px}
 .header .h-actions{display:flex;align-items:center;gap:6px}
@@ -141,6 +145,10 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
 
 /* ============ Cards ============ */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px}
+/* shared depth: warm top-sheen + inset highlight + soft lift */
+.card,.info-card,.group,.pmap,.ticket,.res,.stat,.kit-cell,.tabs,.helpicons,.hico,.paycard,.search.dark,.selwrap select,.input{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 42%)}
+.card,.info-card,.group,.pmap,.ticket,.res,.stat,.kit-cell,.paycard{box-shadow:var(--hi),var(--elev)}
 
 /* ============ Forms (modern) ============ */
 .form{display:flex;flex-direction:column;gap:var(--s-5)}
@@ -202,6 +210,38 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
 .res .chev{color:var(--muted);flex:0 0 auto}
 .results-count{color:var(--muted);font-size:13px;margin:var(--s-4) 2px var(--s-3);font-weight:300}
 .results-count b{color:var(--white);font-weight:600}
+.res .thumb.photo{background-size:cover;background-position:center;color:transparent}
+
+/* featured photo hero card */
+.hero-card{position:relative;border-radius:var(--r-xl);overflow:hidden;min-height:196px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;box-shadow:var(--elev);border:1px solid var(--line);cursor:pointer}
+.hero-card .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s var(--e)}
+.hero-card:hover .bg{transform:scale(1.05)}
+.hero-card .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,10,.1) 0%,rgba(8,8,10,.5) 52%,rgba(8,8,10,.92) 100%)}
+.hero-card > .z{position:relative;z-index:2}
+.hero-card .badge{position:absolute;top:16px;left:16px;z-index:2;background:rgba(0,0,0,.38);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:6px 12px;border-radius:100px;display:inline-flex;gap:6px;align-items:center}
+.hero-card .badge svg{color:var(--gold)}
+.hero-card h3{font-size:20px;line-height:1.12;color:#fff}
+.hero-card .hc-meta{display:flex;gap:16px;color:rgba(255,255,255,.82);font-size:12.5px;margin-top:9px;font-weight:400}
+.hero-card .hc-meta div{display:flex;align-items:center;gap:7px}
+.hero-card .hc-meta svg{color:var(--gold)}
+.hero-card .hc-cta{margin-top:16px}
+.hero-card .hc-btn{background:var(--gold);color:#111;font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:100px;display:inline-flex;gap:8px;align-items:center;border:none;cursor:pointer}
+
+/* bento quick tiles */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bt{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:13px 12px;display:flex;flex-direction:column;gap:12px;cursor:pointer;box-shadow:var(--hi);transition:.16s var(--e);min-height:98px;justify-content:space-between}
+.bt:hover{border-color:var(--line-2);transform:translateY(-2px)}.bt:active{transform:scale(.98)}
+.bt .bi{width:38px;height:38px;border-radius:11px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center}
+.bt .bl{font-size:12.5px;font-weight:500;line-height:1.2}
+
+/* event detail photo banner */
+.ev-banner{position:relative;border-radius:var(--r-lg);overflow:hidden;height:172px;box-shadow:var(--elev);border:1px solid var(--line)}
+.ev-banner .bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.ev-banner .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,10,.08),rgba(8,8,10,.85))}
+.ev-banner .cap{position:absolute;left:18px;right:18px;bottom:15px;z-index:2}
+.ev-banner .cap .t{font-family:var(--disp);font-weight:800;font-size:15px;color:#fff;letter-spacing:.3px;text-shadow:0 2px 16px rgba(0,0,0,.5)}
+.ev-banner .cap .c{color:rgba(255,255,255,.85);font-size:13px;margin-top:5px;display:flex;align-items:center;gap:7px}
+.ev-banner .cap svg{color:var(--gold)}
 
 /* section head */
 .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:var(--s-6) 2px var(--s-3)}
@@ -577,19 +617,18 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
           <div class="stagger">
             <div style="--i:0"><h1 class="hello">Hello, <b>Sarah</b></h1>
               <p class="lead" style="margin-top:2px">Let’s find parking for your next event.</p></div>
-            <div class="search mt5" style="--i:1" onclick="document.getElementById('homeSearch').focus()">
+            <div id="homeHero" style="--i:1;margin-top:18px"></div>
+            <div class="search mt4" style="--i:2" onclick="document.getElementById('homeSearch').focus()">
               <svg width="20" height="20"><use href="#i-search"/></svg>
               <input id="homeSearch" placeholder="Search by venue or event" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch()">
             </div>
-            <div class="chips mt3" style="--i:2">
-              <span class="chip-pill" onclick="quick('Concerts')"><svg width="14" height="14"><use href="#i-star"/></svg>Concerts</span>
-              <span class="chip-pill" onclick="quick('Festivals')">Festivals</span>
-              <span class="chip-pill" onclick="quick('Sports')">Sports</span>
+            <div class="bento mt4" style="--i:3">
+              <div class="bt" onclick="go('receipt')"><span class="bi"><svg width="20" height="20"><use href="#i-ticket"/></svg></span><span class="bl">My ticket</span></div>
+              <div class="bt" onclick="go('search')"><span class="bi"><svg width="20" height="20"><use href="#i-map"/></svg></span><span class="bl">Find parking</span></div>
+              <div class="bt" onclick="go('payment')"><span class="bi"><svg width="20" height="20"><use href="#i-card"/></svg></span><span class="bl">Wallet</span></div>
             </div>
-            <div class="sec-head" style="--i:3"><h3>Upcoming reservation</h3><a onclick="go('myparking')">See all</a></div>
-            <div id="homeUpcoming" style="--i:4"></div>
-            <div class="sec-head" style="--i:5"><h3>Popular near you</h3></div>
-            <div class="reslist" id="homePopular" style="--i:6"></div>
+            <div class="sec-head" style="--i:4"><h3>Popular near you</h3><a onclick="go('search')">See all</a></div>
+            <div class="reslist" id="homePopular" style="--i:5"></div>
           </div>
         </section>
 
@@ -611,7 +650,7 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
           <div class="title-row"><div><h2 class="screen-title">Event details</h2></div>
             <div class="round-x" onclick="go('search')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
           <div class="stagger">
-            <div id="eventBanner" style="--i:0;border-radius:var(--r-lg);height:150px;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#0a0a0a"></div>
+            <div id="eventBanner" style="--i:0"></div>
             <div id="eventHead" style="--i:1;margin-top:16px"></div>
             <div class="info-card mt5" style="--i:2" id="eventInfo"></div>
             <div class="sec-head" style="--i:3"><h3>About</h3></div>
@@ -864,7 +903,7 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-he
           <div class="kit-stack">
             <div class="kit-cell block"><div class="kit-stage stretch">
               <div class="res" style="width:100%;cursor:default">
-                <span class="thumb" style="background:linear-gradient(135deg,#FFD97a,#F0B93E)">M</span>
+                <span class="thumb photo" style="background-image:url('img/th-bayou.jpg')"></span>
                 <div class="body"><h3>Masego @ Bayou Music Center</h3><div class="meta"><div><svg width="15" height="15"><use href="#i-cal"/></svg>Aug 24, 2023</div><div><svg width="15" height="15"><use href="#i-pin"/></svg>Houston, Texas</div></div></div>
                 <span class="chev"><svg width="18" height="18"><use href="#i-cr"/></svg></span></div></div><span class="kit-lab">Event card</span></div>
             <div class="kit-cell block"><div class="kit-stage stretch"><div class="srow" style="width:100%;cursor:default"><div class="lt">A</div><div><div class="rt"><div class="col"><span>Availability</span><b>35/37</b></div><div class="col"><span>$/hour</span><b>$9.99</b></div></div><div class="availbar"><i style="width:95%"></i></div></div></div></div><span class="kit-lab">Section row</span></div>
@@ -1020,7 +1059,7 @@ function renderFor(id){
 }
 
 /* =================== RENDERERS =================== */
-function evThumb(ev){return `<span class="thumb" style="background:linear-gradient(135deg,${ev.grad[0]},${ev.grad[1]})">${ev.name.replace(/[^A-Za-z]/,'').charAt(0)||'M'}</span>`;}
+function evThumb(ev){return `<span class="thumb photo" style="background-image:url('img/th-${ev.id}.jpg');background-color:${ev.grad[1]}"></span>`;}
 function evCard(ev,onclick,{dots=false,chev=true,i=0}={}){
   return `<div class="res" style="--i:${i}" onclick="${onclick}">
     ${evThumb(ev)}
@@ -1031,10 +1070,20 @@ function evCard(ev,onclick,{dots=false,chev=true,i=0}={}){
   </div>`;
 }
 function renderHome(){
-  const r=state.reservation;
-  document.getElementById('homeUpcoming').innerHTML = r
-    ? evCard(r.event,`openReceipt('${r.event.id}')`,{})
-    : `<div class="card"><p class="muted" style="font-size:13.5px">No upcoming reservations. Search an event to book a spot.</p></div>`;
+  const r=state.reservation, hero=document.getElementById('homeHero');
+  if(r){const ev=r.event;
+    hero.innerHTML=`<div class="hero-card" onclick="openReceipt('${ev.id}')">
+      <div class="bg" style="background-image:url('img/ev-${ev.id}.jpg')"></div><div class="ov"></div>
+      <span class="badge"><svg width="12" height="12"><use href="#i-ticket"/></svg> Upcoming</span>
+      <div class="z"><h3>${ev.name}</h3>
+        <div class="hc-meta"><div><svg width="14" height="14"><use href="#i-cal"/></svg>${ev.date}</div><div><svg width="14" height="14"><use href="#i-loc"/></svg>${ev.city}</div></div>
+        <div class="hc-cta"><button class="hc-btn">View ticket <svg width="14" height="14"><use href="#i-cr"/></svg></button></div></div></div>`;
+  } else {
+    hero.innerHTML=`<div class="hero-card" onclick="go('search')">
+      <div class="bg" style="background-image:url('img/hero.jpg')"></div><div class="ov"></div>
+      <div class="z"><h3>Find parking for your next event</h3>
+        <div class="hc-cta"><button class="hc-btn">Search events <svg width="14" height="14"><use href="#i-cr"/></svg></button></div></div></div>`;
+  }
   document.getElementById('homePopular').innerHTML = EVENTS.slice(1,4).map((ev,i)=>evCard(ev,`selectEvent('${ev.id}')`,{i})).join('');
 }
 function quick(t){document.getElementById('searchInput').value=t;document.getElementById('resTerm').textContent=t;runSearch(t);}
@@ -1053,8 +1102,9 @@ function renderResults(term){
 function selectEvent(id){state.event=EVENTS.find(e=>e.id===id);go('event');}
 function renderEvent(){
   const ev=state.event;
-  document.getElementById('eventBanner').style.background=`linear-gradient(135deg,${ev.grad[0]},${ev.grad[1]})`;
-  document.getElementById('eventBanner').innerHTML=`<span style="font-family:var(--disp);font-weight:800;font-size:26px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.3)">${ev.short}</span>`;
+  document.getElementById('eventBanner').innerHTML=`<div class="ev-banner">
+    <div class="bg" style="background-image:url('img/ev-${ev.id}.jpg')"></div><div class="ov"></div>
+    <div class="cap"><div class="t">${ev.short}</div><div class="c"><svg width="14" height="14"><use href="#i-loc"/></svg>${ev.city}</div></div></div>`;
   document.getElementById('eventHead').innerHTML=`<h2 style="font-size:23px">${ev.name}</h2>`;
   document.getElementById('eventInfo').innerHTML=`
     <div class="inforow"><div class="k">Date</div><div class="v">${ev.date}</div></div>
