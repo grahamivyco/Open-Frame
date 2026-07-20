@@ -706,6 +706,120 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svc-faq .faq-a p{font-family:var(--sans);color:var(--ink-2);padding:0 clamp(18px,2.4vw,26px) 22px;font-size:1.02rem;line-height:1.6;margin:0}
 @media(max-width:760px){.svc-faq-wrap{grid-template-columns:1fr;gap:22px}.svc-faq-head p{max-width:none}}
 @media(max-width:560px){.svc-pkgs{grid-template-columns:1fr}}
+
+/* ==== Case-study v2 (Park n Go): structured, Figma-frame case study ==== */
+.p2{max-width:1340px;margin:0 auto;padding:0 clamp(18px,4.5vw,64px)}
+.p2 .cs-back{margin:clamp(8px,2vw,20px) 0 clamp(14px,2vw,20px)}
+/* hero */
+.p2-hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--card);min-height:clamp(430px,50vw,560px);display:flex}
+.p2-hero-mark{position:absolute;right:-3%;top:50%;transform:translateY(-50%);opacity:.06;pointer-events:none;z-index:0;color:#fff}
+.p2-hero-mark svg{width:clamp(320px,42vw,540px);height:auto;display:block}
+.p2-hero-txt{position:absolute;left:clamp(26px,4vw,58px);bottom:clamp(34px,5vw,60px);max-width:min(54%,540px);z-index:2;display:flex;flex-direction:column}
+.p2-hero-txt .eyebrow{color:rgba(255,255,255,.92);margin-bottom:16px}
+.p2-hero-txt h1{color:#fff;font-size:clamp(2.5rem,5vw,3.9rem);letter-spacing:-.02em;margin:0 0 15px}
+.p2-hero-txt p{font-family:var(--sans);color:rgba(255,255,255,.78);font-size:clamp(1.02rem,1.6vw,1.22rem);line-height:1.5;max-width:44ch;margin:0}
+.p2-hero-phone{position:absolute;right:clamp(28px,7vw,116px);top:50%;transform:translateY(-50%) perspective(1600px) rotateY(25deg) rotateX(8deg) rotate(-2deg);transform-origin:center;z-index:1;width:clamp(190px,20vw,262px);border-radius:30px;overflow:hidden;filter:drop-shadow(0 44px 66px rgba(0,0,0,.55))}
+.p2-hero-phone img{width:100%;display:block}
+/* meta bar */
+.p2-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:clamp(14px,2vw,22px)}
+.p2-meta .cell{background:var(--bg);padding:18px 22px}
+.p2-meta h4{font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 9px}
+.p2-meta p{font-family:var(--sans);font-size:14.5px;color:var(--ink);margin:0}
+/* body: sticky rail + main */
+.p2-grid{display:grid;grid-template-columns:210px 1fr;gap:clamp(28px,5vw,72px);align-items:start;padding-block:clamp(42px,6vw,84px)}
+.p2-rail{position:sticky;top:96px;border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:11px;background:var(--panel)}
+.p2-rail .rail-h{font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.p2-rail a{font-family:var(--sans);font-size:14px;color:var(--muted);transition:color .2s var(--ease)}
+.p2-rail a:hover{color:var(--ink)}
+.p2-main{min-width:0}
+.p2-sec{scroll-margin-top:96px}
+.p2-sec+.p2-sec{margin-top:clamp(46px,6vw,78px)}
+.p2-main h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin:14px 0 14px;max-width:22ch}
+.p2-main h3{font-size:clamp(1.4rem,3vw,2rem);margin:26px 0 12px}
+.p2-main h4{font-size:clamp(1.3rem,2.4vw,1.75rem);margin:0 0 12px}
+.p2-main p{font-family:var(--sans);color:var(--ink-2);max-width:66ch}
+.p2-main p strong,.p2-main .lead strong{color:var(--ink)}
+.p2-hq{border-left:3px solid var(--blue);padding-left:26px;margin:34px 0;max-width:60ch}
+.p2-hq p{font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.3;color:var(--ink);margin:0;max-width:none}
+/* framed diagram panels */
+.p2-panel{border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(16px,2vw,22px);background:var(--panel);margin-top:26px}
+.p2-panel .well{border-radius:var(--r);overflow:hidden}
+.p2-panel .well svg{width:100%;height:auto;display:block}
+/* phase headers */
+.p2-phase-num{font-family:var(--sans);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.p2-phase{font-family:var(--serif);font-size:clamp(2.6rem,7vw,4.4rem);font-weight:500;line-height:1;letter-spacing:-.02em}
+/* stat + quote cards */
+.p2-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:30px 0}
+.p2-stat{border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;background:var(--panel)}
+.p2-stat b{font-family:var(--serif);display:block;font-size:clamp(2rem,4vw,2.8rem);font-weight:600;line-height:1}
+.p2-stat span{font-family:var(--sans);font-size:13.5px;color:var(--muted);display:block;margin-top:6px}
+.p2-quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.p2-qc{border:1px solid var(--line);border-radius:var(--r);padding:22px;background:#fff}
+.p2-qc .qm{font-family:var(--serif);font-size:30px;color:var(--yellow);line-height:.6}
+.p2-qc p{font-family:var(--sans);font-size:14px;color:var(--ink);margin:4px 0 0;line-height:1.5;max-width:none}
+/* feature tabs */
+.p2-tabs{display:flex;gap:9px;flex-wrap:wrap;margin-top:26px}
+.p2-tab{padding:10px 18px;border-radius:var(--pill);border:1px solid var(--line-2);font-family:var(--sans);font-size:14px;cursor:pointer;background:transparent;color:var(--ink-2);transition:all .2s var(--ease)}
+.p2-tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.p2-feat-stage{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);margin-top:18px;padding:clamp(24px,3.5vw,44px)}
+.p2-panelf{display:none}
+.p2-panelf.on{display:block}
+.p2-feat-row{display:flex;gap:clamp(24px,4vw,52px);align-items:center;flex-wrap:wrap}
+.p2-feat-media{background:#252525;border-radius:22px;padding:clamp(16px,2vw,22px);flex:0 0 auto}
+.p2-feat-media img{width:clamp(180px,20vw,232px);display:block;border-radius:12px}
+.p2-feat-txt{flex:1;min-width:240px}
+.p2-feat-txt .fk{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#c9962b;margin-bottom:10px}
+.p2-feat-txt p{font-size:15.5px;margin:0;max-width:48ch}
+/* bento brand system */
+.p2-bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.p2-bento .span2{grid-column:span 2}
+.p2-bento .span4{grid-column:span 4}
+.p2-tile{border:1px solid var(--line);border-radius:var(--r);padding:22px;background:#fff}
+.p2-tl{font:500 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.p2-logo-tile{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#000;padding:clamp(24px,3vw,34px) clamp(26px,3vw,40px)}
+.p2-logo-tile .p2-tl{color:rgba(255,255,255,.5)}
+.p2-logo-row{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.p2-logo-row img{height:38px;width:auto;display:block}
+.p2-mark{width:52px;height:52px;border-radius:14px;background:var(--yellow);display:grid;place-items:center;color:#000;flex:0 0 auto}
+.p2-mark svg{width:28px;height:28px}
+.p2-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.p2-sw .chip{display:block;height:70px;border-radius:12px}
+.p2-sw b{font-family:var(--sans);font-size:12px;display:block;margin-top:8px}
+.p2-sw span.hx{font-family:var(--sans);font-size:10.5px;color:var(--muted)}
+.p2-type{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+.p2-type .col{flex:1;min-width:150px}
+.p2-type .col.br{border-right:1px solid var(--line);padding-right:22px}
+.p2-type .ag{font-size:56px;line-height:.85;color:var(--ink)}
+.p2-type .nm{font-family:var(--sans);font-weight:600;font-size:14px;margin-top:12px}
+.p2-type .ro{font-family:var(--sans);font-size:12px;color:var(--muted)}
+.p2-type .sz{font-family:var(--sans);font-size:11px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+.p2-icons{display:grid;grid-template-columns:repeat(4,1fr);gap:18px 10px;color:#050505;align-content:center}
+.p2-icons .ic{display:flex;flex-direction:column;align-items:center;gap:7px}
+.p2-icons .ic svg{width:22px;height:22px}
+.p2-icons .ic span{font-family:var(--sans);font-size:10.5px;color:var(--muted)}
+.p2-space{display:flex;flex-direction:column;gap:11px}
+.p2-space .row{display:flex;align-items:center;gap:12px}
+.p2-space .bar{height:12px;background:var(--yellow);border-radius:2px;flex:0 0 auto}
+.p2-space .row span{font-family:var(--sans);font-size:12.5px;color:var(--ink-2)}
+/* next case */
+.p2-next{margin-top:clamp(30px,4vw,44px)}
+.p2-next .np-big{margin-top:22px}
+/* responsive */
+@media(max-width:900px){
+  .p2-grid{grid-template-columns:1fr}
+  .p2-rail{position:static;flex-direction:row;flex-wrap:wrap;gap:14px}
+  .p2-rail .rail-h{flex-basis:100%;margin-bottom:0}
+  .p2-hero{min-height:0;flex-direction:column;padding:clamp(34px,6vw,56px) 24px;text-align:center;align-items:center}
+  .p2-hero-txt{position:static;max-width:600px;align-items:center}
+  .p2-hero-txt p{margin-inline:auto}
+  .p2-hero-mark{right:50%;transform:translate(50%,-50%);opacity:.05}
+  .p2-hero-phone{position:static;transform:perspective(1400px) rotateY(15deg) rotateX(6deg) rotate(-1deg);margin-top:30px;width:clamp(180px,52vw,220px)}
+}
+@media(max-width:720px){.p2-bento{grid-template-columns:repeat(2,1fr)}.p2-bento .span2,.p2-bento .span4{grid-column:span 2}}
+@media(max-width:520px){
+  .p2-feat-row{flex-direction:column;align-items:flex-start}
+  .p2-type .col.br{border-right:0;padding-right:0}
+}
 </style>
 </head>
 <body>
@@ -732,6 +846,13 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></symbol>
 <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
 <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 17v2M13 11v2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 </defs></svg>
 
 <header class="site-header">
@@ -1274,126 +1395,253 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 
 <!-- ==================== CASE STUDY: PARK N GO ==================== -->
 <section class="page sub" id="parkngo">
-  <section class="cs-hero"><div class="wrap">
+  <div class="p2">
     <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>App Design · UX Research</span><h1>Park n Go</h1><p class="lead">Reimagining the event parking experience — a mobile app that lets event-goers reserve their spot in advance, before the stress ever starts.</p></div><div class="cs-hero-media"><img src="images/png-hero.webp" alt="Park n Go hero" loading="lazy" decoding="async"></div></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <div class="cs-meta">
-      <div class="cell"><h4>Scope</h4><p>UX/UI, User Testing, Interviews, Research</p></div>
-      <div class="cell"><h4>Role</h4><p>Sole prototyper · research, testing &amp; visual identity</p></div>
-      <div class="cell"><h4>Tools</h4><p>Figma, FigJam, Zeplin, Miro, VS Code, Adobe CS</p></div>
-      <div class="cell"><h4>Timeline</h4><p>3-week sprint · design-to-dev handoff</p></div>
-    </div>
-  </div></section>
 
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Background</span>
-    <div class="cs-block"><h3>Parking is the one part of a night out no one plans for.</h3>
-      <p>Venue parking is an often-overlooked yet crucial part of the concert and live-event experience. Attendees prepare for every other part of a show — <strong>except where they're going to park</strong> — which turns arrival into something stressful and confusing.</p></div>
-    <div class="cs-quote"><p>How might we take the most stressful part of attending an event and make it feel effortless?</p></div>
-    <figure class="cs-figure"><img src="images/png-context.webp" alt="Context" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
-    <div class="cs-block"><h3>The Double Diamond.</h3>
-      <p>My team worked through four phases — <strong>Discover, Define, Develop, Deliver</strong> — moving from a wide-open problem space to a focused, shippable solution.</p></div>
-    <figure class="cs-figure"><img src="images/png-process.webp" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 01</p><div class="cs-phase-label">Discover</div>
-    <div class="cs-block"><h4 class="kicker">Where we started</h4><h3>We set out to make everyday parking easier.</h3>
-      <p>We began with a broad mission — simplify everyday parking. To pressure-test it, we sent out a survey and ran four in-depth user interviews.</p></div>
-    <div class="cs-block"><h4 class="kicker">The pivot</h4><h3>Then we noticed something.</h3>
-      <p>A majority of survey responses — and <strong>all four</strong> interviews — pointed to the same pain point: parking for <strong>events and concerts</strong> specifically. As a team we asked ourselves: stick to the plan, or follow the signal? The insight was too strong to ignore.</p></div>
-    <figure class="cs-figure"><img src="images/png-insights.webp" alt="User insights" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Affinity mapping — top insights</h4></div>
-    <div class="cs-stats">
-      <div class="cs-stat"><b>100%</b><span>struggle to find parking at an event</span></div>
-      <div class="cs-stat"><b>78%</b><span>say time matters most when parking</span></div>
-      <div class="cs-stat"><b>66%</b><span>spend 10–20 min hunting for a spot</span></div>
-      <div class="cs-stat"><b>66%</b><span>have skipped an event over parking</span></div>
-      <div class="cs-stat"><b>78%</b><span>would pay to reserve in advance</span></div>
-    </div>
-    <div class="cs-block"><h4 class="kicker">Market research</h4>
-      <p>A competitive analysis of the top three apps our interviewees already used showed that <strong>none of them solved event parking directly.</strong> The plan changed.</p></div>
-    <figure class="cs-figure"><img src="images/png-competitors.webp" alt="Competitive analysis" loading="lazy" decoding="async"><figcaption>Competitive analysis — a clear gap in the market.</figcaption></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 02</p><div class="cs-phase-label">Define</div>
-    <div class="cs-block"><h4 class="kicker">Redefined problem</h4><h3>Locating parking at venues during events and concerts.</h3>
-      <p>Venue parking is the part of the live-event experience attendees are least able to plan for — the goal became clear.</p></div>
-    <figure class="cs-figure"><img src="images/png-problem.webp" alt="The problem" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">The goal</h4>
-      <p>Enhance the event parking experience by creating a platform that lets users <strong>reserve parking spots in advance</strong> — reducing the stress and uncertainty of finding a spot, and making the whole night smoother and more enjoyable.</p></div>
-    <div class="cs-block"><h4 class="kicker">User journey</h4><h3>Every stage, every emotion.</h3>
-      <p>From the redefined goal, I built a user-journey map to illustrate each stage — from searching for parking to securing a spot — and the emotions felt throughout.</p></div>
-    <figure class="cs-figure"><img src="images/png-journey.webp" alt="User journey map" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="images/png-questions.webp" alt="Guiding questions" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 03</p><div class="cs-phase-label">Develop</div>
-    <div class="cs-block"><h4 class="kicker">Idea brainstorming</h4><h3>What could we do differently?</h3>
-      <p>Collaborative sessions turned user pain points and competitive gaps into ideas, evaluated on feasibility, user impact, and alignment with our goal. We focused on three main areas of improvement.</p></div>
-    <figure class="cs-figure"><img src="images/png-ideas.webp" alt="Idea brainstorming" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Paper wireframes</h4><h3>Visualizing the concept, fast.</h3>
-      <p>As the sole designer, I sketched paper wireframes to iterate quickly on layout and flow, then built a clickable prototype to gather early feedback before higher fidelity.</p></div>
-    <figure class="cs-figure"><img src="images/png-wireframes.webp" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">A/B testing</h4><h3>Refining how you pick a spot.</h3>
-      <p><strong>Option A</strong> used a detailed map of individual spots; <strong>Option B</strong> divided lots into simple, modular sections with pricing and availability. Users clearly preferred Option B for its simplicity — a choice that also let us ship an MVP faster.</p></div>
-    <figure class="cs-figure"><img src="images/png-abtest.webp" alt="A/B testing" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="images/png-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"><figcaption>Mid-fidelity wireframes, built in a tight two-day turnaround.</figcaption></figure>
-    <div class="cs-block"><h4 class="kicker">UI design kit</h4><h3>Accessible, modern, full of movement.</h3>
-      <p>We curated a high-contrast palette meeting <strong>AAA compliance</strong>, with colors and a logo inspired by street aesthetics to reflect dynamic movement — clean, crisp, and modern throughout.</p></div>
-    <div class="bsys">
-      <div class="bsys-sw">
-        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
-        <div class="sw"><span class="chip" style="background:#212121"></span><span class="lab"><b>Charcoal</b><span>#212121</span></span></div>
-        <div class="sw"><span class="chip" style="background:#FFC857"></span><span class="lab"><b>Signal Gold</b><span>#FFC857</span></span></div>
-        <div class="sw"><span class="chip" style="background:#FFFFFF"></span><span class="lab"><b>White</b><span>#FFFFFF</span></span></div>
+    <!-- HERO -->
+    <div class="p2-hero reveal">
+      <div class="p2-hero-mark" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="p2-hero-txt">
+        <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>App Design · UX Research</span>
+        <h1>Park n Go</h1>
+        <p>Reimagining the event parking experience — a mobile app that lets event-goers reserve their spot in advance, before the stress ever starts.</p>
       </div>
-      <div class="bsys-type">
-        <div class="tf"><span class="aa" style="font-family:'Lexend',sans-serif;font-weight:700">Aa</span><span class="nm">Lexend Bold</span><span class="ro">Headings</span></div>
-        <div class="tf"><span class="aa" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</span><span class="nm">Poppins</span><span class="ro">Buttons &amp; body</span></div>
+      <div class="p2-hero-phone"><img src="images/pngx-hero-phone.webp" alt="Park n Go event-info screen" loading="lazy" decoding="async"></div>
+    </div>
+
+    <!-- META -->
+    <div class="p2-meta">
+      <div class="cell"><h4>Scope</h4><p>Research &rarr; UI &middot; Testing</p></div>
+      <div class="cell"><h4>Role</h4><p>Sole prototyper</p></div>
+      <div class="cell"><h4>Tools</h4><p>Figma &middot; FigJam &middot; Miro</p></div>
+      <div class="cell"><h4>Timeline</h4><p>3-week sprint</p></div>
+    </div>
+
+    <!-- BODY -->
+    <div class="p2-grid">
+      <aside class="p2-rail">
+        <div class="rail-h">On this page</div>
+        <a href="#pg-background">Background</a>
+        <a href="#pg-approach">Approach</a>
+        <a href="#pg-discover">Discover</a>
+        <a href="#pg-define">Define</a>
+        <a href="#pg-deliver">Deliver</a>
+        <a href="#pg-brand">Brand system</a>
+      </aside>
+
+      <div class="p2-main">
+        <!-- BACKGROUND -->
+        <section id="pg-background" class="p2-sec">
+          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Background</span>
+          <h2>Parking is the one part of a night out no one plans for.</h2>
+          <p>Venue parking is an often-overlooked yet crucial part of the concert and live-event experience. Attendees prepare for every other part of a show — <strong>except where they're going to park</strong> — which turns arrival into something stressful and confusing.</p>
+          <div class="p2-hq"><p>How might we take the most stressful part of attending an event and make it feel effortless?</p></div>
+        </section>
+
+        <!-- APPROACH -->
+        <section id="pg-approach" class="p2-sec">
+          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
+          <h2>The Double Diamond.</h2>
+          <p>Four phases — <strong>Discover, Define, Develop, Deliver</strong> — moving from a wide-open problem space to a focused, shippable solution.</p>
+          <div class="p2-panel">
+            <div class="well" style="background:#0a0a0a;padding:clamp(26px,3.5vw,44px)">
+              <svg viewBox="0 0 760 196" role="img" aria-label="Double Diamond process in Park n Go brand colors">
+                <polygon points="24,98 202,20 380,98 202,176" fill="#FFC857" fill-opacity="0.09" stroke="#FFC857" stroke-width="2"></polygon>
+                <polygon points="380,98 558,20 736,98 558,176" fill="#FFC857" fill-opacity="0.09" stroke="#FFC857" stroke-width="2"></polygon>
+                <circle cx="24" cy="98" r="6" fill="#FFC857"></circle>
+                <circle cx="380" cy="98" r="6" fill="#fff"></circle>
+                <circle cx="736" cy="98" r="6" fill="#FFC857"></circle>
+                <text x="113" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">DIVERGE</text>
+                <text x="291" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">CONVERGE</text>
+                <text x="469" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">DIVERGE</text>
+                <text x="647" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">CONVERGE</text>
+                <text x="113" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Discover</text>
+                <text x="291" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Define</text>
+                <text x="469" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Develop</text>
+                <text x="647" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Deliver</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- DISCOVER -->
+        <section id="pg-discover" class="p2-sec">
+          <div class="p2-phase-num">Phase 01</div>
+          <div class="p2-phase">Discover</div>
+          <h3>A stronger signal than we expected.</h3>
+          <p>A survey and four in-depth interviews all pointed to the same pain point: parking for <strong>events and concerts</strong> specifically. The insight was too strong to ignore.</p>
+          <div class="p2-stats">
+            <div class="p2-stat"><b>100%</b><span>struggle to find parking at an event</span></div>
+            <div class="p2-stat"><b>78%</b><span>would pay to reserve in advance</span></div>
+            <div class="p2-stat"><b>66%</b><span>spend 10&ndash;20 min hunting for a spot</span></div>
+          </div>
+          <div class="p2-quotes">
+            <div class="p2-qc"><div class="qm">&ldquo;</div><p>I never know which lot is closest until I'm already circling the block.</p></div>
+            <div class="p2-qc"><div class="qm">&ldquo;</div><p>I'd happily pay upfront just to skip the stress on the night.</p></div>
+            <div class="p2-qc"><div class="qm">&ldquo;</div><p>No app shows me real-time availability before I leave home.</p></div>
+          </div>
+        </section>
+
+        <!-- DEFINE -->
+        <section id="pg-define" class="p2-sec">
+          <div class="p2-phase-num">Phase 02</div>
+          <div class="p2-phase">Define</div>
+          <h3>Every stage, every emotion.</h3>
+          <p>A user-journey map illustrating each stage — from searching for parking to arriving at the venue — and the emotions felt throughout.</p>
+          <div class="p2-panel">
+            <div class="well" style="background:#fff;padding:clamp(20px,3vw,30px)">
+              <svg viewBox="0 0 760 180" role="img" aria-label="User journey emotion curve">
+                <line x1="20" y1="60" x2="740" y2="60" stroke="#eee" stroke-width="1"></line>
+                <line x1="20" y1="130" x2="740" y2="130" stroke="#eee" stroke-width="1"></line>
+                <polyline points="70,70 235,110 400,132 565,88 700,52" fill="none" stroke="#FFC857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+                <circle cx="70" cy="70" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+                <circle cx="235" cy="110" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+                <circle cx="400" cy="132" r="6" fill="#f24333" stroke="#f24333" stroke-width="2"></circle>
+                <circle cx="565" cy="88" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+                <circle cx="700" cy="52" r="6" fill="#33ac66" stroke="#33ac66" stroke-width="2"></circle>
+                <text x="70" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Search</text>
+                <text x="235" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Compare</text>
+                <text x="400" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Decide</text>
+                <text x="565" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Reserve</text>
+                <text x="700" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Arrive</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- DELIVER -->
+        <section id="pg-deliver" class="p2-sec">
+          <div class="p2-phase-num">Phase 03</div>
+          <div class="p2-phase">Deliver</div>
+          <h3>Park n Go: seamless event parking.</h3>
+          <p>A high-contrast dark UI with a signal-gold accent — user-tested from mid- to high-fidelity in a component-driven Figma process. Tap through the core features:</p>
+          <div class="p2-feat" data-feat>
+            <div class="p2-tabs">
+              <button type="button" class="p2-tab on">01 — Venue search</button>
+              <button type="button" class="p2-tab">02 — Booking a spot</button>
+              <button type="button" class="p2-tab">03 — Reservation receipt</button>
+            </div>
+            <div class="p2-feat-stage">
+              <div class="p2-panelf on">
+                <div class="p2-feat-row">
+                  <div class="p2-feat-media"><img src="images/pngx-search.webp" alt="Venue search screen" loading="lazy" decoding="async"></div>
+                  <div class="p2-feat-txt"><div class="fk">Feature 01 — Venue search</div><h4>Find your event in seconds.</h4><p>Search by venue or event name and see every nearby lot with live availability, walking distance, and price — before you commit to anything.</p></div>
+                </div>
+              </div>
+              <div class="p2-panelf">
+                <div class="p2-feat-row">
+                  <div class="p2-feat-media"><img src="images/pngx-reserve.webp" alt="Booking a parking spot" loading="lazy" decoding="async"></div>
+                  <div class="p2-feat-txt"><div class="fk">Feature 02 — Booking a spot</div><h4>Pick a section, set your time.</h4><p>Preview the lot map, choose start and end times, and compare real-time availability and hourly rate by section — then reserve in a few taps.</p></div>
+                </div>
+              </div>
+              <div class="p2-panelf">
+                <div class="p2-feat-row">
+                  <div class="p2-feat-media"><img src="images/pngx-receipt.webp" alt="Reservation receipt" loading="lazy" decoding="async"></div>
+                  <div class="p2-feat-txt"><div class="fk">Feature 03 — Reservation receipt</div><h4>Everything, in one ticket.</h4><p>Every booking lives in &ldquo;My Parking&rdquo; with the full charge breakdown, section, date and time — plus one-tap directions to the lot.</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BRAND SYSTEM -->
+        <section id="pg-brand" class="p2-sec">
+          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>UI design kit</span>
+          <h2>Accessible, modern, full of movement.</h2>
+          <p>A high-contrast palette meeting <strong>AAA compliance</strong>, with a bold logo and street-inspired energy carried through type, color, iconography and spacing.</p>
+          <div class="p2-bento">
+
+            <div class="p2-logo-tile span4">
+              <div class="p2-tl">Logo &amp; brand mark</div>
+              <div class="p2-logo-row">
+                <img src="images/pngx-wordmark.webp" alt="Park n Go wordmark">
+                <div style="display:flex;align-items:center;gap:18px">
+                  <span class="p2-mark"><svg><use href="#i-pin"/></svg></span>
+                  <span class="p2-mark" style="width:62px;height:62px"><svg style="width:32px;height:32px"><use href="#i-car"/></svg></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p2-tile span2">
+              <div class="p2-tl">Color</div>
+              <div class="p2-sw">
+                <div><span class="chip" style="background:#000000"></span><b>Black</b><span class="hx">#000000</span></div>
+                <div><span class="chip" style="background:#FFC857"></span><b>Signal Gold</b><span class="hx">#FFC857</span></div>
+                <div><span class="chip" style="background:#fff;box-shadow:inset 0 0 0 1px rgba(17,17,16,.12)"></span><b>White</b><span class="hx">#FFFFFF</span></div>
+                <div><span class="chip" style="background:#212121"></span><b>Dark Grey</b><span class="hx">#212121</span></div>
+              </div>
+            </div>
+
+            <div class="p2-tile span2">
+              <div class="p2-tl">Typography</div>
+              <div class="p2-type">
+                <div class="col br">
+                  <div class="ag" style="font-family:'Lexend',sans-serif;font-weight:700">Ag</div>
+                  <div class="nm">Lexend</div><div class="ro">Bold &middot; headings</div><div class="sz">30 / 24 / 18 / 12</div>
+                </div>
+                <div class="col">
+                  <div class="ag" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</div>
+                  <div class="nm">Poppins</div><div class="ro">Regular / Medium &middot; body &amp; UI</div><div class="sz">20 / 16 / 14</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p2-tile span2" style="display:flex;flex-direction:column">
+              <div class="p2-tl">Iconography</div>
+              <div class="p2-icons">
+                <div class="ic"><svg><use href="#i-search"/></svg><span>Search</span></div>
+                <div class="ic"><svg><use href="#i-pin"/></svg><span>Location</span></div>
+                <div class="ic"><svg><use href="#i-calendar"/></svg><span>Calendar</span></div>
+                <div class="ic"><svg><use href="#i-clock"/></svg><span>Clock</span></div>
+                <div class="ic"><svg><use href="#i-car"/></svg><span>Car</span></div>
+                <div class="ic"><svg><use href="#i-ticket"/></svg><span>Ticket</span></div>
+                <div class="ic"><svg><use href="#i-user"/></svg><span>Profile</span></div>
+                <div class="ic"><svg><use href="#i-x"/></svg><span>Exit</span></div>
+              </div>
+            </div>
+
+            <div class="p2-tile span2">
+              <div class="p2-tl">Spacing scale</div>
+              <div class="p2-space">
+                <div class="row"><span class="bar" style="width:4px"></span><span>4 &middot; hairline gaps</span></div>
+                <div class="row"><span class="bar" style="width:8px"></span><span>8 &middot; icon padding</span></div>
+                <div class="row"><span class="bar" style="width:16px"></span><span>16 &middot; inner card</span></div>
+                <div class="row"><span class="bar" style="width:24px"></span><span>24 &middot; card padding</span></div>
+                <div class="row"><span class="bar" style="width:40px"></span><span>40 &middot; section gap</span></div>
+                <div class="row"><span class="bar" style="width:64px"></span><span>64 &middot; section rhythm</span></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- NEXT CASE STUDY -->
+        <div class="cs-next p2-next">
+          <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
+          <div class="np-big reveal" data-go="hmong">
+            <img class="np-cover" src="images/cover-hmong.png" alt="Hmong Cultural Center" loading="lazy" decoding="async">
+            <div class="np-big-body"><h3 class="np-big-title">Hmong Cultural Center</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div></section>
+  </div>
 
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 04</p><div class="cs-phase-label">Deliver</div>
-    <div class="cs-block"><h3>Park n Go: seamless event parking.</h3>
-      <p>With branding finalized and screens user-tested, I moved into high fidelity. A component-driven Figma process made the jump from mid- to high-fidelity seamless — and produced the final product.</p></div>
-    <figure class="cs-figure"><img src="images/png-final.webp" alt="Final design" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 01 — Venue search</h4>
-      <p>Users quickly find their event with full details, exact location, and the specific parking options tied to that venue.</p></div>
-    <figure class="cs-figure"><img src="images/png-venue-search.webp" alt="Venue search" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 02 — Booking your spot</h4>
-      <p>Preview the parking map, check availability, add driving details, and complete the purchase — all in a few taps.</p></div>
-    <figure class="cs-figure"><img src="images/png-reserving.webp" alt="Reserving a spot" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 03 — Reservation receipt</h4>
-      <p>Every booking lives in "My Parking," with upcoming and past reservations, full event and parking details, and the option to cancel — a complete, user-friendly management system.</p></div>
-    <figure class="cs-figure"><img src="images/png-receipt.webp" alt="Reservation receipt" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="images/png-other-screens.webp" alt="Other screens" loading="lazy" decoding="async"><figcaption>A vibrant, cohesive brand carried consistently across the app.</figcaption></figure>
-    <div class="cs-block"><h4 class="kicker">Future developments</h4><h3>There's always room for improvement.</h3>
-      <p>We were thrilled with what we shipped in three weeks — research to prototyping to dev handoff — but there's more we envisioned. These are some of the future features I explored.</p></div>
-    <figure class="cs-figure"><img src="images/png-future.webp" alt="Future developments" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Reflections</span>
-    <div class="cs-block"><h3>Owning the design-to-dev handoff.</h3>
-      <p>I built a comprehensive PDF guide with development notes, component types, and usage — ensured pixel-perfection in organized layers, and exported every asset with precise naming. That preparation let developers integrate real-time availability, reservations, and receipts efficiently.</p></div>
-    <div class="cs-block"><h3>Practice makes perfect.</h3>
-      <p>I consistently sought feedback through formal design reviews and presentations. Pitching my work, guiding conversations, and learning <strong>when to push back on feedback</strong> grew my ability to communicate clearly, remove blockers, and balance deadlines.</p></div>
-    <div class="cs-next">
-      <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
-      <div class="np-big reveal" data-go="hmong">
-        <img class="np-cover" src="images/cover-hmong.png" alt="Hmong Cultural Center" loading="lazy" decoding="async">
-        <div class="np-big-body"><h3 class="np-big-title">Hmong Cultural Center</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+  <section class="cta-band"><div class="wrap">
+    <div class="cta-dark reveal">
+      <div class="cta-shapes" aria-hidden="true">
+        <span class="shape cs1"><span class="in"></span></span>
+        <span class="shape cs2"><span class="in"></span></span>
+        <span class="shape cs3"><span class="in"></span></span>
+        <span class="shape cs4"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
+      </div>
+      <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
+      <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
+      <h2>Ready to bring your brand into frame?</h2>
+      <p>A project in mind? Start one — or grab a free 30-minute call and let's talk it through.</p>
+      <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
+        <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
       </div>
     </div>
   </div></section>
@@ -2062,6 +2310,16 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       var para=document.createElement("p"); para.textContent=p.desc;
       d.appendChild(para); face.appendChild(d);
     }
+  });
+
+  /* Park n Go case study — feature tabs (swap the phone + copy) */
+  document.querySelectorAll(".p2-feat").forEach(function(root){
+    var tabs=root.querySelectorAll(".p2-tab"), panels=root.querySelectorAll(".p2-panelf");
+    tabs.forEach(function(t,i){ t.addEventListener("click",function(){
+      tabs.forEach(function(x){x.classList.remove("on");});
+      panels.forEach(function(x){x.classList.remove("on");});
+      t.classList.add("on"); if(panels[i]) panels[i].classList.add("on");
+    });});
   });
 
   /* case-study media: clear the loading shimmer once each image is in (or on error / inline-svg figures) */
