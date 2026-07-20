@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>Park n Go — Event Parking, Reserved.</title>
+<meta name="description" content="Park n Go — reserve your event parking spot in advance. Interactive prototype for the Open Frame case study.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ Park n Go — design tokens ============ */
+:root{
+  --ink:#050505;          /* app background        */
+  --panel:#111111;        /* screen surface        */
+  --card:#191919;         /* cards                 */
+  --card-2:#242424;       /* inset / darker rows   */
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --gold:#FFC857;         /* Signal Gold           */
+  --gold-deep:#F0B93E;
+  --white:#ffffff;
+  --muted:#9b9b98;
+  --muted-2:#c9c9c6;
+  --r:16px; --r-lg:22px; --r-xl:28px; --pill:100px;
+  --screen-w:390px; --screen-h:844px;
+  --sans:'Poppins',system-ui,sans-serif;
+  --disp:'Lexend',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--sans);
+  background:#e9e9ea;
+  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  min-height:100dvh;overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* soft studio backdrop for desktop mockup shots */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(120% 90% at 30% 10%, #f6f6f7 0%, #e7e7e9 46%, #dcdcde 100%);
+}
+
+/* ============ Device shell (desktop only) ============ */
+.stage{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:100%;height:100dvh}
+.device{
+  position:relative;
+  width:var(--screen-w);height:var(--screen-h);
+  border-radius:54px;
+  background:#0a0a0a;
+  padding:13px;
+  box-shadow:0 2px 3px rgba(0,0,0,.4), 0 34px 70px -24px rgba(20,20,25,.55), inset 0 0 0 2px #222, inset 0 0 0 7px #050505;
+  transition:transform .4s var(--ease);
+}
+.device::after{ /* side button hint */
+  content:"";position:absolute;left:-2px;top:150px;width:3px;height:64px;border-radius:3px;background:#111;
+}
+.app{
+  position:relative;width:100%;height:100%;
+  background:var(--ink);
+  border-radius:42px;overflow:hidden;
+  display:flex;flex-direction:column;
+  isolation:isolate;
+}
+/* Full-bleed / bare mode (for clean screen captures) */
+body.bare{background:#000}
+body.bare::before{display:none}
+body.bare .stage{height:100dvh}
+body.bare .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}
+body.bare .device::after{display:none}
+body.bare .app{border-radius:0}
+
+/* On real phones, go edge to edge */
+@media (max-width:440px){
+  body{background:#000}
+  body::before{display:none}
+  .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}
+  .device::after{display:none}
+  .app{border-radius:0}
+}
+
+/* ============ Status bar ============ */
+.statusbar{
+  height:52px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 30px 4px;
+  font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.2px;
+  color:var(--white);z-index:6;
+}
+.statusbar .sb-r{display:flex;align-items:center;gap:7px}
+.statusbar svg{display:block}
+.app[data-tone="gold"] .statusbar{color:#0a0a0a}
+
+/* ============ Viewport (scroll area) ============ */
+.viewport{position:relative;flex:1 1 auto;overflow:hidden}
+.screen{
+  position:absolute;inset:0;
+  overflow-y:auto;overflow-x:hidden;
+  padding:6px 22px 128px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateY(8px);
+  transition:opacity .34s var(--ease), transform .34s var(--ease), visibility .34s;
+  -webkit-overflow-scrolling:touch;
+}
+.screen::-webkit-scrollbar{width:0}
+.screen.active{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.screen.gold{background:var(--gold);color:#0a0a0a;padding-bottom:40px}
+
+/* ============ Brand wordmark ============ */
+.logo{display:inline-flex;align-items:baseline;font-family:var(--disp);font-weight:800;letter-spacing:-.5px;line-height:1;user-select:none}
+.logo .w{color:var(--white)}
+/* "Go" — gold G with a downward pin-drop arrow, followed by o */
+.logo .pg{position:relative;color:var(--gold);display:inline-block;padding-right:.02em}
+.logo .pg .pg-ar{position:absolute;left:.30em;bottom:-.30em;width:.46em;height:.66em;line-height:0}
+.logo .pg .pg-ar svg{display:block;width:100%;height:100%}
+.app[data-tone="gold"] .logo .w,.screen.gold .logo .w{color:#0a0a0a}
+.app[data-tone="gold"] .logo .pg,.screen.gold .logo .pg{color:#0a0a0a}
+/* standalone brand mark (UI kit) */
+.gomark{position:relative;display:inline-flex;color:var(--gold)}
+.gomark .pg-ar{position:absolute;left:.30em;bottom:-.30em;width:.46em;height:.66em;line-height:0}
+.gomark .pg-ar svg{display:block;width:100%;height:100%}
+
+/* ============ Headings & text ============ */
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-height:1.08}
+.hello{font-size:30px;margin-top:2px}
+.hello b{color:var(--gold);font-weight:700}
+.lead{color:var(--muted-2);font-size:14.5px;line-height:1.5;font-weight:300;margin-top:8px}
+.eyebrow-k{color:var(--gold);font-weight:600;font-size:12.5px;letter-spacing:.4px;text-transform:uppercase}
+
+/* App top bar (logo + hamburger) */
+.appbar{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 2px}
+.appbar .logo{font-size:26px}
+.burger{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;cursor:pointer;color:var(--white)}
+.burger:active{background:var(--card)}
+.app[data-tone="gold"] .burger{color:#0a0a0a}
+
+/* ============ Buttons ============ */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;border:none;cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:16px;
+  padding:17px 20px;border-radius:16px;transition:transform .12s var(--ease), filter .2s;
+}
+.btn:active{transform:scale(.985)}
+.btn-gold{background:var(--gold);color:#111}
+.btn-gold:hover{filter:brightness(1.04)}
+.btn-dark{background:#0d0d0d;color:var(--gold)}
+.btn-ghost{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}
+.btn-lg{padding:19px 20px;font-size:17px}
+.screen.gold .btn-dark{background:#0a0a0a;color:var(--gold)}
+
+/* ============ Cards ============ */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px}
+.soft{box-shadow:0 18px 40px -30px rgba(0,0,0,.9)}
+
+/* Search bar */
+.search{
+  display:flex;align-items:center;gap:12px;background:var(--gold);
+  border-radius:16px;padding:15px 18px;color:#111;font-weight:500;margin-top:22px;
+}
+.search svg{flex:0 0 auto;color:#111}
+.search input{border:none;background:transparent;outline:none;font-family:var(--sans);font-size:15px;color:#111;width:100%;font-weight:500}
+.search input::placeholder{color:rgba(0,0,0,.55)}
+.search.dark{background:var(--card);border:1px solid var(--line-2);color:var(--white)}
+.search.dark input,.search.dark svg{color:var(--white)}
+.search.dark input::placeholder{color:var(--muted)}
+
+/* result / event list cards */
+.reslist{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.res{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:18px;padding:16px 18px;cursor:pointer;
+  transition:border-color .2s, transform .12s var(--ease), background .2s;
+}
+.res:hover{border-color:var(--line-2)}
+.res:active{transform:scale(.99)}
+.res h3{font-size:18px;font-weight:700;padding-right:30px}
+.res .meta{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.res .meta div{display:flex;align-items:center;gap:11px;color:var(--muted-2);font-size:14px;font-weight:400}
+.res .meta svg{color:var(--gold);flex:0 0 auto}
+.res .dots{position:absolute;top:16px;right:14px;color:var(--gold);padding:4px;cursor:pointer}
+.res .dots:hover{opacity:.8}
+.results-count{color:var(--muted);font-size:13.5px;margin:14px 2px 0;font-weight:400}
+.results-count b{color:var(--white);font-weight:600}
+
+/* Section title row */
+.sec-title{font-size:22px;margin:26px 2px 4px;display:flex;align-items:center;justify-content:space-between}
+.close-x{width:34px;height:34px;display:grid;place-items:center;color:var(--white);cursor:pointer;border-radius:10px}
+.close-x:hover{background:var(--card)}
+.screen.gold .close-x{color:#0a0a0a}
+
+/* info rows (event info / receipt) */
+.info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 22px 6px;margin-top:6px}
+.inforow{margin-bottom:18px}
+.inforow .k{color:var(--gold);font-family:var(--disp);font-weight:700;font-size:16px}
+.inforow .v{color:var(--muted-2);font-size:14.5px;font-weight:300;margin-top:3px;line-height:1.45}
+
+/* Tabs */
+.tabs{display:flex;gap:26px;margin:14px 2px 4px;border-bottom:1px solid var(--line)}
+.tab{padding:8px 0 12px;color:var(--muted);font-weight:500;font-size:15px;cursor:pointer;position:relative}
+.tab.on{color:var(--white)}
+.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2.5px;background:var(--gold);border-radius:2px}
+
+/* stat pills */
+.availbar{height:5px;border-radius:4px;background:var(--card-2);overflow:hidden;margin-top:9px}
+.availbar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+
+/* Parking lot map */
+.pmap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-top:12px}
+.pmap .entrance{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card-2);border-radius:10px;padding:9px;color:var(--muted-2);font-size:12.5px;font-weight:500}
+.pmap .entrance svg{color:var(--gold)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.pcell{background:var(--card-2);border:1.5px solid transparent;border-radius:10px;height:56px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:22px;color:var(--gold);cursor:pointer;transition:.18s}
+.pcell:hover{background:#2f2f2f}
+.pcell.sel{background:var(--gold);color:#111;border-color:var(--gold)}
+.pcell.mine{border-color:var(--gold);color:var(--gold)}
+.pcell.mine::after{content:"You park here";position:absolute}
+.pmine{margin-top:8px;text-align:center;font-size:11px;color:var(--muted)}
+
+/* time selectors */
+.times{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+.tfield label{display:block;font-family:var(--disp);font-weight:700;font-size:15px;margin-bottom:8px}
+.selwrap{position:relative}
+.selwrap svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--gold)}
+.selwrap select{
+  width:100%;appearance:none;-webkit-appearance:none;
+  background:var(--card);border:1px solid var(--line-2);border-radius:12px;
+  color:var(--white);font-family:var(--sans);font-size:15px;font-weight:500;
+  padding:14px 40px 14px 16px;cursor:pointer;
+}
+.selwrap select:focus{outline:none;border-color:var(--gold)}
+
+/* section rows */
+.slist{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.srow{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;cursor:pointer;transition:.18s}
+.srow:hover{border-color:var(--line-2)}
+.srow:active{transform:scale(.99)}
+.srow .lt{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--gold)}
+.srow .rt{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.srow .col span{display:block;color:var(--muted);font-size:11px;font-weight:500}
+.srow .col b{color:var(--white);font-size:14px;font-weight:600}
+.srow.low .lt{color:#ff8a5b}
+
+/* ============ Bottom sheet ============ */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:.28s;z-index:20}
+.scrim.on{opacity:1;visibility:visible}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;z-index:21;
+  background:var(--card);border-top-left-radius:26px;border-top-right-radius:26px;
+  border-top:1px solid var(--line-2);
+  padding:20px 22px calc(22px + env(safe-area-inset-bottom));
+  transform:translateY(101%);visibility:hidden;
+  transition:transform .34s var(--ease), visibility .34s;
+}
+.sheet.on{transform:none;visibility:visible}
+.sheet.gold{background:var(--gold);color:#0a0a0a;border:none}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sheet-head .st{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.mcell{background:var(--card-2);border-radius:12px;padding:13px 15px;text-align:center}
+.mcell span{display:block;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:13px}
+.mcell b{display:block;color:var(--white);font-weight:500;font-size:15px;margin-top:4px}
+
+/* ============ Bottom tab bar ============ */
+.tabbar{
+  position:absolute;left:0;right:0;bottom:0;z-index:8;
+  background:linear-gradient(to top, var(--ink) 62%, rgba(5,5,5,0));
+  padding:14px 20px calc(16px + env(safe-area-inset-bottom));
+  text-align:center;
+}
+.tabbar .links{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.tabbar a{color:var(--muted-2);font-size:12.5px;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
+.tabbar a:hover{color:var(--white)}
+.tabbar a.on{color:var(--gold)}
+.tabbar .logo{font-size:17px;margin-top:9px}
+.app[data-nochrome="1"] .tabbar{display:none}
+
+/* home hero */
+.homehead{padding-top:2px}
+
+/* Sign up / auth */
+.auth{display:flex;flex-direction:column;min-height:100%;padding-top:24px}
+.auth .brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:30px}
+.auth .brand .logo{font-size:34px}
+.auth .brand .tag{color:var(--muted-2);font-size:13.5px;font-weight:300}
+.auth h2{font-size:30px}
+.auth .sub{color:var(--muted);font-size:14px;font-weight:300;margin-top:2px;margin-bottom:22px}
+.field{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line-2);padding:14px 2px;margin-bottom:6px}
+.field svg{color:var(--gold);flex:0 0 auto}
+.field input{border:none;background:transparent;outline:none;color:var(--white);font-family:var(--sans);font-size:15px;width:100%;font-weight:400}
+.field input::placeholder{color:var(--muted)}
+.auth .foot{margin-top:auto;text-align:center;color:var(--muted);font-size:13.5px;padding-top:26px}
+.auth .foot a{color:var(--gold);font-weight:600;cursor:pointer}
+
+/* profile */
+.profcard{background:var(--card);border-radius:20px;padding:16px;display:flex;align-items:center;gap:16px;margin-top:8px}
+.profcard .nm{font-family:var(--disp);font-weight:700;font-size:22px;color:var(--gold)}
+.avatar{width:74px;height:74px;border-radius:50%;overflow:hidden;flex:0 0 auto;background:#3a3733;border:2px solid rgba(255,255,255,.1)}
+.avatar svg{width:100%;height:100%;display:block}
+.plist{margin-top:22px}
+.prow{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 2px;border-bottom:1px solid var(--line)}
+.prow .k{font-family:var(--disp);font-weight:700;font-size:17px}
+.prow .v{color:var(--muted-2);font-size:14px;font-weight:300;margin-top:3px}
+.prow .kd{color:var(--gold);cursor:pointer;padding:2px 6px}
+
+/* help center */
+.helpicons{display:flex;gap:14px;background:var(--card);border-radius:18px;padding:16px;margin-top:16px;justify-content:center}
+.hico{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;color:var(--gold);cursor:pointer;transition:.18s}
+.hico:hover{background:var(--gold);color:#111}
+.hico.muted{border-color:var(--line-2);color:var(--muted)}
+.faqs{margin-top:26px}
+.faq{padding:16px 0;border-bottom:1px solid var(--line)}
+.faq q{display:block;font-family:var(--disp);font-weight:700;font-size:16px;color:var(--gold);quotes:none}
+.faq p{color:var(--muted-2);font-size:13.5px;font-weight:300;margin-top:6px;line-height:1.5}
+
+/* nav overlay (hamburger) */
+.navmenu{
+  position:absolute;inset:0;z-index:30;background:var(--gold);color:#0a0a0a;
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 30px calc(30px + env(safe-area-inset-bottom));
+  transform:translateX(102%);transition:transform .38s var(--ease);
+}
+.navmenu.on{transform:none}
+.navmenu .x{position:absolute;top:52px;right:28px;color:#0a0a0a;cursor:pointer}
+.navmenu .avatar{width:96px;height:96px;border:none;margin-top:8px}
+.navmenu .nm{font-family:var(--disp);font-weight:700;font-size:24px;margin-top:16px;color:#0a0a0a}
+.navmenu .rule{width:70%;height:1.5px;background:rgba(0,0,0,.35);margin:18px 0 8px}
+.navmenu .mlinks{display:flex;flex-direction:column;align-items:center;gap:26px;margin-top:26px}
+.navmenu .mlinks a{color:#0a0a0a;font-family:var(--disp);font-weight:600;font-size:21px;cursor:pointer}
+.navmenu .mlinks a:hover{opacity:.7}
+.navmenu .logout{margin-top:auto;width:100%}
+.navmenu .socials{display:flex;gap:22px;margin-top:24px}
+.navmenu .socials .s{width:44px;height:44px;border-radius:50%;background:#0a0a0a;color:var(--gold);display:grid;place-items:center;cursor:pointer}
+
+/* map thumbnail on receipt */
+.mapthumb{height:150px;border-radius:16px;margin-top:6px;overflow:hidden;position:relative;background:#e9e6df}
+.mapthumb svg{position:absolute;inset:0;width:100%;height:100%}
+.maptag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:#111;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:11px;padding:5px 12px;border-radius:100px}
+
+/* confirmation (gold) */
+.gold .confirm-hero{padding:6px 0 20px}
+.gold .confirm-hero h2{font-size:30px}
+.gold .confirm-hero p{font-size:14px;font-weight:400;margin-top:8px;color:#171717}
+.gold .note{background:#0a0a0a;color:var(--gold);border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.5;font-weight:300;margin:18px 0}
+.gold .pmap{background:#0a0a0a;border-color:rgba(0,0,0,.2)}
+.gold .pmap .entrance{background:#1c1c1c}
+.gold .pcell{background:#1c1c1c}
+.gold .pcell.sel{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+.stack{display:flex;flex-direction:column;gap:12px}
+.big-x{width:64px;height:64px;border-radius:50%;background:#0a0a0a;display:grid;place-items:center;color:var(--gold);margin:8px auto 4px}
+
+/* empty state */
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px;font-weight:300}
+.empty svg{color:var(--card-2);margin-bottom:10px}
+
+/* toast */
+.toast{position:absolute;left:22px;right:22px;bottom:118px;z-index:40;background:#0a0a0a;border:1px solid var(--line-2);color:#fff;border-radius:14px;padding:14px 16px;font-size:13.5px;font-weight:400;text-align:center;opacity:0;transform:translateY(10px);transition:.28s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+
+/* ============ UI KIT / DESIGN-SYSTEM BOARD ============ */
+.kit-top{padding:14px 0 6px}
+.kit-h1{font-size:30px;margin-top:12px}
+.kit-group{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin:32px 2px 12px}
+.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kit-grid.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+.kit-stack{display:flex;flex-direction:column;gap:12px}
+.kit-cell{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.kit-cell.gold{background:var(--gold)}
+.kit-cell.gold .kit-lab{color:rgba(0,0,0,.6)}
+.kit-cell.wide,.kit-cell.block{grid-column:1/-1}
+.kit-stage{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center}
+.kit-stage.col{flex-direction:column}
+.kit-stage.stretch{align-items:stretch}
+.kit-lab{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.2px;text-align:center}
+.kchip{width:52px;height:52px;border-radius:14px;display:block}
+.typescale{display:flex;flex-direction:column;gap:2px;margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.typescale .ts{display:flex;flex-direction:column;gap:6px;padding:16px;border-bottom:1px solid var(--line);background:var(--card)}
+.typescale .ts:last-child{border-bottom:none}
+.tsn{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+.icell{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.icell svg{color:var(--gold)}
+.icell span{font-size:10px;color:var(--muted);font-weight:500}
+.lt-badge{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--gold)}
+.tablink-demo{color:var(--gold);font-size:14px;font-weight:500;cursor:default}
+.kit-cell .btn{width:auto;min-width:170px}
+
+/* small helper */
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}
+.center{text-align:center}
+.divider{height:1px;background:var(--line);margin:20px 0}
+
+/* floating screen switcher for building mockups (hidden in bare mode & print) */
+.dev{position:fixed;z-index:99;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px;font-family:var(--sans)}
+.dev.hide{display:none}
+.dev summary{list-style:none;cursor:pointer;background:#111;color:var(--gold);border:1px solid #333;border-radius:100px;padding:8px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px -12px rgba(0,0,0,.6)}
+.dev summary::-webkit-details-marker{display:none}
+.dev .menu{background:#111;border:1px solid #333;border-radius:14px;padding:8px;margin-top:6px;max-height:56vh;overflow:auto;width:190px}
+.dev .menu button{display:block;width:100%;text-align:left;background:none;border:none;color:#ddd;font-size:12.5px;padding:8px 10px;border-radius:8px;cursor:pointer;font-family:var(--sans)}
+.dev .menu button:hover{background:#222;color:var(--gold)}
+.dev .menu .lbl{color:#666;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px 4px}
+@media (max-width:440px){.dev{display:none}}
+body.bare .dev{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.001s!important;animation-duration:.001s!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 13.5 20 4l-6.5 16-2.5-6.5z"/></symbol>
+  <symbol id="i-loc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke-linecap="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6.5 3.5 9 4l1 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1 .5 2.5a2 2 0 0 1-2 2.3A15 15 0 0 1 4.2 5.5a2 2 0 0 1 2.3-2z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5.5h16v11H9l-4 3.5v-3.5H4z"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2v0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
+  <!-- Avatar (illustrated) -->
+  <symbol id="av" viewBox="0 0 100 100">
+    <defs>
+      <radialGradient id="avbg" cx="50%" cy="34%" r="75%"><stop offset="0%" stop-color="#8a7f74"/><stop offset="100%" stop-color="#5c534a"/></radialGradient>
+    </defs>
+    <rect width="100" height="100" fill="url(#avbg)"/>
+    <path d="M18 92c2-16 14-25 32-25s30 9 32 25z" fill="#e7cbb4"/>
+    <path d="M23 90c1-12 10-19 27-19s26 7 27 19z" fill="#f0d7c2"/>
+    <ellipse cx="50" cy="46" rx="20" ry="22" fill="#f0d1b8"/>
+    <path d="M28 44c0-18 9-27 22-27s22 9 22 27c0-3-3-7-6-8-2 4-9 7-16 7s-14-2-16-6c-3 1-6 4-6 7z" fill="#2c2320"/>
+    <path d="M28 44c-1 8 1 15 3 19-4-3-8-11-6-21zM72 44c1 8-1 15-3 19 4-3 8-11 6-21z" fill="#2c2320"/>
+    <circle cx="43" cy="47" r="2.1" fill="#3b2b23"/><circle cx="57" cy="47" r="2.1" fill="#3b2b23"/>
+    <path d="M45 56c2 1.6 8 1.6 10 0" fill="none" stroke="#c98d74" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+</defs></svg>
+
+<div class="stage">
+  <div class="device">
+    <div class="app" id="app" data-tone="dark">
+
+      <!-- status bar -->
+      <div class="statusbar">
+        <span>9:41</span>
+        <span class="sb-r">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4.5" width="3" height="7.5" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 4.2a11 11 0 0 1 15 0M3.4 6.8a7.4 7.4 0 0 1 10.2 0M6 9.4a3.6 3.6 0 0 1 5 0"/><circle cx="8.5" cy="11" r="1" fill="currentColor" stroke="none"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="currentColor" stroke-width="1.3" opacity=".5"/><rect x="3" y="3" width="16" height="7" rx="1.5" fill="currentColor"/><rect x="23.5" y="4" width="2" height="5" rx="1" fill="currentColor" opacity=".6"/></svg>
+        </span>
+      </div>
+
+      <!-- ============ VIEWPORT ============ -->
+      <div class="viewport" id="viewport">
+
+        <!-- ===== SIGN UP ===== -->
+        <section class="screen" id="signup" data-nochrome="1">
+          <div class="auth">
+            <div class="brand">
+              <span class="logo" data-logo></span>
+              <span class="tag">Your Ticket to Seamless Event Parking</span>
+            </div>
+            <h2>Sign Up</h2>
+            <p class="sub">With name, email and password</p>
+            <div class="field"><svg width="20" height="20"><use href="#i-mail"/></svg><input type="email" value="sarah.johnson@gmail.com" spellcheck="false"></div>
+            <div class="field"><svg width="20" height="20"><use href="#i-user"/></svg><input type="text" value="Sarah Johnson"></div>
+            <div class="field"><svg width="20" height="20"><use href="#i-lock"/></svg><input type="text" value="lovemyparking32!"></div>
+            <button class="btn btn-gold btn-lg mt24" onclick="go('home')">Sign Up</button>
+            <p class="foot">Already have an account? <a onclick="go('home')">Log in</a></p>
+          </div>
+        </section>
+
+        <!-- ===== HOME ===== -->
+        <section class="screen" id="home">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="homehead mt24">
+            <h1 class="hello">Hello, <b>Sarah</b></h1>
+            <p class="lead">Let’s find parking for your next event!</p>
+          </div>
+          <div class="search">
+            <svg width="20" height="20"><use href="#i-search"/></svg>
+            <input id="homeSearch" placeholder="Look up by venue or event name" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch()">
+          </div>
+          <button class="btn btn-gold mt16" onclick="runSearch()">Search</button>
+
+          <p class="eyebrow-k" style="margin:30px 2px 0">Upcoming for you</p>
+          <div class="reslist" id="homeUpcoming"></div>
+        </section>
+
+        <!-- ===== SEARCH RESULTS ===== -->
+        <section class="screen" id="search">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="search dark mt16">
+            <svg width="20" height="20"><use href="#i-search"/></svg>
+            <input id="searchInput" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch(this.value)">
+            <svg width="20" height="20" style="cursor:pointer" onclick="go('home')"><use href="#i-x"/></svg>
+          </div>
+          <p class="results-count"><b id="resCount">6</b> results for “<span id="resTerm">Masego</span>”</p>
+          <div class="reslist" id="results"></div>
+        </section>
+
+        <!-- ===== EVENT INFO ===== -->
+        <section class="screen" id="event">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="sec-title">Event Info <span class="close-x" onclick="go('search')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
+          <div class="info-card" id="eventInfo"></div>
+          <button class="btn btn-gold btn-lg mt24" onclick="go('lot')">Get Parking</button>
+        </section>
+
+        <!-- ===== CHOOSE PARKING LOT ===== -->
+        <section class="screen" id="lot">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="sec-title">Choose Parking Lot <span class="close-x" onclick="go('event')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
+
+          <div class="times mt16">
+            <div class="tfield"><label>Start Time</label>
+              <div class="selwrap"><select id="startTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div>
+            </div>
+            <div class="tfield"><label>End Time</label>
+              <div class="selwrap"><select id="endTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div>
+            </div>
+          </div>
+
+          <h3 style="font-size:19px;margin:26px 2px 0">Parking Lot Map</h3>
+          <div class="pmap">
+            <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
+            <div class="pgrid" id="pgrid"></div>
+          </div>
+
+          <h3 style="font-size:19px;margin:26px 2px 0">Parking Sections</h3>
+          <p class="lead" style="margin-top:2px">Select a section</p>
+          <div class="slist" id="sections"></div>
+        </section>
+
+        <!-- ===== BOOKING CONFIRMATION (gold) ===== -->
+        <section class="screen gold" id="confirm" data-nochrome="1" data-tone="gold">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="confirm-hero mt16">
+            <h2>You’re parking in <span id="confLot">Lot A</span>.</h2>
+            <p>A confirmation has been sent to your email.</p>
+          </div>
+          <div class="pmap">
+            <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
+            <div class="pgrid" id="confGrid"></div>
+          </div>
+          <p class="note">*Remember to cancel your spot 2 hours prior to your event. If you do not show up, you will still be charged.</p>
+          <div class="stack">
+            <button class="btn btn-dark btn-lg" onclick="go('myparking')">My Parking</button>
+            <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('home')">Back to Home</button>
+          </div>
+        </section>
+
+        <!-- ===== MY PARKING ===== -->
+        <section class="screen" id="myparking">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <h1 style="font-size:28px;margin:22px 2px 0">My Parking</h1>
+          <div class="tabs">
+            <div class="tab on" data-tab="up" onclick="switchTab('up')">Upcoming</div>
+            <div class="tab" data-tab="past" onclick="switchTab('past')">Past</div>
+          </div>
+          <div class="reslist" id="upcoming"></div>
+          <div class="reslist" id="past" style="display:none"></div>
+        </section>
+
+        <!-- ===== PARKING RECEIPT ===== -->
+        <section class="screen" id="receipt">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="sec-title">Parking Receipt <span class="close-x" onclick="go('myparking')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
+          <div class="tabs" style="border:none;gap:24px">
+            <div class="tab on" data-rtab="park" onclick="switchReceipt('park')">Parking Info</div>
+            <div class="tab" data-rtab="ev" onclick="switchReceipt('ev')">Event Info</div>
+          </div>
+
+          <!-- Parking info -->
+          <div id="rPark">
+            <div class="mapthumb">
+              <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice">
+                <rect width="300" height="150" fill="#e7e3da"/>
+                <path d="M-20 40 L320 20" stroke="#cfcabd" stroke-width="26" fill="none"/>
+                <path d="M-20 120 L320 100" stroke="#cfcabd" stroke-width="20" fill="none"/>
+                <path d="M60 -20 L90 170" stroke="#d8d3c7" stroke-width="18" fill="none"/>
+                <path d="M210 -20 L240 170" stroke="#d8d3c7" stroke-width="14" fill="none"/>
+                <path d="M-20 40 L320 20" stroke="#fff" stroke-width="2" stroke-dasharray="8 8" fill="none"/>
+                <circle cx="150" cy="66" r="9" fill="#F0B93E" stroke="#111" stroke-width="2.5"/>
+                <circle cx="150" cy="66" r="2.6" fill="#111"/>
+              </svg>
+              <span class="maptag">Park n Go Lots</span>
+            </div>
+            <div class="info-card" id="receiptPark"></div>
+          </div>
+
+          <!-- Event info -->
+          <div id="rEv" style="display:none">
+            <div class="info-card" id="receiptEvent"></div>
+            <button class="btn btn-gold btn-lg mt24" onclick="toast('Opening Google Maps…')">Directions with Google Maps</button>
+            <button class="btn btn-ghost btn-lg mt16" onclick="openCancel()">Cancel Ticket</button>
+          </div>
+        </section>
+
+        <!-- ===== TICKET CANCELLED (gold) ===== -->
+        <section class="screen gold" id="cancelled" data-nochrome="1" data-tone="gold">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="sec-title" style="color:#0a0a0a">Ticket Cancelled <span class="close-x" onclick="go('home')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
+          <p style="font-size:14px;font-weight:400;color:#171717;line-height:1.55;margin:4px 2px 26px">You have cancelled your reservation ticket successfully. A full reimbursement will be sent to your bank account in 2–3 business days.</p>
+          <div class="stack">
+            <button class="btn btn-dark btn-lg" onclick="go('home')">Create New Reservation</button>
+            <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('home')">Back to Home</button>
+          </div>
+        </section>
+
+        <!-- ===== PROFILE ===== -->
+        <section class="screen" id="profile">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <div class="sec-title" style="margin-top:22px">Profile <span class="close-x"><svg width="20" height="20"><use href="#i-dots"/></svg></span></div>
+          <div class="profcard">
+            <div class="avatar"><svg><use href="#av"/></svg></div>
+            <div class="nm">Sarah Johnson</div>
+          </div>
+          <div class="plist">
+            <div class="prow"><div><div class="k">Email</div><div class="v">sarah.johnson@gmail.com</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
+            <div class="prow"><div><div class="k">Password</div><div class="v">lovemyparking32!</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
+            <div class="prow"><div><div class="k">Wallet</div><div class="v">Visa ending in 3245</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
+          </div>
+          <button class="btn btn-gold btn-lg mt24" onclick="go('signup')">Log Out</button>
+        </section>
+
+        <!-- ===== HELP CENTER ===== -->
+        <section class="screen" id="help">
+          <div class="appbar">
+            <span class="logo" data-logo></span>
+            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          </div>
+          <h1 style="font-size:28px;margin:22px 2px 0">Help Center</h1>
+          <p class="lead" style="margin-top:2px">Available 24/7</p>
+          <div class="helpicons">
+            <div class="hico" onclick="toast('Calling support…')"><svg width="22" height="22"><use href="#i-phone"/></svg></div>
+            <div class="hico" onclick="toast('Opening email…')"><svg width="22" height="22"><use href="#i-mail"/></svg></div>
+            <div class="hico" onclick="toast('Starting live chat…')"><svg width="22" height="22"><use href="#i-chat"/></svg></div>
+          </div>
+          <h3 style="font-size:20px;margin:28px 2px 0">FAQs</h3>
+          <div class="faqs">
+            <div class="faq"><q>Can I cancel my parking space?</q><p>Yes. You must cancel 2 hours prior to the event in order to get a full refund. You will receive your refund in 2–3 business days.</p></div>
+            <div class="faq"><q>How do I find where I parked?</q><p>After you reserve a parking space, an email with parking directions and your section info is sent to you. You can also view it any time under “My Parking.”</p></div>
+            <div class="faq"><q>Do I have to park in my assigned lot?</q><p>No. You are not required to park in your reserved section, but reserving guarantees a spot in that lot for your event.</p></div>
+            <div class="faq"><q>How do I add a payment method?</q><p>Head to your Profile and tap the Wallet menu to add, remove, or update a card.</p></div>
+          </div>
+        </section>
+
+        <!-- ===== UI KIT / DESIGN SYSTEM ===== -->
+        <section class="screen" id="kit" data-nochrome="1">
+          <div class="kit-top">
+            <span class="logo" data-logo></span>
+            <h1 class="kit-h1">UI Kit</h1>
+            <p class="lead" style="margin-top:2px">Every atom &amp; component, on its own.</p>
+          </div>
+
+          <p class="kit-group">01 — Brand</p>
+          <div class="kit-grid">
+            <div class="kit-cell"><div class="kit-stage"><span class="logo" data-logo style="font-size:26px"></span></div><span class="kit-lab">Wordmark</span></div>
+            <div class="kit-cell gold"><div class="kit-stage"><span class="logo" data-logo style="font-size:26px"></span></div><span class="kit-lab">Wordmark / on gold</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="gomark" style="font-family:var(--disp);font-weight:800;font-size:40px">G<span class="pg-ar"><svg viewBox="0 0 14 20"><path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/><path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/></svg></span>o</span></div><span class="kit-lab">“Go” pin mark</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="avatar" style="width:56px;height:56px"><svg><use href="#av"/></svg></span></div><span class="kit-lab">Avatar</span></div>
+          </div>
+
+          <p class="kit-group">02 — Color</p>
+          <div class="kit-grid c4">
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#050505;border:1px solid #333"></span></div><span class="kit-lab">Ink · #050505</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#212121"></span></div><span class="kit-lab">Charcoal · #212121</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFC857"></span></div><span class="kit-lab">Signal Gold · #FFC857</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFFFFF"></span></div><span class="kit-lab">White · #FFFFFF</span></div>
+          </div>
+
+          <p class="kit-group">03 — Type</p>
+          <div class="kit-grid">
+            <div class="kit-cell wide"><div class="kit-stage col"><span style="font-family:var(--disp);font-weight:700;font-size:34px">Aa</span><span style="font-family:var(--disp);font-weight:700;font-size:16px;margin-top:6px">Lexend Bold</span></div><span class="kit-lab">Display / Headings</span></div>
+            <div class="kit-cell wide"><div class="kit-stage col"><span style="font-family:var(--sans);font-weight:500;font-size:34px">Ag</span><span style="font-family:var(--sans);font-weight:500;font-size:16px;margin-top:6px">Poppins</span></div><span class="kit-lab">Body &amp; UI</span></div>
+          </div>
+          <div class="typescale">
+            <div class="ts"><span class="tsn">H1 · 30 / 700</span><span style="font-family:var(--disp);font-weight:700;font-size:30px">Hello, Sarah</span></div>
+            <div class="ts"><span class="tsn">H3 · 19 / 700</span><span style="font-family:var(--disp);font-weight:700;font-size:19px">Parking Lot Map</span></div>
+            <div class="ts"><span class="tsn">Body · 14.5 / 300</span><span class="lead" style="margin:0">Let’s find parking for your next event!</span></div>
+            <div class="ts"><span class="tsn">Eyebrow · 12.5 / 600</span><span class="eyebrow-k">Upcoming for you</span></div>
+          </div>
+
+          <p class="kit-group">04 — Iconography</p>
+          <div class="kit-grid c4" id="iconGrid"></div>
+
+          <p class="kit-group">05 — Buttons</p>
+          <div class="kit-grid">
+            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-gold">Get Parking</button></div><span class="kit-lab">Primary</span></div>
+            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-dark">My Parking</button></div><span class="kit-lab">Secondary</span></div>
+            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-ghost">Cancel Ticket</button></div><span class="kit-lab">Outline</span></div>
+            <div class="kit-cell wide"><div class="kit-stage"><a class="tablink-demo">Home</a></div><span class="kit-lab">Nav link</span></div>
+          </div>
+
+          <p class="kit-group">06 — Inputs</p>
+          <div class="kit-stack">
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly></div></div><span class="kit-lab">Search field / primary</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search dark" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly><svg width="20" height="20"><use href="#i-x"/></svg></div></div><span class="kit-lab">Search field / on surface</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="field" style="width:100%"><svg width="20" height="20"><use href="#i-mail"/></svg><input value="sarah.johnson@gmail.com" readonly></div></div><span class="kit-lab">Text field</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="selwrap" style="width:100%"><select><option>7:30pm</option></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div><span class="kit-lab">Time selector</span></div>
+          </div>
+
+          <p class="kit-group">07 — Data &amp; status</p>
+          <div class="kit-grid">
+            <div class="kit-cell"><div class="kit-stage"><span class="st"><span class="dot"></span> Available</span></div><span class="kit-lab">Status pill</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="lt-badge">A</span></div><span class="kit-lab">Section badge</span></div>
+            <div class="kit-cell wide"><div class="kit-stage stretch"><div style="width:100%"><div class="availbar"><i style="width:95%"></i></div></div></div><span class="kit-lab">Availability bar</span></div>
+            <div class="kit-cell wide"><div class="kit-stage col"><div class="mcell" style="min-width:120px"><span>$/hour</span><b>$9.99</b></div></div><span class="kit-lab">Stat cell</span></div>
+          </div>
+
+          <p class="kit-group">08 — Components</p>
+          <div class="kit-stack">
+            <div class="kit-cell block"><div class="kit-stage stretch">
+              <div class="res" style="width:100%;cursor:default">
+                <span class="dots"><svg width="20" height="20"><use href="#i-dots"/></svg></span>
+                <h3>Masego @ Bayou Music Center</h3>
+                <div class="meta"><div><svg width="17" height="17"><use href="#i-cal"/></svg>August 24, 2023</div><div><svg width="17" height="17"><use href="#i-pin"/></svg>Houston, Texas</div></div>
+              </div></div><span class="kit-lab">Event card</span></div>
+
+            <div class="kit-cell block"><div class="kit-stage stretch">
+              <div class="srow" style="width:100%;cursor:default"><div class="lt">A</div><div><div class="rt"><div class="col"><span>Availability</span><b>35/37</b></div><div class="col"><span>$/hour</span><b>$9.99</b></div></div><div class="availbar"><i style="width:95%"></i></div></div></div>
+            </div><span class="kit-lab">Section row</span></div>
+
+            <div class="kit-cell block"><div class="kit-stage stretch">
+              <div class="pmap" style="width:100%;margin:0"><div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div><div class="pgrid"><div class="pcell sel">A</div><div class="pcell">B</div><div class="pcell">B</div><div class="pcell">C</div></div></div>
+            </div><span class="kit-lab">Parking-lot map</span></div>
+
+            <div class="kit-cell block"><div class="kit-stage stretch">
+              <div class="info-card" style="width:100%;margin:0"><div class="inforow"><div class="k">Total Charge</div><div class="v">$30.00</div></div><div class="inforow"><div class="k">Section</div><div class="v">A</div></div></div>
+            </div><span class="kit-lab">Info card</span></div>
+
+            <div class="kit-cell block"><div class="kit-stage stretch">
+              <div style="width:100%"><div class="tabs" style="border:none"><div class="tab on">Parking Info</div><div class="tab">Event Info</div></div></div>
+            </div><span class="kit-lab">Segmented tabs</span></div>
+          </div>
+
+          <div style="height:24px"></div>
+        </section>
+
+      </div><!-- /viewport -->
+
+      <!-- ============ BOTTOM TAB BAR ============ -->
+      <nav class="tabbar" id="tabbar">
+        <div class="links">
+          <a data-tab-link="home" onclick="go('home')">Home</a>
+          <a data-tab-link="myparking" onclick="go('myparking')">My Parking</a>
+          <a data-tab-link="help" onclick="go('help')">Help Center</a>
+          <a data-tab-link="profile" onclick="go('profile')">Profile</a>
+        </div>
+        <span class="logo" data-logo></span>
+      </nav>
+
+      <!-- ============ SECTION DETAIL SHEET ============ -->
+      <div class="scrim" id="scrim" onclick="closeSheet()"></div>
+      <div class="sheet" id="sectionSheet">
+        <div class="sheet-head">
+          <span class="st"><span class="dot"></span> <span id="sheetAvail">Available</span></span>
+          <span class="close-x" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span>
+        </div>
+        <div class="mini">
+          <div class="mcell"><span>Parking Section</span><b id="mSection">A</b></div>
+          <div class="mcell"><span>$/hour</span><b id="mRate">$9.99</b></div>
+          <div class="mcell"><span>Start Time</span><b id="mStart">7:30pm</b></div>
+          <div class="mcell"><span>End Time</span><b id="mEnd">10:30pm</b></div>
+        </div>
+        <button class="btn btn-gold btn-lg" onclick="reserve()">Select This Section</button>
+      </div>
+
+      <!-- ============ CANCEL CONFIRM SHEET (gold) ============ -->
+      <div class="sheet gold" id="cancelSheet">
+        <div class="sheet-head">
+          <span class="st" style="font-family:var(--disp);font-weight:700;font-size:18px">Are you sure?</span>
+          <span class="close-x" style="color:#0a0a0a" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span>
+        </div>
+        <p style="font-size:13.5px;font-weight:400;line-height:1.5;margin-bottom:18px;color:#171717">If you cancel now you will be able to get reimbursement arriving to your bank account in 2–3 business days.</p>
+        <button class="btn btn-dark btn-lg" onclick="confirmCancel()">Yes, Cancel my Ticket</button>
+      </div>
+
+      <!-- ============ NAV MENU OVERLAY ============ -->
+      <div class="navmenu" id="navmenu">
+        <span class="x" onclick="closeMenu()"><svg width="24" height="24"><use href="#i-x"/></svg></span>
+        <div class="avatar"><svg><use href="#av"/></svg></div>
+        <div class="nm">Sarah Johnson</div>
+        <div class="rule"></div>
+        <div class="mlinks">
+          <a onclick="closeMenu();go('home')">Home</a>
+          <a onclick="closeMenu();go('myparking')">My Parking</a>
+          <a onclick="closeMenu();go('help')">Help Center</a>
+          <a onclick="closeMenu();go('profile')">Profile</a>
+        </div>
+        <button class="btn btn-dark logout btn-lg" onclick="closeMenu();go('signup')">Log Out</button>
+        <div class="socials">
+          <span class="s" onclick="toast('Calling support…')"><svg width="20" height="20"><use href="#i-phone"/></svg></span>
+          <span class="s" onclick="toast('Opening email…')"><svg width="20" height="20"><use href="#i-mail"/></svg></span>
+          <span class="s" onclick="toast('Starting live chat…')"><svg width="20" height="20"><use href="#i-chat"/></svg></span>
+        </div>
+      </div>
+
+      <!-- toast -->
+      <div class="toast" id="toast"></div>
+
+    </div><!-- /app -->
+  </div><!-- /device -->
+</div><!-- /stage -->
+
+<!-- Screen switcher (for building mockups) -->
+<details class="dev" id="dev">
+  <summary>◐ Screens</summary>
+  <div class="menu" id="devMenu"></div>
+</details>
+
+<script>
+/* =================== DATA =================== */
+const EVENTS = [
+  {id:'bayou', name:'Masego @ Bayou Music Center', date:'August 24, 2023', city:'Houston, Texas',
+   addr:'520 Texas Ave, Houston, TX 77002', time:'8:00pm – 10:00pm',
+   summary:'Join Masego as he kicks off his world tour right here in Texas!'},
+  {id:'dallas', name:'Masego @ Dallas Stage', date:'August 23, 2023', city:'Dallas, Texas',
+   addr:'2200 N Lamar St, Dallas, TX 75202', time:'7:30pm – 10:00pm',
+   summary:'An intimate Dallas set — smooth sax, sweet soul, and a full band.'},
+  {id:'first', name:'Masego in First Avenue', date:'August 28, 2023', city:'Galveston, Texas',
+   addr:'701 First Ave, Galveston, TX 77550', time:'8:00pm – 11:00pm',
+   summary:'TraptheSoul comes to the coast for one unforgettable night.'},
+  {id:'reaily', name:'Reaily’s Festival (feat. Masego)', date:'September 2, 2023', city:'Pecos, Texas',
+   addr:'1000 Festival Grounds, Pecos, TX 79772', time:'4:00pm – 11:00pm',
+   summary:'A day-long festival lineup headlined by Masego under the West-Texas sky.'},
+  {id:'newmoon', name:'New Moon – Masego', date:'September 4, 2023', city:'Pecos, Texas',
+   addr:'88 Desert Rd, Pecos, TX 79772', time:'9:00pm – 12:00am',
+   summary:'A late-night moonlit show to close out the Texas run.'},
+  {id:'austin', name:'Masego Live — Austin', date:'September 9, 2023', city:'Austin, Texas',
+   addr:'310 Willie Nelson Blvd, Austin, TX 78701', time:'8:00pm – 10:30pm',
+   summary:'The final Texas date — Masego live in the heart of Austin.'}
+];
+
+const SECTIONS = [
+  {id:'A', avail:35, total:37, rate:9.99},
+  {id:'B', avail:17, total:37, rate:7.99},
+  {id:'C', avail:2,  total:37, rate:5.99}
+];
+const MAP_CELLS = ['A','B','B','C'];
+
+const TIMES = ['6:30pm','7:00pm','7:30pm','8:00pm','8:30pm','9:00pm','9:30pm','10:00pm','10:30pm','11:00pm','11:30pm'];
+
+/* =================== STATE =================== */
+let state = {
+  event: EVENTS[0],
+  section: SECTIONS[0],
+  start: '7:30pm',
+  end: '10:30pm',
+  reservation: null   // {event, section, start, end, total}
+};
+// seed one active reservation so My Parking / Receipt are populated for mockups
+state.reservation = {event:EVENTS[0], section:SECTIONS[0], start:'7:30pm', end:'10:30pm', total:'30.00'};
+
+/* =================== LOGO =================== */
+const LOGO_HTML =
+  '<span class="w">Park n </span>' +
+  '<span class="pg">G' +
+    '<span class="pg-ar"><svg viewBox="0 0 14 20" aria-hidden="true">' +
+      '<path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>' +
+      '<path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/>' +
+    '</svg></span>o' +
+  '</span>';
+document.querySelectorAll('[data-logo]').forEach(el=>el.innerHTML=LOGO_HTML);
+
+/* =================== ROUTER =================== */
+const CHROME_TABS = {home:'home', myparking:'myparking', help:'help', profile:'profile'};
+function go(id, opts){
+  const s = document.getElementById(id);
+  if(!s) return;
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  s.classList.add('active');
+  s.scrollTop = 0;
+  const app = document.getElementById('app');
+  app.dataset.tone = s.dataset.tone || 'dark';
+  app.dataset.nochrome = s.dataset.nochrome || '0';
+  // highlight tabbar
+  document.querySelectorAll('[data-tab-link]').forEach(a=>{
+    a.classList.toggle('on', a.getAttribute('data-tab-link')===id);
+  });
+  closeSheet(); closeMenu();
+  if(location.hash.slice(1)!==id) history.replaceState(null,'','#'+id);
+  renderFor(id);
+}
+
+/* render dynamic content per screen */
+function renderFor(id){
+  if(id==='home') renderHome();
+  if(id==='search') renderResults(document.getElementById('resTerm').textContent||'Masego');
+  if(id==='event') renderEvent();
+  if(id==='lot') renderLot();
+  if(id==='confirm') renderConfirm();
+  if(id==='myparking') renderMyParking();
+  if(id==='receipt') renderReceipt();
+}
+
+/* =================== RENDERERS =================== */
+function evCard(ev, onclick, showDots){
+  return `<div class="res" onclick="${onclick}">
+    ${showDots?`<span class="dots" onclick="event.stopPropagation();toast('Options')"><svg width="20" height="20"><use href="#i-dots"/></svg></span>`:''}
+    <h3>${ev.name}</h3>
+    <div class="meta">
+      <div><svg width="17" height="17"><use href="#i-cal"/></svg>${ev.date}</div>
+      <div><svg width="17" height="17"><use href="#i-pin"/></svg>${ev.city}</div>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  const r = state.reservation;
+  const box = document.getElementById('homeUpcoming');
+  if(r){ box.innerHTML = evCard(r.event, `openReceipt('${r.event.id}')`, true); }
+  else { box.innerHTML = `<p class="lead">No upcoming reservations yet.</p>`; }
+}
+
+function runSearch(val){
+  const term = (val || document.getElementById('homeSearch')?.value || document.getElementById('searchInput')?.value || 'Masego').trim() || 'Masego';
+  document.getElementById('searchInput').value = term;
+  document.getElementById('resTerm').textContent = term;
+  go('search');
+}
+
+function renderResults(term){
+  const list = EVENTS.filter(e=>e.name.toLowerCase().includes(term.toLowerCase()));
+  const use = list.length?list:EVENTS;
+  document.getElementById('resCount').textContent = use.length;
+  document.getElementById('resTerm').textContent = term;
+  document.getElementById('results').innerHTML = use.map(ev=>evCard(ev, `selectEvent('${ev.id}')`, true)).join('');
+}
+
+function selectEvent(id){ state.event = EVENTS.find(e=>e.id===id); go('event'); }
+
+function renderEvent(){
+  const ev = state.event;
+  document.getElementById('eventInfo').innerHTML = `
+    <div class="inforow"><div class="k">Name</div><div class="v">${ev.name}</div></div>
+    <div class="inforow"><div class="k">Location</div><div class="v">${ev.addr}</div></div>
+    <div class="inforow"><div class="k">Date</div><div class="v">${ev.date}</div></div>
+    <div class="inforow"><div class="k">Time</div><div class="v">${ev.time}</div></div>
+    <div class="inforow"><div class="k">Summary</div><div class="v">${ev.summary}</div></div>`;
+}
+
+function fillTimeSelects(){
+  ['startTime','endTime'].forEach(sel=>{
+    const el = document.getElementById(sel);
+    el.innerHTML = TIMES.map(t=>`<option>${t}</option>`).join('');
+  });
+  document.getElementById('startTime').value = state.start;
+  document.getElementById('endTime').value = state.end;
+}
+
+function renderLot(){
+  fillTimeSelects();
+  // map grid
+  document.getElementById('pgrid').innerHTML = MAP_CELLS.map((c,i)=>
+    `<div class="pcell" data-cell="${c}" onclick="pickSection('${c}')">${c}</div>`).join('');
+  highlightMap();
+  // sections
+  document.getElementById('sections').innerHTML = SECTIONS.map(s=>{
+    const pct = Math.round(s.avail/s.total*100);
+    return `<div class="srow ${s.avail<=3?'low':''}" onclick="pickSection('${s.id}')">
+      <div class="lt">${s.id}</div>
+      <div>
+        <div class="rt">
+          <div class="col"><span>Availability</span><b>${s.avail}/${s.total}</b></div>
+          <div class="col"><span>$/hour</span><b>$${s.rate.toFixed(2)}</b></div>
+        </div>
+        <div class="availbar"><i style="width:${pct}%"></i></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function highlightMap(){
+  document.querySelectorAll('#pgrid .pcell').forEach(c=>{
+    c.classList.toggle('sel', c.dataset.cell===state.section.id);
+  });
+}
+
+function pickSection(id){
+  state.section = SECTIONS.find(s=>s.id===id);
+  highlightMap();
+  recalc();
+  // open detail sheet
+  const s = state.section;
+  document.getElementById('mSection').textContent = s.id;
+  document.getElementById('mRate').textContent = '$'+s.rate.toFixed(2);
+  document.getElementById('mStart').textContent = state.start;
+  document.getElementById('mEnd').textContent = state.end;
+  document.getElementById('sheetAvail').textContent = s.avail>3?'Available':'Almost full';
+  openSheet('sectionSheet');
+}
+
+function recalc(){
+  state.start = document.getElementById('startTime')?.value || state.start;
+  state.end   = document.getElementById('endTime')?.value || state.end;
+  document.getElementById('mStart').textContent = state.start;
+  document.getElementById('mEnd').textContent = state.end;
+}
+
+function hoursBetween(a,b){
+  const p = t=>{let[,h,m,ap]=t.match(/(\d+):(\d+)(am|pm)/);h=+h%12+(ap==='pm'?12:0);return h*60+ +m;};
+  let d = p(b)-p(a); if(d<=0) d+=24*60; return d/60;
+}
+
+function reserve(){
+  const s = state.section;
+  const hrs = hoursBetween(state.start, state.end);
+  const total = (hrs*s.rate).toFixed(2);
+  state.reservation = {event:state.event, section:s, start:state.start, end:state.end, total};
+  closeSheet();
+  go('confirm');
+}
+
+function renderConfirm(){
+  document.getElementById('confLot').textContent = 'Lot '+state.reservation.section.id;
+  document.getElementById('confGrid').innerHTML = MAP_CELLS.map(c=>
+    `<div class="pcell ${c===state.reservation.section.id?'sel':''}">${c}</div>`).join('');
+}
+
+function renderMyParking(){
+  const r = state.reservation;
+  const up = document.getElementById('upcoming');
+  const past = document.getElementById('past');
+  up.innerHTML = r ? evCard(r.event, `openReceipt('${r.event.id}')`, true)
+                   : `<div class="empty"><svg width="40" height="40"><use href="#i-ticket"/></svg><br>No upcoming reservations.</div>`;
+  past.innerHTML = evCard(EVENTS[1], `toast('Past reservation')`, true);
+}
+
+function switchTab(t){
+  document.querySelectorAll('#myparking .tab').forEach(x=>x.classList.toggle('on', x.dataset.tab===t));
+  document.getElementById('upcoming').style.display = t==='up'?'flex':'none';
+  document.getElementById('past').style.display = t==='past'?'flex':'none';
+}
+
+function openReceipt(evId){
+  if(!state.reservation){ state.reservation={event:EVENTS.find(e=>e.id===evId),section:SECTIONS[0],start:'7:30pm',end:'10:30pm',total:'30.00'}; }
+  switchReceipt('park');
+  go('receipt');
+}
+
+function renderReceipt(){
+  const r = state.reservation; if(!r) return;
+  document.getElementById('receiptPark').innerHTML = `
+    <div class="inforow"><div class="k">Total Charge</div><div class="v">$${r.total}</div></div>
+    <div class="inforow"><div class="k">Section</div><div class="v">${r.section.id}</div></div>
+    <div class="inforow"><div class="k">Hourly Rate</div><div class="v">$${r.section.rate.toFixed(2)}/hr</div></div>
+    <div class="inforow"><div class="k">Date</div><div class="v">${r.event.date}</div></div>
+    <div class="inforow"><div class="k">Time</div><div class="v">${r.start} – ${r.end}</div></div>`;
+  const ev = r.event;
+  document.getElementById('receiptEvent').innerHTML = `
+    <div class="inforow"><div class="k">Name</div><div class="v">${ev.name}</div></div>
+    <div class="inforow"><div class="k">Location</div><div class="v">${ev.addr}</div></div>
+    <div class="inforow"><div class="k">Date</div><div class="v">${ev.date}</div></div>
+    <div class="inforow"><div class="k">Time</div><div class="v">${ev.time}</div></div>
+    <div class="inforow"><div class="k">Summary</div><div class="v">${ev.summary}</div></div>`;
+}
+
+function switchReceipt(t){
+  document.querySelectorAll('#receipt .tab').forEach(x=>x.classList.toggle('on', x.dataset.rtab===t));
+  document.getElementById('rPark').style.display = t==='park'?'block':'none';
+  document.getElementById('rEv').style.display = t==='ev'?'block':'none';
+}
+
+/* =================== SHEETS / MENU =================== */
+function openSheet(id){
+  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.getElementById('scrim').classList.add('on');
+}
+function closeSheet(){
+  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));
+  document.getElementById('scrim').classList.remove('on');
+}
+function openCancel(){ openSheet('cancelSheet'); }
+function confirmCancel(){ state.reservation=null; closeSheet(); go('cancelled'); }
+function openMenu(){ document.getElementById('navmenu').classList.add('on'); }
+function closeMenu(){ document.getElementById('navmenu').classList.remove('on'); }
+
+/* =================== TOAST =================== */
+let toastT;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),1900);
+}
+
+/* =================== UI KIT ICON GRID =================== */
+const ICONS = [
+  ['i-search','Search'],['i-cal','Calendar'],['i-pin','Direction'],['i-loc','Location'],
+  ['i-mail','Mail'],['i-user','User'],['i-lock','Lock'],['i-phone','Phone'],
+  ['i-chat','Chat'],['i-dots','More'],['i-x','Close'],['i-menu','Menu'],
+  ['i-chev','Chevron'],['i-back','Back'],['i-ticket','Ticket'],['i-map','Map']
+];
+document.getElementById('iconGrid').innerHTML = ICONS.map(([id,name])=>
+  `<div class="icell"><svg width="24" height="24"><use href="#${id}"/></svg><span>${name}</span></div>`).join('');
+
+/* =================== DEV SCREEN SWITCHER =================== */
+const SCREENS = [
+  ['Auth',[['signup','Sign Up']]],
+  ['Core',[['home','Home'],['search','Search Results'],['event','Event Info'],['lot','Choose Parking Lot'],['confirm','Booking Confirmed']]],
+  ['Manage',[['myparking','My Parking'],['receipt','Parking Receipt'],['cancelled','Ticket Cancelled']]],
+  ['Account',[['profile','Profile'],['help','Help Center']]],
+  ['System',[['kit','UI Kit']]]
+];
+document.getElementById('devMenu').innerHTML = SCREENS.map(([grp,items])=>
+  `<div class="lbl">${grp}</div>`+items.map(([id,name])=>`<button onclick="go('${id}')">${name}</button>`).join('')
+).join('') + `<div class="lbl">Overlays</div>
+  <button onclick="go('lot');setTimeout(()=>pickSection('A'),350)">Section sheet</button>
+  <button onclick="go('receipt');switchReceipt('ev');setTimeout(openCancel,350)">Cancel confirm</button>
+  <button onclick="openMenu()">Nav menu</button>
+  <div class="lbl">Capture</div>
+  <button onclick="document.body.classList.toggle('bare')">Toggle bare mode</button>`;
+
+/* URL flags: ?bare hides device frame; ?nodev hides switcher; #screen jumps */
+const params = new URLSearchParams(location.search);
+if(params.has('bare')) document.body.classList.add('bare');
+if(params.has('nodev')) document.getElementById('dev').classList.add('hide');
+
+/* boot */
+const startId = (location.hash.slice(1)) || 'home';
+go(document.getElementById(startId)?startId:'home');
+window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(id&&document.getElementById(id))go(id);});
+</script>
+</body>
+</html>
