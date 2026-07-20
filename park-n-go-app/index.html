@@ -13,404 +13,408 @@
 <style>
 /* ============ Park n Go — design tokens ============ */
 :root{
-  --ink:#050505;          /* app background        */
-  --panel:#111111;        /* screen surface        */
-  --card:#191919;         /* cards                 */
-  --card-2:#242424;       /* inset / darker rows   */
-  --line:rgba(255,255,255,.08);
-  --line-2:rgba(255,255,255,.14);
-  --gold:#FFC857;         /* Signal Gold           */
-  --gold-deep:#F0B93E;
-  --white:#ffffff;
-  --muted:#9b9b98;
-  --muted-2:#c9c9c6;
-  --r:16px; --r-lg:22px; --r-xl:28px; --pill:100px;
+  /* surfaces */
+  --ink:#060606;        /* app background */
+  --s1:#111112;         /* screen surface */
+  --card:#18181a;       /* cards */
+  --card-2:#202023;     /* inset rows */
+  --card-3:#2a2a2e;     /* pressed / darker inset */
+  --line:rgba(255,255,255,.07);
+  --line-2:rgba(255,255,255,.13);
+  /* brand */
+  --gold:#FFC857; --gold-deep:#F0B93E; --gold-soft:rgba(255,200,87,.14);
+  --focus:rgba(255,200,87,.28);
+  --white:#ffffff; --muted:#8f8f8c; --muted-2:#c4c4c1;
+  --danger:#ff6b5e;
+  /* spacing scale (4pt) */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-7:32px; --s-8:40px; --s-9:48px;
+  /* radii */
+  --r-sm:12px; --r:16px; --r-lg:20px; --r-xl:26px; --pill:100px;
+  --pad:22px;                 /* screen gutter */
+  --header-h:58px;
   --screen-w:390px; --screen-h:844px;
   --sans:'Poppins',system-ui,sans-serif;
   --disp:'Lexend',system-ui,sans-serif;
-  --ease:cubic-bezier(.22,.61,.36,1);
+  --e:cubic-bezier(.22,.61,.36,1);
+  --e-spring:cubic-bezier(.34,1.3,.5,1);
+  --t:.36s;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
-  font-family:var(--sans);
-  background:#e9e9ea;
-  color:var(--white);
+  font-family:var(--sans);background:#e9e9ea;color:var(--white);
   display:flex;align-items:center;justify-content:center;
-  min-height:100dvh;overflow:hidden;
-  -webkit-font-smoothing:antialiased;
+  min-height:100dvh;overflow:hidden;-webkit-font-smoothing:antialiased;
 }
-/* soft studio backdrop for desktop mockup shots */
-body::before{
-  content:"";position:fixed;inset:0;z-index:0;
-  background:
-    radial-gradient(120% 90% at 30% 10%, #f6f6f7 0%, #e7e7e9 46%, #dcdcde 100%);
-}
+body::before{content:"";position:fixed;inset:0;z-index:0;
+  background:radial-gradient(120% 90% at 30% 8%, #f7f7f8 0%, #e7e7e9 46%, #dadadc 100%)}
 
-/* ============ Device shell (desktop only) ============ */
+/* ============ Device shell ============ */
 .stage{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:100%;height:100dvh}
-.device{
-  position:relative;
-  width:var(--screen-w);height:var(--screen-h);
-  border-radius:54px;
-  background:#0a0a0a;
-  padding:13px;
-  box-shadow:0 2px 3px rgba(0,0,0,.4), 0 34px 70px -24px rgba(20,20,25,.55), inset 0 0 0 2px #222, inset 0 0 0 7px #050505;
-  transition:transform .4s var(--ease);
-}
-.device::after{ /* side button hint */
-  content:"";position:absolute;left:-2px;top:150px;width:3px;height:64px;border-radius:3px;background:#111;
-}
-.app{
-  position:relative;width:100%;height:100%;
-  background:var(--ink);
-  border-radius:42px;overflow:hidden;
-  display:flex;flex-direction:column;
-  isolation:isolate;
-}
-/* Full-bleed / bare mode (for clean screen captures) */
-body.bare{background:#000}
-body.bare::before{display:none}
-body.bare .stage{height:100dvh}
+.device{position:relative;width:var(--screen-w);height:var(--screen-h);border-radius:54px;background:#0a0a0a;padding:13px;
+  box-shadow:0 2px 3px rgba(0,0,0,.4),0 40px 80px -28px rgba(20,20,25,.6),inset 0 0 0 2px #232323,inset 0 0 0 7px #050505}
+.device::after{content:"";position:absolute;left:-2px;top:150px;width:3px;height:64px;border-radius:3px;background:#141414}
+.app{position:relative;width:100%;height:100%;background:var(--ink);border-radius:42px;overflow:clip;display:grid;grid-template-rows:auto auto minmax(0,1fr);isolation:isolate}
+body.bare{background:#000}body.bare::before{display:none}
 body.bare .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}
-body.bare .device::after{display:none}
-body.bare .app{border-radius:0}
-
-/* On real phones, go edge to edge */
-@media (max-width:440px){
-  body{background:#000}
-  body::before{display:none}
-  .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}
-  .device::after{display:none}
-  .app{border-radius:0}
-}
+body.bare .device::after{display:none}body.bare .app{border-radius:0}
+@media (max-width:440px){body{background:#000}body::before{display:none}
+  .device{width:100vw;height:100dvh;border-radius:0;padding:0;box-shadow:none}.device::after{display:none}.app{border-radius:0}}
 
 /* ============ Status bar ============ */
-.statusbar{
-  height:52px;flex:0 0 auto;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 30px 4px;
-  font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.2px;
-  color:var(--white);z-index:6;
-}
+.statusbar{height:50px;flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 30px 2px;font-weight:600;font-size:15px;color:var(--white);z-index:9}
 .statusbar .sb-r{display:flex;align-items:center;gap:7px}
 .statusbar svg{display:block}
-.app[data-tone="gold"] .statusbar{color:#0a0a0a}
+.app[data-tone="gold"] .statusbar{color:#0a0a0a;background:var(--gold)}
 
-/* ============ Viewport (scroll area) ============ */
-.viewport{position:relative;flex:1 1 auto;overflow:hidden}
-.screen{
-  position:absolute;inset:0;
-  overflow-y:auto;overflow-x:hidden;
-  padding:6px 22px 128px;
-  opacity:0;visibility:hidden;pointer-events:none;
-  transform:translateY(8px);
-  transition:opacity .34s var(--ease), transform .34s var(--ease), visibility .34s;
-  -webkit-overflow-scrolling:touch;
-}
+/* ============ Global sticky header ============ */
+.header{flex:0 0 auto;height:var(--header-h);display:flex;align-items:center;justify-content:space-between;
+  padding:0 var(--pad);z-index:8;background:var(--ink);transition:background .3s var(--e)}
+.app[data-tone="gold"] .header{background:var(--gold)}
+.header .logo{font-size:25px}
+.header .h-actions{display:flex;align-items:center;gap:6px}
+.iconbtn{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;cursor:pointer;color:var(--white);background:transparent;border:none;transition:background .18s,transform .1s}
+.iconbtn:hover{background:var(--card)}.iconbtn:active{transform:scale(.92)}
+.app[data-tone="gold"] .iconbtn{color:#0a0a0a}
+.app[data-tone="gold"] .iconbtn:hover{background:rgba(0,0,0,.08)}
+.h-avatar{width:34px;height:34px;border-radius:50%;overflow:hidden;cursor:pointer;border:1.5px solid var(--line-2)}
+.h-avatar img,.h-avatar svg{width:100%;height:100%;display:block;object-fit:cover}
+
+/* ============ Viewport ============ */
+.viewport{position:relative;flex:1 1 auto;min-height:0;overflow:hidden}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  padding:var(--s-4) var(--pad) 40px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px);
+  transition:opacity .32s var(--e),transform .32s var(--e),visibility .32s}
 .screen::-webkit-scrollbar{width:0}
 .screen.active{opacity:1;visibility:visible;pointer-events:auto;transform:none}
-.screen.gold{background:var(--gold);color:#0a0a0a;padding-bottom:40px}
+.app[data-tabbar="1"] .screen.active{padding-bottom:104px}
+.screen.gold{background:var(--gold);color:#0a0a0a}
 
-/* ============ Brand wordmark ============ */
+/* ============ Motion utilities ============ */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.screen.active .stagger>*{opacity:0;animation:rise .5s var(--e) forwards;animation-delay:calc(var(--i,0)*55ms + 40ms)}
+
+/* ============ Wordmark ============ */
 .logo{display:inline-flex;align-items:baseline;font-family:var(--disp);font-weight:800;letter-spacing:-.5px;line-height:1;user-select:none}
 .logo .w{color:var(--white)}
-/* "Go" — gold G with a downward pin-drop arrow, followed by o */
-.logo .pg{position:relative;color:var(--gold);display:inline-block;padding-right:.02em}
+.logo .pg{position:relative;color:var(--gold);display:inline-block;padding-right:.04em}
 .logo .pg .pg-ar{position:absolute;left:.30em;bottom:-.30em;width:.46em;height:.66em;line-height:0}
 .logo .pg .pg-ar svg{display:block;width:100%;height:100%}
 .app[data-tone="gold"] .logo .w,.screen.gold .logo .w{color:#0a0a0a}
 .app[data-tone="gold"] .logo .pg,.screen.gold .logo .pg{color:#0a0a0a}
-/* standalone brand mark (UI kit) */
 .gomark{position:relative;display:inline-flex;color:var(--gold)}
 .gomark .pg-ar{position:absolute;left:.30em;bottom:-.30em;width:.46em;height:.66em;line-height:0}
 .gomark .pg-ar svg{display:block;width:100%;height:100%}
 
-/* ============ Headings & text ============ */
-h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-height:1.08}
-.hello{font-size:30px;margin-top:2px}
-.hello b{color:var(--gold);font-weight:700}
-.lead{color:var(--muted-2);font-size:14.5px;line-height:1.5;font-weight:300;margin-top:8px}
-.eyebrow-k{color:var(--gold);font-weight:600;font-size:12.5px;letter-spacing:.4px;text-transform:uppercase}
+/* ============ Type ============ */
+h1,h2,h3,h4{font-family:var(--disp);font-weight:700;letter-spacing:-.3px;line-height:1.1}
+.screen-title{font-size:27px;margin-bottom:2px}
+.hello{font-size:30px}.hello b{color:var(--gold)}
+.lead{color:var(--muted-2);font-size:14.5px;line-height:1.5;font-weight:300}
+.eyebrow-k{color:var(--gold);font-weight:600;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+.muted{color:var(--muted)}
 
-/* App top bar (logo + hamburger) */
-.appbar{display:flex;align-items:center;justify-content:space-between;padding:6px 2px 2px}
-.appbar .logo{font-size:26px}
-.burger{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;cursor:pointer;color:var(--white)}
-.burger:active{background:var(--card)}
-.app[data-tone="gold"] .burger{color:#0a0a0a}
+/* top title row with action (close/back) */
+.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:var(--s-5)}
+.title-row .sub{color:var(--muted);font-size:13.5px;font-weight:300;margin-top:3px}
+.round-x{width:38px;height:38px;flex:0 0 auto;display:grid;place-items:center;border-radius:12px;background:var(--card);color:var(--white);cursor:pointer;border:1px solid var(--line);transition:.15s}
+.round-x:hover{background:var(--card-2)}.round-x:active{transform:scale(.93)}
+.screen.gold .round-x{background:rgba(0,0,0,.08);color:#0a0a0a;border:none}
 
 /* ============ Buttons ============ */
-.btn{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  width:100%;border:none;cursor:pointer;
-  font-family:var(--sans);font-weight:600;font-size:16px;
-  padding:17px 20px;border-radius:16px;transition:transform .12s var(--ease), filter .2s;
-}
-.btn:active{transform:scale(.985)}
-.btn-gold{background:var(--gold);color:#111}
-.btn-gold:hover{filter:brightness(1.04)}
-.btn-dark{background:#0d0d0d;color:var(--gold)}
-.btn-ghost{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}
-.btn-lg{padding:19px 20px;font-size:17px}
-.screen.gold .btn-dark{background:#0a0a0a;color:var(--gold)}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:none;cursor:pointer;
+  font-family:var(--sans);font-weight:600;font-size:16px;padding:16px 20px;border-radius:15px;
+  transition:transform .12s var(--e),filter .2s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:var(--gold);color:#111}.btn-gold:hover{filter:brightness(1.05)}
+.btn-dark{background:#0c0c0c;color:var(--gold)}.btn-dark:hover{background:#000}
+.btn-ghost{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}.btn-ghost:hover{background:var(--gold-soft)}
+.btn-soft{background:var(--card);color:var(--white);border:1px solid var(--line-2)}.btn-soft:hover{background:var(--card-2)}
+.btn-lg{padding:18px 20px;font-size:16.5px}
+.btn-danger{background:transparent;color:var(--danger);border:1.5px solid rgba(255,107,94,.5)}.btn-danger:hover{background:rgba(255,107,94,.1)}
+.screen.gold .btn-dark{background:#0a0a0a}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.btn-row{display:flex;gap:12px}.btn-row .btn{flex:1}
 
 /* ============ Cards ============ */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px}
-.soft{box-shadow:0 18px 40px -30px rgba(0,0,0,.9)}
 
-/* Search bar */
-.search{
-  display:flex;align-items:center;gap:12px;background:var(--gold);
-  border-radius:16px;padding:15px 18px;color:#111;font-weight:500;margin-top:22px;
-}
+/* ============ Forms (modern) ============ */
+.form{display:flex;flex-direction:column;gap:var(--s-5)}
+.field{display:flex;flex-direction:column;gap:8px}
+.field > label{font-size:12.5px;font-weight:500;color:var(--muted-2);letter-spacing:.2px;padding-left:2px}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap .ic{position:absolute;left:16px;color:var(--muted);pointer-events:none;transition:color .2s}
+.input-wrap:focus-within .ic{color:var(--gold)}
+.input{width:100%;background:var(--card);border:1.5px solid var(--line-2);border-radius:14px;
+  color:var(--white);font-family:var(--sans);font-size:15px;font-weight:400;padding:15px 16px;transition:border-color .2s,box-shadow .2s,background .2s}
+.input::placeholder{color:var(--muted)}
+.input.pl{padding-left:46px}.input.pr{padding-right:46px}
+.input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px var(--focus);background:#141414}
+.input:disabled{opacity:.75}
+.input-wrap .tr{position:absolute;right:14px;color:var(--muted);cursor:pointer;padding:4px;display:grid;place-items:center}
+.input-wrap .tr:hover{color:var(--gold)}
+.hint{font-size:11.5px;color:var(--muted);padding-left:2px}
+.hint.ok{color:#4fd08a}
+/* Home signature search (gold) */
+.search{display:flex;align-items:center;gap:12px;background:var(--gold);border-radius:15px;padding:15px 18px;color:#111;transition:filter .2s,transform .12s var(--e)}
+.search:active{transform:scale(.99)}
 .search svg{flex:0 0 auto;color:#111}
 .search input{border:none;background:transparent;outline:none;font-family:var(--sans);font-size:15px;color:#111;width:100%;font-weight:500}
-.search input::placeholder{color:rgba(0,0,0,.55)}
-.search.dark{background:var(--card);border:1px solid var(--line-2);color:var(--white)}
-.search.dark input,.search.dark svg{color:var(--white)}
-.search.dark input::placeholder{color:var(--muted)}
+.search input::placeholder{color:rgba(0,0,0,.5)}
+.search.dark{background:var(--card);border:1.5px solid var(--line-2);color:var(--white)}
+.search.dark input,.search.dark svg{color:var(--white)}.search.dark input::placeholder{color:var(--muted)}
+/* select */
+.selwrap{position:relative}
+.selwrap svg{position:absolute;right:15px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--gold)}
+.selwrap select{width:100%;appearance:none;-webkit-appearance:none;background:var(--card);border:1.5px solid var(--line-2);border-radius:14px;
+  color:var(--white);font-family:var(--sans);font-size:15px;font-weight:500;padding:15px 42px 15px 16px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.selwrap select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px var(--focus)}
+/* chips */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip-pill{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line-2);border-radius:100px;padding:9px 14px;font-size:13px;font-weight:500;color:var(--muted-2);cursor:pointer;transition:.15s}
+.chip-pill:hover{border-color:var(--gold);color:var(--white)}
+.chip-pill svg{color:var(--gold)}
 
-/* result / event list cards */
-.reslist{display:flex;flex-direction:column;gap:14px;margin-top:16px}
-.res{
-  position:relative;background:var(--card);border:1px solid var(--line);
-  border-radius:18px;padding:16px 18px;cursor:pointer;
-  transition:border-color .2s, transform .12s var(--ease), background .2s;
-}
-.res:hover{border-color:var(--line-2)}
-.res:active{transform:scale(.99)}
-.res h3{font-size:18px;font-weight:700;padding-right:30px}
-.res .meta{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-.res .meta div{display:flex;align-items:center;gap:11px;color:var(--muted-2);font-size:14px;font-weight:400}
+/* social auth */
+.social{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:var(--card);border:1px solid var(--line-2);
+  border-radius:14px;padding:14px;font-weight:500;font-size:14.5px;color:var(--white);cursor:pointer;transition:.15s}
+.social:hover{background:var(--card-2)}
+.or{display:flex;align-items:center;gap:14px;color:var(--muted);font-size:12px;margin:2px 0}
+.or::before,.or::after{content:"";height:1px;background:var(--line);flex:1}
+
+/* ============ Event / result cards ============ */
+.reslist{display:flex;flex-direction:column;gap:12px}
+.res{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 16px;cursor:pointer;
+  transition:border-color .2s,transform .12s var(--e),background .2s;display:flex;gap:14px;align-items:center}
+.res:hover{border-color:var(--line-2);background:#1c1c1e}.res:active{transform:scale(.99)}
+.res .thumb{width:52px;height:52px;border-radius:13px;flex:0 0 auto;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:20px;color:#0a0a0a}
+.res .body{flex:1;min-width:0}
+.res h3{font-size:16.5px;font-weight:700;padding-right:24px;line-height:1.15}
+.res .meta{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.res .meta div{display:flex;align-items:center;gap:9px;color:var(--muted-2);font-size:13px;font-weight:300}
 .res .meta svg{color:var(--gold);flex:0 0 auto}
-.res .dots{position:absolute;top:16px;right:14px;color:var(--gold);padding:4px;cursor:pointer}
-.res .dots:hover{opacity:.8}
-.results-count{color:var(--muted);font-size:13.5px;margin:14px 2px 0;font-weight:400}
+.res .dots{position:absolute;top:14px;right:12px;color:var(--muted);padding:4px;cursor:pointer;border-radius:8px}
+.res .dots:hover{color:var(--gold);background:var(--card-2)}
+.res .chev{color:var(--muted);flex:0 0 auto}
+.results-count{color:var(--muted);font-size:13px;margin:var(--s-4) 2px var(--s-3);font-weight:300}
 .results-count b{color:var(--white);font-weight:600}
 
-/* Section title row */
-.sec-title{font-size:22px;margin:26px 2px 4px;display:flex;align-items:center;justify-content:space-between}
-.close-x{width:34px;height:34px;display:grid;place-items:center;color:var(--white);cursor:pointer;border-radius:10px}
-.close-x:hover{background:var(--card)}
-.screen.gold .close-x{color:#0a0a0a}
+/* section head */
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:var(--s-6) 2px var(--s-3)}
+.sec-head h3{font-size:19px}
+.sec-head a{color:var(--gold);font-size:12.5px;font-weight:500;cursor:pointer}
 
-/* info rows (event info / receipt) */
-.info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 22px 6px;margin-top:6px}
-.inforow{margin-bottom:18px}
-.inforow .k{color:var(--gold);font-family:var(--disp);font-weight:700;font-size:16px}
-.inforow .v{color:var(--muted-2);font-size:14.5px;font-weight:300;margin-top:3px;line-height:1.45}
+/* info card */
+.info-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:6px 20px}
+.inforow{display:flex;flex-direction:column;gap:3px;padding:15px 0;border-bottom:1px solid var(--line)}
+.inforow:last-child{border-bottom:none}
+.inforow .k{color:var(--gold);font-family:var(--disp);font-weight:700;font-size:14px}
+.inforow .v{color:var(--muted-2);font-size:14.5px;font-weight:300;line-height:1.45}
 
-/* Tabs */
-.tabs{display:flex;gap:26px;margin:14px 2px 4px;border-bottom:1px solid var(--line)}
-.tab{padding:8px 0 12px;color:var(--muted);font-weight:500;font-size:15px;cursor:pointer;position:relative}
-.tab.on{color:var(--white)}
-.tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2.5px;background:var(--gold);border-radius:2px}
+/* ============ Tabs ============ */
+.tabs{display:flex;gap:8px;background:var(--card);border-radius:14px;padding:5px;margin-bottom:var(--s-5)}
+.tab{flex:1;text-align:center;padding:11px 0;color:var(--muted);font-weight:500;font-size:14px;cursor:pointer;border-radius:10px;transition:.2s;position:relative;z-index:1}
+.tab.on{color:#111;background:var(--gold)}
 
-/* stat pills */
-.availbar{height:5px;border-radius:4px;background:var(--card-2);overflow:hidden;margin-top:9px}
-.availbar i{display:block;height:100%;background:var(--gold);border-radius:4px}
+/* availability bar */
+.availbar{height:5px;border-radius:4px;background:var(--card-3);overflow:hidden;margin-top:9px}
+.availbar i{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .5s var(--e)}
 
-/* Parking lot map */
-.pmap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-top:12px}
-.pmap .entrance{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card-2);border-radius:10px;padding:9px;color:var(--muted-2);font-size:12.5px;font-weight:500}
+/* ============ Parking lot map ============ */
+.pmap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+.pmap .entrance{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card-2);border-radius:10px;padding:9px;color:var(--muted-2);font-size:12px;font-weight:500}
 .pmap .entrance svg{color:var(--gold)}
 .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.pcell{background:var(--card-2);border:1.5px solid transparent;border-radius:10px;height:56px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:22px;color:var(--gold);cursor:pointer;transition:.18s}
-.pcell:hover{background:#2f2f2f}
-.pcell.sel{background:var(--gold);color:#111;border-color:var(--gold)}
-.pcell.mine{border-color:var(--gold);color:var(--gold)}
-.pcell.mine::after{content:"You park here";position:absolute}
-.pmine{margin-top:8px;text-align:center;font-size:11px;color:var(--muted)}
-
-/* time selectors */
-.times{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
-.tfield label{display:block;font-family:var(--disp);font-weight:700;font-size:15px;margin-bottom:8px}
-.selwrap{position:relative}
-.selwrap svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--gold)}
-.selwrap select{
-  width:100%;appearance:none;-webkit-appearance:none;
-  background:var(--card);border:1px solid var(--line-2);border-radius:12px;
-  color:var(--white);font-family:var(--sans);font-size:15px;font-weight:500;
-  padding:14px 40px 14px 16px;cursor:pointer;
-}
-.selwrap select:focus{outline:none;border-color:var(--gold)}
+.pcell{position:relative;background:var(--card-2);border:1.5px solid transparent;border-radius:10px;height:58px;display:grid;place-items:center;
+  font-family:var(--disp);font-weight:700;font-size:22px;color:var(--gold);cursor:pointer;transition:.2s var(--e)}
+.pcell:hover{background:var(--card-3)}
+.pcell.sel{background:var(--gold);color:#111;border-color:var(--gold);transform:scale(1.02)}
 
 /* section rows */
-.slist{display:flex;flex-direction:column;gap:12px;margin-top:12px}
-.srow{display:grid;grid-template-columns:44px 1fr;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;cursor:pointer;transition:.18s}
-.srow:hover{border-color:var(--line-2)}
-.srow:active{transform:scale(.99)}
-.srow .lt{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--gold)}
+.slist{display:flex;flex-direction:column;gap:11px}
+.srow{display:grid;grid-template-columns:46px 1fr;gap:10px;align-items:center;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:.18s}
+.srow:hover{border-color:var(--line-2)}.srow:active{transform:scale(.99)}
+.srow.sel{border-color:var(--gold);background:#1d1b14}
+.srow .lt{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--gold);text-align:center}
 .srow .rt{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.srow .col span{display:block;color:var(--muted);font-size:11px;font-weight:500}
+.srow .col span{display:block;color:var(--muted);font-size:11px;font-weight:400}
 .srow .col b{color:var(--white);font-size:14px;font-weight:600}
 .srow.low .lt{color:#ff8a5b}
 
 /* ============ Bottom sheet ============ */
-.scrim{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:.28s;z-index:20}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.6);opacity:0;visibility:hidden;transition:.3s;z-index:20;backdrop-filter:blur(2px)}
 .scrim.on{opacity:1;visibility:visible}
-.sheet{
-  position:absolute;left:0;right:0;bottom:0;z-index:21;
-  background:var(--card);border-top-left-radius:26px;border-top-right-radius:26px;
-  border-top:1px solid var(--line-2);
-  padding:20px 22px calc(22px + env(safe-area-inset-bottom));
-  transform:translateY(101%);visibility:hidden;
-  transition:transform .34s var(--ease), visibility .34s;
-}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;background:var(--card);border-top-left-radius:26px;border-top-right-radius:26px;
+  border-top:1px solid var(--line-2);padding:14px var(--pad) calc(24px + env(safe-area-inset-bottom));
+  transform:translateY(101%);visibility:hidden;transition:transform var(--t) var(--e-spring),visibility var(--t)}
 .sheet.on{transform:none;visibility:visible}
 .sheet.gold{background:var(--gold);color:#0a0a0a;border:none}
+.grabber{width:38px;height:4px;border-radius:4px;background:var(--line-2);margin:0 auto 14px}
+.sheet.gold .grabber{background:rgba(0,0,0,.25)}
 .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .sheet-head .st{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);display:inline-block}
-.mini{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.mcell{background:var(--card-2);border-radius:12px;padding:13px 15px;text-align:center}
-.mcell span{display:block;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:13px}
+.sheet-head h3{font-size:18px}
+.dot{width:9px;height:9px;border-radius:50%;background:#4fd08a;display:inline-block}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mcell{background:var(--card-2);border-radius:12px;padding:12px 14px;text-align:center}
+.mcell span{display:block;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:12px}
 .mcell b{display:block;color:var(--white);font-weight:500;font-size:15px;margin-top:4px}
 
 /* ============ Bottom tab bar ============ */
-.tabbar{
-  position:absolute;left:0;right:0;bottom:0;z-index:8;
-  background:linear-gradient(to top, var(--ink) 62%, rgba(5,5,5,0));
-  padding:14px 20px calc(16px + env(safe-area-inset-bottom));
-  text-align:center;
-}
-.tabbar .links{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
-.tabbar a{color:var(--muted-2);font-size:12.5px;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
-.tabbar a:hover{color:var(--white)}
-.tabbar a.on{color:var(--gold)}
-.tabbar .logo{font-size:17px;margin-top:9px}
-.app[data-nochrome="1"] .tabbar{display:none}
+.tabbar{position:absolute;left:0;right:0;bottom:0;z-index:7;display:none;
+  background:rgba(10,10,10,.86);backdrop-filter:blur(16px);border-top:1px solid var(--line);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr)}
+.app[data-tabbar="1"] .tabbar{display:grid}
+.tabitem{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;color:var(--muted);cursor:pointer;transition:color .18s}
+.tabitem span{font-size:10.5px;font-weight:500}
+.tabitem.on{color:var(--gold)}
+.tabitem:active{transform:scale(.94)}
 
-/* home hero */
-.homehead{padding-top:2px}
-
-/* Sign up / auth */
-.auth{display:flex;flex-direction:column;min-height:100%;padding-top:24px}
-.auth .brand{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:30px}
-.auth .brand .logo{font-size:34px}
-.auth .brand .tag{color:var(--muted-2);font-size:13.5px;font-weight:300}
-.auth h2{font-size:30px}
-.auth .sub{color:var(--muted);font-size:14px;font-weight:300;margin-top:2px;margin-bottom:22px}
-.field{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--line-2);padding:14px 2px;margin-bottom:6px}
-.field svg{color:var(--gold);flex:0 0 auto}
-.field input{border:none;background:transparent;outline:none;color:var(--white);font-family:var(--sans);font-size:15px;width:100%;font-weight:400}
-.field input::placeholder{color:var(--muted)}
-.auth .foot{margin-top:auto;text-align:center;color:var(--muted);font-size:13.5px;padding-top:26px}
-.auth .foot a{color:var(--gold);font-weight:600;cursor:pointer}
-
-/* profile */
-.profcard{background:var(--card);border-radius:20px;padding:16px;display:flex;align-items:center;gap:16px;margin-top:8px}
-.profcard .nm{font-family:var(--disp);font-weight:700;font-size:22px;color:var(--gold)}
-.avatar{width:74px;height:74px;border-radius:50%;overflow:hidden;flex:0 0 auto;background:#3a3733;border:2px solid rgba(255,255,255,.1)}
-.avatar svg{width:100%;height:100%;display:block}
-.plist{margin-top:22px}
-.prow{display:flex;align-items:flex-start;justify-content:space-between;padding:16px 2px;border-bottom:1px solid var(--line)}
-.prow .k{font-family:var(--disp);font-weight:700;font-size:17px}
-.prow .v{color:var(--muted-2);font-size:14px;font-weight:300;margin-top:3px}
-.prow .kd{color:var(--gold);cursor:pointer;padding:2px 6px}
-
-/* help center */
-.helpicons{display:flex;gap:14px;background:var(--card);border-radius:18px;padding:16px;margin-top:16px;justify-content:center}
-.hico{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;color:var(--gold);cursor:pointer;transition:.18s}
-.hico:hover{background:var(--gold);color:#111}
-.hico.muted{border-color:var(--line-2);color:var(--muted)}
-.faqs{margin-top:26px}
-.faq{padding:16px 0;border-bottom:1px solid var(--line)}
-.faq q{display:block;font-family:var(--disp);font-weight:700;font-size:16px;color:var(--gold);quotes:none}
-.faq p{color:var(--muted-2);font-size:13.5px;font-weight:300;margin-top:6px;line-height:1.5}
-
-/* nav overlay (hamburger) */
-.navmenu{
-  position:absolute;inset:0;z-index:30;background:var(--gold);color:#0a0a0a;
-  display:flex;flex-direction:column;align-items:center;
-  padding:60px 30px calc(30px + env(safe-area-inset-bottom));
-  transform:translateX(102%);transition:transform .38s var(--ease);
-}
-.navmenu.on{transform:none}
-.navmenu .x{position:absolute;top:52px;right:28px;color:#0a0a0a;cursor:pointer}
-.navmenu .avatar{width:96px;height:96px;border:none;margin-top:8px}
-.navmenu .nm{font-family:var(--disp);font-weight:700;font-size:24px;margin-top:16px;color:#0a0a0a}
-.navmenu .rule{width:70%;height:1.5px;background:rgba(0,0,0,.35);margin:18px 0 8px}
-.navmenu .mlinks{display:flex;flex-direction:column;align-items:center;gap:26px;margin-top:26px}
-.navmenu .mlinks a{color:#0a0a0a;font-family:var(--disp);font-weight:600;font-size:21px;cursor:pointer}
-.navmenu .mlinks a:hover{opacity:.7}
-.navmenu .logout{margin-top:auto;width:100%}
-.navmenu .socials{display:flex;gap:22px;margin-top:24px}
-.navmenu .socials .s{width:44px;height:44px;border-radius:50%;background:#0a0a0a;color:var(--gold);display:grid;place-items:center;cursor:pointer}
-
-/* map thumbnail on receipt */
-.mapthumb{height:150px;border-radius:16px;margin-top:6px;overflow:hidden;position:relative;background:#e9e6df}
+/* map thumbnail */
+.mapthumb{height:150px;border-radius:var(--r);overflow:hidden;position:relative;background:#e7e3da}
 .mapthumb svg{position:absolute;inset:0;width:100%;height:100%}
-.maptag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:#111;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:11px;padding:5px 12px;border-radius:100px}
+.maptag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:#111;color:var(--gold);font-family:var(--disp);font-weight:700;font-size:11px;padding:5px 12px;border-radius:100px;white-space:nowrap}
 
-/* confirmation (gold) */
-.gold .confirm-hero{padding:6px 0 20px}
-.gold .confirm-hero h2{font-size:30px}
-.gold .confirm-hero p{font-size:14px;font-weight:400;margin-top:8px;color:#171717}
-.gold .note{background:#0a0a0a;color:var(--gold);border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.5;font-weight:300;margin:18px 0}
-.gold .pmap{background:#0a0a0a;border-color:rgba(0,0,0,.2)}
-.gold .pmap .entrance{background:#1c1c1c}
-.gold .pcell{background:#1c1c1c}
-.gold .pcell.sel{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+/* ticket / QR */
+.ticket{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;text-align:center;position:relative;overflow:hidden}
+.ticket::before,.ticket::after{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:var(--ink);top:50%;transform:translateY(-50%)}
+.ticket::before{left:-11px}.ticket::after{right:-11px}
+.qr{width:120px;height:120px;margin:0 auto;background:#fff;border-radius:12px;padding:9px}
+.qr svg{width:100%;height:100%}
+.ticket .tk-code{font-family:var(--disp);font-weight:700;letter-spacing:2px;font-size:14px;margin-top:12px}
+.ticket .tk-sub{color:var(--muted);font-size:11.5px;margin-top:2px}
+
+/* gold confirm / cancelled */
+.gold .note{background:#0a0a0a;color:var(--gold);border-radius:14px;padding:14px 16px;font-size:12.5px;line-height:1.5;font-weight:300;margin:var(--s-5) 0}
+.gold .pmap{background:#0a0a0a;border-color:rgba(0,0,0,.15)}
+.gold .pmap .entrance{background:#1c1c1c}.gold .pcell{background:#1c1c1c}
+.gold .pcell.sel{background:var(--gold);color:#0a0a0a;border-color:#0a0a0a}
+.hero-check{width:76px;height:76px;border-radius:50%;background:#0a0a0a;display:grid;place-items:center;color:var(--gold);margin:8px 0 var(--s-5)}
 .stack{display:flex;flex-direction:column;gap:12px}
-.big-x{width:64px;height:64px;border-radius:50%;background:#0a0a0a;display:grid;place-items:center;color:var(--gold);margin:8px auto 4px}
+
+/* ============ Profile ============ */
+.avatar{display:block;border-radius:50%;overflow:hidden;flex:0 0 auto;background:#c9b6a4}
+.avatar img,.avatar svg{width:100%;height:100%;display:block;object-fit:cover}
+.prof-hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:var(--s-4) 0 var(--s-5)}
+.prof-hero .av-wrap{position:relative}
+.prof-hero .avatar{width:96px;height:96px;border:2px solid var(--line-2)}
+.prof-hero .cam{position:absolute;right:-2px;bottom:-2px;width:32px;height:32px;border-radius:50%;background:var(--gold);color:#111;display:grid;place-items:center;border:3px solid var(--ink);cursor:pointer}
+.prof-hero h2{font-size:23px;margin-top:14px}
+.prof-hero .em{color:var(--muted);font-size:13.5px;font-weight:300;margin-top:2px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:var(--s-6)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 8px;text-align:center}
+.stat b{font-family:var(--disp);font-weight:700;font-size:20px;display:block}
+.stat span{color:var(--muted);font-size:11px;font-weight:400}
+.group{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:var(--s-5)}
+.g-lab{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 2px 10px}
+.grow{display:flex;align-items:center;gap:14px;padding:16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}
+.grow:last-child{border-bottom:none}.grow:hover{background:var(--card-2)}.grow:active{background:var(--card-3)}
+.grow .gi{width:38px;height:38px;border-radius:11px;background:var(--gold-soft);display:grid;place-items:center;color:var(--gold);flex:0 0 auto}
+.grow .gt{flex:1;font-weight:500;font-size:15px}
+.grow .gv{color:var(--muted);font-size:13px;font-weight:300}
+.grow .chev{color:var(--muted)}
+.grow.danger .gi{background:rgba(255,107,94,.12);color:var(--danger)}
+.grow.danger .gt{color:var(--danger)}
+/* toggle */
+.tgl{width:44px;height:26px;border-radius:100px;background:var(--card-3);position:relative;cursor:pointer;transition:background .2s;flex:0 0 auto}
+.tgl::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .22s var(--e-spring)}
+.tgl.on{background:var(--gold)}.tgl.on::after{transform:translateX(18px)}
+
+/* payment card visual */
+.paycard{border-radius:var(--r-lg);padding:20px;color:#fff;position:relative;overflow:hidden;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(135deg,#2b2b30 0%,#141416 60%,#0c0c0d 100%);border:1px solid var(--line-2)}
+.paycard.gold{background:linear-gradient(135deg,#FFD97a 0%,#F0B93E 55%,#d99f28 100%);color:#0a0a0a}
+.paycard .pc-top{display:flex;align-items:center;justify-content:space-between}
+.paycard .pc-brand{font-family:var(--disp);font-weight:800;font-size:18px;font-style:italic}
+.paycard .pc-num{font-family:var(--disp);font-weight:500;font-size:19px;letter-spacing:3px}
+.paycard .pc-bot{display:flex;align-items:flex-end;justify-content:space-between;font-size:11px}
+.paycard .pc-bot b{font-size:13px;font-weight:600;display:block;margin-top:2px}
+.paycard .pc-chip{width:38px;height:28px;border-radius:6px;background:linear-gradient(135deg,#e8c56a,#c99a2e)}
+
+/* help */
+.helpicons{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:var(--s-4) 0 var(--s-6)}
+.hico{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 8px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;transition:.18s}
+.hico:hover{border-color:var(--gold);background:var(--card-2)}
+.hico .hc-ic{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;color:var(--gold)}
+.hico span{font-size:11.5px;font-weight:500;color:var(--muted-2)}
+.faq{padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.faq .q{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--disp);font-weight:600;font-size:15px;color:var(--white)}
+.faq .q svg{color:var(--gold);flex:0 0 auto;transition:transform .25s}
+.faq.open .q svg{transform:rotate(180deg)}
+.faq .a{color:var(--muted-2);font-size:13.5px;font-weight:300;line-height:1.55;max-height:0;overflow:hidden;transition:max-height .3s var(--e),margin .3s;margin-top:0}
+.faq.open .a{max-height:200px;margin-top:10px}
 
 /* empty state */
-.empty{text-align:center;color:var(--muted);font-size:14px;padding:60px 20px;font-weight:300}
-.empty svg{color:var(--card-2);margin-bottom:10px}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:56px 20px;font-weight:300}
+.empty .ei{width:64px;height:64px;border-radius:50%;background:var(--card);display:grid;place-items:center;color:var(--card-3);margin:0 auto 14px}
+.empty .ei svg{color:var(--muted)}
+
+/* ============ Nav menu overlay (full height) ============ */
+.navmenu{position:absolute;inset:0;z-index:30;background:var(--gold);color:#0a0a0a;display:flex;flex-direction:column;
+  padding:56px var(--pad) calc(24px + env(safe-area-inset-bottom));transform:translateX(102%);transition:transform var(--t) var(--e);pointer-events:none}
+.navmenu.on{transform:none;pointer-events:auto}
+.navmenu .nm-x{position:absolute;top:52px;right:var(--pad);color:#0a0a0a;cursor:pointer;width:38px;height:38px;display:grid;place-items:center;border-radius:12px}
+.navmenu .nm-x:hover{background:rgba(0,0,0,.08)}
+.nm-head{display:flex;align-items:center;gap:14px;padding-bottom:20px;border-bottom:1.5px solid rgba(0,0,0,.15)}
+.nm-head .avatar{width:58px;height:58px;border:2px solid rgba(0,0,0,.15)}
+.nm-head .nm-name{font-family:var(--disp);font-weight:700;font-size:19px;color:#0a0a0a}
+.nm-head .nm-em{font-size:12.5px;color:rgba(0,0,0,.55);font-weight:400}
+.nm-rows{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;gap:2px;padding:8px 0}
+.navmenu.on .nm-rows > *{opacity:0;animation:rise .5s var(--e) forwards;animation-delay:calc(var(--i,0)*60ms + 120ms)}
+.navrow{display:flex;align-items:center;gap:16px;padding:18px 4px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.1);transition:padding-left .18s}
+.navrow:hover{padding-left:10px}
+.navrow .nr-ic{width:26px;display:grid;place-items:center;color:#0a0a0a}
+.navrow .nr-t{flex:1;font-family:var(--disp);font-weight:600;font-size:19px;color:#0a0a0a}
+.navrow .nr-ch{color:rgba(0,0,0,.4)}
+.nm-foot{padding-top:16px}
+.nm-foot .btn{margin-bottom:16px}
+.nm-social{display:flex;gap:14px;justify-content:center}
+.nm-social .s{width:44px;height:44px;border-radius:50%;background:#0a0a0a;color:var(--gold);display:grid;place-items:center;cursor:pointer;transition:transform .12s}
+.nm-social .s:active{transform:scale(.9)}
 
 /* toast */
-.toast{position:absolute;left:22px;right:22px;bottom:118px;z-index:40;background:#0a0a0a;border:1px solid var(--line-2);color:#fff;border-radius:14px;padding:14px 16px;font-size:13.5px;font-weight:400;text-align:center;opacity:0;transform:translateY(10px);transition:.28s;pointer-events:none}
+.toast{position:absolute;left:var(--pad);right:var(--pad);bottom:96px;z-index:40;background:#0a0a0a;border:1px solid var(--line-2);color:#fff;border-radius:14px;padding:14px 16px;font-size:13.5px;font-weight:400;text-align:center;opacity:0;transform:translateY(12px);transition:.3s var(--e-spring);pointer-events:none;box-shadow:0 16px 40px -20px #000}
 .toast.on{opacity:1;transform:none}
 
-/* ============ UI KIT / DESIGN-SYSTEM BOARD ============ */
-.kit-top{padding:14px 0 6px}
-.kit-h1{font-size:30px;margin-top:12px}
-.kit-group{font-family:var(--disp);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin:32px 2px 12px}
-.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.kit-grid.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+/* helpers */
+.mt2{margin-top:8px}.mt3{margin-top:12px}.mt4{margin-top:16px}.mt5{margin-top:20px}.mt6{margin-top:24px}
+.center{text-align:center}
+
+/* ============ UI KIT ============ */
+.kit-h1{font-size:28px}
+.kit-group{font-family:var(--disp);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin:28px 2px 12px}
+.kit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.kit-grid.c4{grid-template-columns:repeat(4,1fr)}
 .kit-stack{display:flex;flex-direction:column;gap:12px}
-.kit-cell{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px}
-.kit-cell.gold{background:var(--gold)}
-.kit-cell.gold .kit-lab{color:rgba(0,0,0,.6)}
+.kit-cell{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:10px}
+.kit-cell.gold{background:var(--gold)}.kit-cell.gold .kit-lab{color:rgba(0,0,0,.55)}
 .kit-cell.wide,.kit-cell.block{grid-column:1/-1}
-.kit-stage{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center}
-.kit-stage.col{flex-direction:column}
-.kit-stage.stretch{align-items:stretch}
-.kit-lab{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.2px;text-align:center}
+.kit-stage{flex:1;min-height:60px;display:flex;align-items:center;justify-content:center;text-align:center}
+.kit-stage.col{flex-direction:column}.kit-stage.stretch{align-items:stretch}
+.kit-lab{font-size:11px;font-weight:500;color:var(--muted);text-align:center}
 .kchip{width:52px;height:52px;border-radius:14px;display:block}
-.typescale{display:flex;flex-direction:column;gap:2px;margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.typescale{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:12px}
 .typescale .ts{display:flex;flex-direction:column;gap:6px;padding:16px;border-bottom:1px solid var(--line);background:var(--card)}
 .typescale .ts:last-child{border-bottom:none}
 .tsn{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
-.icell{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:9px}
-.icell svg{color:var(--gold)}
-.icell span{font-size:10px;color:var(--muted);font-weight:500}
+.icell{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:9px}
+.icell svg{color:var(--gold)}.icell span{font-size:9.5px;color:var(--muted);font-weight:500}
 .lt-badge{font-family:var(--disp);font-weight:700;font-size:30px;color:var(--gold)}
-.tablink-demo{color:var(--gold);font-size:14px;font-weight:500;cursor:default}
-.kit-cell .btn{width:auto;min-width:170px}
+.kit-cell .btn{width:auto;min-width:160px}
 
-/* small helper */
-.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}
-.center{text-align:center}
-.divider{height:1px;background:var(--line);margin:20px 0}
-
-/* floating screen switcher for building mockups (hidden in bare mode & print) */
-.dev{position:fixed;z-index:99;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px;font-family:var(--sans)}
+.dev{position:fixed;z-index:99;right:14px;bottom:14px;font-family:var(--sans)}
 .dev.hide{display:none}
 .dev summary{list-style:none;cursor:pointer;background:#111;color:var(--gold);border:1px solid #333;border-radius:100px;padding:8px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px -12px rgba(0,0,0,.6)}
 .dev summary::-webkit-details-marker{display:none}
-.dev .menu{background:#111;border:1px solid #333;border-radius:14px;padding:8px;margin-top:6px;max-height:56vh;overflow:auto;width:190px}
+.dev .menu{background:#111;border:1px solid #333;border-radius:14px;padding:8px;margin-top:6px;max-height:60vh;overflow:auto;width:200px}
 .dev .menu button{display:block;width:100%;text-align:left;background:none;border:none;color:#ddd;font-size:12.5px;padding:8px 10px;border-radius:8px;cursor:pointer;font-family:var(--sans)}
 .dev .menu button:hover{background:#222;color:var(--gold)}
 .dev .menu .lbl{color:#666;font-size:10px;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px 4px}
-@media (max-width:440px){.dev{display:none}}
-body.bare .dev{display:none}
-
-@media (prefers-reduced-motion:reduce){
-  *{transition-duration:.001s!important;animation-duration:.001s!important}
-}
+@media (max-width:440px){.dev{display:none}}body.bare .dev{display:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
 </style>
 </head>
 <body>
@@ -421,37 +425,77 @@ body.bare .dev{display:none}
   <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 13.5 20 4l-6.5 16-2.5-6.5z"/></symbol>
   <symbol id="i-loc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke-linecap="round"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M9.5 9.6a3 3 0 0 0 4.2 4.3M6.5 6.7C3.9 8.3 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.6 0 3-.4 4.2-1M17.3 15.2C20 13.6 21.5 12 21.5 12S18 5.5 12 5.5c-.7 0-1.4.1-2 .3"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6.5 3.5 9 4l1 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1 .5 2.5a2 2 0 0 1-2 2.3A15 15 0 0 1 4.2 5.5a2 2 0 0 1 2.3-2z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5.5h16v11H9l-4 3.5v-3.5H4z"/></symbol>
   <symbol id="i-dots" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-cr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
   <symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2v0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
-  <!-- Avatar (illustrated) -->
-  <symbol id="av" viewBox="0 0 100 100">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11 12 4l8 7M6 9.5V20h12V9.5"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M3 9.5h18M7 14.5h4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6zM9.5 19a2.5 2.5 0 0 0 5 0"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M9.5 9.5a2.6 2.6 0 0 1 5 .8c0 1.8-2.5 2-2.5 3.7"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M13.5 6.5 17.5 10.5"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.6 5.6L21 9.3l-4.5 4.2 1.2 6.1L12 16.9 6.3 19.6l1.2-6.1L3 9.3l6.4-.7z"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5H6v14h9M10 12h10m0 0-3-3m3 3-3 3"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1a6.2 6.2 0 0 1 0-12.4c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.9 2.9 14.7 2 12 2A10 10 0 1 0 22 12c0-.7-.07-1.2-.16-1.8z"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24" fill="currentColor"><path d="M16 2.5c.1 1-.3 2-1 2.8-.7.8-1.7 1.4-2.7 1.3-.1-1 .4-2 1-2.7.7-.8 1.8-1.4 2.7-1.4zM19 17c-.5 1.2-.8 1.7-1.4 2.7-.9 1.4-2.2 3.1-3.8 3.1-1.4 0-1.8-.9-3.7-.9s-2.3.9-3.7.9c-1.6 0-2.8-1.6-3.7-3C-.3 15.6-.6 9.9 2.5 8c1.1-.7 2.3-.9 3.2-.9 1.4 0 2.4 1 3.5 1s1.9-1 3.6-1c.8 0 3 .1 4.4 2.2-.1.1-2.6 1.5-2.6 4.5 0 3.4 3 4.6 3 4.6z"/></symbol>
+  <!-- Realistic illustrated portrait avatar -->
+  <symbol id="av" viewBox="0 0 200 200">
     <defs>
-      <radialGradient id="avbg" cx="50%" cy="34%" r="75%"><stop offset="0%" stop-color="#8a7f74"/><stop offset="100%" stop-color="#5c534a"/></radialGradient>
+      <radialGradient id="av-bg" cx="50%" cy="30%" r="85%"><stop offset="0%" stop-color="#eadfd3"/><stop offset="100%" stop-color="#cdbaa8"/></radialGradient>
+      <linearGradient id="av-skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f4d4bd"/><stop offset="100%" stop-color="#e9bfa2"/></linearGradient>
+      <linearGradient id="av-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a3327"/><stop offset="100%" stop-color="#33231b"/></linearGradient>
+      <linearGradient id="av-top" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c56a45"/><stop offset="100%" stop-color="#a9502f"/></linearGradient>
     </defs>
-    <rect width="100" height="100" fill="url(#avbg)"/>
-    <path d="M18 92c2-16 14-25 32-25s30 9 32 25z" fill="#e7cbb4"/>
-    <path d="M23 90c1-12 10-19 27-19s26 7 27 19z" fill="#f0d7c2"/>
-    <ellipse cx="50" cy="46" rx="20" ry="22" fill="#f0d1b8"/>
-    <path d="M28 44c0-18 9-27 22-27s22 9 22 27c0-3-3-7-6-8-2 4-9 7-16 7s-14-2-16-6c-3 1-6 4-6 7z" fill="#2c2320"/>
-    <path d="M28 44c-1 8 1 15 3 19-4-3-8-11-6-21zM72 44c1 8-1 15-3 19 4-3 8-11 6-21z" fill="#2c2320"/>
-    <circle cx="43" cy="47" r="2.1" fill="#3b2b23"/><circle cx="57" cy="47" r="2.1" fill="#3b2b23"/>
-    <path d="M45 56c2 1.6 8 1.6 10 0" fill="none" stroke="#c98d74" stroke-width="2" stroke-linecap="round"/>
+    <rect width="200" height="200" fill="url(#av-bg)"/>
+    <!-- shoulders / top -->
+    <path d="M28 200c3-30 22-46 72-46s69 16 72 46z" fill="url(#av-top)"/>
+    <path d="M64 150c6 14 22 20 36 20s30-6 36-20c-4 8-6 16-6 24H70c0-8-2-16-6-24z" fill="#e9bfa2"/>
+    <!-- neck -->
+    <path d="M84 132h32v22c0 9-7 15-16 15s-16-6-16-15z" fill="#e3b295"/>
+    <!-- hair back -->
+    <path d="M52 96c0-34 18-58 48-58s48 24 48 58c0 20-4 34-9 44-2-16-3-30-3-44 0 0-14 10-36 10s-36-10-36-10c0 14-1 28-3 44-5-10-9-24-9-44z" fill="url(#av-hair)"/>
+    <!-- face -->
+    <ellipse cx="100" cy="102" rx="38" ry="43" fill="url(#av-skin)"/>
+    <!-- hairline / fringe -->
+    <path d="M62 92c2-30 16-46 38-46s36 16 38 46c-6-14-14-20-14-20-4 8-13 13-24 13s-20-5-24-13c0 0-8 6-14 20z" fill="url(#av-hair)"/>
+    <path d="M62 92c-2 12 0 22 4 30-6-6-10-18-8-30zM138 92c2 12 0 22-4 30 6-6 10-18 8-30z" fill="url(#av-hair)"/>
+    <!-- brows -->
+    <path d="M78 92c5-3 12-3 17 0" fill="none" stroke="#4a352a" stroke-width="3" stroke-linecap="round"/>
+    <path d="M105 92c5-3 12-3 17 0" fill="none" stroke="#4a352a" stroke-width="3" stroke-linecap="round"/>
+    <!-- eyes -->
+    <ellipse cx="86" cy="102" rx="5.2" ry="4" fill="#fff"/><circle cx="86.5" cy="102.5" r="3.1" fill="#4b3222"/><circle cx="85.5" cy="101.5" r="1" fill="#fff"/>
+    <ellipse cx="114" cy="102" rx="5.2" ry="4" fill="#fff"/><circle cx="113.5" cy="102.5" r="3.1" fill="#4b3222"/><circle cx="112.5" cy="101.5" r="1" fill="#fff"/>
+    <!-- lashes -->
+    <path d="M80.5 100.5c3-2 8-2 11 0M108.5 100.5c3-2 8-2 11 0" fill="none" stroke="#3a2a20" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- nose -->
+    <path d="M100 104c-1 6-3 9-5 11 2 1.5 6 1.5 8 0" fill="none" stroke="#d59f80" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- blush -->
+    <ellipse cx="80" cy="118" rx="7" ry="4.5" fill="#e79c86" opacity=".45"/><ellipse cx="120" cy="118" rx="7" ry="4.5" fill="#e79c86" opacity=".45"/>
+    <!-- lips -->
+    <path d="M89 126c4 3.5 18 3.5 22 0-3 5-19 5-22 0z" fill="#c86a5c"/>
+    <path d="M89 126c4-2 18-2 22 0" fill="none" stroke="#a9503f" stroke-width="1.4"/>
   </symbol>
 </defs></svg>
 
 <div class="stage">
   <div class="device">
-    <div class="app" id="app" data-tone="dark">
+    <div class="app" id="app" data-tone="dark" data-tabbar="0">
 
       <!-- status bar -->
       <div class="statusbar">
@@ -463,151 +507,188 @@ body.bare .dev{display:none}
         </span>
       </div>
 
+      <!-- GLOBAL STICKY HEADER (always visible) -->
+      <header class="header" id="header">
+        <span class="logo" data-logo></span>
+        <div class="h-actions">
+          <button class="iconbtn" id="hBell" onclick="toast('No new notifications')" title="Notifications"><svg width="22" height="22"><use href="#i-bell"/></svg></button>
+          <button class="iconbtn" onclick="openMenu()" title="Menu"><svg width="24" height="24"><use href="#i-menu"/></svg></button>
+        </div>
+      </header>
+
       <!-- ============ VIEWPORT ============ -->
       <div class="viewport" id="viewport">
 
-        <!-- ===== SIGN UP ===== -->
-        <section class="screen" id="signup" data-nochrome="1">
-          <div class="auth">
-            <div class="brand">
-              <span class="logo" data-logo></span>
-              <span class="tag">Your Ticket to Seamless Event Parking</span>
+        <!-- ===== LOGIN ===== -->
+        <section class="screen" id="login">
+          <div class="stagger" style="padding-top:20px">
+            <h2 class="screen-title" style="--i:0;font-size:32px">Welcome back</h2>
+            <p class="lead" style="--i:2;margin-bottom:24px">Log in to reserve your next event spot.</p>
+            <form class="form" style="--i:3" onsubmit="event.preventDefault();go('home')">
+              <div class="field"><label>Email</label>
+                <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-mail"/></svg></span>
+                  <input class="input pl" type="email" value="sarah.johnson@gmail.com" spellcheck="false"></div></div>
+              <div class="field"><label>Password</label>
+                <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-lock"/></svg></span>
+                  <input class="input pl pr" type="password" value="lovemyparking32!" data-pw>
+                  <span class="tr" onclick="togglePw(this)"><svg width="19" height="19"><use href="#i-eye"/></svg></span></div></div>
+              <div style="text-align:right;margin-top:-6px"><a class="hint" style="color:var(--gold);cursor:pointer" onclick="toast('Reset link sent')">Forgot password?</a></div>
+              <button class="btn btn-gold btn-lg" type="submit">Log In</button>
+            </form>
+            <div class="or" style="--i:4">or continue with</div>
+            <div class="btn-row" style="--i:5">
+              <button class="social" onclick="go('home')"><svg width="18" height="18"><use href="#i-google"/></svg> Google</button>
+              <button class="social" onclick="go('home')"><svg width="18" height="18"><use href="#i-apple"/></svg> Apple</button>
             </div>
-            <h2>Sign Up</h2>
-            <p class="sub">With name, email and password</p>
-            <div class="field"><svg width="20" height="20"><use href="#i-mail"/></svg><input type="email" value="sarah.johnson@gmail.com" spellcheck="false"></div>
-            <div class="field"><svg width="20" height="20"><use href="#i-user"/></svg><input type="text" value="Sarah Johnson"></div>
-            <div class="field"><svg width="20" height="20"><use href="#i-lock"/></svg><input type="text" value="lovemyparking32!"></div>
-            <button class="btn btn-gold btn-lg mt24" onclick="go('home')">Sign Up</button>
-            <p class="foot">Already have an account? <a onclick="go('home')">Log in</a></p>
+            <p class="center muted mt6" style="--i:6;font-size:13.5px">New here? <a style="color:var(--gold);font-weight:600;cursor:pointer" onclick="go('signup')">Create an account</a></p>
+          </div>
+        </section>
+
+        <!-- ===== SIGN UP ===== -->
+        <section class="screen" id="signup">
+          <div class="stagger" style="padding-top:20px">
+            <h2 class="screen-title" style="--i:0;font-size:32px">Create account</h2>
+            <p class="lead" style="--i:2;margin-bottom:24px">Your ticket to seamless event parking.</p>
+            <form class="form" style="--i:3" onsubmit="event.preventDefault();go('home')">
+              <div class="field"><label>Full name</label>
+                <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-user"/></svg></span>
+                  <input class="input pl" type="text" value="Sarah Johnson"></div></div>
+              <div class="field"><label>Email</label>
+                <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-mail"/></svg></span>
+                  <input class="input pl" type="email" value="sarah.johnson@gmail.com" spellcheck="false"></div></div>
+              <div class="field"><label>Password</label>
+                <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-lock"/></svg></span>
+                  <input class="input pl pr" type="password" value="lovemyparking32!" data-pw>
+                  <span class="tr" onclick="togglePw(this)"><svg width="19" height="19"><use href="#i-eye"/></svg></span></div>
+                <span class="hint ok">Strong password</span></div>
+              <button class="btn btn-gold btn-lg" type="submit">Sign Up</button>
+            </form>
+            <div class="or" style="--i:4">or continue with</div>
+            <div class="btn-row" style="--i:5">
+              <button class="social" onclick="go('home')"><svg width="18" height="18"><use href="#i-google"/></svg> Google</button>
+              <button class="social" onclick="go('home')"><svg width="18" height="18"><use href="#i-apple"/></svg> Apple</button>
+            </div>
+            <p class="center muted mt6" style="--i:6;font-size:13.5px">Already have an account? <a style="color:var(--gold);font-weight:600;cursor:pointer" onclick="go('login')">Log in</a></p>
           </div>
         </section>
 
         <!-- ===== HOME ===== -->
         <section class="screen" id="home">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          <div class="stagger">
+            <div style="--i:0"><h1 class="hello">Hello, <b>Sarah</b></h1>
+              <p class="lead" style="margin-top:2px">Let’s find parking for your next event.</p></div>
+            <div class="search mt5" style="--i:1" onclick="document.getElementById('homeSearch').focus()">
+              <svg width="20" height="20"><use href="#i-search"/></svg>
+              <input id="homeSearch" placeholder="Search by venue or event" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch()">
+            </div>
+            <div class="chips mt3" style="--i:2">
+              <span class="chip-pill" onclick="quick('Concerts')"><svg width="14" height="14"><use href="#i-star"/></svg>Concerts</span>
+              <span class="chip-pill" onclick="quick('Festivals')">Festivals</span>
+              <span class="chip-pill" onclick="quick('Sports')">Sports</span>
+            </div>
+            <div class="sec-head" style="--i:3"><h3>Upcoming reservation</h3><a onclick="go('myparking')">See all</a></div>
+            <div id="homeUpcoming" style="--i:4"></div>
+            <div class="sec-head" style="--i:5"><h3>Popular near you</h3></div>
+            <div class="reslist" id="homePopular" style="--i:6"></div>
           </div>
-          <div class="homehead mt24">
-            <h1 class="hello">Hello, <b>Sarah</b></h1>
-            <p class="lead">Let’s find parking for your next event!</p>
-          </div>
-          <div class="search">
-            <svg width="20" height="20"><use href="#i-search"/></svg>
-            <input id="homeSearch" placeholder="Look up by venue or event name" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch()">
-          </div>
-          <button class="btn btn-gold mt16" onclick="runSearch()">Search</button>
-
-          <p class="eyebrow-k" style="margin:30px 2px 0">Upcoming for you</p>
-          <div class="reslist" id="homeUpcoming"></div>
         </section>
 
         <!-- ===== SEARCH RESULTS ===== -->
         <section class="screen" id="search">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <div class="search dark mt16">
+          <div class="title-row"><div><h2 class="screen-title">Search</h2></div>
+            <div class="round-x" onclick="go('home')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="search dark" onclick="document.getElementById('searchInput').focus()">
             <svg width="20" height="20"><use href="#i-search"/></svg>
             <input id="searchInput" value="Masego" spellcheck="false" onkeydown="if(event.key==='Enter')runSearch(this.value)">
-            <svg width="20" height="20" style="cursor:pointer" onclick="go('home')"><use href="#i-x"/></svg>
+            <svg width="19" height="19" style="cursor:pointer" onclick="document.getElementById('searchInput').value='';document.getElementById('searchInput').focus()"><use href="#i-x"/></svg>
           </div>
           <p class="results-count"><b id="resCount">6</b> results for “<span id="resTerm">Masego</span>”</p>
-          <div class="reslist" id="results"></div>
+          <div class="reslist stagger" id="results"></div>
         </section>
 
-        <!-- ===== EVENT INFO ===== -->
+        <!-- ===== EVENT DETAIL ===== -->
         <section class="screen" id="event">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          <div class="title-row"><div><h2 class="screen-title">Event details</h2></div>
+            <div class="round-x" onclick="go('search')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="stagger">
+            <div id="eventBanner" style="--i:0;border-radius:var(--r-lg);height:150px;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;color:#0a0a0a"></div>
+            <div id="eventHead" style="--i:1;margin-top:16px"></div>
+            <div class="info-card mt5" style="--i:2" id="eventInfo"></div>
+            <div class="sec-head" style="--i:3"><h3>About</h3></div>
+            <p class="lead" style="--i:4" id="eventAbout"></p>
+            <div style="--i:5;margin-top:22px;display:flex;align-items:center;justify-content:space-between">
+              <div><span class="muted" style="font-size:12px">Parking from</span><div style="font-family:var(--disp);font-weight:700;font-size:20px;color:var(--gold)" id="eventPrice">$5.99<span style="font-size:12px;color:var(--muted)">/hr</span></div></div>
+              <button class="btn btn-gold" style="width:auto;padding-left:32px;padding-right:32px" onclick="go('lot')">Get Parking</button>
+            </div>
           </div>
-          <div class="sec-title">Event Info <span class="close-x" onclick="go('search')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
-          <div class="info-card" id="eventInfo"></div>
-          <button class="btn btn-gold btn-lg mt24" onclick="go('lot')">Get Parking</button>
         </section>
 
         <!-- ===== CHOOSE PARKING LOT ===== -->
         <section class="screen" id="lot">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <div class="sec-title">Choose Parking Lot <span class="close-x" onclick="go('event')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
-
-          <div class="times mt16">
-            <div class="tfield"><label>Start Time</label>
-              <div class="selwrap"><select id="startTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div>
+          <div class="title-row"><div><h2 class="screen-title">Choose Parking Lot</h2><div class="sub" id="lotVenue">Masego @ Bayou Music Center</div></div>
+            <div class="round-x" onclick="go('event')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="stagger">
+            <div style="--i:0;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="field"><label>Start time</label>
+                <div class="selwrap"><select id="startTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div>
+              <div class="field"><label>End time</label>
+                <div class="selwrap"><select id="endTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div>
             </div>
-            <div class="tfield"><label>End Time</label>
-              <div class="selwrap"><select id="endTime" onchange="recalc()"></select><svg width="18" height="18"><use href="#i-chev"/></svg></div>
+            <div class="sec-head" style="--i:1"><h3>Parking Lot Map</h3></div>
+            <div class="pmap" style="--i:2">
+              <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
+              <div class="pgrid" id="pgrid"></div>
             </div>
+            <div class="sec-head" style="--i:3"><h3>Parking Sections</h3><span class="muted" style="font-size:12px">Select a section</span></div>
+            <div class="slist" id="sections" style="--i:4"></div>
           </div>
-
-          <h3 style="font-size:19px;margin:26px 2px 0">Parking Lot Map</h3>
-          <div class="pmap">
-            <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
-            <div class="pgrid" id="pgrid"></div>
-          </div>
-
-          <h3 style="font-size:19px;margin:26px 2px 0">Parking Sections</h3>
-          <p class="lead" style="margin-top:2px">Select a section</p>
-          <div class="slist" id="sections"></div>
         </section>
 
-        <!-- ===== BOOKING CONFIRMATION (gold) ===== -->
-        <section class="screen gold" id="confirm" data-nochrome="1" data-tone="gold">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <div class="confirm-hero mt16">
-            <h2>You’re parking in <span id="confLot">Lot A</span>.</h2>
-            <p>A confirmation has been sent to your email.</p>
-          </div>
-          <div class="pmap">
-            <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
-            <div class="pgrid" id="confGrid"></div>
-          </div>
-          <p class="note">*Remember to cancel your spot 2 hours prior to your event. If you do not show up, you will still be charged.</p>
-          <div class="stack">
-            <button class="btn btn-dark btn-lg" onclick="go('myparking')">My Parking</button>
-            <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('home')">Back to Home</button>
+        <!-- ===== BOOKING CONFIRMED (gold) ===== -->
+        <section class="screen gold" id="confirm" data-tone="gold">
+          <div class="stagger" style="padding-top:8px">
+            <div class="hero-check" style="--i:0"><svg width="38" height="38"><use href="#i-check"/></svg></div>
+            <h2 class="screen-title" style="--i:1;font-size:29px">You’re parking in <span id="confLot">Lot A</span>.</h2>
+            <p style="--i:2;font-size:14px;color:#171717;margin-top:8px">A confirmation and directions were sent to your email.</p>
+            <div class="pmap mt5" style="--i:3">
+              <div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div>
+              <div class="pgrid" id="confGrid"></div>
+            </div>
+            <p class="note" style="--i:4">*Remember to cancel your spot 2 hours prior to your event. If you don’t show up, you will still be charged.</p>
+            <div class="stack" style="--i:5">
+              <button class="btn btn-dark btn-lg" onclick="go('receipt')">View My Ticket</button>
+              <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('home')">Back to Home</button>
+            </div>
           </div>
         </section>
 
         <!-- ===== MY PARKING ===== -->
         <section class="screen" id="myparking">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <h1 style="font-size:28px;margin:22px 2px 0">My Parking</h1>
+          <h2 class="screen-title" style="margin-bottom:16px">My Parking</h2>
           <div class="tabs">
             <div class="tab on" data-tab="up" onclick="switchTab('up')">Upcoming</div>
             <div class="tab" data-tab="past" onclick="switchTab('past')">Past</div>
           </div>
-          <div class="reslist" id="upcoming"></div>
-          <div class="reslist" id="past" style="display:none"></div>
+          <div class="reslist stagger" id="upcoming"></div>
+          <div class="reslist stagger" id="past" style="display:none"></div>
         </section>
 
         <!-- ===== PARKING RECEIPT ===== -->
         <section class="screen" id="receipt">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          <div class="title-row"><div><h2 class="screen-title">Your Ticket</h2></div>
+            <div class="round-x" onclick="go('myparking')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="tabs">
+            <div class="tab on" data-rtab="park" onclick="switchReceipt('park')">Parking</div>
+            <div class="tab" data-rtab="ev" onclick="switchReceipt('ev')">Event</div>
           </div>
-          <div class="sec-title">Parking Receipt <span class="close-x" onclick="go('myparking')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
-          <div class="tabs" style="border:none;gap:24px">
-            <div class="tab on" data-rtab="park" onclick="switchReceipt('park')">Parking Info</div>
-            <div class="tab" data-rtab="ev" onclick="switchReceipt('ev')">Event Info</div>
-          </div>
-
-          <!-- Parking info -->
-          <div id="rPark">
-            <div class="mapthumb">
+          <div id="rPark" class="stagger">
+            <div class="ticket" style="--i:0">
+              <div class="qr"><svg id="qrSvg" viewBox="0 0 100 100"></svg></div>
+              <div class="tk-code" id="tkCode">PNG-4821-A</div>
+              <div class="tk-sub">Show this at the lot gate</div>
+            </div>
+            <div class="info-card mt5" style="--i:1" id="receiptPark"></div>
+            <div class="mapthumb mt4" style="--i:2">
               <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMid slice">
                 <rect width="300" height="150" fill="#e7e3da"/>
                 <path d="M-20 40 L320 20" stroke="#cfcabd" stroke-width="26" fill="none"/>
@@ -615,551 +696,507 @@ body.bare .dev{display:none}
                 <path d="M60 -20 L90 170" stroke="#d8d3c7" stroke-width="18" fill="none"/>
                 <path d="M210 -20 L240 170" stroke="#d8d3c7" stroke-width="14" fill="none"/>
                 <path d="M-20 40 L320 20" stroke="#fff" stroke-width="2" stroke-dasharray="8 8" fill="none"/>
-                <circle cx="150" cy="66" r="9" fill="#F0B93E" stroke="#111" stroke-width="2.5"/>
-                <circle cx="150" cy="66" r="2.6" fill="#111"/>
+                <circle cx="150" cy="66" r="9" fill="#F0B93E" stroke="#111" stroke-width="2.5"/><circle cx="150" cy="66" r="2.6" fill="#111"/>
               </svg>
               <span class="maptag">Park n Go Lots</span>
             </div>
-            <div class="info-card" id="receiptPark"></div>
+            <button class="btn btn-gold btn-lg mt4" style="--i:3" onclick="toast('Opening Google Maps…')">Directions with Google Maps</button>
           </div>
-
-          <!-- Event info -->
-          <div id="rEv" style="display:none">
-            <div class="info-card" id="receiptEvent"></div>
-            <button class="btn btn-gold btn-lg mt24" onclick="toast('Opening Google Maps…')">Directions with Google Maps</button>
-            <button class="btn btn-ghost btn-lg mt16" onclick="openCancel()">Cancel Ticket</button>
+          <div id="rEv" class="stagger" style="display:none">
+            <div class="info-card" style="--i:0" id="receiptEvent"></div>
+            <button class="btn btn-danger btn-lg mt5" style="--i:1" onclick="openCancel()">Cancel Ticket</button>
           </div>
         </section>
 
         <!-- ===== TICKET CANCELLED (gold) ===== -->
-        <section class="screen gold" id="cancelled" data-nochrome="1" data-tone="gold">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <div class="sec-title" style="color:#0a0a0a">Ticket Cancelled <span class="close-x" onclick="go('home')"><svg width="20" height="20"><use href="#i-x"/></svg></span></div>
-          <p style="font-size:14px;font-weight:400;color:#171717;line-height:1.55;margin:4px 2px 26px">You have cancelled your reservation ticket successfully. A full reimbursement will be sent to your bank account in 2–3 business days.</p>
-          <div class="stack">
-            <button class="btn btn-dark btn-lg" onclick="go('home')">Create New Reservation</button>
-            <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('home')">Back to Home</button>
+        <section class="screen gold" id="cancelled" data-tone="gold">
+          <div class="stagger" style="padding-top:8px">
+            <div class="hero-check" style="--i:0"><svg width="34" height="34"><use href="#i-check"/></svg></div>
+            <h2 class="screen-title" style="--i:1;font-size:28px">Ticket cancelled</h2>
+            <p style="--i:2;font-size:14px;color:#171717;line-height:1.55;margin-top:8px">Your reservation was cancelled successfully. A full reimbursement will arrive to your bank account in 2–3 business days.</p>
+            <div class="stack mt6" style="--i:3">
+              <button class="btn btn-dark btn-lg" onclick="go('home')">Book Another Spot</button>
+              <button class="btn btn-ghost btn-lg" style="border-color:#0a0a0a;color:#0a0a0a" onclick="go('myparking')">My Parking</button>
+            </div>
           </div>
         </section>
 
-        <!-- ===== PROFILE ===== -->
+        <!-- ===== PROFILE (hub) ===== -->
         <section class="screen" id="profile">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
+          <div class="stagger">
+            <div class="prof-hero" style="--i:0">
+              <div class="av-wrap"><span class="avatar" data-av></span>
+                <span class="cam" onclick="toast('Change photo')"><svg width="17" height="17"><use href="#i-cam"/></svg></span></div>
+              <h2>Sarah Johnson</h2><div class="em">sarah.johnson@gmail.com</div>
+            </div>
+            <div class="stat-row" style="--i:1">
+              <div class="stat"><b>1</b><span>Upcoming</span></div>
+              <div class="stat"><b>4</b><span>Past</span></div>
+              <div class="stat"><b>’23</b><span>Member</span></div>
+            </div>
+            <div class="g-lab" style="--i:2">Account</div>
+            <div class="group" style="--i:3">
+              <div class="grow" onclick="go('pinfo')"><span class="gi"><svg width="20" height="20"><use href="#i-user"/></svg></span><span class="gt">Personal information</span><span class="chev"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+              <div class="grow" onclick="go('payment')"><span class="gi"><svg width="20" height="20"><use href="#i-card"/></svg></span><span class="gt">Payment methods</span><span class="gv" style="margin-right:6px">Visa ••3245</span><span class="chev"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+              <div class="grow" onclick="toggleTgl(this)"><span class="gi"><svg width="20" height="20"><use href="#i-bell"/></svg></span><span class="gt">Push notifications</span><span class="tgl on" data-tgl></span></div>
+            </div>
+            <div class="g-lab" style="--i:4">Support</div>
+            <div class="group" style="--i:5">
+              <div class="grow" onclick="go('help')"><span class="gi"><svg width="20" height="20"><use href="#i-help"/></svg></span><span class="gt">Help center</span><span class="chev"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+              <div class="grow" onclick="toast('Privacy & terms')"><span class="gi"><svg width="20" height="20"><use href="#i-shield"/></svg></span><span class="gt">Privacy &amp; terms</span><span class="chev"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+              <div class="grow danger" onclick="go('login')"><span class="gi"><svg width="20" height="20"><use href="#i-log"/></svg></span><span class="gt">Log out</span></div>
+            </div>
+            <p class="center muted" style="--i:6;font-size:11.5px">Park n Go · v1.0.0</p>
           </div>
-          <div class="sec-title" style="margin-top:22px">Profile <span class="close-x"><svg width="20" height="20"><use href="#i-dots"/></svg></span></div>
-          <div class="profcard">
-            <div class="avatar"><svg><use href="#av"/></svg></div>
-            <div class="nm">Sarah Johnson</div>
+        </section>
+
+        <!-- ===== PERSONAL INFO (view + edit) ===== -->
+        <section class="screen" id="pinfo">
+          <div class="title-row"><div><h2 class="screen-title">Personal information</h2><div class="sub" id="pinfoSub">Your account details</div></div>
+            <div class="round-x" onclick="go('profile')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="prof-hero" style="padding-top:4px">
+            <div class="av-wrap"><span class="avatar" data-av></span>
+              <span class="cam" onclick="toast('Change photo')"><svg width="17" height="17"><use href="#i-cam"/></svg></span></div>
           </div>
-          <div class="plist">
-            <div class="prow"><div><div class="k">Email</div><div class="v">sarah.johnson@gmail.com</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
-            <div class="prow"><div><div class="k">Password</div><div class="v">lovemyparking32!</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
-            <div class="prow"><div><div class="k">Wallet</div><div class="v">Visa ending in 3245</div></div><div class="kd"><svg width="18" height="18"><use href="#i-dots"/></svg></div></div>
+          <form class="form" onsubmit="event.preventDefault();savePinfo()">
+            <div class="field"><label>Full name</label>
+              <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-user"/></svg></span>
+                <input class="input pl" data-pf="name" value="Sarah Johnson" disabled></div></div>
+            <div class="field"><label>Email</label>
+              <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-mail"/></svg></span>
+                <input class="input pl" data-pf="email" value="sarah.johnson@gmail.com" disabled></div></div>
+            <div class="field"><label>Phone</label>
+              <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-phone"/></svg></span>
+                <input class="input pl" data-pf="phone" value="(713) 555‑0142" disabled></div></div>
+            <div class="field"><label>Password</label>
+              <div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-lock"/></svg></span>
+                <input class="input pl pr" type="password" data-pf="pw" value="lovemyparking32!" data-pw disabled>
+                <span class="tr" onclick="togglePw(this)"><svg width="19" height="19"><use href="#i-eye"/></svg></span></div></div>
+          </form>
+          <div id="pinfoView" class="mt5"><button class="btn btn-gold btn-lg" onclick="editPinfo(true)"><svg width="18" height="18"><use href="#i-edit"/></svg> Edit information</button></div>
+          <div id="pinfoEdit" class="btn-row mt5" style="display:none">
+            <button class="btn btn-soft btn-lg" onclick="editPinfo(false)">Cancel</button>
+            <button class="btn btn-gold btn-lg" onclick="savePinfo()">Save changes</button>
           </div>
-          <button class="btn btn-gold btn-lg mt24" onclick="go('signup')">Log Out</button>
+        </section>
+
+        <!-- ===== PAYMENT METHODS ===== -->
+        <section class="screen" id="payment">
+          <div class="title-row"><div><h2 class="screen-title">Payment methods</h2><div class="sub">Manage your cards</div></div>
+            <div class="round-x" onclick="go('profile')"><svg width="18" height="18"><use href="#i-back"/></svg></div></div>
+          <div class="stagger">
+            <div class="paycard gold" style="--i:0">
+              <div class="pc-top"><span class="pc-chip"></span><span class="pc-brand">VISA</span></div>
+              <div class="pc-num">•••• •••• •••• 3245</div>
+              <div class="pc-bot"><div>Card holder<b>Sarah Johnson</b></div><div>Expires<b>08 / 27</b></div></div>
+            </div>
+            <div class="chips mt4" style="--i:1"><span class="chip-pill" style="border-color:var(--gold);color:var(--white)"><svg width="14" height="14"><use href="#i-check"/></svg>Default</span></div>
+            <div class="g-lab mt5" style="--i:2">Other methods</div>
+            <div class="group" style="--i:3">
+              <div class="grow" onclick="toast('Apple Pay selected')"><span class="gi"><svg width="20" height="20"><use href="#i-apple"/></svg></span><span class="gt">Apple Pay</span><span class="gv">Connected</span></div>
+              <div class="grow" onclick="openSheet('addCardSheet')"><span class="gi"><svg width="20" height="20"><use href="#i-plus"/></svg></span><span class="gt">Add a card</span><span class="chev"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+            </div>
+          </div>
         </section>
 
         <!-- ===== HELP CENTER ===== -->
         <section class="screen" id="help">
-          <div class="appbar">
-            <span class="logo" data-logo></span>
-            <div class="burger" onclick="openMenu()"><svg width="24" height="24"><use href="#i-menu"/></svg></div>
-          </div>
-          <h1 style="font-size:28px;margin:22px 2px 0">Help Center</h1>
-          <p class="lead" style="margin-top:2px">Available 24/7</p>
+          <h2 class="screen-title">Help Center</h2>
+          <p class="lead" style="margin-top:2px">We’re here 24/7.</p>
           <div class="helpicons">
-            <div class="hico" onclick="toast('Calling support…')"><svg width="22" height="22"><use href="#i-phone"/></svg></div>
-            <div class="hico" onclick="toast('Opening email…')"><svg width="22" height="22"><use href="#i-mail"/></svg></div>
-            <div class="hico" onclick="toast('Starting live chat…')"><svg width="22" height="22"><use href="#i-chat"/></svg></div>
+            <div class="hico" onclick="toast('Calling support…')"><span class="hc-ic"><svg width="20" height="20"><use href="#i-phone"/></svg></span><span>Call</span></div>
+            <div class="hico" onclick="toast('Opening email…')"><span class="hc-ic"><svg width="20" height="20"><use href="#i-mail"/></svg></span><span>Email</span></div>
+            <div class="hico" onclick="toast('Starting live chat…')"><span class="hc-ic"><svg width="20" height="20"><use href="#i-chat"/></svg></span><span>Live chat</span></div>
           </div>
-          <h3 style="font-size:20px;margin:28px 2px 0">FAQs</h3>
-          <div class="faqs">
-            <div class="faq"><q>Can I cancel my parking space?</q><p>Yes. You must cancel 2 hours prior to the event in order to get a full refund. You will receive your refund in 2–3 business days.</p></div>
-            <div class="faq"><q>How do I find where I parked?</q><p>After you reserve a parking space, an email with parking directions and your section info is sent to you. You can also view it any time under “My Parking.”</p></div>
-            <div class="faq"><q>Do I have to park in my assigned lot?</q><p>No. You are not required to park in your reserved section, but reserving guarantees a spot in that lot for your event.</p></div>
-            <div class="faq"><q>How do I add a payment method?</q><p>Head to your Profile and tap the Wallet menu to add, remove, or update a card.</p></div>
-          </div>
+          <div class="sec-head"><h3>FAQs</h3></div>
+          <div id="faqs"></div>
         </section>
 
-        <!-- ===== UI KIT / DESIGN SYSTEM ===== -->
-        <section class="screen" id="kit" data-nochrome="1">
-          <div class="kit-top">
-            <span class="logo" data-logo></span>
-            <h1 class="kit-h1">UI Kit</h1>
-            <p class="lead" style="margin-top:2px">Every atom &amp; component, on its own.</p>
-          </div>
+        <!-- ===== UI KIT ===== -->
+        <section class="screen" id="kit">
+          <h1 class="kit-h1" style="margin-top:8px">UI Kit</h1>
+          <p class="lead" style="margin-top:2px">Every atom &amp; component, on its own.</p>
 
           <p class="kit-group">01 — Brand</p>
           <div class="kit-grid">
-            <div class="kit-cell"><div class="kit-stage"><span class="logo" data-logo style="font-size:26px"></span></div><span class="kit-lab">Wordmark</span></div>
-            <div class="kit-cell gold"><div class="kit-stage"><span class="logo" data-logo style="font-size:26px"></span></div><span class="kit-lab">Wordmark / on gold</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="gomark" style="font-family:var(--disp);font-weight:800;font-size:40px">G<span class="pg-ar"><svg viewBox="0 0 14 20"><path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/><path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/></svg></span>o</span></div><span class="kit-lab">“Go” pin mark</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="avatar" style="width:56px;height:56px"><svg><use href="#av"/></svg></span></div><span class="kit-lab">Avatar</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="logo" data-logo style="font-size:24px"></span></div><span class="kit-lab">Wordmark</span></div>
+            <div class="kit-cell gold"><div class="kit-stage"><span class="logo" data-logo style="font-size:24px"></span></div><span class="kit-lab">On gold</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="gomark" style="font-family:var(--disp);font-weight:800;font-size:38px">G<span class="pg-ar"><svg viewBox="0 0 14 20"><path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/><path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/></svg></span>o</span></div><span class="kit-lab">Pin mark</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="avatar" data-av style="width:56px;height:56px"></span></div><span class="kit-lab">Avatar</span></div>
           </div>
 
           <p class="kit-group">02 — Color</p>
           <div class="kit-grid c4">
-            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#050505;border:1px solid #333"></span></div><span class="kit-lab">Ink · #050505</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#212121"></span></div><span class="kit-lab">Charcoal · #212121</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFC857"></span></div><span class="kit-lab">Signal Gold · #FFC857</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFFFFF"></span></div><span class="kit-lab">White · #FFFFFF</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#060606;border:1px solid #333"></span></div><span class="kit-lab">Ink</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#212121"></span></div><span class="kit-lab">Charcoal</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFC857"></span></div><span class="kit-lab">Gold</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="kchip" style="background:#FFF"></span></div><span class="kit-lab">White</span></div>
           </div>
 
           <p class="kit-group">03 — Type</p>
-          <div class="kit-grid">
-            <div class="kit-cell wide"><div class="kit-stage col"><span style="font-family:var(--disp);font-weight:700;font-size:34px">Aa</span><span style="font-family:var(--disp);font-weight:700;font-size:16px;margin-top:6px">Lexend Bold</span></div><span class="kit-lab">Display / Headings</span></div>
-            <div class="kit-cell wide"><div class="kit-stage col"><span style="font-family:var(--sans);font-weight:500;font-size:34px">Ag</span><span style="font-family:var(--sans);font-weight:500;font-size:16px;margin-top:6px">Poppins</span></div><span class="kit-lab">Body &amp; UI</span></div>
-          </div>
           <div class="typescale">
-            <div class="ts"><span class="tsn">H1 · 30 / 700</span><span style="font-family:var(--disp);font-weight:700;font-size:30px">Hello, Sarah</span></div>
-            <div class="ts"><span class="tsn">H3 · 19 / 700</span><span style="font-family:var(--disp);font-weight:700;font-size:19px">Parking Lot Map</span></div>
-            <div class="ts"><span class="tsn">Body · 14.5 / 300</span><span class="lead" style="margin:0">Let’s find parking for your next event!</span></div>
-            <div class="ts"><span class="tsn">Eyebrow · 12.5 / 600</span><span class="eyebrow-k">Upcoming for you</span></div>
+            <div class="ts"><span class="tsn">Display · Lexend 700</span><span style="font-family:var(--disp);font-weight:700;font-size:26px">Hello, Sarah</span></div>
+            <div class="ts"><span class="tsn">Body · Poppins 300</span><span class="lead" style="margin:0">Let’s find parking for your next event.</span></div>
+            <div class="ts"><span class="tsn">Eyebrow · 600</span><span class="eyebrow-k">Upcoming for you</span></div>
           </div>
 
           <p class="kit-group">04 — Iconography</p>
           <div class="kit-grid c4" id="iconGrid"></div>
 
           <p class="kit-group">05 — Buttons</p>
-          <div class="kit-grid">
-            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-gold">Get Parking</button></div><span class="kit-lab">Primary</span></div>
-            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-dark">My Parking</button></div><span class="kit-lab">Secondary</span></div>
-            <div class="kit-cell wide"><div class="kit-stage"><button class="btn btn-ghost">Cancel Ticket</button></div><span class="kit-lab">Outline</span></div>
-            <div class="kit-cell wide"><div class="kit-stage"><a class="tablink-demo">Home</a></div><span class="kit-lab">Nav link</span></div>
+          <div class="kit-stack">
+            <div class="kit-cell block"><div class="kit-stage stretch"><button class="btn btn-gold">Get Parking</button></div><span class="kit-lab">Primary</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><button class="btn btn-dark">View My Ticket</button></div><span class="kit-lab">Secondary</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><button class="btn btn-ghost">Directions</button></div><span class="kit-lab">Outline</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><button class="btn btn-danger">Cancel Ticket</button></div><span class="kit-lab">Destructive</span></div>
           </div>
 
           <p class="kit-group">06 — Inputs</p>
           <div class="kit-stack">
-            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly></div></div><span class="kit-lab">Search field / primary</span></div>
-            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search dark" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly><svg width="20" height="20"><use href="#i-x"/></svg></div></div><span class="kit-lab">Search field / on surface</span></div>
-            <div class="kit-cell block"><div class="kit-stage stretch"><div class="field" style="width:100%"><svg width="20" height="20"><use href="#i-mail"/></svg><input value="sarah.johnson@gmail.com" readonly></div></div><span class="kit-lab">Text field</span></div>
-            <div class="kit-cell block"><div class="kit-stage stretch"><div class="selwrap" style="width:100%"><select><option>7:30pm</option></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div><span class="kit-lab">Time selector</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="field"><label>Email</label><div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-mail"/></svg></span><input class="input pl" value="sarah.johnson@gmail.com" readonly></div></div></div><span class="kit-lab">Text field</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="search" style="margin:0"><svg width="20" height="20"><use href="#i-search"/></svg><input value="Masego" readonly></div></div><span class="kit-lab">Search (primary)</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="selwrap"><select><option>7:30pm</option></select><svg width="18" height="18"><use href="#i-chev"/></svg></div></div><span class="kit-lab">Select</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="tgl on" data-tgl style="cursor:default"></span></div><span class="kit-lab">Toggle</span></div>
+            <div class="kit-cell"><div class="kit-stage"><span class="chip-pill" style="cursor:default"><svg width="14" height="14"><use href="#i-star"/></svg>Concerts</span></div><span class="kit-lab">Chip</span></div>
           </div>
 
-          <p class="kit-group">07 — Data &amp; status</p>
-          <div class="kit-grid">
-            <div class="kit-cell"><div class="kit-stage"><span class="st"><span class="dot"></span> Available</span></div><span class="kit-lab">Status pill</span></div>
-            <div class="kit-cell"><div class="kit-stage"><span class="lt-badge">A</span></div><span class="kit-lab">Section badge</span></div>
-            <div class="kit-cell wide"><div class="kit-stage stretch"><div style="width:100%"><div class="availbar"><i style="width:95%"></i></div></div></div><span class="kit-lab">Availability bar</span></div>
-            <div class="kit-cell wide"><div class="kit-stage col"><div class="mcell" style="min-width:120px"><span>$/hour</span><b>$9.99</b></div></div><span class="kit-lab">Stat cell</span></div>
-          </div>
-
-          <p class="kit-group">08 — Components</p>
+          <p class="kit-group">07 — Components</p>
           <div class="kit-stack">
             <div class="kit-cell block"><div class="kit-stage stretch">
               <div class="res" style="width:100%;cursor:default">
-                <span class="dots"><svg width="20" height="20"><use href="#i-dots"/></svg></span>
-                <h3>Masego @ Bayou Music Center</h3>
-                <div class="meta"><div><svg width="17" height="17"><use href="#i-cal"/></svg>August 24, 2023</div><div><svg width="17" height="17"><use href="#i-pin"/></svg>Houston, Texas</div></div>
-              </div></div><span class="kit-lab">Event card</span></div>
-
-            <div class="kit-cell block"><div class="kit-stage stretch">
-              <div class="srow" style="width:100%;cursor:default"><div class="lt">A</div><div><div class="rt"><div class="col"><span>Availability</span><b>35/37</b></div><div class="col"><span>$/hour</span><b>$9.99</b></div></div><div class="availbar"><i style="width:95%"></i></div></div></div>
-            </div><span class="kit-lab">Section row</span></div>
-
-            <div class="kit-cell block"><div class="kit-stage stretch">
-              <div class="pmap" style="width:100%;margin:0"><div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div><div class="pgrid"><div class="pcell sel">A</div><div class="pcell">B</div><div class="pcell">B</div><div class="pcell">C</div></div></div>
-            </div><span class="kit-lab">Parking-lot map</span></div>
-
-            <div class="kit-cell block"><div class="kit-stage stretch">
-              <div class="info-card" style="width:100%;margin:0"><div class="inforow"><div class="k">Total Charge</div><div class="v">$30.00</div></div><div class="inforow"><div class="k">Section</div><div class="v">A</div></div></div>
-            </div><span class="kit-lab">Info card</span></div>
-
-            <div class="kit-cell block"><div class="kit-stage stretch">
-              <div style="width:100%"><div class="tabs" style="border:none"><div class="tab on">Parking Info</div><div class="tab">Event Info</div></div></div>
-            </div><span class="kit-lab">Segmented tabs</span></div>
+                <span class="thumb" style="background:linear-gradient(135deg,#FFD97a,#F0B93E)">M</span>
+                <div class="body"><h3>Masego @ Bayou Music Center</h3><div class="meta"><div><svg width="15" height="15"><use href="#i-cal"/></svg>Aug 24, 2023</div><div><svg width="15" height="15"><use href="#i-pin"/></svg>Houston, Texas</div></div></div>
+                <span class="chev"><svg width="18" height="18"><use href="#i-cr"/></svg></span></div></div><span class="kit-lab">Event card</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="srow" style="width:100%;cursor:default"><div class="lt">A</div><div><div class="rt"><div class="col"><span>Availability</span><b>35/37</b></div><div class="col"><span>$/hour</span><b>$9.99</b></div></div><div class="availbar"><i style="width:95%"></i></div></div></div></div><span class="kit-lab">Section row</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="pmap" style="width:100%"><div class="entrance"><svg width="15" height="15"><use href="#i-loc"/></svg> Venue Entrance</div><div class="pgrid"><div class="pcell sel">A</div><div class="pcell">B</div><div class="pcell">B</div><div class="pcell">C</div></div></div></div><span class="kit-lab">Parking-lot map</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="tabs" style="width:100%;margin:0"><div class="tab on">Parking</div><div class="tab">Event</div></div></div><span class="kit-lab">Segmented tabs</span></div>
+            <div class="kit-cell block"><div class="kit-stage stretch"><div class="paycard gold" style="width:100%;min-height:150px"><div class="pc-top"><span class="pc-chip"></span><span class="pc-brand">VISA</span></div><div class="pc-num">•••• 3245</div><div class="pc-bot"><div>Holder<b>Sarah Johnson</b></div><div>Exp<b>08/27</b></div></div></div></div><span class="kit-lab">Payment card</span></div>
           </div>
-
-          <div style="height:24px"></div>
+          <div style="height:20px"></div>
         </section>
 
       </div><!-- /viewport -->
 
-      <!-- ============ BOTTOM TAB BAR ============ -->
+      <!-- ============ BOTTOM TAB BAR (top-level only) ============ -->
       <nav class="tabbar" id="tabbar">
-        <div class="links">
-          <a data-tab-link="home" onclick="go('home')">Home</a>
-          <a data-tab-link="myparking" onclick="go('myparking')">My Parking</a>
-          <a data-tab-link="help" onclick="go('help')">Help Center</a>
-          <a data-tab-link="profile" onclick="go('profile')">Profile</a>
-        </div>
-        <span class="logo" data-logo></span>
+        <div class="tabitem" data-tabitem="home" onclick="go('home')"><svg width="23" height="23"><use href="#i-home"/></svg><span>Home</span></div>
+        <div class="tabitem" data-tabitem="myparking" onclick="go('myparking')"><svg width="23" height="23"><use href="#i-ticket"/></svg><span>My Parking</span></div>
+        <div class="tabitem" data-tabitem="help" onclick="go('help')"><svg width="23" height="23"><use href="#i-help"/></svg><span>Help</span></div>
+        <div class="tabitem" data-tabitem="profile" onclick="go('profile')"><svg width="23" height="23"><use href="#i-user"/></svg><span>Profile</span></div>
       </nav>
 
-      <!-- ============ SECTION DETAIL SHEET ============ -->
+      <!-- ============ SHEETS ============ -->
       <div class="scrim" id="scrim" onclick="closeSheet()"></div>
+
       <div class="sheet" id="sectionSheet">
-        <div class="sheet-head">
-          <span class="st"><span class="dot"></span> <span id="sheetAvail">Available</span></span>
-          <span class="close-x" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span>
-        </div>
+        <div class="grabber"></div>
+        <div class="sheet-head"><span class="st"><span class="dot"></span> <span id="sheetAvail">Available</span></span>
+          <span class="round-x" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span></div>
         <div class="mini">
           <div class="mcell"><span>Parking Section</span><b id="mSection">A</b></div>
           <div class="mcell"><span>$/hour</span><b id="mRate">$9.99</b></div>
           <div class="mcell"><span>Start Time</span><b id="mStart">7:30pm</b></div>
           <div class="mcell"><span>End Time</span><b id="mEnd">10:30pm</b></div>
         </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px">
+          <span class="muted" style="font-size:13px">Total charge</span><span style="font-family:var(--disp);font-weight:700;font-size:20px" id="mTotal">$30.00</span></div>
         <button class="btn btn-gold btn-lg" onclick="reserve()">Select This Section</button>
       </div>
 
-      <!-- ============ CANCEL CONFIRM SHEET (gold) ============ -->
       <div class="sheet gold" id="cancelSheet">
-        <div class="sheet-head">
-          <span class="st" style="font-family:var(--disp);font-weight:700;font-size:18px">Are you sure?</span>
-          <span class="close-x" style="color:#0a0a0a" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span>
+        <div class="grabber"></div>
+        <div class="sheet-head"><h3>Cancel this ticket?</h3>
+          <span class="round-x" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span></div>
+        <p style="font-size:13.5px;font-weight:400;line-height:1.5;margin-bottom:18px;color:#171717">You’ll be reimbursed to your bank account in 2–3 business days. This can’t be undone.</p>
+        <div class="btn-row">
+          <button class="btn" style="background:rgba(0,0,0,.08);color:#0a0a0a" onclick="closeSheet()">Keep it</button>
+          <button class="btn btn-dark" onclick="confirmCancel()">Yes, cancel</button>
         </div>
-        <p style="font-size:13.5px;font-weight:400;line-height:1.5;margin-bottom:18px;color:#171717">If you cancel now you will be able to get reimbursement arriving to your bank account in 2–3 business days.</p>
-        <button class="btn btn-dark btn-lg" onclick="confirmCancel()">Yes, Cancel my Ticket</button>
       </div>
 
-      <!-- ============ NAV MENU OVERLAY ============ -->
+      <div class="sheet" id="addCardSheet">
+        <div class="grabber"></div>
+        <div class="sheet-head"><h3>Add a card</h3>
+          <span class="round-x" onclick="closeSheet()"><svg width="18" height="18"><use href="#i-x"/></svg></span></div>
+        <form class="form" onsubmit="event.preventDefault();closeSheet();toast('Card added')">
+          <div class="field"><label>Card number</label><div class="input-wrap"><span class="ic"><svg width="19" height="19"><use href="#i-card"/></svg></span><input class="input pl" placeholder="1234 5678 9012 3456" inputmode="numeric"></div></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="field"><label>Expiry</label><input class="input" placeholder="MM / YY"></div>
+            <div class="field"><label>CVC</label><input class="input" placeholder="123" inputmode="numeric"></div>
+          </div>
+          <button class="btn btn-gold btn-lg" type="submit">Add card</button>
+        </form>
+      </div>
+
+      <!-- ============ NAV MENU (full-height) ============ -->
       <div class="navmenu" id="navmenu">
-        <span class="x" onclick="closeMenu()"><svg width="24" height="24"><use href="#i-x"/></svg></span>
-        <div class="avatar"><svg><use href="#av"/></svg></div>
-        <div class="nm">Sarah Johnson</div>
-        <div class="rule"></div>
-        <div class="mlinks">
-          <a onclick="closeMenu();go('home')">Home</a>
-          <a onclick="closeMenu();go('myparking')">My Parking</a>
-          <a onclick="closeMenu();go('help')">Help Center</a>
-          <a onclick="closeMenu();go('profile')">Profile</a>
+        <span class="nm-x" onclick="closeMenu()"><svg width="24" height="24"><use href="#i-x"/></svg></span>
+        <div class="nm-head">
+          <span class="avatar" data-av></span>
+          <div><div class="nm-name">Sarah Johnson</div><div class="nm-em">sarah.johnson@gmail.com</div></div>
         </div>
-        <button class="btn btn-dark logout btn-lg" onclick="closeMenu();go('signup')">Log Out</button>
-        <div class="socials">
-          <span class="s" onclick="toast('Calling support…')"><svg width="20" height="20"><use href="#i-phone"/></svg></span>
-          <span class="s" onclick="toast('Opening email…')"><svg width="20" height="20"><use href="#i-mail"/></svg></span>
-          <span class="s" onclick="toast('Starting live chat…')"><svg width="20" height="20"><use href="#i-chat"/></svg></span>
+        <div class="nm-rows">
+          <div class="navrow" style="--i:0" onclick="closeMenu();go('home')"><span class="nr-ic"><svg width="22" height="22"><use href="#i-home"/></svg></span><span class="nr-t">Home</span><span class="nr-ch"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+          <div class="navrow" style="--i:1" onclick="closeMenu();go('myparking')"><span class="nr-ic"><svg width="22" height="22"><use href="#i-ticket"/></svg></span><span class="nr-t">My Parking</span><span class="nr-ch"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+          <div class="navrow" style="--i:2" onclick="closeMenu();go('payment')"><span class="nr-ic"><svg width="22" height="22"><use href="#i-card"/></svg></span><span class="nr-t">Payment</span><span class="nr-ch"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+          <div class="navrow" style="--i:3" onclick="closeMenu();go('help')"><span class="nr-ic"><svg width="22" height="22"><use href="#i-help"/></svg></span><span class="nr-t">Help Center</span><span class="nr-ch"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+          <div class="navrow" style="--i:4" onclick="closeMenu();go('profile')"><span class="nr-ic"><svg width="22" height="22"><use href="#i-user"/></svg></span><span class="nr-t">Profile</span><span class="nr-ch"><svg width="20" height="20"><use href="#i-cr"/></svg></span></div>
+        </div>
+        <div class="nm-foot">
+          <button class="btn btn-dark btn-lg" onclick="closeMenu();go('login')"><svg width="18" height="18"><use href="#i-log"/></svg> Log Out</button>
+          <div class="nm-social">
+            <span class="s" onclick="toast('Calling support…')"><svg width="20" height="20"><use href="#i-phone"/></svg></span>
+            <span class="s" onclick="toast('Opening email…')"><svg width="20" height="20"><use href="#i-mail"/></svg></span>
+            <span class="s" onclick="toast('Starting live chat…')"><svg width="20" height="20"><use href="#i-chat"/></svg></span>
+          </div>
         </div>
       </div>
 
-      <!-- toast -->
       <div class="toast" id="toast"></div>
-
     </div><!-- /app -->
   </div><!-- /device -->
 </div><!-- /stage -->
 
-<!-- Screen switcher (for building mockups) -->
-<details class="dev" id="dev">
-  <summary>◐ Screens</summary>
-  <div class="menu" id="devMenu"></div>
-</details>
+<details class="dev" id="dev"><summary>◐ Screens</summary><div class="menu" id="devMenu"></div></details>
 
 <script>
 /* =================== DATA =================== */
 const EVENTS = [
-  {id:'bayou', name:'Masego @ Bayou Music Center', date:'August 24, 2023', city:'Houston, Texas',
-   addr:'520 Texas Ave, Houston, TX 77002', time:'8:00pm – 10:00pm',
-   summary:'Join Masego as he kicks off his world tour right here in Texas!'},
-  {id:'dallas', name:'Masego @ Dallas Stage', date:'August 23, 2023', city:'Dallas, Texas',
-   addr:'2200 N Lamar St, Dallas, TX 75202', time:'7:30pm – 10:00pm',
-   summary:'An intimate Dallas set — smooth sax, sweet soul, and a full band.'},
-  {id:'first', name:'Masego in First Avenue', date:'August 28, 2023', city:'Galveston, Texas',
-   addr:'701 First Ave, Galveston, TX 77550', time:'8:00pm – 11:00pm',
-   summary:'TraptheSoul comes to the coast for one unforgettable night.'},
-  {id:'reaily', name:'Reaily’s Festival (feat. Masego)', date:'September 2, 2023', city:'Pecos, Texas',
-   addr:'1000 Festival Grounds, Pecos, TX 79772', time:'4:00pm – 11:00pm',
-   summary:'A day-long festival lineup headlined by Masego under the West-Texas sky.'},
-  {id:'newmoon', name:'New Moon – Masego', date:'September 4, 2023', city:'Pecos, Texas',
-   addr:'88 Desert Rd, Pecos, TX 79772', time:'9:00pm – 12:00am',
-   summary:'A late-night moonlit show to close out the Texas run.'},
-  {id:'austin', name:'Masego Live — Austin', date:'September 9, 2023', city:'Austin, Texas',
-   addr:'310 Willie Nelson Blvd, Austin, TX 78701', time:'8:00pm – 10:30pm',
-   summary:'The final Texas date — Masego live in the heart of Austin.'}
+  {id:'bayou',name:'Masego @ Bayou Music Center',short:'Bayou Music Center',date:'August 24, 2023',city:'Houston, Texas',addr:'520 Texas Ave, Houston, TX 77002',time:'8:00pm – 10:00pm',from:'5.99',grad:['#7a5cff','#4b2fd6'],about:'Join Masego as he kicks off his world tour right here in Texas — one night of smooth sax, sweet soul and a full live band.'},
+  {id:'dallas',name:'Masego @ Dallas Stage',short:'Dallas Stage',date:'August 23, 2023',city:'Dallas, Texas',addr:'2200 N Lamar St, Dallas, TX 75202',time:'7:30pm – 10:00pm',from:'6.99',grad:['#ff7a59','#e0472b'],about:'An intimate Dallas set with the full TrapTheSoul band. Doors open at 7:00pm.'},
+  {id:'first',name:'Masego in First Avenue',short:'First Avenue',date:'August 28, 2023',city:'Galveston, Texas',addr:'701 First Ave, Galveston, TX 77550',time:'8:00pm – 11:00pm',from:'4.99',grad:['#33ac66','#1d7a45']},
+  {id:'reaily',name:'Reaily’s Festival (feat. Masego)',short:'Reaily’s Festival',date:'September 2, 2023',city:'Pecos, Texas',addr:'1000 Festival Grounds, Pecos, TX 79772',time:'4:00pm – 11:00pm',from:'8.99',grad:['#f4bf3a','#d99f28']},
+  {id:'newmoon',name:'New Moon – Masego',short:'New Moon',date:'September 4, 2023',city:'Pecos, Texas',addr:'88 Desert Rd, Pecos, TX 79772',time:'9:00pm – 12:00am',from:'5.99',grad:['#2f6bf0','#1b47b8']},
+  {id:'austin',name:'Masego Live — Austin',short:'Austin',date:'September 9, 2023',city:'Austin, Texas',addr:'310 Willie Nelson Blvd, Austin, TX 78701',time:'8:00pm – 10:30pm',from:'7.49',grad:['#e0479a','#b52e78']}
 ];
-
-const SECTIONS = [
-  {id:'A', avail:35, total:37, rate:9.99},
-  {id:'B', avail:17, total:37, rate:7.99},
-  {id:'C', avail:2,  total:37, rate:5.99}
+EVENTS.forEach(e=>{if(!e.about)e.about='Reserve your spot early — parking near this venue fills fast on show nights. Your section and gate details arrive by email the moment you book.';});
+const SECTIONS=[{id:'A',avail:35,total:37,rate:9.99},{id:'B',avail:17,total:37,rate:7.99},{id:'C',avail:2,total:37,rate:5.99}];
+const MAP_CELLS=['A','B','B','C'];
+const TIMES=['6:30pm','7:00pm','7:30pm','8:00pm','8:30pm','9:00pm','9:30pm','10:00pm','10:30pm','11:00pm','11:30pm'];
+const FAQS=[
+  ['Can I cancel my parking space?','Yes. Cancel at least 2 hours before the event for a full refund, which arrives in 2–3 business days.'],
+  ['How do I find where I parked?','After booking, an email with directions and your section is sent to you. You can also view it any time under “My Parking.”'],
+  ['Do I have to park in my assigned lot?','No — but reserving guarantees a spot in that lot for your event, so you skip the scramble.'],
+  ['How do I add a payment method?','Go to Profile → Payment methods and tap “Add a card” to save a new card or connect Apple Pay.']
 ];
-const MAP_CELLS = ['A','B','B','C'];
-
-const TIMES = ['6:30pm','7:00pm','7:30pm','8:00pm','8:30pm','9:00pm','9:30pm','10:00pm','10:30pm','11:00pm','11:30pm'];
+const MAIN=new Set(['home','myparking','help','profile']);
 
 /* =================== STATE =================== */
-let state = {
-  event: EVENTS[0],
-  section: SECTIONS[0],
-  start: '7:30pm',
-  end: '10:30pm',
-  reservation: null   // {event, section, start, end, total}
-};
-// seed one active reservation so My Parking / Receipt are populated for mockups
-state.reservation = {event:EVENTS[0], section:SECTIONS[0], start:'7:30pm', end:'10:30pm', total:'30.00'};
+let state={event:EVENTS[0],section:SECTIONS[0],start:'7:30pm',end:'10:30pm',reservation:null,pastCancel:false};
+state.reservation={event:EVENTS[0],section:SECTIONS[0],start:'7:30pm',end:'10:30pm',total:'30.00'};
 
-/* =================== LOGO =================== */
-const LOGO_HTML =
-  '<span class="w">Park n </span>' +
-  '<span class="pg">G' +
-    '<span class="pg-ar"><svg viewBox="0 0 14 20" aria-hidden="true">' +
-      '<path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/>' +
-      '<path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/>' +
-    '</svg></span>o' +
-  '</span>';
+/* =================== LOGO + AVATAR + ICONS =================== */
+const PIN_SVG='<span class="pg-ar"><svg viewBox="0 0 14 20" aria-hidden="true"><path d="M7 1.5V12" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round"/><path d="M7 19.5 1.4 12h11.2z" fill="currentColor"/></svg></span>';
+const LOGO_HTML='<span class="w">Park n </span><span class="pg">G'+PIN_SVG+'o</span>';
 document.querySelectorAll('[data-logo]').forEach(el=>el.innerHTML=LOGO_HTML);
+/* Avatar: use ./avatar.jpg if present, else the illustrated SVG portrait */
+const AV_IMG='<img src="avatar.jpg" alt="Sarah Johnson" onerror="this.onerror=null;this.outerHTML=AV_SVG">';
+const AV_SVG='<svg viewBox="0 0 200 200" style="width:100%;height:100%"><use href="#av"/></svg>';
+document.querySelectorAll('[data-av]').forEach(el=>el.innerHTML=AV_IMG);
+const ICONS=[['i-search','Search'],['i-cal','Calendar'],['i-pin','Direction'],['i-loc','Location'],['i-clock','Time'],['i-mail','Mail'],['i-user','User'],['i-lock','Lock'],['i-eye','Reveal'],['i-phone','Phone'],['i-chat','Chat'],['i-bell','Bell'],['i-card','Card'],['i-ticket','Ticket'],['i-map','Map'],['i-home','Home'],['i-help','Help'],['i-shield','Shield'],['i-edit','Edit'],['i-cam','Camera'],['i-check','Check'],['i-plus','Add'],['i-dots','More'],['i-x','Close']];
+document.getElementById('iconGrid').innerHTML=ICONS.map(([id,n])=>`<div class="icell"><svg width="23" height="23"><use href="#${id}"/></svg><span>${n}</span></div>`).join('');
+/* FAQ accordion */
+document.getElementById('faqs').innerHTML=FAQS.map(([q,a])=>`<div class="faq" onclick="this.classList.toggle('open')"><div class="q">${q}<svg width="18" height="18"><use href="#i-chev"/></svg></div><div class="a">${a}</div></div>`).join('');
+/* QR pattern (deterministic) */
+(function(){let s='';for(let y=0;y<10;y++)for(let x=0;x<10;x++){const on=((x*3+y*7+x*y)%5<2)||(x<3&&y<3)||(x>6&&y<3)||(x<3&&y>6);const corner=(x<3&&y<3)||(x>6&&y<3)||(x<3&&y>6);if(on||corner)s+=`<rect x="${x*10}" y="${y*10}" width="10" height="10" fill="#111"/>`;}document.getElementById('qrSvg').innerHTML=s;})();
 
 /* =================== ROUTER =================== */
-const CHROME_TABS = {home:'home', myparking:'myparking', help:'help', profile:'profile'};
-function go(id, opts){
-  const s = document.getElementById(id);
-  if(!s) return;
+function go(id){
+  const s=document.getElementById(id); if(!s) return;
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
-  s.classList.add('active');
-  s.scrollTop = 0;
-  const app = document.getElementById('app');
-  app.dataset.tone = s.dataset.tone || 'dark';
-  app.dataset.nochrome = s.dataset.nochrome || '0';
-  // highlight tabbar
-  document.querySelectorAll('[data-tab-link]').forEach(a=>{
-    a.classList.toggle('on', a.getAttribute('data-tab-link')===id);
-  });
+  s.classList.add('active'); s.scrollTop=0;
+  const app=document.getElementById('app'); app.scrollTop=0;
+  document.getElementById('viewport').scrollTop=0;
+  app.dataset.tone=s.dataset.tone||'dark';
+  app.dataset.tabbar=MAIN.has(id)?'1':'0';
+  document.querySelectorAll('[data-tabitem]').forEach(t=>t.classList.toggle('on',t.getAttribute('data-tabitem')===id));
+  document.getElementById('hBell').style.visibility = (s.dataset.tone==='gold')?'hidden':'visible';
   closeSheet(); closeMenu();
   if(location.hash.slice(1)!==id) history.replaceState(null,'','#'+id);
   renderFor(id);
 }
-
-/* render dynamic content per screen */
 function renderFor(id){
-  if(id==='home') renderHome();
-  if(id==='search') renderResults(document.getElementById('resTerm').textContent||'Masego');
-  if(id==='event') renderEvent();
-  if(id==='lot') renderLot();
-  if(id==='confirm') renderConfirm();
-  if(id==='myparking') renderMyParking();
-  if(id==='receipt') renderReceipt();
+  ({home:renderHome,search:()=>renderResults(document.getElementById('resTerm').textContent||'Masego'),event:renderEvent,lot:renderLot,confirm:renderConfirm,myparking:renderMyParking,receipt:renderReceipt}[id]||function(){})();
 }
 
 /* =================== RENDERERS =================== */
-function evCard(ev, onclick, showDots){
-  return `<div class="res" onclick="${onclick}">
-    ${showDots?`<span class="dots" onclick="event.stopPropagation();toast('Options')"><svg width="20" height="20"><use href="#i-dots"/></svg></span>`:''}
-    <h3>${ev.name}</h3>
-    <div class="meta">
-      <div><svg width="17" height="17"><use href="#i-cal"/></svg>${ev.date}</div>
-      <div><svg width="17" height="17"><use href="#i-pin"/></svg>${ev.city}</div>
-    </div>
+function evThumb(ev){return `<span class="thumb" style="background:linear-gradient(135deg,${ev.grad[0]},${ev.grad[1]})">${ev.name.replace(/[^A-Za-z]/,'').charAt(0)||'M'}</span>`;}
+function evCard(ev,onclick,{dots=false,chev=true,i=0}={}){
+  return `<div class="res" style="--i:${i}" onclick="${onclick}">
+    ${evThumb(ev)}
+    <div class="body"><h3>${ev.name}</h3>
+      <div class="meta"><div><svg width="15" height="15"><use href="#i-cal"/></svg>${ev.date}</div><div><svg width="15" height="15"><use href="#i-pin"/></svg>${ev.city}</div></div></div>
+    ${dots?`<span class="dots" onclick="event.stopPropagation();toast('Options')"><svg width="20" height="20"><use href="#i-dots"/></svg></span>`:''}
+    ${chev?`<span class="chev"><svg width="18" height="18"><use href="#i-cr"/></svg></span>`:''}
   </div>`;
 }
-
 function renderHome(){
-  const r = state.reservation;
-  const box = document.getElementById('homeUpcoming');
-  if(r){ box.innerHTML = evCard(r.event, `openReceipt('${r.event.id}')`, true); }
-  else { box.innerHTML = `<p class="lead">No upcoming reservations yet.</p>`; }
+  const r=state.reservation;
+  document.getElementById('homeUpcoming').innerHTML = r
+    ? evCard(r.event,`openReceipt('${r.event.id}')`,{})
+    : `<div class="card"><p class="muted" style="font-size:13.5px">No upcoming reservations. Search an event to book a spot.</p></div>`;
+  document.getElementById('homePopular').innerHTML = EVENTS.slice(1,4).map((ev,i)=>evCard(ev,`selectEvent('${ev.id}')`,{i})).join('');
 }
-
+function quick(t){document.getElementById('searchInput').value=t;document.getElementById('resTerm').textContent=t;runSearch(t);}
 function runSearch(val){
-  const term = (val || document.getElementById('homeSearch')?.value || document.getElementById('searchInput')?.value || 'Masego').trim() || 'Masego';
-  document.getElementById('searchInput').value = term;
-  document.getElementById('resTerm').textContent = term;
-  go('search');
+  const term=(val||document.getElementById('homeSearch')?.value||document.getElementById('searchInput')?.value||'Masego').trim()||'Masego';
+  document.getElementById('searchInput').value=term; document.getElementById('resTerm').textContent=term; go('search');
 }
-
 function renderResults(term){
-  const list = EVENTS.filter(e=>e.name.toLowerCase().includes(term.toLowerCase()));
-  const use = list.length?list:EVENTS;
-  document.getElementById('resCount').textContent = use.length;
-  document.getElementById('resTerm').textContent = term;
-  document.getElementById('results').innerHTML = use.map(ev=>evCard(ev, `selectEvent('${ev.id}')`, true)).join('');
+  const q=term.toLowerCase();
+  let list=EVENTS.filter(e=>e.name.toLowerCase().includes(q)||e.city.toLowerCase().includes(q));
+  if(!list.length) list=EVENTS;
+  document.getElementById('resCount').textContent=list.length;
+  document.getElementById('resTerm').textContent=term;
+  document.getElementById('results').innerHTML=list.map((ev,i)=>evCard(ev,`selectEvent('${ev.id}')`,{dots:true,i})).join('');
 }
-
-function selectEvent(id){ state.event = EVENTS.find(e=>e.id===id); go('event'); }
-
+function selectEvent(id){state.event=EVENTS.find(e=>e.id===id);go('event');}
 function renderEvent(){
-  const ev = state.event;
-  document.getElementById('eventInfo').innerHTML = `
-    <div class="inforow"><div class="k">Name</div><div class="v">${ev.name}</div></div>
-    <div class="inforow"><div class="k">Location</div><div class="v">${ev.addr}</div></div>
+  const ev=state.event;
+  document.getElementById('eventBanner').style.background=`linear-gradient(135deg,${ev.grad[0]},${ev.grad[1]})`;
+  document.getElementById('eventBanner').innerHTML=`<span style="font-family:var(--disp);font-weight:800;font-size:26px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.3)">${ev.short}</span>`;
+  document.getElementById('eventHead').innerHTML=`<h2 style="font-size:23px">${ev.name}</h2>`;
+  document.getElementById('eventInfo').innerHTML=`
     <div class="inforow"><div class="k">Date</div><div class="v">${ev.date}</div></div>
     <div class="inforow"><div class="k">Time</div><div class="v">${ev.time}</div></div>
-    <div class="inforow"><div class="k">Summary</div><div class="v">${ev.summary}</div></div>`;
+    <div class="inforow"><div class="k">Location</div><div class="v">${ev.addr}</div></div>`;
+  document.getElementById('eventAbout').textContent=ev.about;
+  document.getElementById('eventPrice').innerHTML=`$${ev.from}<span style="font-size:12px;color:var(--muted)">/hr</span>`;
+  document.getElementById('lotVenue').textContent=ev.name;
 }
-
 function fillTimeSelects(){
-  ['startTime','endTime'].forEach(sel=>{
-    const el = document.getElementById(sel);
-    el.innerHTML = TIMES.map(t=>`<option>${t}</option>`).join('');
-  });
-  document.getElementById('startTime').value = state.start;
-  document.getElementById('endTime').value = state.end;
+  ['startTime','endTime'].forEach(id=>{document.getElementById(id).innerHTML=TIMES.map(t=>`<option>${t}</option>`).join('');});
+  document.getElementById('startTime').value=state.start; document.getElementById('endTime').value=state.end;
 }
-
 function renderLot(){
   fillTimeSelects();
-  // map grid
-  document.getElementById('pgrid').innerHTML = MAP_CELLS.map((c,i)=>
-    `<div class="pcell" data-cell="${c}" onclick="pickSection('${c}')">${c}</div>`).join('');
+  document.getElementById('pgrid').innerHTML=MAP_CELLS.map(c=>`<div class="pcell" data-cell="${c}" onclick="pickSection('${c}')">${c}</div>`).join('');
   highlightMap();
-  // sections
-  document.getElementById('sections').innerHTML = SECTIONS.map(s=>{
-    const pct = Math.round(s.avail/s.total*100);
-    return `<div class="srow ${s.avail<=3?'low':''}" onclick="pickSection('${s.id}')">
+  document.getElementById('sections').innerHTML=SECTIONS.map(s=>{
+    const pct=Math.round(s.avail/s.total*100);
+    return `<div class="srow ${s.avail<=3?'low':''} ${s.id===state.section.id?'sel':''}" data-srow="${s.id}" onclick="pickSection('${s.id}')">
       <div class="lt">${s.id}</div>
-      <div>
-        <div class="rt">
-          <div class="col"><span>Availability</span><b>${s.avail}/${s.total}</b></div>
-          <div class="col"><span>$/hour</span><b>$${s.rate.toFixed(2)}</b></div>
-        </div>
-        <div class="availbar"><i style="width:${pct}%"></i></div>
-      </div>
-    </div>`;
+      <div><div class="rt"><div class="col"><span>Availability</span><b>${s.avail}/${s.total}</b></div><div class="col"><span>$/hour</span><b>$${s.rate.toFixed(2)}</b></div></div>
+      <div class="availbar"><i style="width:${pct}%"></i></div></div></div>`;
   }).join('');
 }
-
 function highlightMap(){
-  document.querySelectorAll('#pgrid .pcell').forEach(c=>{
-    c.classList.toggle('sel', c.dataset.cell===state.section.id);
-  });
+  document.querySelectorAll('#pgrid .pcell').forEach(c=>c.classList.toggle('sel',c.dataset.cell===state.section.id));
+  document.querySelectorAll('#sections .srow').forEach(r=>r.classList.toggle('sel',r.dataset.srow===state.section.id));
 }
-
 function pickSection(id){
-  state.section = SECTIONS.find(s=>s.id===id);
-  highlightMap();
-  recalc();
-  // open detail sheet
-  const s = state.section;
-  document.getElementById('mSection').textContent = s.id;
-  document.getElementById('mRate').textContent = '$'+s.rate.toFixed(2);
-  document.getElementById('mStart').textContent = state.start;
-  document.getElementById('mEnd').textContent = state.end;
-  document.getElementById('sheetAvail').textContent = s.avail>3?'Available':'Almost full';
+  state.section=SECTIONS.find(s=>s.id===id); highlightMap(); recalc();
+  const s=state.section;
+  document.getElementById('mSection').textContent=s.id;
+  document.getElementById('mRate').textContent='$'+s.rate.toFixed(2);
+  document.getElementById('sheetAvail').textContent=s.avail>3?'Available':'Almost full';
   openSheet('sectionSheet');
 }
-
+function hoursBetween(a,b){const p=t=>{let m=t.match(/(\d+):(\d+)(am|pm)/);let h=+m[1]%12+(m[3]==='pm'?12:0);return h*60+ +m[2];};let d=p(b)-p(a);if(d<=0)d+=1440;return d/60;}
 function recalc(){
-  state.start = document.getElementById('startTime')?.value || state.start;
-  state.end   = document.getElementById('endTime')?.value || state.end;
-  document.getElementById('mStart').textContent = state.start;
-  document.getElementById('mEnd').textContent = state.end;
+  state.start=document.getElementById('startTime')?.value||state.start;
+  state.end=document.getElementById('endTime')?.value||state.end;
+  const hrs=hoursBetween(state.start,state.end);
+  document.getElementById('mStart').textContent=state.start;
+  document.getElementById('mEnd').textContent=state.end;
+  document.getElementById('mTotal').textContent='$'+(hrs*state.section.rate).toFixed(2);
 }
-
-function hoursBetween(a,b){
-  const p = t=>{let[,h,m,ap]=t.match(/(\d+):(\d+)(am|pm)/);h=+h%12+(ap==='pm'?12:0);return h*60+ +m;};
-  let d = p(b)-p(a); if(d<=0) d+=24*60; return d/60;
-}
-
 function reserve(){
-  const s = state.section;
-  const hrs = hoursBetween(state.start, state.end);
-  const total = (hrs*s.rate).toFixed(2);
-  state.reservation = {event:state.event, section:s, start:state.start, end:state.end, total};
-  closeSheet();
-  go('confirm');
+  const s=state.section, hrs=hoursBetween(state.start,state.end);
+  state.reservation={event:state.event,section:s,start:state.start,end:state.end,total:(hrs*s.rate).toFixed(2)};
+  closeSheet(); go('confirm');
 }
-
 function renderConfirm(){
-  document.getElementById('confLot').textContent = 'Lot '+state.reservation.section.id;
-  document.getElementById('confGrid').innerHTML = MAP_CELLS.map(c=>
-    `<div class="pcell ${c===state.reservation.section.id?'sel':''}">${c}</div>`).join('');
+  document.getElementById('confLot').textContent='Lot '+state.reservation.section.id;
+  document.getElementById('confGrid').innerHTML=MAP_CELLS.map(c=>`<div class="pcell ${c===state.reservation.section.id?'sel':''}">${c}</div>`).join('');
 }
-
 function renderMyParking(){
-  const r = state.reservation;
-  const up = document.getElementById('upcoming');
-  const past = document.getElementById('past');
-  up.innerHTML = r ? evCard(r.event, `openReceipt('${r.event.id}')`, true)
-                   : `<div class="empty"><svg width="40" height="40"><use href="#i-ticket"/></svg><br>No upcoming reservations.</div>`;
-  past.innerHTML = evCard(EVENTS[1], `toast('Past reservation')`, true);
+  const r=state.reservation;
+  document.getElementById('upcoming').innerHTML = r
+    ? evCard(r.event,`openReceipt('${r.event.id}')`,{dots:true})
+    : `<div class="empty"><div class="ei"><svg width="26" height="26"><use href="#i-ticket"/></svg></div>No upcoming reservations.<br>Book a spot to see it here.</div>`;
+  document.getElementById('past').innerHTML=[EVENTS[1],EVENTS[3],EVENTS[4]].map((ev,i)=>evCard(ev,`toast('Past reservation')`,{dots:true,i})).join('');
 }
-
 function switchTab(t){
-  document.querySelectorAll('#myparking .tab').forEach(x=>x.classList.toggle('on', x.dataset.tab===t));
-  document.getElementById('upcoming').style.display = t==='up'?'flex':'none';
-  document.getElementById('past').style.display = t==='past'?'flex':'none';
+  document.querySelectorAll('#myparking .tab').forEach(x=>x.classList.toggle('on',x.dataset.tab===t));
+  document.getElementById('upcoming').style.display=t==='up'?'flex':'none';
+  document.getElementById('past').style.display=t==='past'?'flex':'none';
 }
-
 function openReceipt(evId){
-  if(!state.reservation){ state.reservation={event:EVENTS.find(e=>e.id===evId),section:SECTIONS[0],start:'7:30pm',end:'10:30pm',total:'30.00'}; }
-  switchReceipt('park');
-  go('receipt');
+  if(!state.reservation)state.reservation={event:EVENTS.find(e=>e.id===evId),section:SECTIONS[0],start:'7:30pm',end:'10:30pm',total:'30.00'};
+  switchReceipt('park'); go('receipt');
 }
-
 function renderReceipt(){
-  const r = state.reservation; if(!r) return;
-  document.getElementById('receiptPark').innerHTML = `
+  const r=state.reservation; if(!r)return;
+  document.getElementById('tkCode').textContent=`PNG-${(1000+Math.round(hoursBetween(r.start,r.end)*100)+r.event.id.length*7)}-${r.section.id}`;
+  document.getElementById('receiptPark').innerHTML=`
     <div class="inforow"><div class="k">Total Charge</div><div class="v">$${r.total}</div></div>
-    <div class="inforow"><div class="k">Section</div><div class="v">${r.section.id}</div></div>
+    <div class="inforow"><div class="k">Section</div><div class="v">Lot ${r.section.id}</div></div>
     <div class="inforow"><div class="k">Hourly Rate</div><div class="v">$${r.section.rate.toFixed(2)}/hr</div></div>
     <div class="inforow"><div class="k">Date</div><div class="v">${r.event.date}</div></div>
     <div class="inforow"><div class="k">Time</div><div class="v">${r.start} – ${r.end}</div></div>`;
-  const ev = r.event;
-  document.getElementById('receiptEvent').innerHTML = `
+  const ev=r.event;
+  document.getElementById('receiptEvent').innerHTML=`
     <div class="inforow"><div class="k">Name</div><div class="v">${ev.name}</div></div>
     <div class="inforow"><div class="k">Location</div><div class="v">${ev.addr}</div></div>
     <div class="inforow"><div class="k">Date</div><div class="v">${ev.date}</div></div>
     <div class="inforow"><div class="k">Time</div><div class="v">${ev.time}</div></div>
-    <div class="inforow"><div class="k">Summary</div><div class="v">${ev.summary}</div></div>`;
+    <div class="inforow"><div class="k">Summary</div><div class="v">${ev.about}</div></div>`;
 }
-
 function switchReceipt(t){
-  document.querySelectorAll('#receipt .tab').forEach(x=>x.classList.toggle('on', x.dataset.rtab===t));
-  document.getElementById('rPark').style.display = t==='park'?'block':'none';
-  document.getElementById('rEv').style.display = t==='ev'?'block':'none';
+  document.querySelectorAll('#receipt .tab').forEach(x=>x.classList.toggle('on',x.dataset.rtab===t));
+  document.getElementById('rPark').style.display=t==='park'?'block':'none';
+  document.getElementById('rEv').style.display=t==='ev'?'block':'none';
 }
 
-/* =================== SHEETS / MENU =================== */
-function openSheet(id){
-  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  document.getElementById('scrim').classList.add('on');
+/* =================== PROFILE EDIT =================== */
+function editPinfo(on){
+  document.querySelectorAll('#pinfo .input').forEach(i=>i.disabled=!on);
+  document.getElementById('pinfoView').style.display=on?'none':'block';
+  document.getElementById('pinfoEdit').style.display=on?'flex':'none';
+  document.getElementById('pinfoSub').textContent=on?'Editing…':'Your account details';
+  if(on)document.querySelector('#pinfo .input[data-pf="name"]').focus();
 }
-function closeSheet(){
-  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));
-  document.getElementById('scrim').classList.remove('on');
+function savePinfo(){editPinfo(false);toast('Profile updated');}
+function togglePw(el){
+  const inp=el.parentElement.querySelector('[data-pw]');
+  const show=inp.type==='password'; inp.type=show?'text':'password';
+  el.querySelector('use').setAttribute('href',show?'#i-eye-off':'#i-eye');
 }
-function openCancel(){ openSheet('cancelSheet'); }
-function confirmCancel(){ state.reservation=null; closeSheet(); go('cancelled'); }
-function openMenu(){ document.getElementById('navmenu').classList.add('on'); }
-function closeMenu(){ document.getElementById('navmenu').classList.remove('on'); }
+function toggleTgl(row){const t=row.querySelector('[data-tgl]');t&&t.classList.toggle('on');}
+document.querySelectorAll('[data-tgl]').forEach(t=>t.addEventListener('click',e=>{e.stopPropagation();t.classList.toggle('on');}));
 
-/* =================== TOAST =================== */
+/* =================== SHEETS / MENU / TOAST =================== */
+function openSheet(id){document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');document.getElementById('scrim').classList.add('on');}
+function closeSheet(){document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('on'));document.getElementById('scrim').classList.remove('on');}
+function openCancel(){openSheet('cancelSheet');}
+function confirmCancel(){state.reservation=null;closeSheet();go('cancelled');}
+function openMenu(){document.getElementById('navmenu').classList.add('on');}
+function closeMenu(){document.getElementById('navmenu').classList.remove('on');}
 let toastT;
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('on');
-  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),1900);
-}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1900);}
 
-/* =================== UI KIT ICON GRID =================== */
-const ICONS = [
-  ['i-search','Search'],['i-cal','Calendar'],['i-pin','Direction'],['i-loc','Location'],
-  ['i-mail','Mail'],['i-user','User'],['i-lock','Lock'],['i-phone','Phone'],
-  ['i-chat','Chat'],['i-dots','More'],['i-x','Close'],['i-menu','Menu'],
-  ['i-chev','Chevron'],['i-back','Back'],['i-ticket','Ticket'],['i-map','Map']
-];
-document.getElementById('iconGrid').innerHTML = ICONS.map(([id,name])=>
-  `<div class="icell"><svg width="24" height="24"><use href="#${id}"/></svg><span>${name}</span></div>`).join('');
-
-/* =================== DEV SCREEN SWITCHER =================== */
-const SCREENS = [
-  ['Auth',[['signup','Sign Up']]],
-  ['Core',[['home','Home'],['search','Search Results'],['event','Event Info'],['lot','Choose Parking Lot'],['confirm','Booking Confirmed']]],
-  ['Manage',[['myparking','My Parking'],['receipt','Parking Receipt'],['cancelled','Ticket Cancelled']]],
-  ['Account',[['profile','Profile'],['help','Help Center']]],
+/* =================== DEV SWITCHER =================== */
+const SCREENS=[
+  ['Auth',[['login','Login'],['signup','Sign Up']]],
+  ['Core',[['home','Home'],['search','Search'],['event','Event Detail'],['lot','Choose Parking Lot'],['confirm','Booking Confirmed']]],
+  ['Manage',[['myparking','My Parking'],['receipt','Your Ticket'],['cancelled','Ticket Cancelled']]],
+  ['Account',[['profile','Profile'],['pinfo','Personal Info'],['payment','Payment Methods'],['help','Help Center']]],
   ['System',[['kit','UI Kit']]]
 ];
-document.getElementById('devMenu').innerHTML = SCREENS.map(([grp,items])=>
-  `<div class="lbl">${grp}</div>`+items.map(([id,name])=>`<button onclick="go('${id}')">${name}</button>`).join('')
-).join('') + `<div class="lbl">Overlays</div>
-  <button onclick="go('lot');setTimeout(()=>pickSection('A'),350)">Section sheet</button>
-  <button onclick="go('receipt');switchReceipt('ev');setTimeout(openCancel,350)">Cancel confirm</button>
-  <button onclick="openMenu()">Nav menu</button>
-  <div class="lbl">Capture</div>
-  <button onclick="document.body.classList.toggle('bare')">Toggle bare mode</button>`;
+document.getElementById('devMenu').innerHTML=SCREENS.map(([g,items])=>`<div class="lbl">${g}</div>`+items.map(([id,n])=>`<button onclick="go('${id}')">${n}</button>`).join('')).join('')+
+`<div class="lbl">Overlays</div>
+ <button onclick="go('lot');setTimeout(()=>pickSection('A'),380)">Section sheet</button>
+ <button onclick="go('receipt');switchReceipt('ev');setTimeout(openCancel,380)">Cancel sheet</button>
+ <button onclick="go('payment');setTimeout(()=>openSheet('addCardSheet'),380)">Add card</button>
+ <button onclick="openMenu()">Nav menu</button>
+ <div class="lbl">Capture</div>
+ <button onclick="document.body.classList.toggle('bare')">Toggle bare mode</button>`;
 
-/* URL flags: ?bare hides device frame; ?nodev hides switcher; #screen jumps */
-const params = new URLSearchParams(location.search);
-if(params.has('bare')) document.body.classList.add('bare');
-if(params.has('nodev')) document.getElementById('dev').classList.add('hide');
-
-/* boot */
-const startId = (location.hash.slice(1)) || 'home';
+const params=new URLSearchParams(location.search);
+if(params.has('bare'))document.body.classList.add('bare');
+if(params.has('nodev'))document.getElementById('dev').classList.add('hide');
+const startId=location.hash.slice(1)||'home';
 go(document.getElementById(startId)?startId:'home');
 window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(id&&document.getElementById(id))go(id);});
 </script>
