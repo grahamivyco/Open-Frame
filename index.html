@@ -425,7 +425,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 @media (max-height:700px){ .svc-stage .svc-acc .svc-card.open ul{display:none} }
 @media (max-width:560px){
   .svc-stage .section-head h2{font-size:clamp(1.5rem,6.4vw,2rem)}
-  .svc-stage .svc-acc .svc-card.open p{max-height:8.5em}
+  /* phones: the long descriptions can't fit in a fixed-height tile ALONGSIDE the
+     bullets, so drop the (supplementary) bullets and let the full paragraph show
+     unclipped — the open tile also grows a little more to make room */
+  .svc-stage .svc-acc .svc-card.open ul{display:none}
+  .svc-stage .svc-acc .svc-card.open p{max-height:26em}
+  .svc-stage .svc-acc .svc-card.open{flex-grow:7}
 }
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
@@ -2589,16 +2594,27 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       if(items.length<2) return;
       var idx=0,timer=0,hovering=false;
       function open(i){ idx=i; items.forEach(function(el,j){ el.classList.toggle("open",j===i); }); }
+      function tick(){ if(!hovering) open((idx+1)%items.length); }
+      function start(){ if(timer||reduce) return; timer=setInterval(tick,interval); }
+      function stop(){ clearInterval(timer); timer=0; }
+      /* open a tile and restart the autoplay countdown so a tapped tile stays open
+         for a full cycle before it moves on */
+      function bump(i){ open(i); if(timer){ stop(); start(); } }
       open(0);
       items.forEach(function(el,i){
         /* hover opens on pointer devices; on touch the autoplay just keeps cycling */
         el.addEventListener("pointerenter",function(){ if(canHover){ hovering=true; open(i); } });
         el.addEventListener("pointerleave",function(){ if(canHover) hovering=false; });
         el.addEventListener("focusin",function(){ open(i); });
+        /* TAP TO EXPAND (touch): first tap on a collapsed tile OPENS it (and holds it
+           a cycle) instead of firing its link; the arrow / a second tap on the already-
+           open tile falls through, so linking tiles (data-go or external <a>) navigate.
+           On hover devices the tile is already open by click-time, so links still fire
+           on the first click. */
+        el.addEventListener("click",function(ev){
+          if(!el.classList.contains("open")){ ev.preventDefault(); ev.stopPropagation(); bump(i); }
+        });
       });
-      function tick(){ if(!hovering) open((idx+1)%items.length); }
-      function start(){ if(timer||reduce) return; timer=setInterval(tick,interval); }
-      function stop(){ clearInterval(timer); timer=0; }
       new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:.35}).observe(items[0].parentElement);
     }
     document.querySelectorAll(".svc-stage .svc-acc").forEach(function(acc){
