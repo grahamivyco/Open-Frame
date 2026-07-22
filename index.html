@@ -2358,11 +2358,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </script>
 
 <!-- Hero "brand mark reel" — the right-half panel HARD-CUTS (1s per frame, no fade)
-     through 14 photoreal shots of the Open Frame mark. Two stacked .reel-bg layers
-     swap instantly (incoming set + shown while the outgoing hides in the same frame,
-     so there's never a blank gap); every image is decoded up front so a cut never
-     catches a raw image. Respects prefers-reduced-motion; pauses off-home / hidden.
-     Add a material by dropping a square shot into images/hero/of-NAME.webp + IMG. -->
+     through 14 photoreal shots of the Open Frame mark. DOUBLE-BUFFERED so an image
+     never flashes in while loading: the NEXT image is staged on the hidden .reel-bg
+     layer a full second before it's revealed (so it's already loaded + rasterised),
+     and the reel doesn't start until every image has decoded. Respects
+     prefers-reduced-motion; pauses off-home / when hidden. Add a material by
+     dropping a square shot into images/hero/of-NAME.webp and appending to IMG. -->
 <script>
 (() => {
   "use strict";
@@ -2370,36 +2371,40 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   if (!reel) return;
   const layers = [...reel.querySelectorAll(".reel-bg")];
   if (layers.length < 2) return;
-  const host = reel.closest(".hero");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon","tile","succulent"]
     .map(n => "images/hero/of-" + n + ".webp");
   const INTERVAL = 1000; // ms per frame — hard cut, no fade
+  const nextIdx = cur => { let n; do { n = Math.floor(Math.random() * IMG.length); } while (n === cur); return n; };
+  const onScreen = () => reel.clientWidth > 0;
 
-  // preload + decode every frame so a cut never catches a raw (undecoded) image
-  IMG.forEach(src => { const im = new Image(); im.src = src; if (im.decode) im.decode().catch(() => {}); });
+  // keep the decoded Image objects alive; only start once EVERY image has decoded
+  const pre = IMG.map(src => { const im = new Image(); im.src = src; return im; });
 
-  let front = 0, idx = 0, timer = 0, playing = false;
-  function show(i){                                  // instant hard cut via two layers
-    const back = layers[(front + 1) % 2];
-    back.style.backgroundImage = "url('" + IMG[i] + "')";
-    back.classList.add("show");
+  let front = 0, next = 0, timer = 0, playing = false;
+  const stageBack = i => { layers[(front + 1) % 2].style.backgroundImage = "url('" + IMG[i] + "')"; };
+  function step(){
+    layers[(front + 1) % 2].classList.add("show");  // reveal the layer we staged 1s ago
     layers[front].classList.remove("show");
     front = (front + 1) % 2;
+    next = nextIdx(next);
+    stageBack(next);                                // stage the following image ~1s ahead
   }
-  const nextIdx = cur => { let n; do { n = Math.floor(Math.random() * IMG.length); } while (n === cur); return n; };
-  function tick(){ idx = nextIdx(idx); show(idx); timer = setTimeout(tick, INTERVAL); }
-  function play(){ if (playing || host.clientWidth === 0) return; playing = true; tick(); }
-  function pause(){ playing = false; clearTimeout(timer); }
+  function play(){ if (playing || !onScreen()) return; playing = true; timer = setInterval(step, INTERVAL); }
+  function pause(){ playing = false; clearInterval(timer); }
 
-  show(0);
-  requestAnimationFrame(() => reel.classList.add("on"));
-
-  if (!reduce) {
+  function begin(){
+    layers[0].style.backgroundImage = "url('" + IMG[0] + "')";
+    layers[0].classList.add("show");
+    next = nextIdx(0);
+    stageBack(next);                                // pre-stage the second frame on the hidden layer
+    requestAnimationFrame(() => reel.classList.add("on"));
+    if (reduce) return;
     new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(reel);
     addEventListener("visibilitychange", () => document.hidden ? pause() : play());
   }
+  Promise.all(pre.map(im => im.decode ? im.decode().catch(() => {}) : Promise.resolve())).then(begin).catch(begin);
 })();
 </script>
 </body>
