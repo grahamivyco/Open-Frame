@@ -121,14 +121,15 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
      block grows to fill; equal bottom margin (= side gutter) */
   html.snap-deck #home>section.snaptop,html.snap-deck #work>section.snaptop,html.snap-deck #services>section.snaptop,html.snap-deck #about>section.snaptop,html.snap-deck #svc-brand>section.snaptop,html.snap-deck #svc-web>section.snaptop,html.snap-deck #svc-marketing>section.snaptop,html.snap-deck #svc-growth>section.snaptop{justify-content:flex-start;padding-top:var(--head);padding-bottom:var(--gutter)}
   html.snap-deck #home>section.snaptop>.wrap,html.snap-deck #work>section.snaptop>.wrap,html.snap-deck #services>section.snaptop>.wrap,html.snap-deck #about>section.snaptop>.wrap,html.snap-deck #svc-brand>section.snaptop>.wrap,html.snap-deck #svc-web>section.snaptop>.wrap,html.snap-deck #svc-marketing>section.snaptop>.wrap,html.snap-deck #svc-growth>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
-  html.snap-deck .snaptop .svc-acc,html.snap-deck .snaptop .pj-strip{height:auto;flex:1 1 auto;min-height:0}
+  html.snap-deck .snaptop .svc-acc,html.snap-deck .snaptop .pj-strip,html.snap-deck .snaptop .about-bento-grid{height:auto;flex:1 1 auto;min-height:0}
   /* fill sections (about, contact, footer): inner container fills the hero-sized box.
      Contact uses the SAME top/bottom as about so the two tiles match in size + offset */
   /* NOTE: the .cta-band selector MUST carry the #home>section / #work>section id —
      otherwise the base `#home>section{padding-top:var(--sect)}` (higher specificity via
      the id) wins and contact starts too high / different from about. Recurring bug. */
-  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band,html.snap-deck #services>section.cta-band,html.snap-deck #about>section.sect-narrow,html.snap-deck #about>section.cta-band,html.snap-deck #svc-brand>section.cta-band,html.snap-deck #svc-web>section.cta-band,html.snap-deck #svc-marketing>section.cta-band,html.snap-deck #svc-growth>section.cta-band,html.snap-deck #svc-brand>section.svc-hero,html.snap-deck #svc-web>section.svc-hero,html.snap-deck #svc-marketing>section.svc-hero,html.snap-deck #svc-growth>section.svc-hero{padding-top:var(--head);padding-bottom:var(--gutter)}
-  html.snap-deck .sect-narrow>.wrap,html.snap-deck .cta-band>.wrap,html.snap-deck .site-footer>.wrap,html.snap-deck .svc-hero>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band,html.snap-deck #services>section.cta-band,html.snap-deck #about>section.sect-narrow,html.snap-deck #about>section.cta-band,html.snap-deck #svc-brand>section.cta-band,html.snap-deck #svc-web>section.cta-band,html.snap-deck #svc-marketing>section.cta-band,html.snap-deck #svc-growth>section.cta-band,html.snap-deck #svc-brand>section.svc-hero,html.snap-deck #svc-web>section.svc-hero,html.snap-deck #svc-marketing>section.svc-hero,html.snap-deck #svc-growth>section.svc-hero,html.snap-deck #about>section.about-say{padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck .sect-narrow>.wrap,html.snap-deck .cta-band>.wrap,html.snap-deck .site-footer>.wrap,html.snap-deck .svc-hero>.wrap,html.snap-deck .about-say>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck .about-say>.wrap{justify-content:center}
   /* service-detail hero fills the hero-sized box, content vertically centred */
   html.snap-deck .svc-hero>.wrap{justify-content:center}
   html.snap-deck .svc-hero .svc-hero-grid{flex:0 1 auto;min-height:0;margin-top:0}
@@ -341,14 +342,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* hero — wide, short */
 /* hero — split 50/50, NO container box: words centred in the left half, the mark
    "reel" filling the right half and as tall as the old cream box was */
-.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:grid;grid-template-columns:1fr minmax(0,50%);align-items:center;gap:clamp(32px,5vw,72px)}
+.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);overflow:hidden;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,2.6vw,30px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
 /* the mark "reel" — fills its 50% column, height = cream-box height. Two stacked
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
-.hero-reel{order:2;position:relative;width:100%;height:var(--hero-h);justify-self:end;border-radius:clamp(24px,3vw,44px);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
-.hero-reel.on{opacity:1}
-.reel-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:0}
-.reel-bg.show{opacity:1}   /* instant hard cut — two <img> layers, revealed only once decoded */
+/* home hero mark: the brand icon, hard-cutting through finishes/mediums every 300ms (no bg, no shadow, static frames) */
+.hero-mark{--rm-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='14%2014%2092%2092'%3E%3Cpath%20d='M74%2022%20H36%20A14%2014%200%200%200%2022%2036%20V84%20A14%2014%200%200%200%2036%2098%20H84%20A14%2014%200%200%200%2098%2084%20V48'%20fill='none'%20stroke='%23000'%20stroke-width='15'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cg%20transform='translate(60,60)%20scale(0.46)'%3E%3Cpath%20d='M0%20-50%20C0%20-21%2021%200%2050%200%20C21%200%200%2021%200%2050%20C0%2021%20-21%200%20-50%200%20C-21%200%200%20-21%200%20-50%20Z'%20fill='%23000'/%3E%3C/g%3E%3C/svg%3E");position:relative;width:clamp(122px,15vw,188px);aspect-ratio:1;flex:0 0 auto;opacity:0;transition:opacity .6s ease}
+.hero-mark.on{opacity:1}
+.hero-mark>.rm-layer{position:absolute;inset:0}
+.hero-mark .rm-svg{width:100%;height:100%;display:block;overflow:visible}
+.hero-mark .rm-grain{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.3;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Cfilter%20id='hn'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23hn)'/%3E%3C/svg%3E");-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat}
+.hero-mark .rm-a{transform:translate(-1.5px,-1px);mix-blend-mode:multiply}
+.hero-mark .rm-b{transform:translate(1.5px,1px);mix-blend-mode:multiply}
+.hero-mark .rm-ghost{transform:translate(2px,2.5px)}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -365,26 +371,26 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .hs6{top:60%;right:5%;width:56px;height:56px;animation-delay:-3s}.hs6 .in{color:var(--red)}
 .hs5 .in svg,.hs6 .in svg{width:100%;height:100%;fill:currentColor}
 @keyframes drift{0%{transform:translate(0,0)}20%{transform:translate(20px,-24px)}45%{transform:translate(-14px,-10px)}70%{transform:translate(-22px,18px)}100%{transform:translate(0,0)}}
-.hero-inner{order:1;position:relative;z-index:2;max-width:560px;justify-self:center}
-.hero .eyebrow{color:var(--ink-2);justify-content:flex-start}
+.hero-inner{position:relative;z-index:2;max-width:640px}
+.hero .eyebrow{color:var(--ink-2);justify-content:center}
 .hero h1{font-size:clamp(2.6rem,4.4vw,4.6rem);font-weight:500;line-height:.96;letter-spacing:-.025em}
 .hero h1 em{font-style:italic;font-weight:400}
-.hero p{font-family:var(--sans);color:var(--ink-2);max-width:42ch;margin:22px 0 0;font-size:clamp(1.05rem,1.4vw,1.2rem)}
-.hero-actions{display:flex;gap:13px;justify-content:flex-start;flex-wrap:wrap;margin-top:32px}
+.hero p{font-family:var(--sans);color:var(--ink-2);max-width:44ch;margin:20px auto 0;font-size:clamp(1.05rem,1.4vw,1.2rem)}
+.hero-actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:30px}
 /* stack on smaller screens: words on top, mark panel below */
 @media (max-width:820px){
   /* mobile/tablet: full-viewport hero — compact words on top, photo fills the rest.
      Fill top-down and pad the bottom (incl. the phone's safe area) so the photo's
      bottom always clears the browser's bottom toolbar. */
-  html.snap-deck .hero-sect{justify-content:flex-start}
-  html.snap-deck .hero-sect>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;width:100%}
-  .hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(14px,3.5vw,24px);min-height:0;flex:1 1 auto;padding-top:clamp(12px,3vw,24px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + clamp(10px,2vh,18px))}
-  .hero-inner{order:1;flex:0 0 auto;max-width:none;margin:0;justify-self:auto}
+  html.snap-deck .hero-sect{justify-content:center}
+  html.snap-deck .hero-sect>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;width:100%;justify-content:center}
+  .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(16px,4vw,26px);min-height:0;flex:1 1 auto;padding:clamp(20px,5vw,32px) clamp(20px,6vw,32px) calc(env(safe-area-inset-bottom,0px) + clamp(16px,3vh,24px))}
+  .hero-inner{flex:0 0 auto;max-width:none;margin:0}
   .hero .eyebrow{display:none}                       /* folded away → fewer lines, less whitespace */
   .hero h1{font-size:clamp(2.5rem,8.4vw,3.9rem)}
   .hero p{margin:12px auto 0}
   .hero-actions{justify-content:center;margin-top:20px}
-  .hero-reel{order:2;flex:1 1 0;min-height:clamp(180px,34vh,520px);height:auto;aspect-ratio:auto;width:100%;max-width:none;margin:0}
+  .hero-mark{width:clamp(104px,26vw,148px)}
 }
 
 /* subhero */
@@ -449,8 +455,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    large (open) title */
 .svc-stage .svc-acc .svc-card h3{margin:0;font-size:clamp(1.02rem,1.7vw,1.55rem);line-height:1.12;font-optical-sizing:none;font-variation-settings:"opsz" 40,"wght" 500;transition:font-size .5s var(--ease)}
 .svc-stage .svc-acc .svc-card.open h3{font-size:clamp(1.28rem,2.5vw,2.2rem);margin-bottom:6px}
-.svc-stage .svc-acc .svc-card p{max-width:60ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(.85rem,1.05vw,1.06rem);line-height:1.44;color:var(--muted);transition:max-height .55s var(--ease),opacity .4s var(--ease)}
-.svc-stage .svc-acc .svc-card.open p{max-height:8em;opacity:1}
+/* description follows the site's standard supporting-paragraph scale (like
+   about-body / cform-head), not a smaller one-off — min 1rem so tablet reads at
+   16px, ~18px on desktop */
+.svc-stage .svc-acc .svc-card p{max-width:82ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.5;color:var(--muted);transition:max-height .55s var(--ease),opacity .4s var(--ease)}
+.svc-stage .svc-acc .svc-card.open p{max-height:9.5em;opacity:1}
 /* bullet list reappears in the open tile where there's room */
 .svc-stage .svc-acc .svc-card ul{display:flex;max-height:0;opacity:0;margin-top:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease) .05s,margin-top .4s var(--ease)}
 .svc-stage .svc-acc .svc-card.open ul{max-height:12em;opacity:1;margin-top:clamp(10px,1.4vh,20px)}
@@ -477,7 +486,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 @media (max-height:700px){ .svc-stage .svc-acc .svc-card.open ul{display:none} }
 @media (max-width:560px){
   .svc-stage .section-head h2{font-size:clamp(1.5rem,6.4vw,2rem)}
-  .svc-stage .svc-acc .svc-card.open p{max-height:7em}
+  /* phones: the long descriptions can't fit in a fixed-height tile ALONGSIDE the
+     bullets, so drop the (supplementary) bullets and let the full paragraph show
+     unclipped — the open tile also grows a little more to make room */
+  .svc-stage .svc-acc .svc-card.open ul{display:none}
+  .svc-stage .svc-acc .svc-card.open p{max-height:26em}
+  .svc-stage .svc-acc .svc-card.open{flex-grow:7}
 }
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
@@ -575,6 +589,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 
 /* about */
 .about-panel{background:var(--panel);border-radius:var(--r-lg);padding:clamp(26px,4vw,58px);display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,5vw,64px);align-items:center}
+/* About-page hero: drop the cream container — photo + text sit on the plain bg */
+#about .sect-narrow .about-panel{background:none;border-radius:0;padding:0}
+#about .about-body .about-sub{font-family:var(--sans);color:var(--muted);font-size:clamp(1.02rem,1.4vw,1.22rem);line-height:1.5;margin-top:14px;max-width:34ch}
 .about-photo{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:#ddd}
 .about-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04)}
 .about-photo.cut{position:relative;background:#d9d7d1;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:1379/1318;display:flex;align-items:flex-end;justify-content:flex-start;transition:background-color .7s var(--ease)}
@@ -587,6 +604,22 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .about-body .eyebrow{margin-bottom:14px}
 .about-body h1{font-size:clamp(2.3rem,4.2vw,3.3rem);font-weight:500;line-height:1.03;margin-bottom:16px}
 .about-body .about-actions{margin-top:26px}
+/* About "Studio of one" — full-screen, centred text statement */
+.about-say-inner{max-width:60ch;margin:0 auto;text-align:center}
+.about-say-inner .eyebrow{justify-content:center;color:var(--muted);margin-bottom:16px}
+.about-say-inner h2{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:500;line-height:.98;letter-spacing:-.02em;margin-bottom:clamp(18px,2.6vw,30px)}
+.about-say-inner p{font-family:var(--sans);color:var(--ink-2);font-size:clamp(1.06rem,1.55vw,1.32rem);line-height:1.6;max-width:52ch;margin:0 auto 16px}
+.about-say-inner .about-actions{display:flex;justify-content:center;margin-top:clamp(22px,3vw,34px)}
+/* About "Off the clock" bento of photo placeholders (brand-tinted, labelled;
+   drop real photos into each <figure> as an <img> to replace) */
+.about-bento-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:1fr 1fr;grid-template-areas:"a a b" "c d b";gap:clamp(10px,1.4vw,18px);width:100%}
+.bphoto{position:relative;overflow:hidden;border-radius:var(--r);background:color-mix(in srgb,var(--accent,#84827b) 16%,#fff);display:flex;align-items:flex-end;min-height:clamp(96px,12vh,220px);min-width:0}
+.bphoto.bp-a{grid-area:a}.bphoto.bp-b{grid-area:b}.bphoto.bp-c{grid-area:c}.bphoto.bp-d{grid-area:d}
+.bphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(.12)}
+.bphoto figcaption{position:relative;z-index:1;padding:clamp(13px,1.6vw,22px);font-family:var(--sans);font-weight:500;color:var(--ink);font-size:clamp(.94rem,1.35vw,1.12rem)}
+@media(max-width:620px){
+  .about-bento-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);grid-template-areas:"a a" "c d" "b b"}
+}
 .about-hero{display:grid;grid-template-columns:1.05fr .9fr;gap:clamp(30px,5vw,64px);align-items:center}
 .about-hero .eyebrow{margin-bottom:14px}
 .about-hero h1{font-size:clamp(2.6rem,7vw,5rem);font-weight:500;line-height:1;margin-bottom:18px}
@@ -1186,18 +1219,20 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   <section class="hero-sect" style="padding-top:clamp(84px,9vh,102px)">
     <div class="wrap">
       <div class="hero">
-        <div class="hero-reel" aria-hidden="true">
-          <img class="reel-bg" alt="" decoding="async">
-          <img class="reel-bg" alt="" decoding="async">
-        </div>
-        <div class="hero-shapes" aria-hidden="true">
-          <span class="shape hs1"><span class="in"></span></span>
-          <span class="shape hs2"><span class="in"></span></span>
-          <span class="shape hs3"><span class="in"></span></span>
-          <span class="shape hs4"><span class="in"></span></span>
-          <span class="shape hs5"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
-          <span class="shape hs6"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
-        </div>
+        <!-- hero mark reel: static SVG finishes/mediums, hard-cut every 300ms; filter/gradient defs here -->
+        <svg id="heroFx" width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
+          <filter id="hf-wobble" x="-35%" y="-35%" width="170%" height="170%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="6" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter>
+          <filter id="hf-torn" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.013 0.016" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter>
+          <filter id="hf-crayon" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter>
+          <filter id="hf-ink" x="-45%" y="-45%" width="190%" height="190%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6" result="d"/><feGaussianBlur in="d" stdDeviation="0.5"/></filter>
+          <linearGradient id="hg-rainbow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0398f"/><stop offset="0.22" stop-color="#6a3ad0"/><stop offset="0.44" stop-color="#2f6bf0"/><stop offset="0.64" stop-color="#33ac66"/><stop offset="0.82" stop-color="#f4bf3a"/><stop offset="1" stop-color="#f24333"/></linearGradient>
+          <linearGradient id="hg-metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f8fa"/><stop offset=".26" stop-color="#9aa0a8"/><stop offset=".5" stop-color="#eef1f4"/><stop offset=".74" stop-color="#6b707a"/><stop offset="1" stop-color="#cfd3d9"/></linearGradient>
+          <radialGradient id="hg-gold" cx=".35" cy=".3" r=".95"><stop offset="0" stop-color="#fff6d8"/><stop offset=".45" stop-color="#f4bf3a"/><stop offset="1" stop-color="#8a6a1a"/></radialGradient>
+          <linearGradient id="hg-holo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f24333"/><stop offset=".28" stop-color="#f4bf3a"/><stop offset=".54" stop-color="#33ac66"/><stop offset=".8" stop-color="#2f6bf0"/><stop offset="1" stop-color="#b06bf0"/></linearGradient>
+          <linearGradient id="hg-ice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf7ff"/><stop offset=".5" stop-color="#bfe3f2"/><stop offset="1" stop-color="#8fc6e4"/></linearGradient>
+          <linearGradient id="hg-sand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7cfa4"/><stop offset=".5" stop-color="#cda367"/><stop offset="1" stop-color="#a97e4c"/></linearGradient>
+        </defs></svg>
+        <div class="hero-mark" id="heroMark" aria-hidden="true"></div>
         <div class="hero-inner">
           <span class="eyebrow">Brand &amp; Product Design Studio</span>
           <h1>Bring your brand <em>into frame.</em></h1>
@@ -1369,11 +1404,24 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <div class="about-body">
           <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</span>
           <h1>Hey, I&#39;m Graham.</h1>
-          <p>I&#39;m a designer and brand consultant in Minneapolis. Through my studio, <strong>Open Frame</strong>, I help people, growing organizations, startups, and nonprofits turn ideas into brands people remember — from identity and messaging to websites and the marketing that grows them. Off the clock, I&#39;m usually scuba diving, salsa dancing, or deep in some amateur paleontology.</p>
+          <p class="about-sub">Designer &amp; brand consultant in Minneapolis.</p>
           <div class="about-actions">
             <a class="btn btn-dark" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-download"/></svg>View my résumé</a>
-            <a class="btn btn-line" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-say">
+    <div class="wrap">
+      <div class="about-say-inner reveal">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The studio</span>
+        <h2>Studio of one.</h2>
+        <p>When you work with Open Frame, you work with <strong>me</strong> — not an account manager, not a rotating cast of freelancers. One designer, start to finish, who treats your brand like it&#39;s my own. Fewer hand-offs, a single point of view, and someone who actually remembers the details.</p>
+        <p>Off the clock I&#39;m usually scuba diving, out salsa dancing, or elbow-deep in some amateur paleontology — the same curiosity I bring to every project.</p>
+        <div class="about-actions">
+          <a class="btn btn-dark" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
         </div>
       </div>
     </div>
@@ -1408,6 +1456,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           <div class="svc-txt"><h3>Always Evolving</h3>
             <p>I embrace feedback, iterate often, and stay curious — because great design is never finished, only improved. Every project teaches the next one.</p></div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-bento snaptop">
+    <div class="wrap">
+      <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Off the clock</span>
+        <h2>Life outside the frame.</h2></div>
+      <div class="about-bento-grid reveal">
+        <figure class="bphoto bp-a" style="--accent:#2f6bf0"><figcaption>Scuba diving</figcaption></figure>
+        <figure class="bphoto bp-b" style="--accent:#f24333"><figcaption>Salsa dancing</figcaption></figure>
+        <figure class="bphoto bp-c" style="--accent:#f4bf3a"><figcaption>Fossil hunting</figcaption></figure>
+        <figure class="bphoto bp-d" style="--accent:#33ac66"><figcaption>Minneapolis</figcaption></figure>
       </div>
     </div>
   </section>
@@ -2663,16 +2724,27 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       if(items.length<2) return;
       var idx=0,timer=0,hovering=false;
       function open(i){ idx=i; items.forEach(function(el,j){ el.classList.toggle("open",j===i); }); }
+      function tick(){ if(!hovering) open((idx+1)%items.length); }
+      function start(){ if(timer||reduce) return; timer=setInterval(tick,interval); }
+      function stop(){ clearInterval(timer); timer=0; }
+      /* open a tile and restart the autoplay countdown so a tapped tile stays open
+         for a full cycle before it moves on */
+      function bump(i){ open(i); if(timer){ stop(); start(); } }
       open(0);
       items.forEach(function(el,i){
         /* hover opens on pointer devices; on touch the autoplay just keeps cycling */
         el.addEventListener("pointerenter",function(){ if(canHover){ hovering=true; open(i); } });
         el.addEventListener("pointerleave",function(){ if(canHover) hovering=false; });
         el.addEventListener("focusin",function(){ open(i); });
+        /* TAP TO EXPAND (touch): first tap on a collapsed tile OPENS it (and holds it
+           a cycle) instead of firing its link; the arrow / a second tap on the already-
+           open tile falls through, so linking tiles (data-go or external <a>) navigate.
+           On hover devices the tile is already open by click-time, so links still fire
+           on the first click. */
+        el.addEventListener("click",function(ev){
+          if(!el.classList.contains("open")){ ev.preventDefault(); ev.stopPropagation(); bump(i); }
+        });
       });
-      function tick(){ if(!hovering) open((idx+1)%items.length); }
-      function start(){ if(timer||reduce) return; timer=setInterval(tick,interval); }
-      function stop(){ clearInterval(timer); timer=0; }
       new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:.35}).observe(items[0].parentElement);
     }
     document.querySelectorAll(".svc-stage .svc-acc").forEach(function(acc){
@@ -2749,54 +2821,132 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 })();
 </script>
 
-<!-- Hero "brand mark reel" — the right-half panel HARD-CUTS (1s per frame, no fade)
-     through 14 photoreal shots of the Open Frame mark. Two stacked <img> layers:
-     the NEXT image is staged on the hidden <img> ~1s ahead, and a layer is only
-     revealed once IT has decoded (img.decode()), so no cream box / half-loaded flash.
-     Starts as soon as the FIRST image decodes (not gated on all 14). Respects
-     prefers-reduced-motion; pauses off-home / when hidden. Add a material by
-     dropping a square shot into images/hero/of-NAME.webp and appending to IMG. -->
+<!-- Home hero mark reel — the brand icon HARD-CUTS every 300ms through static SVG
+     "finishes" (brand ink, chrome, gold, holographic, neon red/blue, flat red/blue/yellow/green)
+     and drawn "mediums" (wobble, fur, pixels, cut-paper, crayon, satin, mid-century, riso, ink).
+     No background, no shadow (except the neon/gold finishes' own glow). A family-aware shuffle
+     keeps similar frames from repeating back-to-back. Respects prefers-reduced-motion; pauses
+     off-home / when hidden. Add a frame: append a builder to FRAMES with a `fam` tag. -->
 <script>
 (() => {
   "use strict";
-  const reel = document.querySelector(".hero-reel");
-  if (!reel) return;
-  const layers = [...reel.querySelectorAll("img.reel-bg")];
-  if (layers.length < 2) return;
+  const host = document.getElementById("heroMark");
+  const fx = document.getElementById("heroFx");
+  if (!host || !fx) return;
+  const NS = "http://www.w3.org/2000/svg";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const BRACKET = "M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48";
+  const SPARK = "M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z";
 
-  const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon","tile","succulent"]
-    .map(n => "images/hero/of-" + n + ".webp");
-  const INTERVAL = 1000; // ms per frame — hard cut, no fade
-  const nextIdx = cur => { let n; do { n = Math.floor(Math.random() * IMG.length); } while (n === cur); return n; };
-  const onScreen = () => reel.clientWidth > 0;
-  const dec = img => (img.decode ? img.decode().catch(() => {}) : Promise.resolve());
-
-  let front = 0, next = 0, timer = 0, playing = false;
-  function step(){
-    const back = layers[(front + 1) % 2];             // already staged with IMG[next]
-    dec(back).then(() => {                             // only reveal once it's decoded → no flash
-      back.classList.add("show");
-      layers[front].classList.remove("show");
-      front = (front + 1) % 2;
-      next = nextIdx(next);
-      layers[(front + 1) % 2].src = IMG[next];         // stage the following image ~1s ahead
-    });
+  function sample(d, count, tf){
+    const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); fx.appendChild(p);
+    const L = p.getTotalLength(), out = [];
+    for (let i=0;i<count;i++){ const l=L*i/count; const a=p.getPointAtLength(Math.max(0,l-0.6)), b=p.getPointAtLength(Math.min(L,l+0.6));
+      let tx=b.x-a.x, ty=b.y-a.y; const m=Math.hypot(tx,ty)||1; tx/=m; ty/=m; let x=(a.x+b.x)/2, y=(a.y+b.y)/2, nx=-ty, ny=tx;
+      if (tf){ x=tf.ox+tf.s*x; y=tf.oy+tf.s*y; } out.push({x,y,tx,ty,nx,ny}); }
+    fx.removeChild(p); return out;
   }
-  function play(){ if (playing || !onScreen()) return; playing = true; timer = setInterval(step, INTERVAL); }
-  function pause(){ playing = false; clearInterval(timer); }
+  const wrap = (inner, cls) => { const d=document.createElement("div"); d.className="rm-layer"+(cls?" "+cls:""); d.innerHTML=inner; return d; };
+  const S = `<svg class="rm-svg" viewBox="14 14 92 92">`;
+  const spk = (fill, extra="") => `<g transform="translate(60,60) scale(0.46)"><path d="${SPARK}" fill="${fill}" ${extra}/></g>`;
+  const frame = (stroke, sw, filter) => `<path d="${BRACKET}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${filter?`filter="url(#${filter})"`:""}/>`;
 
-  layers[0].src = IMG[0];
-  dec(layers[0]).then(() => {
-    layers[0].classList.add("show");                  // first frame, only once decoded
-    requestAnimationFrame(() => reel.classList.add("on"));
-    next = nextIdx(0);
-    layers[1].src = IMG[next];                         // pre-stage the 2nd frame
-    IMG.forEach(src => { const im = new Image(); im.src = src; }); // warm the rest
-    if (reduce) return;
-    new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(reel);
+  // ---- finishes (from your file) ----
+  const FIN = [
+    { fs:"#111110",        sp:"#f24333",        f:"", fam:"ink" },
+    { fs:"url(#hg-metal)", sp:"url(#hg-metal)", f:"", fam:"metal" },
+    { fs:"url(#hg-gold)",  sp:"url(#hg-gold)",  f:"drop-shadow(0 0 5px rgba(244,191,58,.55))", fam:"gold" },
+    { fs:"url(#hg-holo)",  sp:"url(#hg-holo)",  f:"", fam:"holo" },
+    { fs:"#f24333",        sp:"#ffffff",        f:"drop-shadow(0 0 6px #f24333) drop-shadow(0 0 16px #f24333)", fam:"neon" },
+    { fs:"#2f6bf0",        sp:"#ffffff",        f:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)", fam:"neon" },
+    { fs:"#f24333", sp:"#f24333", f:"", fam:"solid" },
+    { fs:"#2f6bf0", sp:"#2f6bf0", f:"", fam:"solid" },
+    { fs:"#f4bf3a", sp:"#f4bf3a", f:"", fam:"solid" },
+    { fs:"#33ac66", sp:"#33ac66", f:"", fam:"solid" }
+  ];
+  const finish = c => { const L=wrap(`${S}${frame(c.fs,8,"")}${spk(c.sp)}</svg>`); if (c.f) L.querySelector(".rm-svg").style.filter=c.f; return L; };
+
+  // ---- drawn mediums (static, shadow-free) ----
+  const wobble = () => wrap(`${S}<g filter="url(#hf-wobble)">${frame("#2f6bf0",8,"")}${spk("#2f6bf0")}</g></svg>`);
+  function fur(){
+    const body="#d94a30", shades=["#a5331f","#c8402c","#e0563f","#ef7a55","#f6a074","#f4bf3a"];
+    const f=(pts,sc,per,spread)=>{ let o=""; for(const p of pts) for(let h=0;h<per;h++){ const off=(Math.random()-0.5)*spread*sc; const rx=p.x+p.nx*off, ry=p.y+p.ny*off; const len=(2.5+Math.random()*6.5)*sc, dir=Math.random()<0.5?1:-1; let dx=p.nx+(Math.random()-0.5)*1.3, dy=p.ny+(Math.random()-0.5)*1.3; const m=Math.hypot(dx,dy)||1; o+=`<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx+dx/m*len*dir).toFixed(1)}" y2="${(ry+dy/m*len*dir).toFixed(1)}" stroke="${shades[Math.floor(Math.random()*shades.length)]}" stroke-width="${(0.5+Math.random()*0.8).toFixed(2)}" stroke-linecap="round"/>`; } return o; };
+    const b=sample(BRACKET,120), s=sample(SPARK,40,{ox:60,oy:60,s:0.46});
+    return wrap(`${S}<g>${f(b,1,4,12)+f(s,0.7,3,10)}</g>${frame(body,9,"")}${spk(body)}<g>${f(b,1,3,7)+f(s,0.7,2,6)}</g></svg>`);
+  }
+  function pixels(){
+    const L=wrap(""); const c=document.createElement("canvas"); c.className="rm-svg"; c.style.imageRendering="pixelated"; const SIZE=240; c.width=c.height=SIZE; const ctx=c.getContext("2d");
+    const N=22, low=document.createElement("canvas"); low.width=low.height=N; const lx=low.getContext("2d");
+    const bp=new Path2D(BRACKET), sp2=new Path2D(SPARK), pal=["#f24333","#f4bf3a"], sc=N/92, o=-14*sc;
+    lx.setTransform(sc,0,0,sc,o,o); const g=lx.createLinearGradient(14,14,106,106); g.addColorStop(0,pal[0]); g.addColorStop(1,pal[1]);
+    lx.lineWidth=9; lx.lineCap="round"; lx.lineJoin="round"; lx.strokeStyle=g; lx.stroke(bp);
+    lx.save(); lx.transform(0.46,0,0,0.46,60,60); lx.fillStyle=pal[1]; lx.fill(sp2); lx.restore();
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(low,0,0,SIZE,SIZE); L.appendChild(c); return L;
+  }
+  const paper = () => wrap(`${S}<g filter="url(#hf-torn)">${frame("#f24333",10,"")}${spk("#2f6bf0")}</g></svg>`);
+  function crayon(){
+    let passes=""; for(let k=0;k<4;k++) passes+=`<path d="${BRACKET}" fill="none" stroke="url(#hg-rainbow)" stroke-width="${6+k*0.9}" stroke-linecap="round" stroke-linejoin="round" opacity="${(0.42+0.05*k).toFixed(2)}" transform="rotate(${(k-1.5)*0.7} 60 60)"/>`;
+    return wrap(`${S}<g filter="url(#hf-crayon)">${passes}${spk("url(#hg-rainbow)")}</g></svg><span class="rm-grain"></span>`);
+  }
+  function satin(){
+    const b=sample(BRACKET,150), s=sample(SPARK,54,{ox:60,oy:60,s:0.46});
+    const sat=(pts,hw,base,hi,lo)=>pts.map((p,i)=>{ const t=(Math.random()-0.5)*0.35; const nx=p.nx+p.tx*t, ny=p.ny+p.ty*t, m=Math.hypot(nx,ny)||1, ux=nx/m, uy=ny/m; const c=(i%7===0)?hi:(i%7===3?lo:base); return `<line x1="${(p.x-ux*hw).toFixed(1)}" y1="${(p.y-uy*hw).toFixed(1)}" x2="${(p.x+ux*hw).toFixed(1)}" y2="${(p.y+uy*hw).toFixed(1)}" stroke="${c}" stroke-width="1.7" stroke-linecap="round"/>`; }).join("");
+    return wrap(`${S}<g>${sat(b,4.4,"#2f6bf0","#8fb6ff","#1f49b0")+sat(s,3.4,"#f24333","#ff8a72","#c22a1c")}</g><path d="${BRACKET}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+  }
+  function mcm(){
+    const P=["#E0A32E","#2E7D74","#C1552B"];
+    return wrap(`${S}<g class="rm-ghost" opacity="0.5">${frame(P[2],11,"")}${spk(P[2])}</g>${frame(P[1],11,"")}${spk(P[0])}</svg><span class="rm-grain"></span>`);
+  }
+  const ink = () => wrap(`${S}<g filter="url(#hf-ink)"><path d="${BRACKET}" fill="none" stroke="#2f6bf0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>${spk("#f24333",'opacity="0.92"')}</g></svg>`);
+  function riso(){
+    const layer=(cls,col)=>`<div class="${cls}" style="position:absolute;inset:0">${S}${frame(col,9,"")}${spk(col)}</svg><span class="rm-grain" style="opacity:.4"></span></div>`;
+    return wrap(layer("rm-a","#2f6bf0")+layer("rm-b","#f24333"));
+  }
+
+  // ---- photo-based SVG marks (ice, beads, mosaic tile, woven rattan, sandstone) ----
+  function ice(){
+    const b=sample(BRACKET,40), s=sample(SPARK,14,{ox:60,oy:60,s:0.46});
+    const cracks=[...b,...s].filter((_,i)=>i%3===0).map(p=>{const len=2+Math.random()*3,a=Math.random()*6.28;return `<line x1="${(p.x-Math.cos(a)*len).toFixed(1)}" y1="${(p.y-Math.sin(a)*len).toFixed(1)}" x2="${(p.x+Math.cos(a)*len).toFixed(1)}" y2="${(p.y+Math.sin(a)*len).toFixed(1)}" stroke="#ffffff" stroke-width="0.7" opacity="0.8"/>`;}).join("");
+    return wrap(`${S}${frame("url(#hg-ice)",9,"")}${spk("url(#hg-ice)")}<path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>${cracks}</svg>`);
+  }
+  function beads(){
+    const cols=["#7a9bff","#7affce","#b06bf0","#3fa0e0","#8f7aff"];
+    const b=sample(BRACKET,70), s=sample(SPARK,22,{ox:60,oy:60,s:0.46});
+    const dot=(p,i)=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="${cols[i%cols.length]}"/>`;
+    return wrap(`${S}${b.map(dot).join("")}${s.map(dot).join("")}</svg>`);
+  }
+  function tile(){
+    const cols=["#f24333","#2f6bf0","#f4bf3a","#33ac66","#111110"];
+    const b=sample(BRACKET,46), s=sample(SPARK,16,{ox:60,oy:60,s:0.46});
+    const chip=(p,i)=>{const ang=Math.atan2(p.ty,p.tx)*180/Math.PI;return `<g transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(0)})"><rect x="-2.4" y="-4.3" width="4.8" height="8.6" rx="1" fill="${cols[i%cols.length]}"/></g>`;};
+    return wrap(`${S}${b.map(chip).join("")}${s.map(chip).join("")}</svg>`);
+  }
+  function rattan(){
+    const L=wrap(""); const w=document.createElement("div");
+    w.style.cssText="position:absolute;inset:0;background:repeating-linear-gradient(45deg,#c69a5e 0 4px,#a97e4c 4px 8px),repeating-linear-gradient(-45deg,rgba(120,86,46,.5) 0 4px,transparent 4px 8px);-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat";
+    L.appendChild(w); return L;
+  }
+  const sandstone = () => wrap(`${S}${frame("url(#hg-sand)",10,"")}${spk("url(#hg-sand)")}</svg><span class="rm-grain"></span>`);
+
+  const FRAMES = FIN.map(c => ({ mk:() => finish(c), fam:c.fam })).concat([
+    { mk:wobble, fam:"line" }, { mk:fur, fam:"fur" }, { mk:pixels, fam:"pixel" }, { mk:paper, fam:"paper" },
+    { mk:crayon, fam:"crayon" }, { mk:satin, fam:"satin" }, { mk:mcm, fam:"mcm" }, { mk:riso, fam:"riso" }, { mk:ink, fam:"inkbleed" },
+    { mk:ice, fam:"ice" }, { mk:beads, fam:"beads" }, { mk:tile, fam:"tile" }, { mk:rattan, fam:"woven" }, { mk:sandstone, fam:"stone" }
+  ]);
+
+  const layers = FRAMES.map((fr,i) => { const L=fr.mk(); L.style.display = i?"none":""; host.appendChild(L); return L; });
+  requestAnimationFrame(() => host.classList.add("on"));
+
+  let i=0, timer=0, playing=false;
+  function pick(cur){ let n, tries=0; do { n=Math.floor(Math.random()*FRAMES.length); tries++; } while ((n===cur || FRAMES[n].fam===FRAMES[cur].fam) && tries<16); if (n===cur) n=(cur+1)%FRAMES.length; return n; }
+  function stepReel(){ layers[i].style.display="none"; i=pick(i); layers[i].style.display=""; }
+  function play(){ if (playing || host.clientWidth===0) return; playing=true; timer=setInterval(stepReel, 300); }
+  function pause(){ playing=false; clearInterval(timer); }
+
+  if (!reduce){
+    new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(host);
     addEventListener("visibilitychange", () => document.hidden ? pause() : play());
-  });
+  }
 })();
 </script>
 </body>
