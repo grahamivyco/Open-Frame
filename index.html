@@ -121,14 +121,15 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
      block grows to fill; equal bottom margin (= side gutter) */
   html.snap-deck #home>section.snaptop,html.snap-deck #work>section.snaptop,html.snap-deck #services>section.snaptop,html.snap-deck #about>section.snaptop,html.snap-deck #svc-brand>section.snaptop,html.snap-deck #svc-web>section.snaptop,html.snap-deck #svc-marketing>section.snaptop,html.snap-deck #svc-growth>section.snaptop{justify-content:flex-start;padding-top:var(--head);padding-bottom:var(--gutter)}
   html.snap-deck #home>section.snaptop>.wrap,html.snap-deck #work>section.snaptop>.wrap,html.snap-deck #services>section.snaptop>.wrap,html.snap-deck #about>section.snaptop>.wrap,html.snap-deck #svc-brand>section.snaptop>.wrap,html.snap-deck #svc-web>section.snaptop>.wrap,html.snap-deck #svc-marketing>section.snaptop>.wrap,html.snap-deck #svc-growth>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
-  html.snap-deck .snaptop .svc-acc,html.snap-deck .snaptop .pj-strip{height:auto;flex:1 1 auto;min-height:0}
+  html.snap-deck .snaptop .svc-acc,html.snap-deck .snaptop .pj-strip,html.snap-deck .snaptop .about-bento-grid{height:auto;flex:1 1 auto;min-height:0}
   /* fill sections (about, contact, footer): inner container fills the hero-sized box.
      Contact uses the SAME top/bottom as about so the two tiles match in size + offset */
   /* NOTE: the .cta-band selector MUST carry the #home>section / #work>section id —
      otherwise the base `#home>section{padding-top:var(--sect)}` (higher specificity via
      the id) wins and contact starts too high / different from about. Recurring bug. */
-  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band,html.snap-deck #services>section.cta-band,html.snap-deck #about>section.sect-narrow,html.snap-deck #about>section.cta-band,html.snap-deck #svc-brand>section.cta-band,html.snap-deck #svc-web>section.cta-band,html.snap-deck #svc-marketing>section.cta-band,html.snap-deck #svc-growth>section.cta-band,html.snap-deck #svc-brand>section.svc-hero,html.snap-deck #svc-web>section.svc-hero,html.snap-deck #svc-marketing>section.svc-hero,html.snap-deck #svc-growth>section.svc-hero{padding-top:var(--head);padding-bottom:var(--gutter)}
-  html.snap-deck .sect-narrow>.wrap,html.snap-deck .cta-band>.wrap,html.snap-deck .site-footer>.wrap,html.snap-deck .svc-hero>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band,html.snap-deck #services>section.cta-band,html.snap-deck #about>section.sect-narrow,html.snap-deck #about>section.cta-band,html.snap-deck #svc-brand>section.cta-band,html.snap-deck #svc-web>section.cta-band,html.snap-deck #svc-marketing>section.cta-band,html.snap-deck #svc-growth>section.cta-band,html.snap-deck #svc-brand>section.svc-hero,html.snap-deck #svc-web>section.svc-hero,html.snap-deck #svc-marketing>section.svc-hero,html.snap-deck #svc-growth>section.svc-hero,html.snap-deck #about>section.about-say{padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck .sect-narrow>.wrap,html.snap-deck .cta-band>.wrap,html.snap-deck .site-footer>.wrap,html.snap-deck .svc-hero>.wrap,html.snap-deck .about-say>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck .about-say>.wrap{justify-content:center}
   /* service-detail hero fills the hero-sized box, content vertically centred */
   html.snap-deck .svc-hero>.wrap{justify-content:center}
   html.snap-deck .svc-hero .svc-hero-grid{flex:0 1 auto;min-height:0;margin-top:0}
@@ -533,6 +534,22 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .about-body .eyebrow{margin-bottom:14px}
 .about-body h1{font-size:clamp(2.3rem,4.2vw,3.3rem);font-weight:500;line-height:1.03;margin-bottom:16px}
 .about-body .about-actions{margin-top:26px}
+/* About "Studio of one" — full-screen, centred text statement */
+.about-say-inner{max-width:60ch;margin:0 auto;text-align:center}
+.about-say-inner .eyebrow{justify-content:center;color:var(--muted);margin-bottom:16px}
+.about-say-inner h2{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:500;line-height:.98;letter-spacing:-.02em;margin-bottom:clamp(18px,2.6vw,30px)}
+.about-say-inner p{font-family:var(--sans);color:var(--ink-2);font-size:clamp(1.06rem,1.55vw,1.32rem);line-height:1.6;max-width:52ch;margin:0 auto 16px}
+.about-say-inner .about-actions{display:flex;justify-content:center;margin-top:clamp(22px,3vw,34px)}
+/* About "Off the clock" bento of photo placeholders (brand-tinted, labelled;
+   drop real photos into each <figure> as an <img> to replace) */
+.about-bento-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:1fr 1fr;grid-template-areas:"a a b" "c d b";gap:clamp(10px,1.4vw,18px);width:100%}
+.bphoto{position:relative;overflow:hidden;border-radius:var(--r);background:color-mix(in srgb,var(--accent,#84827b) 16%,#fff);display:flex;align-items:flex-end;min-height:clamp(96px,12vh,220px);min-width:0}
+.bphoto.bp-a{grid-area:a}.bphoto.bp-b{grid-area:b}.bphoto.bp-c{grid-area:c}.bphoto.bp-d{grid-area:d}
+.bphoto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(.12)}
+.bphoto figcaption{position:relative;z-index:1;padding:clamp(13px,1.6vw,22px);font-family:var(--sans);font-weight:500;color:var(--ink);font-size:clamp(.94rem,1.35vw,1.12rem)}
+@media(max-width:620px){
+  .about-bento-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);grid-template-areas:"a a" "c d" "b b"}
+}
 .about-hero{display:grid;grid-template-columns:1.05fr .9fr;gap:clamp(30px,5vw,64px);align-items:center}
 .about-hero .eyebrow{margin-bottom:14px}
 .about-hero h1{font-size:clamp(2.6rem,7vw,5rem);font-weight:500;line-height:1;margin-bottom:18px}
@@ -1315,11 +1332,23 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <div class="about-body">
           <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</span>
           <h1>Hey, I&#39;m Graham.</h1>
-          <p>I&#39;m a designer and brand consultant in Minneapolis. Through my studio, <strong>Open Frame</strong>, I help people, growing organizations, startups, and nonprofits turn ideas into brands people remember — from identity and messaging to websites and the marketing that grows them. Off the clock, I&#39;m usually scuba diving, salsa dancing, or deep in some amateur paleontology.</p>
           <div class="about-actions">
             <a class="btn btn-dark" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-download"/></svg>View my résumé</a>
-            <a class="btn btn-line" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-say">
+    <div class="wrap">
+      <div class="about-say-inner reveal">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The studio</span>
+        <h2>Studio of one.</h2>
+        <p>When you work with Open Frame, you work with <strong>me</strong> — not an account manager, not a rotating cast of freelancers. One designer, start to finish, who treats your brand like it&#39;s my own. Fewer hand-offs, a single point of view, and someone who actually remembers the details.</p>
+        <p>Off the clock I&#39;m usually scuba diving, out salsa dancing, or elbow-deep in some amateur paleontology — the same curiosity I bring to every project.</p>
+        <div class="about-actions">
+          <a class="btn btn-dark" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
         </div>
       </div>
     </div>
@@ -1354,6 +1383,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           <div class="svc-txt"><h3>Always Evolving</h3>
             <p>I embrace feedback, iterate often, and stay curious — because great design is never finished, only improved. Every project teaches the next one.</p></div></div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-bento snaptop">
+    <div class="wrap">
+      <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Off the clock</span>
+        <h2>Life outside the frame.</h2></div>
+      <div class="about-bento-grid reveal">
+        <figure class="bphoto bp-a" style="--accent:#2f6bf0"><figcaption>Scuba diving</figcaption></figure>
+        <figure class="bphoto bp-b" style="--accent:#f24333"><figcaption>Salsa dancing</figcaption></figure>
+        <figure class="bphoto bp-c" style="--accent:#f4bf3a"><figcaption>Fossil hunting</figcaption></figure>
+        <figure class="bphoto bp-d" style="--accent:#33ac66"><figcaption>Minneapolis</figcaption></figure>
       </div>
     </div>
   </section>
