@@ -272,7 +272,7 @@ p{text-wrap:pretty}
 .page{display:none}.page.active{display:block;animation:fadeUp .5s var(--ease)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .page.sub{padding-top:clamp(120px,14vh,168px)}
-#home>section,#work>section,#about>section,#contact>section,#services>section,#svc-brand>section,#svc-web>section,#svc-marketing>section,#svc-growth>section,#hellospoke>section{padding-top:var(--sect)}
+#home>section,#work>section,#about>section,#contact>section,#services>section,#svc-brand>section,#svc-web>section,#svc-marketing>section,#svc-growth>section,#parkngo>section,#hmong>section,#hellospoke>section,#wellness>section,#needlework>section{padding-top:var(--sect)}
 #work>.subhero,#about>.subhero,#contact>.subhero,#services>.subhero,#svc-brand>.subhero,#svc-web>.subhero,#svc-marketing>.subhero,#svc-growth>.subhero{padding-top:0}
 
 /* buttons */
@@ -1718,239 +1718,152 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== CASE STUDY: PARK N GO ==================== -->
-<section class="page sub" id="parkngo">
-  <div class="p2">
-    <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
+<section class="page" id="parkngo">
 
-    <!-- HERO -->
-    <div class="p2-hero reveal">
-      <div class="p2-hero-mark" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="p2-hero-txt">
+  <!-- HERO -->
+  <section class="svc-hero cs-deck-hero"><div class="wrap">
+    <div class="svc-hero-grid reveal">
+      <div class="svc-hero-txt">
+        <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
         <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>App Design · UX Research</span>
         <h1>Park n Go</h1>
         <p>Reimagining the event parking experience — a mobile app that lets event-goers reserve their spot in advance, before the stress ever starts.</p>
+        <div class="cs-hero-meta">
+          <div class="mchip"><h4>Role</h4><span>Sole prototyper</span></div>
+          <div class="mchip"><h4>Scope</h4><span>Research → UI · testing</span></div>
+          <div class="mchip"><h4>Timeline</h4><span>3-week sprint</span></div>
+        </div>
       </div>
-      <div class="p2-hero-phone"><img src="images/pngx-hero-phone.webp" alt="Park n Go event-info screen" loading="lazy" decoding="async"></div>
+      <div class="cs-hero-shot"><div class="tstage"><img class="tilt" src="images/pngx-hero-phone.webp" alt="Park n Go event-info screen" style="max-width:64%" loading="lazy" decoding="async"></div></div>
     </div>
+  </div></section>
 
-    <!-- META -->
-    <div class="p2-meta">
-      <div class="cell"><h4>Scope</h4><p>Research &rarr; UI &middot; Testing</p></div>
-      <div class="cell"><h4>Role</h4><p>Sole prototyper</p></div>
-      <div class="cell"><h4>Tools</h4><p>Figma &middot; FigJam &middot; Miro</p></div>
-      <div class="cell"><h4>Timeline</h4><p>3-week sprint</p></div>
+  <!-- BACKGROUND + HMW -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Background</span>
+        <h2>Parking is the one part of a night out no one plans for.</h2>
+        <p>Venue parking is an often-overlooked yet crucial part of the live-event experience. Attendees prepare for every part of a show — <strong>except where they&#39;re going to park</strong> — which turns arrival into something stressful and confusing.</p>
+      </div>
+      <div class="cs-split-media"><div class="p2-hq" style="margin:0"><p>How might we take the most stressful part of attending an event and make it feel effortless?</p></div></div>
     </div>
+  </div></section>
 
-    <!-- BODY -->
-    <div class="p2-grid">
-      <aside class="p2-rail">
-        <div class="rail-h">On this page</div>
-        <a href="#pg-background">Background</a>
-        <a href="#pg-approach">Approach</a>
-        <a href="#pg-discover">Discover</a>
-        <a href="#pg-define">Define</a>
-        <a href="#pg-deliver">Deliver</a>
-        <a href="#pg-brand">Brand system</a>
-      </aside>
+  <!-- DISCOVER · STATS -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Discover</span><h2>A stronger signal than we expected.</h2><p class="proc-sub">A survey and four in-depth interviews all pointed to the same pain point: parking for events and concerts specifically.</p></div>
+    <div class="p2-stats reveal" style="margin-top:clamp(20px,3vh,34px)">
+      <div class="p2-stat"><b>100%</b><span>struggle to find parking at an event</span></div>
+      <div class="p2-stat"><b>78%</b><span>would pay to reserve in advance</span></div>
+      <div class="p2-stat"><b>66%</b><span>spend 10&ndash;20 min hunting for a spot</span></div>
+    </div>
+    <div class="p2-quotes reveal" style="margin-top:clamp(14px,2vh,22px)">
+      <div class="p2-qc"><div class="qm">&ldquo;</div><p>I never know which lot is closest until I&#39;m already circling the block.</p></div>
+      <div class="p2-qc"><div class="qm">&ldquo;</div><p>I&#39;d happily pay upfront just to skip the stress on the night.</p></div>
+    </div>
+  </div></section>
 
-      <div class="p2-main">
-        <!-- BACKGROUND -->
-        <section id="pg-background" class="p2-sec">
-          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Background</span>
-          <h2>Parking is the one part of a night out no one plans for.</h2>
-          <p>Venue parking is an often-overlooked yet crucial part of the concert and live-event experience. Attendees prepare for every other part of a show — <strong>except where they're going to park</strong> — which turns arrival into something stressful and confusing.</p>
-          <div class="p2-hq"><p>How might we take the most stressful part of attending an event and make it feel effortless?</p></div>
-        </section>
+  <!-- DEFINE · JOURNEY -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Define</span><h2>Every stage, every emotion.</h2><p class="proc-sub">A user-journey map — from searching for parking to arriving at the venue — and the emotions felt throughout.</p></div>
+    <div class="p2-panel reveal" style="margin-top:clamp(16px,2.4vh,28px)">
+      <div class="well" style="background:#fff;padding:clamp(20px,3vw,30px)">
+        <svg viewBox="0 0 760 180" role="img" aria-label="User journey emotion curve">
+          <line x1="20" y1="60" x2="740" y2="60" stroke="#eee" stroke-width="1"></line>
+          <line x1="20" y1="130" x2="740" y2="130" stroke="#eee" stroke-width="1"></line>
+          <polyline points="70,70 235,110 400,132 565,88 700,52" fill="none" stroke="#FFC857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+          <circle cx="70" cy="70" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+          <circle cx="235" cy="110" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+          <circle cx="400" cy="132" r="6" fill="#f24333" stroke="#f24333" stroke-width="2"></circle>
+          <circle cx="565" cy="88" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
+          <circle cx="700" cy="52" r="6" fill="#33ac66" stroke="#33ac66" stroke-width="2"></circle>
+          <text x="70" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Search</text>
+          <text x="235" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Compare</text>
+          <text x="400" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Decide</text>
+          <text x="565" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Reserve</text>
+          <text x="700" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Arrive</text>
+        </svg>
+      </div>
+    </div>
+  </div></section>
 
-        <!-- APPROACH -->
-        <section id="pg-approach" class="p2-sec">
-          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
-          <h2>The Double Diamond.</h2>
-          <p>Four phases — <strong>Discover, Define, Develop, Deliver</strong> — moving from a wide-open problem space to a focused, shippable solution.</p>
-          <div class="p2-panel">
-            <div class="well" style="background:#0a0a0a;padding:clamp(26px,3.5vw,44px)">
-              <svg viewBox="0 0 760 196" role="img" aria-label="Double Diamond process in Park n Go brand colors">
-                <polygon points="24,98 202,20 380,98 202,176" fill="#FFC857" fill-opacity="0.09" stroke="#FFC857" stroke-width="2"></polygon>
-                <polygon points="380,98 558,20 736,98 558,176" fill="#FFC857" fill-opacity="0.09" stroke="#FFC857" stroke-width="2"></polygon>
-                <circle cx="24" cy="98" r="6" fill="#FFC857"></circle>
-                <circle cx="380" cy="98" r="6" fill="#fff"></circle>
-                <circle cx="736" cy="98" r="6" fill="#FFC857"></circle>
-                <text x="113" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">DIVERGE</text>
-                <text x="291" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">CONVERGE</text>
-                <text x="469" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">DIVERGE</text>
-                <text x="647" y="58" text-anchor="middle" font-family="Poppins,sans-serif" font-size="10" letter-spacing="1.5" fill="#8a8a8a">CONVERGE</text>
-                <text x="113" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Discover</text>
-                <text x="291" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Define</text>
-                <text x="469" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Develop</text>
-                <text x="647" y="145" text-anchor="middle" font-family="Lexend,sans-serif" font-size="15" font-weight="700" fill="#fff">Deliver</text>
-              </svg>
-            </div>
+  <!-- DELIVER · FEATURE SWITCHER -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Deliver</span><h2>Seamless event parking.</h2><p class="proc-sub">A high-contrast dark UI with a signal-gold accent, user-tested from mid- to high-fidelity. Tap through the core features:</p></div>
+    <div class="p2-feat reveal" data-feat style="margin-top:clamp(14px,2vh,24px)">
+      <div class="p2-tabs">
+        <button type="button" class="p2-tab on">01 — Venue search</button>
+        <button type="button" class="p2-tab">02 — Booking a spot</button>
+        <button type="button" class="p2-tab">03 — Reservation receipt</button>
+      </div>
+      <div class="p2-feat-stage">
+        <div class="p2-panelf on">
+          <div class="p2-feat-row">
+            <div class="p2-feat-media"><img src="images/pngx-search.webp" alt="Venue search screen" loading="lazy" decoding="async"></div>
+            <div class="p2-feat-txt"><div class="fk">Feature 01 — Venue search</div><h4>Find your event in seconds.</h4><p>Search by venue or event name and see every nearby lot with live availability, walking distance, and price — before you commit to anything.</p></div>
           </div>
-        </section>
-
-        <!-- DISCOVER -->
-        <section id="pg-discover" class="p2-sec">
-          <div class="p2-phase-num">Phase 01</div>
-          <div class="p2-phase">Discover</div>
-          <h3>A stronger signal than we expected.</h3>
-          <p>A survey and four in-depth interviews all pointed to the same pain point: parking for <strong>events and concerts</strong> specifically. The insight was too strong to ignore.</p>
-          <div class="p2-stats">
-            <div class="p2-stat"><b>100%</b><span>struggle to find parking at an event</span></div>
-            <div class="p2-stat"><b>78%</b><span>would pay to reserve in advance</span></div>
-            <div class="p2-stat"><b>66%</b><span>spend 10&ndash;20 min hunting for a spot</span></div>
+        </div>
+        <div class="p2-panelf">
+          <div class="p2-feat-row">
+            <div class="p2-feat-media"><img src="images/pngx-reserve.webp" alt="Booking a parking spot" loading="lazy" decoding="async"></div>
+            <div class="p2-feat-txt"><div class="fk">Feature 02 — Booking a spot</div><h4>Pick a section, set your time.</h4><p>Preview the lot map, choose start and end times, and compare real-time availability and hourly rate by section — then reserve in a few taps.</p></div>
           </div>
-          <div class="p2-quotes">
-            <div class="p2-qc"><div class="qm">&ldquo;</div><p>I never know which lot is closest until I'm already circling the block.</p></div>
-            <div class="p2-qc"><div class="qm">&ldquo;</div><p>I'd happily pay upfront just to skip the stress on the night.</p></div>
-            <div class="p2-qc"><div class="qm">&ldquo;</div><p>No app shows me real-time availability before I leave home.</p></div>
-          </div>
-        </section>
-
-        <!-- DEFINE -->
-        <section id="pg-define" class="p2-sec">
-          <div class="p2-phase-num">Phase 02</div>
-          <div class="p2-phase">Define</div>
-          <h3>Every stage, every emotion.</h3>
-          <p>A user-journey map illustrating each stage — from searching for parking to arriving at the venue — and the emotions felt throughout.</p>
-          <div class="p2-panel">
-            <div class="well" style="background:#fff;padding:clamp(20px,3vw,30px)">
-              <svg viewBox="0 0 760 180" role="img" aria-label="User journey emotion curve">
-                <line x1="20" y1="60" x2="740" y2="60" stroke="#eee" stroke-width="1"></line>
-                <line x1="20" y1="130" x2="740" y2="130" stroke="#eee" stroke-width="1"></line>
-                <polyline points="70,70 235,110 400,132 565,88 700,52" fill="none" stroke="#FFC857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                <circle cx="70" cy="70" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
-                <circle cx="235" cy="110" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
-                <circle cx="400" cy="132" r="6" fill="#f24333" stroke="#f24333" stroke-width="2"></circle>
-                <circle cx="565" cy="88" r="6" fill="#fff" stroke="#111110" stroke-width="2"></circle>
-                <circle cx="700" cy="52" r="6" fill="#33ac66" stroke="#33ac66" stroke-width="2"></circle>
-                <text x="70" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Search</text>
-                <text x="235" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Compare</text>
-                <text x="400" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Decide</text>
-                <text x="565" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Reserve</text>
-                <text x="700" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#4b4a46">Arrive</text>
-              </svg>
-            </div>
-          </div>
-        </section>
-
-        <!-- DELIVER -->
-        <section id="pg-deliver" class="p2-sec">
-          <div class="p2-phase-num">Phase 03</div>
-          <div class="p2-phase">Deliver</div>
-          <h3>Park n Go: seamless event parking.</h3>
-          <p>A high-contrast dark UI with a signal-gold accent — user-tested from mid- to high-fidelity in a component-driven Figma process. Tap through the core features:</p>
-          <div class="p2-feat" data-feat>
-            <div class="p2-tabs">
-              <button type="button" class="p2-tab on">01 — Venue search</button>
-              <button type="button" class="p2-tab">02 — Booking a spot</button>
-              <button type="button" class="p2-tab">03 — Reservation receipt</button>
-            </div>
-            <div class="p2-feat-stage">
-              <div class="p2-panelf on">
-                <div class="p2-feat-row">
-                  <div class="p2-feat-media"><img src="images/pngx-search.webp" alt="Venue search screen" loading="lazy" decoding="async"></div>
-                  <div class="p2-feat-txt"><div class="fk">Feature 01 — Venue search</div><h4>Find your event in seconds.</h4><p>Search by venue or event name and see every nearby lot with live availability, walking distance, and price — before you commit to anything.</p></div>
-                </div>
-              </div>
-              <div class="p2-panelf">
-                <div class="p2-feat-row">
-                  <div class="p2-feat-media"><img src="images/pngx-reserve.webp" alt="Booking a parking spot" loading="lazy" decoding="async"></div>
-                  <div class="p2-feat-txt"><div class="fk">Feature 02 — Booking a spot</div><h4>Pick a section, set your time.</h4><p>Preview the lot map, choose start and end times, and compare real-time availability and hourly rate by section — then reserve in a few taps.</p></div>
-                </div>
-              </div>
-              <div class="p2-panelf">
-                <div class="p2-feat-row">
-                  <div class="p2-feat-media"><img src="images/pngx-receipt.webp" alt="Reservation receipt" loading="lazy" decoding="async"></div>
-                  <div class="p2-feat-txt"><div class="fk">Feature 03 — Reservation receipt</div><h4>Everything, in one ticket.</h4><p>Every booking lives in &ldquo;My Parking&rdquo; with the full charge breakdown, section, date and time — plus one-tap directions to the lot.</p></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- BRAND SYSTEM -->
-        <section id="pg-brand" class="p2-sec">
-          <span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>UI design kit</span>
-          <h2>Accessible, modern, full of movement.</h2>
-          <p>A high-contrast palette meeting <strong>AAA compliance</strong>, with a bold logo and street-inspired energy carried through type, color, iconography and spacing.</p>
-          <div class="p2-bento">
-
-            <div class="p2-logo-tile span4">
-              <div class="p2-tl">Logo &amp; brand mark</div>
-              <div class="p2-logo-row">
-                <img src="images/pngx-wordmark.webp" alt="Park n Go wordmark">
-                <div style="display:flex;align-items:center;gap:18px">
-                  <span class="p2-mark"><svg><use href="#i-pin"/></svg></span>
-                  <span class="p2-mark" style="width:62px;height:62px"><svg style="width:32px;height:32px"><use href="#i-car"/></svg></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="p2-tile span2">
-              <div class="p2-tl">Color</div>
-              <div class="p2-sw">
-                <div><span class="chip" style="background:#000000"></span><b>Black</b><span class="hx">#000000</span></div>
-                <div><span class="chip" style="background:#FFC857"></span><b>Signal Gold</b><span class="hx">#FFC857</span></div>
-                <div><span class="chip" style="background:#fff;box-shadow:inset 0 0 0 1px rgba(17,17,16,.12)"></span><b>White</b><span class="hx">#FFFFFF</span></div>
-                <div><span class="chip" style="background:#212121"></span><b>Dark Grey</b><span class="hx">#212121</span></div>
-              </div>
-            </div>
-
-            <div class="p2-tile span2">
-              <div class="p2-tl">Typography</div>
-              <div class="p2-type">
-                <div class="col br">
-                  <div class="ag" style="font-family:'Lexend',sans-serif;font-weight:700">Ag</div>
-                  <div class="nm">Lexend</div><div class="ro">Bold &middot; headings</div><div class="sz">30 / 24 / 18 / 12</div>
-                </div>
-                <div class="col">
-                  <div class="ag" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</div>
-                  <div class="nm">Poppins</div><div class="ro">Regular / Medium &middot; body &amp; UI</div><div class="sz">20 / 16 / 14</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p2-tile span2" style="display:flex;flex-direction:column">
-              <div class="p2-tl">Iconography</div>
-              <div class="p2-icons">
-                <div class="ic"><svg><use href="#i-search"/></svg><span>Search</span></div>
-                <div class="ic"><svg><use href="#i-pin"/></svg><span>Location</span></div>
-                <div class="ic"><svg><use href="#i-calendar"/></svg><span>Calendar</span></div>
-                <div class="ic"><svg><use href="#i-clock"/></svg><span>Clock</span></div>
-                <div class="ic"><svg><use href="#i-car"/></svg><span>Car</span></div>
-                <div class="ic"><svg><use href="#i-ticket"/></svg><span>Ticket</span></div>
-                <div class="ic"><svg><use href="#i-user"/></svg><span>Profile</span></div>
-                <div class="ic"><svg><use href="#i-x"/></svg><span>Exit</span></div>
-              </div>
-            </div>
-
-            <div class="p2-tile span2">
-              <div class="p2-tl">Spacing scale</div>
-              <div class="p2-space">
-                <div class="row"><span class="bar" style="width:4px"></span><span>4 &middot; hairline gaps</span></div>
-                <div class="row"><span class="bar" style="width:8px"></span><span>8 &middot; icon padding</span></div>
-                <div class="row"><span class="bar" style="width:16px"></span><span>16 &middot; inner card</span></div>
-                <div class="row"><span class="bar" style="width:24px"></span><span>24 &middot; card padding</span></div>
-                <div class="row"><span class="bar" style="width:40px"></span><span>40 &middot; section gap</span></div>
-                <div class="row"><span class="bar" style="width:64px"></span><span>64 &middot; section rhythm</span></div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- NEXT CASE STUDY -->
-        <div class="cs-next p2-next">
-          <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
-          <div class="np-big reveal" data-go="hmong">
-            <img class="np-cover" src="images/cover-hmong.png" alt="Hmong Cultural Center" loading="lazy" decoding="async">
-            <div class="np-big-body"><h3 class="np-big-title">Hmong Cultural Center</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+        <div class="p2-panelf">
+          <div class="p2-feat-row">
+            <div class="p2-feat-media"><img src="images/pngx-receipt.webp" alt="Reservation receipt" loading="lazy" decoding="async"></div>
+            <div class="p2-feat-txt"><div class="fk">Feature 03 — Reservation receipt</div><h4>Everything, in one ticket.</h4><p>Every booking lives in &ldquo;My Parking&rdquo; with the full charge breakdown, section, date and time — plus one-tap directions to the lot.</p></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div></section>
 
+  <!-- BRAND SYSTEM -->
+  <section class="cs-deck-sys snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark" style="color:#FFC857" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>UI design kit</span><h2>Accessible, modern, full of movement.</h2></div>
+    <div class="cs-sys-grid reveal">
+      <div class="cs-sys-card">
+        <div class="bsys">
+          <div class="bsys-sw">
+            <div class="sw"><span class="chip" style="background:#000000"></span><span class="lab"><b>Black</b><span>#000000</span></span></div>
+            <div class="sw"><span class="chip" style="background:#FFC857"></span><span class="lab"><b>Signal Gold</b><span>#FFC857</span></span></div>
+            <div class="sw"><span class="chip" style="background:#fff;box-shadow:inset 0 0 0 1px rgba(17,17,16,.12)"></span><span class="lab"><b>White</b><span>#FFFFFF</span></span></div>
+            <div class="sw"><span class="chip" style="background:#212121"></span><span class="lab"><b>Dark Grey</b><span>#212121</span></span></div>
+          </div>
+          <div class="bsys-type">
+            <div class="tf"><span class="aa" style="font-family:'Lexend',sans-serif;font-weight:700">Aa</span><span class="nm">Lexend</span><span class="ro">Bold · headings</span></div>
+            <div class="tf"><span class="aa" style="font-family:'Poppins',sans-serif;font-weight:500">Ag</span><span class="nm">Poppins</span><span class="ro">Body &amp; UI</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-sys-card">
+        <div class="p2-icons" style="background:#0a0a0a;border-radius:var(--r);padding:clamp(18px,2.4vw,28px)">
+          <div class="ic"><svg><use href="#i-search"/></svg><span>Search</span></div>
+          <div class="ic"><svg><use href="#i-pin"/></svg><span>Location</span></div>
+          <div class="ic"><svg><use href="#i-calendar"/></svg><span>Calendar</span></div>
+          <div class="ic"><svg><use href="#i-clock"/></svg><span>Clock</span></div>
+          <div class="ic"><svg><use href="#i-car"/></svg><span>Car</span></div>
+          <div class="ic"><svg><use href="#i-ticket"/></svg><span>Ticket</span></div>
+          <div class="ic"><svg><use href="#i-user"/></svg><span>Profile</span></div>
+          <div class="ic"><svg><use href="#i-x"/></svg><span>Exit</span></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- NEXT WORK STRIP -->
+  <section class="snaptop"><div class="wrap"><div class="section-head head-row reveal"><div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Keep exploring</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>More work.</h2></div></div>
+    <div class="pj-grid pj-strip">
+      <div class="pj reveal" data-go="hmong"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d1" data-go="hellospoke"><div class="face"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d2" data-go="wellness"><div class="face"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d3" data-go="needlework"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+    </div>
+  </div></section>
+
+  <!-- CONTACT -->
   <section class="cta-band"><div class="wrap">
     <div class="cta-dark reveal">
       <div class="cta-shapes" aria-hidden="true">
@@ -1962,7 +1875,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
       <h2>Ready to bring your brand into frame?</h2>
-      <p>A project in mind? Start one — or grab a free 30-minute call and let's talk it through.</p>
+      <p>A project in mind? Start one — or grab a free 30-minute call and let&#39;s talk it through.</p>
       <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
         <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
@@ -1972,127 +1885,135 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== CASE STUDY: HMONG ==================== -->
-<section class="page sub" id="hmong">
-  <section class="cs-hero"><div class="wrap">
-    <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive Redesign</span><h1>Hmong Cultural Center</h1><p class="lead">Revitalizing a community's online identity — a responsive redesign for a Saint Paul cultural hub, built around accessibility, belonging, and a clear path to resources.</p></div><div class="cs-hero-media"><img src="images/hcc-hero.webp" alt="Hmong Cultural Center hero" loading="lazy" decoding="async"></div></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <div class="cs-meta">
-      <div class="cell"><h4>Scope</h4><p>Discovery, Strategy &amp; Design</p></div>
-      <div class="cell"><h4>Role</h4><p>Sole prototyper · research, testing &amp; visual identity</p></div>
-      <div class="cell"><h4>Tools</h4><p>Figma, FigJam, Miro, Trello, Otter.ai, Adobe CS</p></div>
-      <div class="cell"><h4>Timeline</h4><p>3-week bootcamp · mobile &amp; desktop</p></div>
+<section class="page" id="hmong">
+
+  <!-- HERO -->
+  <section class="svc-hero cs-deck-hero"><div class="wrap">
+    <div class="svc-hero-grid reveal">
+      <div class="svc-hero-txt">
+        <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive Redesign · Nonprofit</span>
+        <h1>Hmong Cultural Center</h1>
+        <p>Revitalizing a community&#39;s online identity — a responsive redesign for a Saint Paul cultural hub, built around accessibility, belonging, and a clear path to resources.</p>
+        <div class="cs-hero-meta">
+          <div class="mchip"><h4>Role</h4><span>Sole prototyper · research</span></div>
+          <div class="mchip"><h4>Scope</h4><span>Discovery, strategy &amp; design</span></div>
+          <div class="mchip"><h4>Timeline</h4><span>3-week bootcamp</span></div>
+        </div>
+      </div>
+      <div class="cs-hero-shot"><figure><img src="images/hcc-hero.webp" alt="Hmong Cultural Center hero" loading="lazy" decoding="async"></figure></div>
     </div>
   </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Overview</span>
-    <div class="cs-block"><h3>Designing for a real community hub.</h3>
-      <p>During a three-week UX design bootcamp, my team partnered with the <strong>Hmong Cultural Center</strong> in Saint Paul, Minnesota — a pivotal community hub offering everything from traditional embroidery to citizenship courses. Our mission was to redesign their website and strengthen its digital presence for the community.</p>
-      <p>We set out to revitalize the center's branding, streamline its information architecture, and build a compelling visual identity — ultimately improving access to resources, fostering engagement, and deepening the connection between the center and the people it serves.</p></div>
-    <div class="cs-block"><h4 class="kicker"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>My role</h4>
-      <p>I served as the <strong>sole prototyper</strong> while also leading user research, interviews, testing, finalizing the design screens, and developing the visual identity.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-overview.webp" alt="Project overview" loading="lazy" decoding="async"></figure>
-  </div></section>
 
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Scope</span>
-    <div class="cs-block"><h4 class="kicker">1 · Discovery</h4>
-      <ul class="cs-list"><li>Conduct stakeholder interviews</li><li>Perform user surveys and interviews</li><li>Analyze similar cultural-center websites</li><li>Review existing website content</li></ul></div>
-    <div class="cs-block"><h4 class="kicker">2 · Strategy</h4>
-      <ul class="cs-list"><li>Develop updated branding guidelines</li><li>Create a new site map and navigation structure</li><li>Develop user personas</li><li>Map out user journeys</li></ul></div>
-    <div class="cs-block"><h4 class="kicker">3 · Design</h4>
-      <ul class="cs-list"><li>Develop low-fidelity wireframes</li><li>Create high-fidelity prototypes</li><li>Conduct usability tests</li><li>Ensure responsive design</li></ul></div>
-  </div></section>
-
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Approach</span>
-    <div class="cs-block"><h3>The Double Diamond.</h3>
-      <p>We worked through four phases — <strong>Discover, Define, Develop, Deliver</strong> — exploring the problem space, synthesizing findings into a focused brief, prototyping solutions, then refining and implementing a design that meets both user needs and the center's goals.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-process.webp" alt="Double Diamond process" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 01</p><div class="cs-phase-label">Discover</div>
-    <div class="cs-block"><h4 class="kicker">What's already there?</h4><h3>Auditing the current site.</h3>
-      <p>We began by reviewing the current HCC website and running a <strong>heuristic analysis</strong> of its functionality, aesthetics, and accessibility. Because the center is unique in its area, we analyzed sites serving <strong>similar markets and goals</strong> rather than direct competitors.</p></div>
-    <div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="url">hmongcc.org · before</span></div><div class="mock-view"><img src="images/hcc-old-site.webp" alt="The original Hmong Cultural Center site" loading="lazy" decoding="async"></div></div><p class="mock-cap">Heuristic analysis of the original site.</p>
-    <div class="cs-block"><h4 class="kicker">Listening to users</h4>
-      <p>We distributed a survey to people who engage with nonprofit sites or seek community connection, and had users react to the original HCC site through interview questions. Together these sessions gave us the skeleton of what a successful new-user experience needed to feel like.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-insights.webp" alt="Research insights" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 02</p><div class="cs-phase-label">Define</div>
-    <div class="cs-block"><h4 class="kicker">User persona</h4><h3>Meet Mai Yer Xiong.</h3>
-      <p>A 29-year-old first-generation immigrant from Laos living in Saint Paul. She has limited English proficiency and a deep desire to connect with her Hmong community while integrating into broader society. Frustrated by dense, text-heavy sites, she often relies on her children to translate, and needs clear pathways to <strong>citizenship and English classes</strong>.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-persona.webp" alt="User persona: Mai Yer Xiong" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Empathy map</h4>
-      <p>To serve Mai Yer, the site needs to prominently feature easy-to-find links for citizenship and English classes, showcase community resources, and offer a friendly, low-text interface — with hyperlinks placed to guide her through an intuitive journey toward confidence, jobs, and social connection.</p></div>
-    <div class="cs-block"><h4 class="kicker">Problem statement</h4></div>
-    <div class="cs-quote"><p>Mai Yer and users like her need a website that's more visually oriented — with prominent iconography, easy access to English-language and citizenship classes, and an overall sense of welcome and community.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-questions.webp" alt="Guiding questions" loading="lazy" decoding="async"></figure>
-  </div></section>
-
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 03</p><div class="cs-phase-label">Develop</div>
-    <div class="cs-block"><h4 class="kicker">Information architecture</h4><h3>Information overload.</h3>
-      <p>The old site map was the biggest problem for our users: too much information. Links were redundant or unnecessary, and the most important resources were buried several clicks deep — a frustrating journey, especially for English-language learners.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-sitemap.webp" alt="Site map" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">User flow</h4><h3>One question, answered fast.</h3>
-      <p>Our guiding user question was simple — <strong>"How do I sign up for language classes?"</strong> — and we mapped a flow that gets Mai Yer there quickly, with minimal visual noise.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-user-flow.webp" alt="User flow" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Paper &amp; mid-fidelity wireframes</h4><h3>Modular design, fast.</h3>
-      <p>I sketched paper prototypes, then moved to mid-fidelity after user testing. On a one-day deadline, I prioritized interaction design and modular patterns to keep the experience consistent, centered, and intuitive despite the rapid turnaround.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-wireframes.webp" alt="Paper wireframes" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="images/hcc-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">UI design kit — vibrant clarity</h4>
-      <p>We built a vibrant palette of <strong>fluorescent greens, pinks, and blacks</strong> for striking contrast, inspired by traditional color schemes. Our logo drew on the <strong>elephant's foot</strong> — a symbol of community and family — and we chose the <strong>Outfit</strong> typeface for its clean, uniform, and bold appearance.</p></div>
-    <div class="bsys">
-      <div class="bsys-sw">
-        <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
-        <div class="sw"><span class="chip" style="background:#329459"></span><span class="lab"><b>Jade</b><span>#329459</span></span></div>
-        <div class="sw"><span class="chip" style="background:#FF6388"></span><span class="lab"><b>Fuchsia</b><span>#FF6388</span></span></div>
-        <div class="sw"><span class="chip" style="background:#F2F2F2"></span><span class="lab"><b>Cloud</b><span>#F2F2F2</span></span></div>
+  <!-- OVERVIEW -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Overview</span>
+        <h2>Designing for a real community hub.</h2>
+        <p>Over a three-week UX bootcamp, my team partnered with the <strong>Hmong Cultural Center</strong> in Saint Paul — a hub offering everything from traditional embroidery to citizenship courses. We set out to revitalize its branding, streamline its information architecture, and improve access to resources for the people it serves.</p>
       </div>
-      <div class="bsys-type">
-        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:700">Aa</span><span class="nm">Outfit Bold</span><span class="ro">Headings</span></div>
-        <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:400">Ag</span><span class="nm">Outfit Regular</span><span class="ro">Body &amp; UI</span></div>
+      <div class="cs-split-media"><figure><img src="images/hcc-overview.webp" alt="Project overview" loading="lazy" decoding="async"></figure></div>
+    </div>
+  </div></section>
+
+  <!-- PROCESS -->
+  <section class="svc-stage snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The approach</span><h2>The Double Diamond.</h2><p class="proc-sub">Four phases — Discover, Define, Develop, Deliver — from a wide-open problem space to a focused, shippable redesign for mobile and desktop.</p></div>
+    <div class="svc-bento svc-acc svc-acc-num">
+      <div class="svc-card s1 reveal"><div class="svc-main"><span class="svc-num" style="--sccol:#f24333">01</span><div class="svc-txt"><h3>Discover</h3><p>A heuristic audit of the current site plus surveys and interviews. Because the center is unique, we analyzed sites serving similar markets — and listened to what a successful new-user experience needed to feel like.</p></div></div></div>
+      <div class="svc-card s2 reveal d1"><div class="svc-main"><span class="svc-num" style="--sccol:#2f6bf0">02</span><div class="svc-txt"><h3>Define</h3><p>We met Mai Yer Xiong — a first-generation immigrant with limited English — and framed the problem: a more visual site with prominent iconography and easy access to English-language and citizenship classes.</p></div></div></div>
+      <div class="svc-card s3 reveal d2"><div class="svc-main"><span class="svc-num" style="--sccol:#f4bf3a">03</span><div class="svc-txt"><h3>Develop</h3><p>The old sitemap buried the most important resources. We simplified the IA, mapped a fast user flow to language classes, and moved from paper to mid-fidelity wireframes with a vibrant, high-contrast UI kit.</p></div></div></div>
+      <div class="svc-card s4 reveal"><div class="svc-main"><span class="svc-num" style="--sccol:#33ac66">04</span><div class="svc-txt"><h3>Deliver</h3><p>Mid- to high-fidelity in three days — a signup-focused hero, simplified color-coded navigation, and branded section banners, all consistent across mobile and desktop.</p></div></div></div>
+    </div>
+  </div></section>
+
+  <!-- RESEARCH GALLERY -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Discover &amp; define</span><h2>Listening first.</h2></div>
+    <div class="cs-gal g3 reveal">
+      <div class="mock"><div class="mock-bar"><i></i><i></i><i></i><span class="url">hmongcc.org · before</span></div><div class="mock-view"><img src="images/hcc-old-site.webp" alt="The original Hmong Cultural Center site" loading="lazy" decoding="async"></div></div>
+      <figure><img src="images/hcc-persona.webp" alt="User persona: Mai Yer Xiong" loading="lazy" decoding="async"></figure>
+      <figure><img src="images/hcc-insights.webp" alt="Research insights" loading="lazy" decoding="async"></figure>
+    </div>
+  </div></section>
+
+  <!-- DESIGN SYSTEM -->
+  <section class="cs-deck-sys snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>UI design kit</span><h2>Vibrant clarity.</h2></div>
+    <div class="cs-sys-grid reveal">
+      <div class="cs-sys-card">
+        <div class="bsys">
+          <div class="bsys-sw">
+            <div class="sw"><span class="chip" style="background:#050505"></span><span class="lab"><b>Ink</b><span>#050505</span></span></div>
+            <div class="sw"><span class="chip" style="background:#329459"></span><span class="lab"><b>Jade</b><span>#329459</span></span></div>
+            <div class="sw"><span class="chip" style="background:#FF6388"></span><span class="lab"><b>Fuchsia</b><span>#FF6388</span></span></div>
+            <div class="sw"><span class="chip" style="background:#F2F2F2"></span><span class="lab"><b>Cloud</b><span>#F2F2F2</span></span></div>
+          </div>
+          <div class="bsys-type">
+            <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:700">Aa</span><span class="nm">Outfit Bold</span><span class="ro">Headings</span></div>
+            <div class="tf"><span class="aa" style="font-family:'Outfit',sans-serif;font-weight:400">Ag</span><span class="nm">Outfit Regular</span><span class="ro">Body &amp; UI</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-sys-imgs">
+        <img src="images/hcc-uikit.webp" alt="UI design kit" loading="lazy" decoding="async">
+        <img src="images/hcc-wireframes.webp" alt="Paper wireframes" loading="lazy" decoding="async">
+        <img src="images/hcc-midfi.webp" alt="Mid-fidelity wireframes" loading="lazy" decoding="async">
       </div>
     </div>
   </div></section>
 
-  <section class="cs-section"><div class="wrap">
-    <p class="cs-phase-num">Phase 04</p><div class="cs-phase-label">Deliver</div>
-    <div class="cs-block"><h3>Mid- to high-fidelity in three days.</h3>
-      <p>I translated the mid-fidelity mobile wireframes into polished, pixel-perfect mockups for <strong>both mobile and desktop</strong> — keeping the simplicity of the wireframes while adding the detailed visual elements that bring the center's vision to life.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-hifi.webp" alt="High-fidelity designs" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 01 — ESL &amp; citizenship</h4><h3>A hero built for signup.</h3>
-      <p>A centralized hero image routes users with limited English proficiency straight to ESL and citizenship signup — eliminating menu navigation and streamlining the whole journey.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-esl-hero.webp" alt="Hero for ESL and citizenship programs" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 02 — Navigation</h4><h3>Simplified &amp; color-coded.</h3>
-      <p>A cohesive menu system for mobile and desktop organizes items intuitively, with a distinct color per page to reinforce the brand. Navigation is central and brightly highlighted, making key sections — especially English classes — far easier to find.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-nav-system.webp" alt="Navigation system" loading="lazy" decoding="async"></figure>
-    <div class="cs-block"><h4 class="kicker">Feature 03 — Branded headers</h4><h3>Focused section banners.</h3>
-      <p>Header banners built from the brand palette and a triangular frame draw focus to each section's content — improving readability and helping users identify where they are.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-header-banners.webp" alt="Branded header banners" loading="lazy" decoding="async"></figure>
-    <figure class="cs-figure"><img src="images/hcc-other-screens.webp" alt="Other screens across mobile and desktop" loading="lazy" decoding="async"><figcaption>Consistent branding across every screen, mobile and desktop.</figcaption></figure>
-    <div class="cs-block"><h4 class="kicker">Future developments</h4><h3>The journey continues.</h3>
-      <p>We were thrilled with what we achieved in three weeks — from research to prototyping — but there's more we'd love to build. These are some of the future features and designs I explored for the next chapter.</p></div>
-    <figure class="cs-figure"><img src="images/hcc-future.webp" alt="Future developments" loading="lazy" decoding="async"></figure>
+  <!-- DELIVERED GALLERY -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The delivered site</span><h2>Built for signup, easy to navigate.</h2></div>
+    <div class="cs-gal g3 reveal">
+      <figure><img src="images/hcc-hifi.webp" alt="High-fidelity designs" loading="lazy" decoding="async"></figure>
+      <figure><img src="images/hcc-esl-hero.webp" alt="Hero for ESL and citizenship programs" loading="lazy" decoding="async"></figure>
+      <figure><img src="images/hcc-nav-system.webp" alt="Navigation system" loading="lazy" decoding="async"></figure>
+    </div>
   </div></section>
 
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Reflections</span>
-    <div class="cs-block"><h3>Strong design systems = success.</h3>
-      <p>A robust design system — consistent color, typography, and layout — kept the site cohesive and genuinely usable for English-language learners, while weaving Hmong cultural elements into the visual identity and surfacing key offerings like ESL and citizenship classes.</p></div>
-    <div class="cs-block"><h3>Sprint to success.</h3>
-      <p>Delivering a full redesign in three weeks demanded tight workload management. By prioritizing tasks, setting achievable milestones, and using agile techniques — with lots of collaborative planning — I kept the team aligned and shipped a high-fidelity prototype for both mobile and desktop.</p></div>
-    <div class="cs-next">
-      <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
-      <div class="np-big reveal" data-go="parkngo">
-        <img class="np-cover" src="images/cover-parkngo.png" alt="Park n Go" loading="lazy" decoding="async">
-        <div class="np-big-body"><h3 class="np-big-title">Park n Go</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+  <!-- REFLECTIONS -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Reflections</span>
+        <h2>Strong systems = success.</h2>
+        <p>A robust design system — consistent color, typography, and layout — kept the site cohesive and genuinely usable for English-language learners, while weaving Hmong cultural elements into the identity and surfacing key offerings like ESL and citizenship classes.</p>
+      </div>
+      <div class="cs-split-media">
+        <div class="cs-quote" style="margin:0"><p>Delivering a full redesign in three weeks demanded tight prioritization and agile teamwork — and we shipped a high-fidelity prototype for both mobile and desktop.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- NEXT WORK STRIP -->
+  <section class="snaptop"><div class="wrap"><div class="section-head head-row reveal"><div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Keep exploring</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>More work.</h2></div></div>
+    <div class="pj-grid pj-strip">
+      <div class="pj reveal" data-go="parkngo"><div class="face"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d1" data-go="hellospoke"><div class="face"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d2" data-go="wellness"><div class="face"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d3" data-go="needlework"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+    </div>
+  </div></section>
+
+  <!-- CONTACT -->
+  <section class="cta-band"><div class="wrap">
+    <div class="cta-dark reveal">
+      <div class="cta-shapes" aria-hidden="true">
+        <span class="shape cs1"><span class="in"></span></span>
+        <span class="shape cs2"><span class="in"></span></span>
+        <span class="shape cs3"><span class="in"></span></span>
+        <span class="shape cs4"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
+      </div>
+      <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
+      <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
+      <h2>Ready to bring your brand into frame?</h2>
+      <p>A project in mind? Start one — or grab a free 30-minute call and let&#39;s talk it through.</p>
+      <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
+        <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
       </div>
     </div>
   </div></section>
@@ -2232,190 +2153,275 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== CASE STUDY: WELLNESS ==================== -->
-<section class="page sub" id="wellness">
-  <section class="cs-hero"><div class="wrap">
-    <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand &amp; Communications System · Nonprofit</span><h1>Wellness in the Woods</h1><p class="lead">Building a scalable brand and communications system for a statewide mental-health nonprofit.</p></div><div class="tstage"><img class="tilt" src="images/witw-intro.png" alt="Wellness in the Woods brand communications" style="border-radius:16px;border:1px solid var(--line);background:#fff" loading="lazy" decoding="async"></div></div>
-    <div class="cs-block"><p>Wellness in the Woods serves thousands of Minnesotans through peer support, education, advocacy, virtual programming, fundraising, and community events. As the organization's communications designer, I helped transform an evolving collection of materials into a cohesive brand system that supports staff, volunteers, and community members across every touchpoint.</p></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <div class="cs-meta">
-      <div class="cell"><h4>Industry</h4><p>Mental Health · Nonprofit · Healthcare</p></div>
-      <div class="cell"><h4>Role</h4><p>Communications Designer</p></div>
-      <div class="cell"><h4>Services</h4><p>Brand, marketing, social, email, print, content</p></div>
-      <div class="cell"><h4>Timeline</h4><p>2025 — 2026</p></div>
-    </div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The Challenge</span>
-    <div class="cs-block"><h3>Many programs, one brand.</h3>
-      <p>As Wellness in the Woods expanded its programs and statewide reach, communications became increasingly fragmented. Virtual peer support, fundraising campaigns, conferences, podcasts, newsletters, educational programming, and community events all needed to feel like they belonged to one recognizable brand.</p>
-      <p>The organization needed a design system that balanced professionalism with warmth — ensuring every interaction reflected its recovery-centered values of <strong>hope, inclusion, dignity, and support</strong>. Those values, documented in the brand standards, became the foundation for everything I created.</p></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The Goal</span>
-    <div class="cs-block"><h3>A cohesive communications ecosystem.</h3></div>
-    <ul class="cs-list">
-      <li>Establish visual consistency across every platform</li>
-      <li>Make content production faster for staff</li>
-      <li>Improve accessibility and readability</li>
-      <li>Strengthen recognition of the organization</li>
-      <li>Support fundraising and community engagement</li>
-      <li>Create reusable systems rather than one-off graphics</li>
-    </ul>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>My Approach</span>
-    <div class="cs-block"><h3>Build a system, not one-offs.</h3>
-      <p>Instead of treating each request as an isolated project, I built an integrated brand system. Every piece — newsletters, presentations, social graphics, event materials — followed shared principles of typography, color, photography, hierarchy, and tone, emphasizing authentic imagery, accessible layouts, and hopeful language aligned with the organization's recovery philosophy.</p></div>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Deliverables</span>
-    <div class="cs-block"><h3>Across every channel.</h3></div>
-    <div class="cs-deliv">
-      <div class="d"><h4>Brand</h4><ul><li>Brand guidelines</li><li>Canva template library</li><li>Design standards</li><li>Marketing toolkit</li></ul></div>
-      <div class="d"><h4>Marketing</h4><ul><li>Social media campaigns</li><li>Fundraising graphics</li><li>Event promotion</li><li>Awareness campaigns</li></ul></div>
-      <div class="d"><h4>Digital</h4><ul><li>Email newsletters</li><li>Facebook templates</li><li>Podcast branding</li><li>Presentation decks</li></ul></div>
-      <div class="d"><h4>Print</h4><ul><li>Flyers &amp; posters</li><li>Signage</li><li>Conference materials</li><li>Educational handouts</li></ul></div>
-      <div class="d"><h4>Community</h4><ul><li>VPSN programming graphics</li><li>Volunteer materials</li><li>Member communications</li><li>Resource guides</li></ul></div>
-    </div>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Featured Project</span>
-    <div class="cs-block"><h3>Virtual Peer Support Network (VPSN).</h3>
-      <p>One of the largest recurring initiatives involved reusable social-media templates for the Virtual Peer Support Network. Rather than designing each post individually, I developed standardized <strong>monthly, weekly, and daily</strong> templates that staff could update quickly while keeping a consistent visual identity and messaging structure.</p></div>
-    <div class="pscene">
-      <div class="phone"><div class="scr"><img src="images/witw-calendar.png" alt="Monthly VPSN calendar template" loading="lazy" decoding="async"></div></div>
-      <div class="phone"><div class="scr"><img src="images/witw-vpsn-weekly.png" alt="Weekly VPSN template" loading="lazy" decoding="async"></div></div>
-      <div class="phone"><div class="scr"><img src="images/witw-vpsn-daily.png" alt="Daily VPSN template" loading="lazy" decoding="async"></div></div>
-    </div>
-    <p class="mock-cap">Monthly, weekly, and daily templates — consistent, and quick for staff to update.</p>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
-    <div class="cs-block"><h3>Warm, accessible, unmistakable.</h3>
-      <p>The system pairs color, typography, iconography, photography, and graphic treatments into a recognizable, recovery-centered look — drawn directly from the organization's brand guide.</p></div>
-    <div class="bsys">
-      <div class="bsys-sw">
-        <div class="sw"><span class="chip" style="background:#57463D"></span><span class="lab"><b>Bark</b><span>#57463D</span></span></div>
-        <div class="sw"><span class="chip" style="background:#949D79"></span><span class="lab"><b>Sage</b><span>#949D79</span></span></div>
-        <div class="sw"><span class="chip" style="background:#5F6E9C"></span><span class="lab"><b>Periwinkle</b><span>#5F6E9C</span></span></div>
-        <div class="sw"><span class="chip" style="background:#8E724E"></span><span class="lab"><b>Tan</b><span>#8E724E</span></span></div>
-        <div class="sw"><span class="chip" style="background:#F8F5E4"></span><span class="lab"><b>Cream</b><span>#F8F5E4</span></span></div>
+<section class="page" id="wellness">
+
+  <!-- HERO -->
+  <section class="svc-hero cs-deck-hero"><div class="wrap">
+    <div class="svc-hero-grid reveal">
+      <div class="svc-hero-txt">
+        <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
+        <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand &amp; Communications System · Nonprofit</span>
+        <h1>Wellness in the Woods</h1>
+        <p>Building a scalable brand and communications system for a statewide mental-health nonprofit — one consistent, hopeful voice across peer support, fundraising, events, and everyday content.</p>
+        <div class="cs-hero-meta">
+          <div class="mchip"><h4>Role</h4><span>Communications Designer</span></div>
+          <div class="mchip"><h4>Services</h4><span>Brand, social, print</span></div>
+          <div class="mchip"><h4>Timeline</h4><span>2025 — 2026</span></div>
+        </div>
       </div>
-      <div class="bsys-type">
-        <div class="tf"><span class="aa" style="font-family:'Staatliches',sans-serif;letter-spacing:.02em">Aa</span><span class="nm">Staatliches</span><span class="ro">Display &amp; headings</span></div>
-        <div class="tf"><span class="aa" style="font-family:'Lato',sans-serif;font-weight:400">Ag</span><span class="nm">Lato</span><span class="ro">Body copy</span></div>
+      <div class="cs-hero-shot"><div class="tstage"><img class="tilt" src="images/witw-intro.png" alt="Wellness in the Woods brand communications" style="border-radius:16px;border:1px solid var(--line);background:#fff" loading="lazy" decoding="async"></div></div>
+    </div>
+  </div></section>
+
+  <!-- CHALLENGE + GOAL -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The challenge &amp; goal</span>
+        <h2>Many programs, one brand.</h2>
+        <p>As the organization expanded its statewide reach, communications became fragmented — virtual peer support, fundraising, conferences, podcasts, newsletters, and events all needed to feel like one recognizable brand, balancing professionalism with warmth.</p>
+      </div>
+      <div class="cs-split-media">
+        <ul class="cs-chal">
+          <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Visual consistency across every platform</li>
+          <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Faster content production for staff</li>
+          <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Better accessibility &amp; readability</li>
+          <li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Reusable systems, not one-off graphics</li>
+        </ul>
       </div>
     </div>
   </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results</span>
-    <div class="cs-block"><h3>A communications framework, not just materials.</h3>
-      <p>Rather than producing isolated marketing pieces, this project established a communications framework supporting the organization across fundraising, education, peer support, conferences, podcasts, newsletters, and community engagement. The result made future content creation faster, strengthened visual consistency across departments, and helped present Wellness in the Woods as a unified, trustworthy organization.</p></div>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Gallery</span>
-    <div class="cs-gallery">
-      <img src="images/witw-weekly-events.png" alt="Weekly events flyer" loading="lazy" decoding="async">
-      <img src="images/witw-post-reentry.png" alt="Next Step announcement" loading="lazy" decoding="async">
-      <img src="images/witw-post-5stages.png" alt="Educational graphic" loading="lazy" decoding="async">
+
+  <!-- DELIVERABLES ACCORDION -->
+  <section class="svc-stage snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Deliverables</span><h2>Across every channel.</h2><p class="proc-sub">Instead of treating each request as a one-off, I built an integrated brand system — shared type, color, photography, hierarchy, and tone across everything.</p></div>
+    <div class="svc-bento svc-acc svc-acc-num">
+      <div class="svc-card s1 reveal"><div class="svc-main"><span class="svc-num" style="--sccol:#f24333">01</span><div class="svc-txt"><h3>Brand</h3><p>Brand guidelines, a Canva template library, design standards, and a marketing toolkit — so staff and volunteers can stay on-brand without a designer in the room.</p></div></div></div>
+      <div class="svc-card s2 reveal d1"><div class="svc-main"><span class="svc-num" style="--sccol:#2f6bf0">02</span><div class="svc-txt"><h3>Marketing &amp; social</h3><p>Social-media campaigns, fundraising graphics, event promotion, and awareness campaigns — consistent, on-message, and quick to produce.</p></div></div></div>
+      <div class="svc-card s3 reveal d2"><div class="svc-main"><span class="svc-num" style="--sccol:#f4bf3a">03</span><div class="svc-txt"><h3>Digital</h3><p>Email newsletters, Facebook templates, podcast branding, and presentation decks that all read as one organization.</p></div></div></div>
+      <div class="svc-card s4 reveal"><div class="svc-main"><span class="svc-num" style="--sccol:#33ac66">04</span><div class="svc-txt"><h3>Print &amp; community</h3><p>Flyers, posters, signage, conference materials, VPSN programming graphics, volunteer materials, and resource guides — the whole in-person toolkit.</p></div></div></div>
     </div>
   </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>What I Learned</span>
-    <div class="cs-block"><p>This project reinforced that successful nonprofit branding isn't about making individual graphics look good — it's about building <strong>systems that let organizations communicate consistently at scale.</strong> By creating reusable templates, clear visual standards, and flexible assets, I helped establish a communications ecosystem that staff can keep using long after any single campaign ends.</p></div>
-    <div class="cs-next">
-      <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
-      <div class="np-big reveal" data-go="needlework">
-        <img class="np-cover" src="images/cover-needlework.png" alt="Needlework Guild of MN" loading="lazy" decoding="async">
-        <div class="np-big-body"><h3 class="np-big-title">Needlework Guild of MN</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+
+  <!-- FEATURED · VPSN -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Featured project</span>
+        <h2>Virtual Peer Support Network.</h2>
+        <p>One of the largest recurring initiatives: reusable <strong>monthly, weekly, and daily</strong> social templates staff can update quickly while keeping a consistent visual identity and messaging structure.</p>
+      </div>
+      <div class="cs-split-media">
+        <div class="pscene">
+          <div class="phone"><div class="scr"><img src="images/witw-calendar.png" alt="Monthly VPSN calendar template" loading="lazy" decoding="async"></div></div>
+          <div class="phone"><div class="scr"><img src="images/witw-vpsn-weekly.png" alt="Weekly VPSN template" loading="lazy" decoding="async"></div></div>
+          <div class="phone"><div class="scr"><img src="images/witw-vpsn-daily.png" alt="Daily VPSN template" loading="lazy" decoding="async"></div></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- DESIGN SYSTEM -->
+  <section class="cs-deck-sys snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design system</span><h2>Warm, accessible, unmistakable.</h2></div>
+    <div class="cs-sys-grid reveal">
+      <div class="cs-sys-card">
+        <div class="bsys">
+          <div class="bsys-sw">
+            <div class="sw"><span class="chip" style="background:#57463D"></span><span class="lab"><b>Bark</b><span>#57463D</span></span></div>
+            <div class="sw"><span class="chip" style="background:#949D79"></span><span class="lab"><b>Sage</b><span>#949D79</span></span></div>
+            <div class="sw"><span class="chip" style="background:#5F6E9C"></span><span class="lab"><b>Periwinkle</b><span>#5F6E9C</span></span></div>
+            <div class="sw"><span class="chip" style="background:#8E724E"></span><span class="lab"><b>Tan</b><span>#8E724E</span></span></div>
+            <div class="sw"><span class="chip" style="background:#F8F5E4"></span><span class="lab"><b>Cream</b><span>#F8F5E4</span></span></div>
+          </div>
+          <div class="bsys-type">
+            <div class="tf"><span class="aa" style="font-family:'Staatliches',sans-serif;letter-spacing:.02em">Aa</span><span class="nm">Staatliches</span><span class="ro">Display &amp; headings</span></div>
+            <div class="tf"><span class="aa" style="font-family:'Lato',sans-serif;font-weight:400">Ag</span><span class="nm">Lato</span><span class="ro">Body copy</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-sys-imgs">
+        <img src="images/witw-weekly-events.png" alt="Weekly events flyer" loading="lazy" decoding="async">
+        <img src="images/witw-post-reentry.png" alt="Next Step announcement" loading="lazy" decoding="async">
+        <img src="images/witw-post-5stages.png" alt="Educational graphic" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </div></section>
+
+  <!-- RESULTS -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results &amp; reflection</span>
+        <h2>A framework, not just materials.</h2>
+        <p>Rather than isolated pieces, the project established a communications framework spanning fundraising, education, peer support, conferences, podcasts, and newsletters — making future content faster and presenting the organization as unified and trustworthy.</p>
+      </div>
+      <div class="cs-split-media">
+        <div class="cs-quote" style="margin:0"><p>Successful nonprofit branding isn&#39;t about individual graphics looking good — it&#39;s about building <strong>systems that let organizations communicate consistently at scale.</strong></p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- NEXT WORK STRIP -->
+  <section class="snaptop"><div class="wrap"><div class="section-head head-row reveal"><div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Keep exploring</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>More work.</h2></div></div>
+    <div class="pj-grid pj-strip">
+      <div class="pj reveal" data-go="needlework"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d1" data-go="hellospoke"><div class="face"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d2" data-go="parkngo"><div class="face"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d3" data-go="hmong"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+    </div>
+  </div></section>
+
+  <!-- CONTACT -->
+  <section class="cta-band"><div class="wrap">
+    <div class="cta-dark reveal">
+      <div class="cta-shapes" aria-hidden="true">
+        <span class="shape cs1"><span class="in"></span></span>
+        <span class="shape cs2"><span class="in"></span></span>
+        <span class="shape cs3"><span class="in"></span></span>
+        <span class="shape cs4"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
+      </div>
+      <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
+      <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
+      <h2>Ready to bring your brand into frame?</h2>
+      <p>A project in mind? Start one — or grab a free 30-minute call and let&#39;s talk it through.</p>
+      <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
+        <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
       </div>
     </div>
   </div></section>
 </section>
 
 <!-- ==================== CASE STUDY: NEEDLEWORK ==================== -->
-<section class="page sub" id="needlework">
-  <section class="cs-hero"><div class="wrap">
-    <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
-    <div class="cs-hero-grid"><div class="cs-hero-txt"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand Identity · Web · Nonprofit</span><h1>Needlework Guild of Minnesota</h1><p class="lead">Bringing a longstanding craft community into a welcoming, easy-to-navigate digital home — without losing the heritage that makes it special.</p></div><div class="tstage"><div class="mock scroll tilt"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org</span></div><div class="mock-view"><img src="images/ngm-new-home.png" alt="Needlework Guild — redesigned homepage" style="--sh:79%" loading="lazy" decoding="async"></div></div></div></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <div class="cs-meta">
-      <div class="cell"><h4>Role</h4><p>Brand &amp; Web Designer</p></div>
-      <div class="cell"><h4>Scope</h4><p>Identity refresh, website, membership UX</p></div>
-      <div class="cell"><h4>Tools</h4><p>Figma, Illustrator, Photoshop, Web</p></div>
-      <div class="cell"><h4>Timeline</h4><p>2024 — 2025</p></div>
+<section class="page" id="needlework">
+
+  <!-- HERO -->
+  <section class="svc-hero cs-deck-hero"><div class="wrap">
+    <div class="svc-hero-grid reveal">
+      <div class="svc-hero-txt">
+        <span class="cs-back" data-go="work"><svg width="16" height="16"><use href="#i-arrow-left"/></svg> All work</span>
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand Identity · Web · Nonprofit</span>
+        <h1>Needlework Guild of Minnesota</h1>
+        <p>Bringing a longstanding craft community into a welcoming, easy-to-navigate digital home — without losing the heritage that makes it special.</p>
+        <div class="cs-hero-meta">
+          <div class="mchip"><h4>Role</h4><span>Brand &amp; Web Designer</span></div>
+          <div class="mchip"><h4>Scope</h4><span>Identity, website, UX</span></div>
+          <div class="mchip"><h4>Timeline</h4><span>2024 — 2025</span></div>
+        </div>
+      </div>
+      <div class="cs-hero-shot"><div class="tstage"><div class="mock scroll tilt"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org</span></div><div class="mock-view"><img src="images/ngm-new-home.png" alt="Needlework Guild — redesigned homepage" style="--sh:79%" loading="lazy" decoding="async"></div></div></div></div>
     </div>
   </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Overview</span>
-    <div class="cs-block"><h3>A craft community with deep roots.</h3>
-      <p>Since 1972, the Needlework Guild of Minnesota has fostered the highest standard of excellence in needlework through education and study — classes, retreats, and a passionate community of members. Its digital presence needed to feel as warm and inviting as the craft itself, and make it easy for new and returning members to find classes, retreats, and how to join.</p></div>
-  </div></section>
-  <section class="cs-section" style="padding-top:0"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The Challenge</span>
-    <div class="cs-block"><h3>Heritage that was hard to reach.</h3>
-      <p>The existing site made it difficult to find the things members care about most — <strong>classes, retreats, and membership</strong> — and the identity didn't reflect the warmth of the craft or invite newcomers in. The Guild needed a refresh that honored its history while lowering the barrier for the next generation of stitchers.</p></div>
-    <div class="mock scroll"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org · before</span></div><div class="mock-view"><img src="images/ngm-old-home.png" alt="The old Needlework Guild site" style="--sh:52%" loading="lazy" decoding="async"></div></div><p class="mock-cap">The site before the refresh.</p>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>The Goal</span>
-    <ul class="cs-list">
-      <li>Make classes, retreats, and membership easy to find</li>
-      <li>Create a warmer, more welcoming identity</li>
-      <li>Honor the Guild's 50-year heritage</li>
-      <li>Keep content simple for volunteers to maintain</li>
-      <li>Invite and onboard new members</li>
-    </ul>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>My Approach</span>
-    <div class="cs-block"><h3>Refresh the identity, restructure the site.</h3>
-      <p>I refreshed the Guild's identity and reorganized the site around what members actually need — <strong>joining, learning, and gathering</strong> — so the most important pages are the easiest to reach. Warm, traditional colors and classic type honor the craft, while a cleaner structure makes the whole experience feel current and approachable.</p></div>
-    <figure class="cs-figure"><img src="images/ngm-ia.png" alt="Improved information architecture" loading="lazy" decoding="async"><figcaption>A restructured information architecture around joining, learning, and gathering.</figcaption></figure>
-  </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design System</span>
-    <div class="cs-block"><h3>Classic, warm, and welcoming.</h3>
-      <p>A documented brand system — Deep Indigo, Cranberry, and Golden Thread on Linen, paired with a warm serif (Merriweather) and a clean sans (Open Sans) — timeless enough to honor the craft, welcoming enough to invite newcomers.</p></div>
-    <div class="bsys">
-      <div class="bsys-sw">
-        <div class="sw"><span class="chip" style="background:#2A3A6E"></span><span class="lab"><b>Deep Indigo</b><span>#2A3A6E</span></span></div>
-        <div class="sw"><span class="chip" style="background:#A43E4F"></span><span class="lab"><b>Cranberry</b><span>#A43E4F</span></span></div>
-        <div class="sw"><span class="chip" style="background:#D4AF37"></span><span class="lab"><b>Golden Thread</b><span>#D4AF37</span></span></div>
-        <div class="sw"><span class="chip" style="background:#356859"></span><span class="lab"><b>Spruce</b><span>#356859</span></span></div>
-        <div class="sw"><span class="chip" style="background:#F7F4EF"></span><span class="lab"><b>Linen</b><span>#F7F4EF</span></span></div>
-        <div class="sw"><span class="chip" style="background:#333333"></span><span class="lab"><b>Charcoal</b><span>#333333</span></span></div>
+
+  <!-- OVERVIEW + CHALLENGE -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Overview &amp; challenge</span>
+        <h2>Heritage that was hard to reach.</h2>
+        <p>Since 1972, the Guild has fostered excellence in needlework through classes, retreats, and a passionate community. But the old site made it hard to find what members care about most — <strong>classes, retreats, and membership</strong> — and the identity didn&#39;t reflect the warmth of the craft or invite newcomers in.</p>
       </div>
-      <div class="bsys-type">
-        <div class="tf"><span class="aa" style="font-family:'Merriweather',serif;font-weight:700">Aa</span><span class="nm">Merriweather</span><span class="ro">Headlines &amp; titles</span></div>
-        <div class="tf"><span class="aa" style="font-family:'Open Sans',sans-serif;font-weight:600">Ag</span><span class="nm">Open Sans</span><span class="ro">Body &amp; UI</span></div>
+      <div class="cs-split-media"><div class="mock scroll"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org · before</span></div><div class="mock-view"><img src="images/ngm-old-home.png" alt="The old Needlework Guild site" style="--sh:52%" loading="lazy" decoding="async"></div></div><p class="mock-cap">The site before the refresh.</p></div>
+    </div>
+  </div></section>
+
+  <!-- APPROACH + GOALS -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>My approach &amp; goals</span>
+        <h2>Refresh the identity, restructure the site.</h2>
+        <p>I reorganized the site around what members actually need — <strong>joining, learning, and gathering</strong> — so the most important pages are the easiest to reach, with warm, traditional colors and classic type that honor the craft.</p>
+        <ul class="cs-chal">
+          <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Make classes, retreats &amp; membership easy to find</li>
+          <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>A warmer, more welcoming identity</li>
+          <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Honor the Guild&#39;s 50-year heritage</li>
+          <li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep it simple for volunteers to maintain</li>
+        </ul>
+      </div>
+      <div class="cs-split-media"><figure><img src="images/ngm-ia.png" alt="Improved information architecture" loading="lazy" decoding="async"><figcaption>Restructured around joining, learning, and gathering.</figcaption></figure></div>
+    </div>
+  </div></section>
+
+  <!-- DESIGN SYSTEM -->
+  <section class="cs-deck-sys snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Design system</span><h2>Classic, warm, and welcoming.</h2></div>
+    <div class="cs-sys-grid reveal">
+      <div class="cs-sys-card">
+        <div class="bsys">
+          <div class="bsys-sw">
+            <div class="sw"><span class="chip" style="background:#2A3A6E"></span><span class="lab"><b>Deep Indigo</b><span>#2A3A6E</span></span></div>
+            <div class="sw"><span class="chip" style="background:#A43E4F"></span><span class="lab"><b>Cranberry</b><span>#A43E4F</span></span></div>
+            <div class="sw"><span class="chip" style="background:#D4AF37"></span><span class="lab"><b>Golden Thread</b><span>#D4AF37</span></span></div>
+            <div class="sw"><span class="chip" style="background:#356859"></span><span class="lab"><b>Spruce</b><span>#356859</span></span></div>
+            <div class="sw"><span class="chip" style="background:#F7F4EF"></span><span class="lab"><b>Linen</b><span>#F7F4EF</span></span></div>
+            <div class="sw"><span class="chip" style="background:#333333"></span><span class="lab"><b>Charcoal</b><span>#333333</span></span></div>
+          </div>
+          <div class="bsys-type">
+            <div class="tf"><span class="aa" style="font-family:'Merriweather',serif;font-weight:700">Aa</span><span class="nm">Merriweather</span><span class="ro">Headlines &amp; titles</span></div>
+            <div class="tf"><span class="aa" style="font-family:'Open Sans',sans-serif;font-weight:600">Ag</span><span class="nm">Open Sans</span><span class="ro">Body &amp; UI</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-sys-imgs">
+        <img src="images/ngm-logo.png" alt="Needlework Guild logo" loading="lazy" decoding="async">
+        <img src="images/ngm-patterns.png" alt="Brand pattern" loading="lazy" decoding="async">
+        <img src="images/ngm-collage.png" alt="Brand marks" loading="lazy" decoding="async">
       </div>
     </div>
-    <figure class="cs-figure"><img src="images/ngm-brandhero.png" alt="Needlework Guild brand hero" loading="lazy" decoding="async"></figure>
-    <div class="cs-imgs"><img src="images/ngm-logo.png" alt="Logo"><img src="images/ngm-patterns.png" alt="Brand pattern"><img src="images/ngm-collage.png" alt="Brand marks"></div>
   </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Key Areas</span>
-    <div class="cs-block"><h4 class="kicker">Membership &amp; joining</h4>
-      <p>A clear path to become a member, with the value of the Guild front and center for newcomers.</p></div>
-    <div class="cs-block"><h4 class="kicker">Classes &amp; retreats</h4>
-      <p>Programs, classes, and the Guild's signature retreats surfaced and easy to browse and register for.</p></div>
-    <div class="mock scroll"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org/meetings</span></div><div class="mock-view"><img src="images/ngm-new-meetings.png" alt="The redesigned meetings page" style="--sh:84%" loading="lazy" decoding="async"></div></div><p class="mock-cap">The redesigned meetings page.</p>
-    <div class="tstage"><div class="mock scroll tilt"><div class="mock-bar"><i></i><i></i><i></i><span class="url">needleworkguildmn.org/events</span></div><div class="mock-view"><img src="images/ngm-new-events.png" alt="The events page" style="--sh:72%" loading="lazy" decoding="async"></div></div></div><p class="mock-cap">Events, made easy to browse.</p>
+
+  <!-- KEY AREAS · GALLERY -->
+  <section class="snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Key areas</span><h2>Joining, learning &amp; gathering — made easy.</h2></div>
+    <div class="cs-gal g3 reveal">
+      <figure><img src="images/ngm-brandhero.png" alt="Needlework Guild brand hero" loading="lazy" decoding="async"></figure>
+      <div class="mock scroll"><div class="mock-bar"><i></i><i></i><i></i><span class="url">/meetings</span></div><div class="mock-view"><img src="images/ngm-new-meetings.png" alt="The redesigned meetings page" style="--sh:84%" loading="lazy" decoding="async"></div></div>
+      <div class="mock scroll"><div class="mock-bar"><i></i><i></i><i></i><span class="url">/events</span></div><div class="mock-view"><img src="images/ngm-new-events.png" alt="The events page" style="--sh:72%" loading="lazy" decoding="async"></div></div>
+    </div>
   </div></section>
-  <section class="cs-section"><div class="wrap">
-    <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results &amp; Reflection</span>
-    <div class="cs-block"><h3>A warmer front door.</h3>
-      <p>The refresh gave the Guild a clearer, friendlier presence — easier navigation to classes, retreats, and membership, and an identity that honors a 50-year legacy while opening the door to new members.</p></div>
-    <div class="cs-block"><p>Designing for a heritage community reinforced how to honor the past while lowering the barrier for newcomers — small, respectful changes that make a longstanding organization feel current and welcoming.</p></div>
-    <div class="cs-next">
-      <div class="section-head reveal"><span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Keep exploring</span><h2>Next case study.</h2></div>
-      <div class="np-big reveal" data-go="parkngo">
-        <img class="np-cover" src="images/cover-parkngo.png" alt="Park n Go" loading="lazy" decoding="async">
-        <div class="np-big-body"><h3 class="np-big-title">Park n Go</h3><span class="np-arrow"><svg width="26" height="26"><use href="#i-arrow-ur"/></svg></span></div>
+
+  <!-- RESULTS -->
+  <section class="cs-deck-split snaptop"><div class="wrap">
+    <div class="cs-split reveal">
+      <div class="cs-split-txt">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Results &amp; reflection</span>
+        <h2>A warmer front door.</h2>
+        <p>The refresh gave the Guild a clearer, friendlier presence — easier navigation to classes, retreats, and membership, and an identity that honors a 50-year legacy while opening the door to new members.</p>
+      </div>
+      <div class="cs-split-media">
+        <div class="cs-quote" style="margin:0"><p>Designing for a heritage community is about honoring the past while lowering the barrier for newcomers — small, respectful changes that make a longstanding organization feel current and welcoming.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- NEXT WORK STRIP -->
+  <section class="snaptop"><div class="wrap"><div class="section-head head-row reveal"><div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Keep exploring</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>More work.</h2></div></div>
+    <div class="pj-grid pj-strip">
+      <div class="pj reveal" data-go="parkngo"><div class="face"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d1" data-go="hmong"><div class="face"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d2" data-go="wellness"><div class="face"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+      <div class="pj reveal d3" data-go="hellospoke"><div class="face"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div></div>
+    </div>
+  </div></section>
+
+  <!-- CONTACT -->
+  <section class="cta-band"><div class="wrap">
+    <div class="cta-dark reveal">
+      <div class="cta-shapes" aria-hidden="true">
+        <span class="shape cs1"><span class="in"></span></span>
+        <span class="shape cs2"><span class="in"></span></span>
+        <span class="shape cs3"><span class="in"></span></span>
+        <span class="shape cs4"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
+      </div>
+      <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
+      <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
+      <h2>Ready to bring your brand into frame?</h2>
+      <p>A project in mind? Start one — or grab a free 30-minute call and let&#39;s talk it through.</p>
+      <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
+        <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
       </div>
     </div>
   </div></section>
@@ -2528,7 +2534,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     const active=document.getElementById(id);
     requestAnimationFrame(()=>active.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")));
     if(id==="contact") initCalendly();
-    var CASE_STUDIES={hellospoke:1};  /* case studies rebuilt into the full-screen tile deck (rolling out the rest) */
+    var CASE_STUDIES={parkngo:1,hmong:1,hellospoke:1,wellness:1,needlework:1};  /* all case studies rebuilt into the full-screen tile deck */
     document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work"||id==="services"||id==="about"||id==="contact"||id.indexOf("svc-")===0||CASE_STUDIES[id]===1);  /* full-page snap decks (home / work / services / about / contact / the 4 service-detail pages / the 5 case studies) */
     setMeta(id);
     scrollTo(0,0);
