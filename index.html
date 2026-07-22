@@ -2430,7 +2430,10 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     { bg:"radial-gradient(130% 120% at 50% 30%, #fbf4dd, #f0e7cf)", fs:"#f24333", sp:"#2f6bf0" }                                               // marigold cream
   ];
   const MOTIONS = ["m-pop","m-flip","m-zoom","m-spin","m-glitch"];
-  const INTERVAL = 300; // ms per cut (~3.3/sec — energetic but not a strobe)
+  const INTERVAL = 200; // ms per cut (~5/sec)
+  // luminance tier per scene (0 dark · 1 mid · 2 light) — the sequence never jumps
+  // straight from dark to light, so it stays fast without hard strobing (photosensitivity)
+  const LUM = [0,0,2,1,2,0,0,0,0,2,2,1,1,0,0,2];
 
   function paint(i, mi){
     const s = SCENES[i];
@@ -2444,7 +2447,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   }
 
   let idx = 4, mcount = 0, timer = 0, playing = false;
-  function nextIdx(cur){ let n; do { n = Math.floor(Math.random()*SCENES.length); } while (n === cur); return n; }
+  function nextIdx(cur){
+    let n, guard = 0;
+    do { n = Math.floor(Math.random()*SCENES.length); guard++; }
+    while ((n === cur || Math.abs(LUM[n] - LUM[cur]) > 1) && guard < 40);  // no dark<->light jump
+    return n;
+  }
   function tick(){ idx = nextIdx(idx); paint(idx, mcount++); timer = setTimeout(tick, INTERVAL); }
   function play(){ if (playing || host.clientWidth === 0) return; playing = true; tick(); }
   function pause(){ playing = false; clearTimeout(timer); }
