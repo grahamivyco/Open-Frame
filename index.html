@@ -186,20 +186,16 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .nav.open .nav-toggle .bars i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* hero — wide, short */
-/* hero — split 50/50, NO container box: words on the left, the mark "reel" on the
-   right, both sitting directly on the page (no cream panel behind them) */
-.hero{position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));display:grid;grid-template-columns:1fr minmax(0,50%);align-items:center;gap:clamp(32px,5vw,72px)}
+/* hero — split 50/50, NO container box: words centred in the left half, the mark
+   "reel" filling the right half and as tall as the old cream box was */
+.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:grid;grid-template-columns:1fr minmax(0,50%);align-items:center;gap:clamp(32px,5vw,72px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
-/* the mark "reel" — a square panel cutting through real material shots of the mark
-   (grass, clouds, glass, tile, embroidery, chalk…) plus a few generated finishes */
-.hero-reel{order:2;position:relative;aspect-ratio:1/1;width:100%;max-height:660px;justify-self:stretch;border-radius:clamp(24px,3vw,44px);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
+/* the mark "reel" — fills its 50% column, height = cream-box height. Two stacked
+   layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
+.hero-reel{order:2;position:relative;width:100%;height:var(--hero-h);justify-self:end;border-radius:clamp(24px,3vw,44px);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
 .hero-reel.on{opacity:1}
-.reel-bg{position:absolute;inset:0;background:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat}
-.reel-mark{position:absolute;top:50%;left:50%;width:52%;height:auto;transform:translate(-50%,-50%);overflow:visible;will-change:opacity,filter}
-.rm-frame{stroke:var(--rm-fs,#111110);fill:none}
-.rm-spark{fill:var(--rm-sp,#f24333)}
-/* hard cut — no fade; the mark holds the same size & angle */
-@media (prefers-reduced-motion:reduce){.reel-bg,.reel-mark{animation:none!important}}
+.reel-bg{position:absolute;inset:0;background-color:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0}
+.reel-bg.show{opacity:1}   /* no transition here → hard cut */
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -216,7 +212,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .hs6{top:60%;right:5%;width:56px;height:56px;animation-delay:-3s}.hs6 .in{color:var(--red)}
 .hs5 .in svg,.hs6 .in svg{width:100%;height:100%;fill:currentColor}
 @keyframes drift{0%{transform:translate(0,0)}20%{transform:translate(20px,-24px)}45%{transform:translate(-14px,-10px)}70%{transform:translate(-22px,18px)}100%{transform:translate(0,0)}}
-.hero-inner{order:1;position:relative;z-index:2;max-width:560px;justify-self:end}
+.hero-inner{order:1;position:relative;z-index:2;max-width:560px;justify-self:center}
 .hero .eyebrow{color:var(--ink-2);justify-content:flex-start}
 .hero h1{font-size:clamp(2.6rem,4.4vw,4.6rem);font-weight:500;line-height:.96;letter-spacing:-.025em}
 .hero h1 em{font-style:italic;font-weight:400}
@@ -230,7 +226,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .hero h1{font-size:clamp(2.9rem,9vw,4.4rem)}
   .hero p{margin:18px auto 0}
   .hero-actions{justify-content:center}
-  .hero-reel{max-width:440px;margin:8px auto 0}
+  .hero-reel{height:auto;aspect-ratio:1/1;max-width:440px;margin:8px auto 0}
 }
 
 /* subhero */
@@ -921,21 +917,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       <div class="hero">
         <div class="hero-reel" aria-hidden="true">
           <div class="reel-bg"></div>
-          <svg class="reel-mark" viewBox="18 18 84 84" fill="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="g-holo" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#f24333"/><stop offset=".28" stop-color="#f4bf3a"/>
-                <stop offset=".54" stop-color="#33ac66"/><stop offset=".8" stop-color="#2f6bf0"/>
-                <stop offset="1" stop-color="#b06bf0"/>
-              </linearGradient>
-              <radialGradient id="g-gold" cx=".35" cy=".3" r=".95">
-                <stop offset="0" stop-color="#fff6d8"/><stop offset=".45" stop-color="#f4bf3a"/>
-                <stop offset="1" stop-color="#8a6a1a"/>
-              </radialGradient>
-            </defs>
-            <path class="rm-frame" d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-            <g transform="translate(60,60) scale(0.42)"><path class="rm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></g>
-          </svg>
+          <div class="reel-bg"></div>
         </div>
         <div class="hero-shapes" aria-hidden="true">
           <span class="shape hs1"><span class="in"></span></span>
@@ -2375,65 +2357,56 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 })();
 </script>
 
-<!-- Hero "brand mark reel" — a square panel that hard-cuts (400ms) through real
-     material shots of the Open Frame mark (grass, clouds, glass, tile, embroidery,
-     chalk, flowers, ice, chrome, neon, croissant, amber) plus a few generated
-     finishes (holographic, gold, terrazzo, electric grid) at the same focal point.
-     Respects prefers-reduced-motion; pauses off-home / when hidden. Add a material
-     by dropping a square shot into images/hero/ and appending its name to IMG. -->
+<!-- Hero "brand mark reel" — the right-half panel hard-cuts (200ms, no fade) through
+     14 photoreal shots of the Open Frame mark in materials/environments. Two stacked
+     .reel-bg layers swap instantly (the incoming layer is set + shown while the old
+     one is hidden in the same frame) and every image is decoded up front, so the
+     loop never flickers or stutters. A LUM tier stops light↔dark jumps (photosensitivity).
+     Respects prefers-reduced-motion; pauses off-home / when hidden. Add a material by
+     dropping a square shot into images/hero/of-NAME.webp and appending "NAME" to IMG. -->
 <script>
 (() => {
   "use strict";
   const reel = document.querySelector(".hero-reel");
   if (!reel) return;
-  const bg   = reel.querySelector(".reel-bg");
-  const mark = reel.querySelector(".reel-mark");
+  const layers = [...reel.querySelectorAll(".reel-bg")];
+  if (layers.length < 2) return;
   const host = reel.closest(".hero");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // real photoreal shots of the mark — all 2000² with identical size / placement
   const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon","tile","succulent"]
-    .map(n => ({ img:"images/hero/of-" + n + ".webp" }));
-  const PROC = [];                 // all-photo reel now (CSS finishes retired)
-  const SCENES = IMG.concat(PROC);
+    .map(n => "images/hero/of-" + n + ".webp");
   const INTERVAL = 200; // ms per cut (~5/sec)
-  // luminance tier per scene (0 dark · 1 mid · 2 light) — the picker never jumps straight
+  // luminance tier per image (0 dark · 1 mid · 2 light) — the picker never jumps straight
   // light↔dark, so 200ms hard cuts don't hard-strobe (photosensitivity)
   const LUM = [1,2,0,2,0,2,0,2,0,1,2,2,2,2];
 
-  IMG.forEach(s => { const im = new Image(); im.src = s.img; }); // preload the photos
+  // preload AND decode every frame up front so swaps are instant (no stutter)
+  IMG.forEach(src => { const im = new Image(); im.src = src; if (im.decode) im.decode().catch(() => {}); });
 
-  function paint(i){
-    const s = SCENES[i];
-    if (s.img){                                     // real material photo (hard cut, no fade)
-      bg.style.background = "#0d0e11 url('" + s.img + "') center/cover no-repeat";
-      mark.style.display = "none";
-    } else {                                        // generated finish (SVG mark on a bg)
-      mark.style.display = "";
-      bg.style.background = s.bg;
-      reel.style.setProperty("--rm-fs", s.fs);
-      reel.style.setProperty("--rm-sp", s.sp);
-      mark.style.filter = s.filter || "none";
-    }
+  let front = 0, idx = 0, timer = 0, playing = false;
+  function show(i){                                  // instant hard cut via two layers
+    const back = layers[(front + 1) % 2];
+    back.style.backgroundImage = "url('" + IMG[i] + "')";
+    back.classList.add("show");
+    layers[front].classList.remove("show");
+    front = (front + 1) % 2;
   }
-
-  let idx = 0, timer = 0, playing = false;
   function nextIdx(cur){
     let n, guard = 0;
-    do { n = Math.floor(Math.random()*SCENES.length); guard++; }
+    do { n = Math.floor(Math.random() * IMG.length); guard++; }
     while ((n === cur || Math.abs(LUM[n] - LUM[cur]) > 1) && guard < 40);  // no light<->dark jump
     return n;
   }
-  function tick(){ idx = nextIdx(idx); paint(idx); timer = setTimeout(tick, INTERVAL); }
+  function tick(){ idx = nextIdx(idx); show(idx); timer = setTimeout(tick, INTERVAL); }
   function play(){ if (playing || host.clientWidth === 0) return; playing = true; tick(); }
   function pause(){ playing = false; clearTimeout(timer); }
 
-  paint(0);                                         // start on the grass shot
+  show(0);
   requestAnimationFrame(() => reel.classList.add("on"));
 
-  if (reduce) {
-    paint(0);                                       // one static shot — no cycling
-  } else {
+  if (!reduce) {
     new IntersectionObserver(ents => { for (const en of ents) en.isIntersecting ? play() : pause(); },
       { threshold: 0.01 }).observe(reel);
     addEventListener("visibilitychange", () => { document.hidden ? pause() : play(); });
