@@ -112,8 +112,10 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
      jumped over on mobile); every section is stopped at, one page at a time */
   /* DEFINITE height (not just min-height) — iOS/WebKit won't fill flex:1 children
      through a min-height-sized container, which made work tiles collapse to 0 and
-     about/footer come up short on iPhone. Each home panel fits one screen by design. */
-  html.snap-home #home>section,html.snap-home .site-footer{height:100svh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
+     about/footer come up short on iPhone. 100dvh = the CURRENTLY-visible viewport, so
+     each panel fills the screen whether the mobile browser's toolbar is shown or hidden
+     (svh left a gap — the next section peeked once the toolbar retracted). */
+  html.snap-home #home>section,html.snap-home .site-footer{height:100svh;height:100dvh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
   html.snap-home .site-footer{margin-top:0;padding-top:var(--head);padding-bottom:var(--gutter)}
   /* top-aligned sections (services, work): heading below the header, interactive
      block grows to fill; equal bottom margin (= side gutter) */
@@ -122,7 +124,10 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   html.snap-home .snaptop .svc-acc,html.snap-home .snaptop .pj-strip{height:auto;flex:1 1 auto;min-height:0}
   /* fill sections (about, contact, footer): inner container fills the hero-sized box.
      Contact uses the SAME top/bottom as about so the two tiles match in size + offset */
-  html.snap-home #home>section.sect-narrow,html.snap-home .cta-band{padding-top:var(--head);padding-bottom:var(--gutter)}
+  /* NOTE: the .cta-band selector MUST carry the #home>section id — otherwise the base
+     `#home>section{padding-top:var(--sect)}` (higher specificity via the id) wins and
+     contact starts too high / different from about. This was the recurring bug. */
+  html.snap-home #home>section.sect-narrow,html.snap-home #home>section.cta-band{padding-top:var(--head);padding-bottom:var(--gutter)}
   html.snap-home .sect-narrow>.wrap,html.snap-home .cta-band>.wrap,html.snap-home .site-footer>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   html.snap-home .about-panel,html.snap-home .cta-band .cta-dark,html.snap-home .footer-bar{flex:1 1 auto;min-height:0}
   /* contact content vertically centred (needs display:flex for justify to apply) */
@@ -363,10 +368,6 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 @media (max-width:560px){
   .svc-stage .section-head h2{font-size:clamp(1.5rem,6.4vw,2rem)}
   .svc-stage .svc-acc .svc-card.open p{max-height:7em}
-  /* smaller corner tab (content now sits at the bottom, clear of the top-right tab) */
-  .svc-stage .svc-acc .svc-card.open .fold{width:58px;height:58px}
-  .svc-stage .svc-acc .svc-card.open .arr{top:12px;right:12px}
-  .svc-stage .svc-acc .svc-card.open .arr svg{width:22px;height:22px}
 }
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
@@ -404,6 +405,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 #home .pj-strip .pj-tab,#home .pj-strip .pj-logo .pw{font-family:var(--serif);font-weight:600}
 #home .pj-strip .pj-logo .pw{color:var(--ink);letter-spacing:-.01em;line-height:1.03}
 #home .pj-strip .pj-logo p{font-family:var(--sans);color:var(--ink-2);line-height:1.5}
+/* fold/arrow show ONLY on the OPEN strip tile (driven by JS, not :hover) so a
+   collapsed tile can never keep a "stuck" corner after a tap on touch */
+#home .pj-strip .pj .fold{width:0;height:0}
+#home .pj-strip .pj.open .fold{width:clamp(74px,15vw,108px);height:clamp(74px,15vw,108px)}
+#home .pj-strip .pj .arr{opacity:0;transform:translate(10px,-10px) scale(.5)}
+#home .pj-strip .pj.open .arr{opacity:1;transform:none}
 @media (min-width:821px){
   #home .pj-strip{display:flex;flex-direction:row;gap:clamp(10px,1vw,16px);height:clamp(400px,60svh,600px)}
   #home .pj-strip .pj{flex:1 1 0;flex-grow:1;min-width:0;transition:flex-grow .6s var(--ease)}
@@ -425,7 +432,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
      project panels don't have in-flow content — the wordmark is absolute). */
   #home .pj-strip{display:flex;flex-direction:column;gap:clamp(8px,1.4vh,14px);height:auto}
   #home .pj-strip .pj{flex:1 1 0;flex-grow:1;min-height:clamp(58px,9vh,96px);transition:flex-grow .6s var(--ease)}
-  #home .pj-strip .pj.open{flex-grow:3}
+  #home .pj-strip .pj.open{flex-grow:4.4}
   #home .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
   #home .pj-strip .pj .pj-tab{display:none}
   #home .pj-strip .pj .pj-logo{display:flex;position:absolute;inset:0;z-index:3;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:clamp(16px,4.4vw,24px);text-align:left;pointer-events:none}
@@ -586,7 +593,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .footer-bar{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(30px,4vw,50px);display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,48px);align-items:start}
 .footer-bar>*{position:relative;z-index:1}
 /* supersized brand wordmark, half cut off — fills the full-screen home footer */
-.footer-big{display:none;position:absolute;left:50%;bottom:0;z-index:0;transform:translate(-50%,28%);font-family:"Manrope",var(--sans);font-weight:700;font-size:clamp(2.1rem,13.2vw,11.8rem);letter-spacing:-.04em;line-height:.82;white-space:nowrap;color:#e5e2d7;pointer-events:none;user-select:none}
+.footer-big{display:none;position:absolute;left:50%;bottom:0;z-index:0;transform:translate(-50%,28%);font-family:"Manrope",var(--sans);font-weight:700;font-size:clamp(2.6rem,16.3vw,15.2rem);letter-spacing:-.045em;line-height:.82;white-space:nowrap;color:#e5e2d7;pointer-events:none;user-select:none}
 @media (min-height:600px){ html.snap-home .footer-big{display:block} }
 .footer-bar .fbrand{display:inline-flex;align-items:center;gap:11px;width:fit-content}
 .footer-bar .fbrand .wordmark{font-size:19px}
@@ -594,8 +601,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .footer-bar .fl{font-family:var(--sans);color:var(--muted);margin-top:12px;max-width:34ch;font-size:.98rem}
 .footer-nav{display:flex;flex-direction:column;gap:10px;text-align:right;align-items:flex-end;justify-self:end}
 .footer-nav .h{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.footer-nav a{font-family:var(--sans);color:var(--ink-2);cursor:pointer;transition:color .25s;width:fit-content}
+.footer-nav a{font-family:var(--sans);color:var(--ink-2);cursor:pointer;transition:color .25s;width:fit-content;display:inline-flex;align-items:center}
 .footer-nav a:hover{color:var(--ink)}
+/* brand spark pops in on the LEFT of the page link on hover, nudging the label over */
+.footer-nav a .fspark{width:0;height:.82em;opacity:0;fill:currentColor;flex:0 0 auto;transform:scale(.5) rotate(-40deg);transition:width .3s var(--ease),opacity .3s var(--ease),margin-right .3s var(--ease),transform .4s cubic-bezier(.34,1.56,.64,1)}
+.footer-nav a:hover .fspark{width:.82em;opacity:1;margin-right:9px;transform:none}
 .footer-links{display:flex;align-items:center;gap:16px;justify-content:flex-start;margin-top:24px}
 .footer-links a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;color:var(--ink);border-radius:50%;transition:color .25s var(--ease),transform .25s var(--ease)}
 .footer-links a svg{width:23px;height:23px;flex:0 0 auto}
@@ -2266,11 +2276,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       </div>
       <nav class="footer-nav" aria-label="Footer">
         <span class="h">Pages</span>
-        <a data-go="home">Home</a>
-        <a data-go="work">Work</a>
-        <a data-go="services">Services</a>
-        <a data-go="about">About</a>
-        <a data-go="contact">Contact</a>
+        <a data-go="home"><svg class="fspark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Home</a>
+        <a data-go="work"><svg class="fspark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Work</a>
+        <a data-go="services"><svg class="fspark c-yellow" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Services</a>
+        <a data-go="about"><svg class="fspark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
+        <a data-go="contact"><svg class="fspark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
       </nav>
       <div class="footer-meta"><span>© <span data-year>2026</span> Open Frame</span></div>
     </div>
