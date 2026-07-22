@@ -110,7 +110,10 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   html.snap-home{scroll-snap-type:y mandatory}
   /* scroll-snap-stop:always → a fast swipe can't skip a panel (fixes work being
      jumped over on mobile); every section is stopped at, one page at a time */
-  html.snap-home #home>section,html.snap-home .site-footer{min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
+  /* DEFINITE height (not just min-height) — iOS/WebKit won't fill flex:1 children
+     through a min-height-sized container, which made work tiles collapse to 0 and
+     about/footer come up short on iPhone. Each home panel fits one screen by design. */
+  html.snap-home #home>section,html.snap-home .site-footer{height:100svh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
   html.snap-home .site-footer{margin-top:0;padding-top:var(--head);padding-bottom:var(--gutter)}
   /* top-aligned sections (services, work): heading below the header, interactive
      block grows to fill; equal bottom margin (= side gutter) */
@@ -329,7 +332,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* card is a COLUMN holding one .svc-main row (icon + text); collapsed centres it,
    open drops it to the BOTTOM of the tile */
 .svc-stage .svc-acc .svc-card,.svc-stage .svc-acc .svc-card.s4{flex:1 1 0;flex-grow:1;min-height:0;flex-direction:column;justify-content:center;align-items:stretch;flex-wrap:nowrap;gap:0;padding:clamp(10px,1.3vw,18px) clamp(18px,2.8vw,44px);transition:flex-grow .6s var(--ease),background .5s var(--ease)}
-.svc-stage .svc-acc .svc-card.open{flex-grow:5;justify-content:flex-end}
+.svc-stage .svc-acc .svc-card.open{flex-grow:5;justify-content:flex-end;padding-bottom:clamp(22px,3.6vh,46px)}
 .svc-stage .svc-acc .svc-main{display:flex;flex-direction:row;align-items:center;gap:clamp(14px,2.2vw,34px);width:100%;min-width:0}
 /* open tile: icon top-aligned with the top of the title (not centred on the block) */
 .svc-stage .svc-acc .svc-card.open .svc-main{align-items:flex-start}
@@ -347,6 +350,13 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svc-stage .svc-acc .svc-card.open ul{max-height:12em;opacity:1;margin-top:clamp(10px,1.4vh,20px)}
 .svc-stage .svc-acc .svc-card.open .fold{width:104px;height:104px}
 .svc-stage .svc-acc .svc-card.open .arr{opacity:1;transform:none}
+/* touch devices: iOS keeps :hover "stuck" after a tap, so a tapped tile's corner
+   fold/arrow looked permanently active (e.g. Brand Growth). Drop the hover-only
+   reveals on touch — the JS-driven .open state keeps its own (higher specificity). */
+@media (hover:none){
+  .svc-card:hover .fold,.pj:hover .fold{width:0;height:0}
+  .svc-card:hover .arr,.pj:hover .arr{opacity:0;transform:translate(10px,-10px) scale(.5)}
+}
 /* short screens only: drop the bullets so the open tile's text always fits (tall
    phones keep them — the open tile is full-height and has room) */
 @media (max-height:700px){ .svc-stage .svc-acc .svc-card.open ul{display:none} }
@@ -410,9 +420,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   #home .pj-strip .pj-logo p{font-size:clamp(.98rem,1.2vw,1.14rem);max-width:34ch}
 }
 @media (max-width:820px){
-  /* mobile/tablet-portrait: vertical accordion, name bottom-left, desc on open */
+  /* mobile/tablet-portrait: vertical accordion, name bottom-left, desc on open.
+     min-height on each .pj is a safety net so a tile can never collapse to 0 (the
+     project panels don't have in-flow content — the wordmark is absolute). */
   #home .pj-strip{display:flex;flex-direction:column;gap:clamp(8px,1.4vh,14px);height:auto}
-  #home .pj-strip .pj{flex:1 1 0;flex-grow:1;min-height:0;transition:flex-grow .6s var(--ease)}
+  #home .pj-strip .pj{flex:1 1 0;flex-grow:1;min-height:clamp(58px,9vh,96px);transition:flex-grow .6s var(--ease)}
   #home .pj-strip .pj.open{flex-grow:3}
   #home .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
   #home .pj-strip .pj .pj-tab{display:none}
