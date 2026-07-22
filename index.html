@@ -139,6 +139,22 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
      list sits level with the social icons; big empty space below → the wordmark */
   html.snap-deck .footer-bar{align-content:start;align-items:end}
 }
+/* contact page = full-screen snap deck: cream form panel + connect accordion + footer.
+   Kept in its own block with #contact>section ids so it beats the base
+   `#contact>section{padding-top:var(--sect)}` (same specificity trap as .cta-band). */
+@media (min-height:600px){
+  html.snap-deck #contact>section{height:100svh;height:100dvh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
+  html.snap-deck #contact>section.snaptop{justify-content:flex-start;padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck #contact>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck #contact>section.contact-form-panel{padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck #contact>section.contact-form-panel>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  /* the cream card fills the hero-sized box; its form grows so the message field
+     stretches to fill the rest of the panel */
+  html.snap-deck #contact .cform-card{flex:1 1 auto;min-height:0}
+  html.snap-deck #contact .cform-card .contact-form{flex:1 1 auto;min-height:0}
+  html.snap-deck #contact .cform-card .cform-msg{flex:1 1 auto;min-height:0}
+  html.snap-deck #contact .cform-card .cform-msg textarea{flex:1 1 auto;min-height:0;height:100%}
+}
 /* about panel fills the hero-sized box: desktop/tablet = 50/50 with the photo at
    full height + copy vertically centred; mobile = stacked, photo fills the top */
 @media (min-width:821px) and (min-height:600px){
@@ -585,6 +601,18 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .contact-form button:hover{box-shadow:none}
 .form-status{font-family:var(--sans);font-size:14px;color:var(--muted);min-height:18px}
 .form-status a{color:var(--blue);font-weight:500}
+/* full-screen cream form panel (contact) */
+.cform-card{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(26px,3.4vw,54px);display:flex;flex-direction:column}
+.cform-card>*{position:relative;z-index:1}
+.cform-head{flex:0 0 auto}
+.cform-head h1{font-size:clamp(2rem,4.6vw,3.5rem);font-weight:500;line-height:1.02;letter-spacing:-.012em;margin-top:6px}
+.cform-head p{font-family:var(--sans);color:var(--ink-2);max-width:54ch;margin-top:14px;font-size:clamp(1.02rem,1.4vw,1.16rem)}
+.cform-head p a{color:var(--ink);font-weight:500;border-bottom:2px solid var(--ink)}
+.cform-card .contact-form{margin-top:clamp(20px,2.8vw,36px)}
+.cform-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cform-msg{display:flex;flex-direction:column}
+.cform-msg textarea{flex:1 1 auto}
+@media(max-width:560px){.cform-row{grid-template-columns:1fr}}
 .bento{margin-top:16px;display:grid;grid-template-columns:1.5fr 1fr;gap:16px;grid-template-areas:"cal mail" "cal link" "cal res"}
 .bx{border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;display:flex;flex-direction:column;justify-content:center;transition:transform .4s var(--ease),background .3s,border-color .3s}
 /* tiles: corner-peel only, no lift or color change */
@@ -1346,23 +1374,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== CONTACT ==================== -->
-<section class="page sub" id="contact">
-  <section class="subhero"><div class="wrap">
-    <span class="eyebrow reveal"><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</span>
-    <h1 class="reveal d1">Tell me what you're building.</h1>
-  </div></section>
-  <section class="contact-body"><div class="wrap">
-    <div class="contact-hero reveal">
+<section class="page" id="contact">
+  <!-- Panel 1: the message form in a full-screen cream card (form grows to fill) -->
+  <section class="contact-form-panel"><div class="wrap">
+    <div class="cform-card reveal">
       <div class="ch-shapes" aria-hidden="true">
         <span class="shape ch1"><span class="in"></span></span>
         <span class="shape ch2"><span class="in"></span></span>
         <span class="shape ch3"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
       </div>
-      <div class="chi">
-        <span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Say hello</span>
-        <h2>Have an idea, a role, or a project?</h2>
-        <p>Tell me a little about it and I'll get back to you within a day or two.</p>
-        <a class="cmail" href="mailto:hello@openframe.design">hello@openframe.design</a>
+      <div class="cform-head">
+        <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</span>
+        <h1>Tell me what you're building.</h1>
+        <p>Tell me a little about it and I'll get back to you within a day or two — or reach me directly at <a href="mailto:hello@openframe.design">hello@openframe.design</a>.</p>
       </div>
       <!-- Web3Forms (no account): get a free access key at web3forms.com by entering your email, then replace YOUR_ACCESS_KEY below. Submissions are emailed to you; nothing else to set up. -->
       <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
@@ -1370,34 +1394,46 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <input type="hidden" name="subject" value="New enquiry from the Open Frame site">
         <input type="hidden" name="from_name" value="Open Frame website">
         <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
-        <div class="field"><label for="cName">Name</label><input id="cName" name="name" type="text" required autocomplete="name" placeholder="Your name"></div>
-        <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com"></div>
-        <div class="field"><label for="cMsg">Message</label><textarea id="cMsg" name="message" required placeholder="What are you working on?"></textarea></div>
+        <div class="cform-row">
+          <div class="field"><label for="cName">Name</label><input id="cName" name="name" type="text" required autocomplete="name" placeholder="Your name"></div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com"></div>
+        </div>
+        <div class="field cform-msg"><label for="cMsg">Message</label><textarea id="cMsg" name="message" required placeholder="Tell me a little about what you're working on…"></textarea></div>
         <button class="btn btn-dark" type="submit"><svg class="bi" width="15" height="15"><use href="#i-send"/></svg>Send message</button>
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
-    <div class="book-row">
-    <a class="book reveal" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener">
-      <span class="ic"><svg><use href="#i-calendar"/></svg></span>
-      <h2>Schedule a free 30-minute call.</h2>
-      <p>Have a project in mind? Grab a 30-minute video call and we'll talk through what you're building — no pressure, no pitch.</p>
-      <span class="fold" style="background:var(--green)"></span><span class="arr"><svg><use href="#i-arrow-ur"/></svg></span>
-    </a>
-    <div class="tiles3 reveal">
-      <a class="bx tile mail" href="mailto:hello@openframe.design">
-        <span class="ic"><svg><use href="#i-mail"/></svg></span>
-        <h3>Email</h3><p>hello@openframe.design</p>
-        <span class="fold" style="background:var(--red)"></span><span class="arr"><svg><use href="#i-arrow-ur"/></svg></span></a>
-      <a class="bx tile link" href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener">
-        <span class="ic"><svg><use href="#i-linkedin"/></svg></span>
-        <h3>LinkedIn</h3><p>Let's connect professionally</p>
-        <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg><use href="#i-arrow-ur"/></svg></span></a>
-      <a class="bx tile res" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener">
-        <span class="ic"><svg><use href="#i-file"/></svg></span>
-        <h3>Résumé</h3><p>View the PDF</p>
-        <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg><use href="#i-arrow-ur"/></svg></span></a>
-    </div>
+  </div></section>
+
+  <!-- Panel 2: Connect — vertical accordion tiles (call / email / LinkedIn / résumé) -->
+  <section class="svc-stage snaptop"><div class="wrap">
+    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Connect</span>
+      <h2>Connect with me.</h2></div>
+    <div class="svc-bento svc-acc">
+      <a class="svc-card s1 reveal" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener">
+        <span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+        <div class="svc-main"><svg class="ico" style="--sccol:#33ac66"><use href="#i-calendar"/></svg>
+        <div class="svc-txt"><h3>Schedule a free 30-minute call</h3>
+          <p>Grab a 30-minute video call and we'll talk through what you're building — no pressure, no pitch, just a real conversation about your project.</p></div></div>
+      </a>
+      <a class="svc-card s2 reveal d1" href="mailto:hello@openframe.design">
+        <span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+        <div class="svc-main"><svg class="ico" style="--sccol:#f24333"><use href="#i-mail"/></svg>
+        <div class="svc-txt"><h3>Email</h3>
+          <p>hello@openframe.design — drop me a line anytime and I'll get back to you within a day or two.</p></div></div>
+      </a>
+      <a class="svc-card s3 reveal d2" href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener">
+        <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+        <div class="svc-main"><svg class="ico" style="--sccol:#2f6bf0"><use href="#i-linkedin"/></svg>
+        <div class="svc-txt"><h3>LinkedIn</h3>
+          <p>Let's connect professionally — follow along, or reach out about a role or collaboration.</p></div></div>
+      </a>
+      <a class="svc-card s4 reveal" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener">
+        <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+        <div class="svc-main"><svg class="ico" style="--sccol:#f4bf3a"><use href="#i-file"/></svg>
+        <div class="svc-txt"><h3>Résumé</h3>
+          <p>View the PDF for my full background, experience, and the tools I work in.</p></div></div>
+      </a>
     </div>
   </div></section>
 </section>
@@ -2407,7 +2443,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     const active=document.getElementById(id);
     requestAnimationFrame(()=>active.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")));
     if(id==="contact") initCalendly();
-    document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work"||id==="services"||id==="about"||id.indexOf("svc-")===0);  /* full-page snap decks (home / work / services / about / the 4 service-detail pages) */
+    document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work"||id==="services"||id==="about"||id==="contact"||id.indexOf("svc-")===0);  /* full-page snap decks (home / work / services / about / contact / the 4 service-detail pages) */
     setMeta(id);
     scrollTo(0,0);
     document.querySelector(".nav").classList.remove("open");
