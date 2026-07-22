@@ -2391,21 +2391,15 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   const host = reel.closest(".hero");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // real photo/AI shots of the mark (square, consistent focal point)
-  const IMG = ["grass","clouds","glass","embroidery","chalk","flowers","tile","ice","chrome","neon","croissant","amber"]
+  // real photoreal shots of the mark — all 2000² with identical size / placement
+  const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon"]
     .map(n => ({ img:"images/hero/of-" + n + ".webp" }));
-  // a few generated finishes — the SVG mark sized to the same focal point as the photos
-  const PROC = [
-    { bg:"#0e0f12", fs:"url(#g-holo)", sp:"url(#g-holo)", filter:"drop-shadow(0 0 6px rgba(176,107,240,.6))" },                       // holographic
-    { bg:"radial-gradient(120% 120% at 50% 20%, #201a08, #050403)", fs:"url(#g-gold)", sp:"url(#g-gold)", filter:"drop-shadow(0 0 8px rgba(244,191,58,.5))" }, // gold
-    { bg:"radial-gradient(circle at 50% 50%,#f24333 0 2.5px,transparent 3px) 0 0/40px 40px,radial-gradient(circle at 20% 70%,#2f6bf0 0 2.5px,transparent 3px) 0 0/33px 33px,radial-gradient(circle at 80% 30%,#33ac66 0 2.5px,transparent 3px) 0 0/47px 47px,#efece1", fs:"#111110", sp:"#33ac66" }, // terrazzo
-    { bg:"repeating-linear-gradient(0deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),#0b0b16", fs:"#2f6bf0", sp:"#ffffff", filter:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)" } // electric grid
-  ];
+  const PROC = [];                 // all-photo reel now (CSS finishes retired)
   const SCENES = IMG.concat(PROC);
   const INTERVAL = 200; // ms per cut (~5/sec)
-  // luminance tier per scene, aligned to SCENES order (0 dark · 1 mid · 2 light) — the
-  // picker never jumps straight light↔dark, so 200ms hard cuts don't hard-strobe
-  const LUM = [2,1,0,0,0,2,2,2,1,0,2,0, 0,0,2,0];
+  // luminance tier per scene (0 dark · 1 mid · 2 light) — the picker never jumps straight
+  // light↔dark, so 200ms hard cuts don't hard-strobe (photosensitivity)
+  const LUM = [1,2,0,2,0,2,0,2,0,1,2,2];
 
   IMG.forEach(s => { const im = new Image(); im.src = s.img; }); // preload the photos
 
