@@ -2471,7 +2471,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     if(!PAGES.includes(id)) id="home";
     pages.forEach(p=>p.classList.toggle("active",p.id===id));
     navLinks.forEach(l=>l.classList.toggle("active",l.getAttribute("data-nav")===id));
-    document.querySelectorAll('[data-nav="services"]').forEach(l=>l.classList.toggle("active", id==="services"||id.indexOf("svc-")===0));
+    document.querySelectorAll('[data-nav="services"]').forEach(l=>l.classList.toggle("active", id==="services"));
     const active=document.getElementById(id);
     requestAnimationFrame(()=>active.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")));
     if(id==="contact") initCalendly();
