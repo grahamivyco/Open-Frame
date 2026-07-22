@@ -288,7 +288,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* hero — wide, short */
 /* hero — split 50/50, NO container box: words centred in the left half, the mark
    "reel" filling the right half and as tall as the old cream box was */
-.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,2.6vw,30px)}
+.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);overflow:hidden;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,2.6vw,30px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
 /* the mark "reel" — fills its 50% column, height = cream-box height. Two stacked
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
@@ -330,7 +330,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
      bottom always clears the browser's bottom toolbar. */
   html.snap-deck .hero-sect{justify-content:center}
   html.snap-deck .hero-sect>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;width:100%;justify-content:center}
-  .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(16px,4vw,26px);min-height:0;flex:1 1 auto;padding:clamp(12px,3vw,24px) 0 calc(env(safe-area-inset-bottom,0px) + clamp(10px,2vh,18px))}
+  .hero{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(16px,4vw,26px);min-height:0;flex:1 1 auto;padding:clamp(20px,5vw,32px) clamp(20px,6vw,32px) calc(env(safe-area-inset-bottom,0px) + clamp(16px,3vh,24px))}
   .hero-inner{flex:0 0 auto;max-width:none;margin:0}
   .hero .eyebrow{display:none}                       /* folded away → fewer lines, less whitespace */
   .hero h1{font-size:clamp(2.5rem,8.4vw,3.9rem)}
