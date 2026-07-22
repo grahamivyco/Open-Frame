@@ -115,19 +115,19 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
      about/footer come up short on iPhone. 100dvh = the CURRENTLY-visible viewport, so
      each panel fills the screen whether the mobile browser's toolbar is shown or hidden
      (svh left a gap — the next section peeked once the toolbar retracted). */
-  html.snap-deck #home>section,html.snap-deck #work>section,html.snap-deck .site-footer{height:100svh;height:100dvh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
+  html.snap-deck #home>section,html.snap-deck #work>section,html.snap-deck #services>section,html.snap-deck #about>section,html.snap-deck .site-footer{height:100svh;height:100dvh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;scroll-snap-stop:always}
   html.snap-deck .site-footer{margin-top:0;padding-top:var(--head);padding-bottom:var(--gutter)}
   /* top-aligned sections (services, work): heading below the header, interactive
      block grows to fill; equal bottom margin (= side gutter) */
-  html.snap-deck #home>section.snaptop,html.snap-deck #work>section.snaptop{justify-content:flex-start;padding-top:var(--head);padding-bottom:var(--gutter)}
-  html.snap-deck #home>section.snaptop>.wrap,html.snap-deck #work>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-deck #home>section.snaptop,html.snap-deck #work>section.snaptop,html.snap-deck #services>section.snaptop,html.snap-deck #about>section.snaptop{justify-content:flex-start;padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck #home>section.snaptop>.wrap,html.snap-deck #work>section.snaptop>.wrap,html.snap-deck #services>section.snaptop>.wrap,html.snap-deck #about>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   html.snap-deck .snaptop .svc-acc,html.snap-deck .snaptop .pj-strip{height:auto;flex:1 1 auto;min-height:0}
   /* fill sections (about, contact, footer): inner container fills the hero-sized box.
      Contact uses the SAME top/bottom as about so the two tiles match in size + offset */
   /* NOTE: the .cta-band selector MUST carry the #home>section / #work>section id —
      otherwise the base `#home>section{padding-top:var(--sect)}` (higher specificity via
      the id) wins and contact starts too high / different from about. Recurring bug. */
-  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band{padding-top:var(--head);padding-bottom:var(--gutter)}
+  html.snap-deck #home>section.sect-narrow,html.snap-deck #home>section.cta-band,html.snap-deck #work>section.cta-band,html.snap-deck #services>section.cta-band,html.snap-deck #about>section.sect-narrow,html.snap-deck #about>section.cta-band{padding-top:var(--head);padding-bottom:var(--gutter)}
   html.snap-deck .sect-narrow>.wrap,html.snap-deck .cta-band>.wrap,html.snap-deck .site-footer>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   html.snap-deck .about-panel,html.snap-deck .cta-band .cta-dark,html.snap-deck .footer-bar{flex:1 1 auto;min-height:0}
   /* contact content vertically centred (needs display:flex for justify to apply) */
@@ -141,7 +141,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (min-width:821px) and (min-height:600px){
   /* about panel = FULL width (like the hero) + exactly hero-height (no overflow): the
      portrait is absolutely positioned so its intrinsic height can't inflate the panel */
-  html.snap-deck #home>section.sect-narrow>.wrap{max-width:var(--maxw)}
+  html.snap-deck #home>section.sect-narrow>.wrap,html.snap-deck #about>section.sect-narrow>.wrap{max-width:var(--maxw)}
   html.snap-deck .about-panel{grid-template-columns:1fr 1fr;align-items:stretch}
   html.snap-deck .about-panel .about-photo.cut{aspect-ratio:auto;height:auto;min-height:0;max-height:none}
   html.snap-deck .about-panel .about-photo.cut .portrait{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center}
@@ -1225,29 +1225,83 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== ABOUT ==================== -->
-<section class="page sub" id="about">
-  <section style="padding-top:0"><div class="wrap">
-    <div class="about-hero reveal">
-      <div class="about-hero-txt">
-        <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</span>
-        <h1>Hey, I&#39;m Graham.</h1>
-        <p>I&#39;m a designer and brand consultant in Minneapolis. Through my studio, <strong>Open Frame</strong>, I help people, growing organizations, startups, and nonprofits turn ideas into brands people remember — from identity and messaging to websites and the marketing that grows them. Off the clock, I&#39;m usually scuba diving, salsa dancing, or deep in some amateur paleontology.</p>
-        <div class="about-actions">
-          <a class="btn btn-dark" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-download"/></svg>View my résumé</a>
-          <a class="btn btn-line" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
+<section class="page" id="about">
+  <section class="sect-narrow">
+    <div class="wrap">
+      <div class="about-panel reveal">
+        <div class="about-photo cut">
+        <img class="portrait" src="images/graham-shoulders.png" alt="Graham Ivy"></div>
+        <div class="about-body">
+          <span class="eyebrow"><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</span>
+          <h1>Hey, I&#39;m Graham.</h1>
+          <p>I&#39;m a designer and brand consultant in Minneapolis. Through my studio, <strong>Open Frame</strong>, I help people, growing organizations, startups, and nonprofits turn ideas into brands people remember — from identity and messaging to websites and the marketing that grows them. Off the clock, I&#39;m usually scuba diving, salsa dancing, or deep in some amateur paleontology.</p>
+          <div class="about-actions">
+            <a class="btn btn-dark" href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-download"/></svg>View my résumé</a>
+            <a class="btn btn-line" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
+          </div>
         </div>
       </div>
-      <div class="about-photo cut"><img class="portrait" src="images/graham-shoulders.png" alt="Graham Ivy"></div>
     </div>
-  </div></section>
-  <section><div class="wrap">
-    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Principles</span><h2>How I approach the work.</h2></div>
-    <div class="prin-bento"><div class="prin-card p1"><svg class="pico" style="color:#f24333"><use href="#i-heart"/></svg><h3>Human-Centered</h3><p>Empathy, inclusion, and real-world context guide every design decision I make.</p></div><div class="prin-card p2"><svg class="pico" style="color:#2f6bf0"><use href="#i-bulb"/></svg><h3>Creatively Focused</h3><p>I bring imagination and clarity to problem-solving — thoughtful, engaging ways to meet user and business goals.</p></div><div class="prin-card p3"><svg class="pico" style="color:#f4bf3a"><use href="#i-chart"/></svg><h3>Data-Driven</h3><p>Grounded in user research, testing, and analytics — so solutions aren&#39;t just creative, but effective.</p></div><div class="prin-card p4"><svg class="pico" style="color:#33ac66"><use href="#i-refresh"/></svg><div class="pt"><h3>Always Evolving</h3><p>I embrace feedback, iterate often, and stay curious — because great design is never finished.</p></div></div></div>
-  </div></section>
-  <section><div class="wrap">
-    <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Career</span><h2>Where I&#39;ve worked.</h2></div>
-    <div class="xp"><div class="xp-row reveal"><div class="xp-when">2023 — Present</div><div class="xp-what"><h3>Wellness in the Woods</h3><div class="role">Communications Assistant · Visual Designer · Content Strategist</div><p>Leading the organization's visual and written voice across campaigns, social, marketing, and web.</p></div></div><div class="xp-row reveal"><div class="xp-when">Freelance</div><div class="xp-what"><h3>HelloSpoke</h3><div class="role">Brand &amp; Web Designer</div><p>A full rebrand and website rebuild — refreshing the brand identity and delivering a modern, on-brand site.</p></div></div><div class="xp-row reveal"><div class="xp-when">2022</div><div class="xp-what"><h3>Selina</h3><div class="role">Community Experience Designer</div><p>Designed touchpoints that brought a global hospitality community together.</p></div></div><div class="xp-row reveal"><div class="xp-when">2020 — 2023</div><div class="xp-what"><h3>SOTA Extracts Inc</h3><div class="role">Web Designer</div><p>Owned web design and visual assets for the brand from concept to launch.</p></div></div><div class="xp-row reveal"><div class="xp-when">2016 — 2020</div><div class="xp-what"><h3>Gustavus Adolphus College</h3><div class="role">Student Experience Designer</div><p>Created student-facing experiences and visual communications on campus.</p></div></div></div>
-  </div></section>
+  </section>
+
+  <section class="svc-stage snaptop">
+    <div class="wrap">
+      <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Principles</span>
+        <h2>How I approach the work.</h2></div>
+      <div class="svc-bento svc-acc">
+        <div class="svc-card s1 reveal">
+          <span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#f24333"><use href="#i-heart"/></svg>
+          <div class="svc-txt"><h3>Human-Centered</h3>
+            <p>Empathy, inclusion, and real-world context guide every decision. I design for actual people — their needs, their constraints, the messy reality they live in — not an idealized user on a perfect screen.</p></div></div>
+        </div>
+        <div class="svc-card s2 reveal d1">
+          <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#2f6bf0"><use href="#i-bulb"/></svg>
+          <div class="svc-txt"><h3>Creatively Focused</h3>
+            <p>I bring imagination and clarity to problem-solving — finding thoughtful, engaging ways to meet user and business goals without ever losing sight of the craft that makes work memorable.</p></div></div>
+        </div>
+        <div class="svc-card s3 reveal d2">
+          <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#f4bf3a"><use href="#i-chart"/></svg>
+          <div class="svc-txt"><h3>Data-Driven</h3>
+            <p>Grounded in user research, testing, and analytics — so solutions aren&#39;t just creative, they&#39;re effective. I let evidence, not ego, settle the hard calls.</p></div></div>
+        </div>
+        <div class="svc-card s4 reveal">
+          <span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#33ac66"><use href="#i-refresh"/></svg>
+          <div class="svc-txt"><h3>Always Evolving</h3>
+            <p>I embrace feedback, iterate often, and stay curious — because great design is never finished, only improved. Every project teaches the next one.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="snaptop">
+    <div class="wrap">
+      <div class="section-head head-row reveal">
+        <div><span class="eyebrow"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Career</span><h2>Where I&#39;ve worked.</h2></div>
+      </div>
+      <div class="pj-grid pj-strip">
+        <div class="pj reveal" data-name="Wellness in the Woods" data-desc="Communications Assistant · Visual Designer · Content Strategist (2023–Present). Leading the organization's visual and written voice across campaigns, social, and web." data-accent="#33ac66">
+          <div class="face"><span class="fold"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+        <div class="pj reveal d1" data-name="HelloSpoke" data-desc="Brand &amp; Web Designer, freelance. A full rebrand and website rebuild — a modern, on-brand identity and site." data-accent="#2f6bf0">
+          <div class="face"><span class="fold"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+        <div class="pj reveal d2" data-name="Selina" data-desc="Community Experience Designer (2022). Designed touchpoints that brought a global hospitality community together." data-accent="#f4bf3a">
+          <div class="face"><span class="fold"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+        <div class="pj reveal d3" data-name="SOTA Extracts Inc" data-desc="Web Designer (2020–2023). Owned web design and visual assets for the brand from concept to launch." data-accent="#f24333">
+          <div class="face"><span class="fold"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+        <div class="pj reveal" data-name="Gustavus Adolphus College" data-desc="Student Experience Designer (2016–2020). Created student-facing experiences and visual communications on campus." data-accent="#33ac66">
+          <div class="face"><span class="fold"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-band"><div class="wrap">
     <div class="cta-dark reveal">
       <div class="cta-shapes" aria-hidden="true">
@@ -1258,8 +1312,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       </div>
       <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
-      <h2>Ready to bring your brand into frame?</h2>
-      <p>A project in mind? Start one — or grab a free 30-minute call and let&#39;s talk it through.</p>
+      <h2>Let&#39;s make something together.</h2>
+      <p>Whether it&#39;s a brand, a site, or a big idea you&#39;re still shaping — I&#39;d love to hear what you&#39;re working on.</p>
       <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
         <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
@@ -1326,22 +1380,74 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 </section>
 
 <!-- ==================== SERVICES (overview) ==================== -->
-<section class="page sub" id="services">
-  <section class="subhero"><div class="wrap">
-    <span class="eyebrow reveal"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Services</span>
-    <h1 class="reveal d1">How I can help.</h1>
-    <p class="reveal d2">Four ways I help growing brands move forward. Pick a starting point, or book a call and we'll find the right one together.</p>
-  </div></section>
-  <section><div class="wrap"><div class="svc-bento"><div class="svc-card s1 reveal" data-go="svc-brand"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span><svg class="ico" style="color:#f24333"><use href="#i-brand"/></svg><h3>Brand Identity &amp; Strategy</h3><p>Logos, visual systems, positioning, and the story that ties it together — so your brand looks and sounds the part.</p><ul><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Logo &amp; visual identity</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand guidelines</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; messaging</li></ul></div><div class="svc-card s2 reveal d1" data-go="svc-web"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span><svg class="ico" style="color:#2f6bf0"><use href="#i-web"/></svg><h3>Web &amp; Product Design</h3><p>Websites and product UX, from research to responsive build.</p><ul><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Websites &amp; landing pages</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Product UX &amp; UI design</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive build &amp; handoff</li></ul></div><div class="svc-card s3 reveal d2" data-go="svc-marketing"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span><svg class="ico" style="color:#f4bf3a"><use href="#i-marketing"/></svg><h3>Marketing &amp; Content</h3><p>Campaigns, social, and content across every touchpoint.</p><ul><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Campaigns &amp; social</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Content &amp; copywriting</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Email &amp; collateral</li></ul></div><div class="svc-card s4 reveal" data-go="svc-growth"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span><svg class="ico" style="color:#33ac66"><use href="#i-growth"/></svg><div class="s4txt"><h3>Brand Growth &amp; Consulting</h3><p>A clear roadmap to scale — turning where you are today into where you want your brand to go.</p><ul><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; roadmap</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand audits</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Ongoing consulting</li></ul></div></div></div></div></section>
-  <section><div class="wrap">
-    <div class="section-head head-row reveal"><div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Work</span><span class="eb-b">See all work</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>Selected projects.</h2></div></div>
-    <div class="pj-grid">
-      <div class="pj reveal" data-go="hmong"><div class="face"><img class="cover" src="images/cover-hmong.png" alt="Hmong Cultural Center" loading="lazy" decoding="async"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div><div class="meta"><h3>Hmong Cultural Center</h3><div class="cat">Responsive Redesign</div></div></div>
-      <div class="pj reveal d1" data-go="parkngo"><div class="face"><img class="cover" src="images/cover-parkngo.png" alt="Park n Go" loading="lazy" decoding="async"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div><div class="meta"><h3>Park n Go</h3><div class="cat">App Design · UX</div></div></div>
-      <div class="pj reveal d2" data-go="wellness"><div class="face"><img class="cover" src="images/cover-wellness.png" alt="Wellness in the Woods" loading="lazy" decoding="async"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div><div class="meta"><h3>Wellness in the Woods</h3><div class="cat">Brand · Marketing · Web</div></div></div>
-      <div class="pj reveal d3" data-go="hellospoke"><div class="face"><img class="cover" src="images/cover-hellospoke.png" alt="HelloSpoke" loading="lazy" decoding="async"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div><div class="meta"><h3>HelloSpoke</h3><div class="cat">Rebrand · Website</div></div></div>
+<section class="page" id="services">
+  <section class="svc-stage snaptop">
+    <div class="wrap">
+      <div class="section-head wide reveal"><span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Services</span>
+        <h2>How I can help.</h2></div>
+      <div class="svc-bento svc-acc">
+        <div class="svc-card s1 reveal" data-go="svc-brand">
+          <span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#f24333"><use href="#i-brand"/></svg>
+          <div class="svc-txt"><h3>Brand Identity &amp; Strategy</h3>
+            <p>Your brand is more than a logo — it's how people recognize, trust, and talk about you. I build the whole system: a distinctive mark, a cohesive visual language, and the positioning and messaging that tie it together — documented in guidelines your whole team can run with.</p>
+            <ul><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Logo &amp; visual identity</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand guidelines &amp; systems</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; messaging</li></ul></div></div>
+        </div>
+        <div class="svc-card s2 reveal d1" data-go="svc-web">
+          <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#2f6bf0"><use href="#i-web"/></svg>
+          <div class="svc-txt"><h3>Web &amp; Product Design</h3>
+            <p>From a first landing page to a full product interface, I design sites and experiences that are as usable as they are beautiful — grounded in research, prototyped, tested, and handed off ready to build (or built by me).</p>
+            <ul><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Websites &amp; landing pages</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Product UX &amp; UI design</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive build &amp; handoff</li></ul></div></div>
+        </div>
+        <div class="svc-card s3 reveal d2" data-go="svc-marketing">
+          <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#f4bf3a"><use href="#i-marketing"/></svg>
+          <div class="svc-txt"><h3>Marketing &amp; Content</h3>
+            <p>Design that actually gets seen. I create the campaigns, social content, email, and collateral that carry your brand across every touchpoint — consistent, on-message, and made to move people to act.</p>
+            <ul><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Campaigns &amp; social</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Content &amp; copywriting</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Email &amp; collateral</li></ul></div></div>
+        </div>
+        <div class="svc-card s4 reveal" data-go="svc-growth">
+          <span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
+          <div class="svc-main"><svg class="ico" style="--sccol:#33ac66"><use href="#i-growth"/></svg>
+          <div class="svc-txt"><h3>Brand Growth &amp; Consulting</h3>
+            <p>Sometimes you don't need a deliverable — you need a plan. I act as an ongoing design partner: auditing where your brand stands today, mapping where it's headed, and guiding the decisions that get it there.</p>
+            <ul><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand audits</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; roadmap</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Ongoing consulting</li></ul></div></div>
+        </div>
+      </div>
     </div>
-  </div></section>
+  </section>
+
+  <section class="snaptop">
+    <div class="wrap">
+      <div class="section-head head-row reveal">
+        <div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Work</span><span class="eb-b">See all work</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>See it in practice.</h2></div>
+      </div>
+      <div class="pj-grid pj-strip">
+        <div class="pj reveal" data-go="hmong">
+          <div class="face"><img class="cover" src="images/cover-hmong.png" alt="Hmong Cultural Center" loading="lazy" decoding="async"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+          <div class="meta"><h3>Hmong Cultural Center</h3><div class="cat">Responsive Redesign</div></div>
+        </div>
+        <div class="pj reveal d1" data-go="parkngo">
+          <div class="face"><img class="cover" src="images/cover-parkngo.png" alt="Park n Go" loading="lazy" decoding="async"><span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+          <div class="meta"><h3>Park n Go</h3><div class="cat">App Design · UX</div></div>
+        </div>
+        <div class="pj reveal d2" data-go="wellness">
+          <div class="face"><img class="cover" src="images/cover-wellness.png" alt="Wellness in the Woods" loading="lazy" decoding="async"><span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+          <div class="meta"><h3>Wellness in the Woods</h3><div class="cat">Brand · Marketing · Web</div></div>
+        </div>
+        <div class="pj reveal d3" data-go="hellospoke">
+          <div class="face"><img class="cover" src="images/cover-hellospoke.png" alt="HelloSpoke" loading="lazy" decoding="async"><span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+          <div class="meta"><h3>HelloSpoke</h3><div class="cat">Rebrand · Website</div></div>
+        </div>
+        <div class="pj reveal" data-go="needlework">
+          <div class="face"><img class="cover" src="images/cover-needlework.png" alt="Needlework Guild of MN" loading="lazy" decoding="async"><span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span></div>
+          <div class="meta"><h3>Needlework Guild of MN</h3><div class="cat">Identity · Web</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cta-band"><div class="wrap">
     <div class="cta-dark reveal">
       <div class="cta-shapes" aria-hidden="true">
@@ -1352,8 +1458,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       </div>
       <svg class="mark cta-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       <a class="eyebrow eb-link" data-go="contact" style="justify-content:center;position:relative;z-index:1"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Contact</span><span class="eb-b">Get in touch</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
-      <h2>Ready to bring your brand into frame?</h2>
-      <p>A project in mind? Start one — or grab a free 30-minute call and let's talk it through.</p>
+      <h2>Not sure where to start?</h2>
+      <p>Tell me what you're working on and we'll map the right service to where your brand is right now — no pressure, just a plan.</p>
       <div class="cta-actions" style="position:relative;z-index:1;display:flex;gap:13px;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-white" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
         <a class="btn btn-owhite" href="https://calendly.com/grahamivy-co/30min" target="_blank" rel="noopener"><svg class="bi" width="15" height="15"><use href="#i-calendar"/></svg>Book a 30-min call</a>
@@ -2370,7 +2476,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     const active=document.getElementById(id);
     requestAnimationFrame(()=>active.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")));
     if(id==="contact") initCalendly();
-    document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work");  /* full-page snap decks */
+    document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work"||id==="services"||id==="about");  /* full-page snap decks */
     setMeta(id);
     scrollTo(0,0);
     document.querySelector(".nav").classList.remove("open");
@@ -2499,8 +2605,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       function stop(){ clearInterval(timer); timer=0; }
       new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting?start():stop(); }); },{threshold:.35}).observe(items[0].parentElement);
     }
-    var acc=document.querySelector("#home .svc-acc");
-    if(acc) wire([].slice.call(acc.querySelectorAll(".svc-card")),3600);
+    document.querySelectorAll(".svc-stage .svc-acc").forEach(function(acc){
+      wire([].slice.call(acc.querySelectorAll(".svc-card")),3600);
+    });
     /* per-project tile colour for the expanding "logo" strips (home + work):
        hmong pink, park n go yellow, wellness green, hellospoke blue, needlework
        cranberry — drives the 12% bg tint + fold/arrow */
@@ -2508,18 +2615,23 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     document.querySelectorAll(".pj-strip").forEach(function(strip){
       strip.querySelectorAll(".pj").forEach(function(pj){
         var face=pj.querySelector(".face"), id=pj.getAttribute("data-go"), p=PROJECTS[id];
-        if(!face||!p) return;
-        var col=TILE[id]||p.accent, oc=onAccent(col);
+        /* projects pull name/desc/colour from PROJECTS; other strips (e.g. the About
+           career strip) provide their own via data-name / data-desc / data-accent */
+        var name=p?p.name:pj.getAttribute("data-name");
+        var desc=p?p.desc:pj.getAttribute("data-desc");
+        var col=(p?(TILE[id]||p.accent):pj.getAttribute("data-accent"))||"#111110";
+        if(!face||!name) return;
+        var oc=onAccent(col);
         pj.style.setProperty("--accent",col);
         var fold=pj.querySelector(".fold"); if(fold) fold.style.background=col;
         var arr=pj.querySelector(".arr"); if(arr) arr.style.color=oc;
         if(!face.querySelector(".pj-tab")){
-          var t=document.createElement("span"); t.className="pj-tab"; t.textContent=p.name; face.appendChild(t);
+          var t=document.createElement("span"); t.className="pj-tab"; t.textContent=name; face.appendChild(t);
         }
         if(!face.querySelector(".pj-logo")){
           var l=document.createElement("div"); l.className="pj-logo";
-          var w=document.createElement("span"); w.className="pw"; w.textContent=p.name;
-          var d=document.createElement("p"); d.textContent=p.desc;
+          var w=document.createElement("span"); w.className="pw"; w.textContent=name;
+          var d=document.createElement("p"); d.textContent=desc||"";
           l.appendChild(w); l.appendChild(d); face.appendChild(l);
         }
       });
