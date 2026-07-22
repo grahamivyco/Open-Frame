@@ -266,6 +266,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .nav-links a .mi{display:none}
 .nav-links a .nav-spark{display:none}   /* active-page sparkle: shown only in the mobile menu */
 .nav-links a.only-mobile{display:none}
+.nav-h,.nav-sub,.nav-mark{display:none}   /* footer-style menu bits — mobile menu only */
 .nav-links a:hover,.nav-links a.active{color:var(--ink);background:rgba(0,0,0,.05)}
 .nav-cta{margin-left:6px;padding:11px 20px;color:#fff!important;background:var(--ink);transition:background .16s,box-shadow .3s}
 .nav-links a.nav-cta:hover{background:var(--red);color:#fff}
@@ -827,41 +828,48 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 
 @media (max-width:860px){
   body{font-size:16px}
-  /* Open Frame full-screen CREAM menu — sized like a deck card (fills the viewport
-     minus the header + the gap below it, with side/bottom gutters). Home-page feel:
-     flat cream, big text nav in the site font, dark pill CTA, icon-only socials. */
-  .nav-links{position:fixed;top:var(--head);left:var(--gutter);right:var(--gutter);bottom:var(--gutter);width:auto;z-index:119;flex-direction:column;align-items:flex-start;gap:clamp(2px,.6vh,8px);padding:clamp(24px,5.5vw,48px);background:var(--panel);border:0;border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px rgba(17,17,16,.06);overflow:auto;opacity:0;transform:translateY(-10px) scale(.99);transform-origin:top center;visibility:hidden;pointer-events:none;transition:opacity .34s var(--ease),transform .42s var(--ease),visibility .34s}
+  /* Open Frame FOOTER-STYLE menu — cream deck-card panel (full screen minus the
+     header + gap), NO border: a "Pages" heading, a small link list (service
+     sub-pages indented), icon-only socials, and the big cut-off wordmark. */
+  .nav-links{position:fixed;top:var(--head);left:var(--gutter);right:var(--gutter);bottom:var(--gutter);width:auto;z-index:119;flex-direction:column;align-items:flex-start;gap:clamp(2px,.5vh,7px);padding:clamp(24px,6vw,46px);background:var(--panel);border:0;border-radius:var(--r-lg);overflow:hidden;opacity:0;transform:translateY(-10px) scale(.99);transform-origin:top center;visibility:hidden;pointer-events:none;transition:opacity .34s var(--ease),transform .42s var(--ease),visibility .34s}
   .nav.open .nav-links{opacity:1;transform:none;visibility:visible;pointer-events:auto}
   /* show the backdrop whenever the menu is open (updates automatically via :has) */
   .site-header:has(.nav.open) ~ .nav-scrim{opacity:1;visibility:visible;pointer-events:auto}
   .nav-links .menu-label{display:none}
-  /* big text nav — same font family as the desktop menu (var(--sans)), left-aligned */
-  .nav-links a{padding:clamp(6px,1.1vh,14px) 0;font-family:var(--sans);font-size:clamp(1.5rem,6.4vw,2.15rem);font-weight:500;line-height:1.1;border-radius:0;color:var(--ink-2);gap:.5em;transition:color .25s}
-  .nav-drop{display:block;width:100%}
-  .nav-drop .nav-drop-t{display:flex;width:100%}
-  .svc-drop{display:none}
-  /* active page: the label goes ink + a brand sparkle appears beside it */
-  .nav-links a .nav-spark{display:none;width:.62em;height:.62em;flex:0 0 auto}
-  .nav-links a.active .nav-spark{display:inline-block}
+  /* keep content above the giant wordmark */
+  .nav-links>*{position:relative;z-index:1}
+  /* "Pages" heading — same treatment as the footer */
+  .nav-h{display:block;font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 clamp(6px,1.2vh,12px)}
+  /* smaller footer-style links (site font), left-aligned */
+  .nav-links a{display:inline-flex;align-items:center;padding:clamp(2px,.55vh,6px) 0;font-family:var(--sans);font-size:clamp(1.12rem,4.9vw,1.42rem);font-weight:500;line-height:1.16;border-radius:0;color:var(--ink-2);gap:0;transition:color .25s}
+  /* .nav-links prefix beats the later desktop `.nav-drop`/`.svc-drop` rules */
+  .nav-links .nav-drop{display:block;width:100%}
+  .nav-links .nav-drop .nav-drop-t{display:inline-flex;width:auto}
+  .nav-links .svc-drop{display:none}
+  /* service sub-pages — indented, lighter, a touch smaller */
+  .nav-links .nav-sub{display:flex;flex-direction:column;width:100%;padding-left:clamp(18px,5vw,30px)}
+  .nav-sub a{font-size:clamp(.98rem,4.1vw,1.18rem);font-weight:400;color:var(--muted)}
+  /* sparkle pops in on hover AND active (like the footer's fspark) */
+  .nav-links a .nav-spark{display:inline-block;width:0;height:.72em;opacity:0;fill:currentColor;flex:0 0 auto;transform:scale(.5) rotate(-40deg);transition:width .3s var(--ease),opacity .3s var(--ease),margin-right .3s var(--ease),transform .4s cubic-bezier(.34,1.56,.64,1)}
+  .nav-links a:hover .nav-spark,.nav-links a.active .nav-spark{width:.72em;opacity:1;margin-right:9px;transform:none}
   .nav-links a.only-mobile{display:inline-flex}
   .nav-links a:hover,.nav-links a.active{background:none;color:var(--ink)}
-  /* dark pill CTA (like the hero) pushed to the bottom of the panel, left-aligned.
-     Selector must out-specify `.nav-links a` (which zeroes the horizontal padding
-     and blows up the font for the big text-nav links). */
-  .nav-links a.nav-cta{margin:auto 0 0;align-self:flex-start;justify-content:center;gap:10px;padding:15px 28px;border-radius:var(--pill);font-size:16px;font-weight:500;line-height:1}
-  .nav-cta .mi{display:none!important}
-  .nav-cta .nav-spark{display:none!important}
-  /* socials: icon-only squares, left-aligned, directly under the CTA */
-  .nav-links .nav-socials{display:flex;gap:11px;margin-top:clamp(14px,2.2vh,22px);padding:0;border:0}
-  .nav-socials a{width:clamp(46px,13vw,54px);height:clamp(46px,13vw,54px);padding:0;flex:0 0 auto;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:14px;color:var(--ink);background:transparent;transition:background .25s,color .25s,border-color .25s}
+  /* no "Start a project" button in the menu */
+  .nav-cta{display:none!important}
+  /* socials: icon-only, NO container (like the footer) */
+  .nav-links .nav-socials{display:flex;gap:18px;margin-top:clamp(16px,2.6vh,26px);padding:0;border:0}
+  .nav-socials a{width:auto;height:auto;padding:0;border:0;border-radius:0;background:none;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;transition:color .25s var(--ease),transform .25s var(--ease)}
   .nav-socials a span{display:none}
-  .nav-socials a svg{width:21px;height:21px;flex:0 0 auto}
-  .nav-socials a:nth-child(1):hover{background:var(--blue);border-color:var(--blue);color:#fff}
-  .nav-socials a:nth-child(2):hover{background:var(--red);border-color:var(--red);color:#fff}
-  .nav-socials a:nth-child(3):hover{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+  .nav-socials a svg{width:24px;height:24px;flex:0 0 auto}
+  .nav-socials a:hover{transform:translateY(-2px)}
+  .nav-socials a:nth-child(1):hover{color:var(--blue)}
+  .nav-socials a:nth-child(2):hover{color:var(--red)}
+  .nav-socials a:nth-child(3):hover{color:var(--yellow)}
+  /* big brand mark, half cut off at the bottom centre */
+  .nav-mark{display:block;position:absolute;left:50%;bottom:0;z-index:0;width:clamp(220px,62vw,380px);height:auto;transform:translate(-50%,50%);color:#e5e2d7;pointer-events:none;user-select:none}
   /* fluid stagger of items */
-  .nav-links>*{opacity:0;transform:translateY(6px);transition:opacity .38s var(--ease),transform .42s var(--ease)}
-  .nav.open .nav-links>*{opacity:1;transform:none}
+  .nav-links>*:not(.nav-mark){opacity:0;transform:translateY(6px);transition:opacity .38s var(--ease),transform .42s var(--ease)}
+  .nav.open .nav-links>*:not(.nav-mark){opacity:1;transform:none}
   .nav.open .nav-links>*:nth-child(1){transition-delay:.05s}
   .nav.open .nav-links>*:nth-child(2){transition-delay:.09s}
   .nav.open .nav-links>*:nth-child(3){transition-delay:.13s}
@@ -1080,6 +1088,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       <a class="brand" href="#home" aria-label="Open Frame — home"><svg class="mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg><span class="wordmark">Open&nbsp;Frame</span></a>
       <div class="nav-links">
         <span class="menu-label"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Menu</span>
+        <span class="nav-h">Pages</span>
         <a href="#home" data-nav="home" class="only-mobile"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Home</a>
         <a href="#work" data-nav="work"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Work</a>
         <div class="nav-drop">
@@ -1093,14 +1102,22 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
             </div>
             <div class="svc-drop-media"><img id="svcDropImg" src="images/cover-hellospoke.png" alt=""></div>
           </div>
+          <div class="nav-sub">
+            <a data-go="svc-brand" data-nav="svc-brand"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand Identity &amp; Strategy</a>
+            <a data-go="svc-web" data-nav="svc-web"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Web &amp; Product Design</a>
+            <a data-go="svc-marketing" data-nav="svc-marketing"><svg class="nav-spark spark c-yellow" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Marketing &amp; Content</a>
+            <a data-go="svc-growth" data-nav="svc-growth"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand Growth &amp; Consulting</a>
+          </div>
         </div>
         <a href="#about" data-nav="about"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
+        <a href="#contact" data-nav="contact" class="only-mobile"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
         <a class="btn nav-cta" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
         <div class="nav-socials only-mobile">
           <a href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18"><use href="#i-linkedin"/></svg><span>LinkedIn</span></a>
           <a href="mailto:hello@openframe.design" aria-label="Email"><svg width="18" height="18"><use href="#i-mail"/></svg><span>Email</span></a>
           <a href="Graham-Ivy-Resume.pdf" target="_blank" rel="noopener" aria-label="Résumé"><svg width="18" height="18"><use href="#i-file"/></svg><span>Résumé</span></a>
         </div>
+        <svg class="nav-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       </div>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     </nav>
