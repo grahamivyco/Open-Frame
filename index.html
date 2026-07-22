@@ -194,8 +194,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
 .hero-reel{order:2;position:relative;width:100%;height:var(--hero-h);justify-self:end;border-radius:clamp(24px,3vw,44px);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
 .hero-reel.on{opacity:1}
-.reel-bg{position:absolute;inset:0;background-color:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0}
-.reel-bg.show{opacity:1}   /* no transition here → hard cut */
+.reel-bg{position:absolute;inset:0;background-color:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity .9s ease}
+.reel-bg.show{opacity:1}   /* fluid crossfade between frames */
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -2357,13 +2357,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 })();
 </script>
 
-<!-- Hero "brand mark reel" — the right-half panel hard-cuts (200ms, no fade) through
-     14 photoreal shots of the Open Frame mark in materials/environments. Two stacked
-     .reel-bg layers swap instantly (the incoming layer is set + shown while the old
-     one is hidden in the same frame) and every image is decoded up front, so the
-     loop never flickers or stutters. A LUM tier stops light↔dark jumps (photosensitivity).
-     Respects prefers-reduced-motion; pauses off-home / when hidden. Add a material by
-     dropping a square shot into images/hero/of-NAME.webp and appending "NAME" to IMG. -->
+<!-- Hero "brand mark reel" — the right-half panel dissolves (~2.8s hold + ~0.9s
+     crossfade) through 14 photoreal shots of the Open Frame mark in materials.
+     Two stacked .reel-bg layers cross-fade (incoming layer's image set + faded in
+     while the outgoing fades out) and every image is decoded up front, so the loop
+     never flashes. Respects prefers-reduced-motion; pauses off-home / when hidden.
+     Add a material by dropping a square shot into images/hero/of-NAME.webp + IMG. -->
 <script>
 (() => {
   "use strict";
@@ -2377,28 +2376,20 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   // real photoreal shots of the mark — all 2000² with identical size / placement
   const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon","tile","succulent"]
     .map(n => "images/hero/of-" + n + ".webp");
-  const INTERVAL = 200; // ms per cut (~5/sec)
-  // luminance tier per image (0 dark · 1 mid · 2 light) — the picker never jumps straight
-  // light↔dark, so 200ms hard cuts don't hard-strobe (photosensitivity)
-  const LUM = [1,2,0,2,0,2,0,2,0,1,2,2,2,2];
+  const INTERVAL = 2800; // ms per frame — long hold, then a fluid ~0.9s crossfade
 
-  // preload AND decode every frame up front so swaps are instant (no stutter)
+  // preload AND decode every frame up front so the crossfade never catches a raw image
   IMG.forEach(src => { const im = new Image(); im.src = src; if (im.decode) im.decode().catch(() => {}); });
 
   let front = 0, idx = 0, timer = 0, playing = false;
-  function show(i){                                  // instant hard cut via two layers
+  function show(i){                                  // crossfade via two stacked layers
     const back = layers[(front + 1) % 2];
     back.style.backgroundImage = "url('" + IMG[i] + "')";
     back.classList.add("show");
     layers[front].classList.remove("show");
     front = (front + 1) % 2;
   }
-  function nextIdx(cur){
-    let n, guard = 0;
-    do { n = Math.floor(Math.random() * IMG.length); guard++; }
-    while ((n === cur || Math.abs(LUM[n] - LUM[cur]) > 1) && guard < 40);  // no light<->dark jump
-    return n;
-  }
+  function nextIdx(cur){ let n; do { n = Math.floor(Math.random() * IMG.length); } while (n === cur); return n; }
   function tick(){ idx = nextIdx(idx); show(idx); timer = setTimeout(tick, INTERVAL); }
   function play(){ if (playing || host.clientWidth === 0) return; playing = true; tick(); }
   function pause(){ playing = false; clearTimeout(timer); }
