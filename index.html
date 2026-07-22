@@ -148,13 +148,19 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   html.snap-deck #contact>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
   html.snap-deck #contact>section.contact-form-panel{padding-top:var(--head);padding-bottom:var(--gutter)}
   html.snap-deck #contact>section.contact-form-panel>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
-  /* the cream card fills the hero-sized box; its form grows so the message field
-     stretches to fill the rest of the panel */
+  /* the layout fills the hero-sized box; the cream card fills its half (desktop
+     grid stretch) / the space below the header (mobile stack), and the form grows
+     so the message field stretches to fill the rest of the card */
+  html.snap-deck #contact .cform-layout{flex:1 1 auto;min-height:0}
   html.snap-deck #contact .cform-card{flex:1 1 auto;min-height:0}
   html.snap-deck #contact .cform-card .contact-form{flex:1 1 auto;min-height:0}
   html.snap-deck #contact .cform-card .cform-msg{flex:1 1 auto;min-height:0}
   html.snap-deck #contact .cform-card .cform-msg textarea{flex:1 1 auto;min-height:0;height:100%}
 }
+/* while a contact field is focused, drop the mandatory full-screen snapping so the
+   mobile keyboard doesn't trap the focused field off-screen (the browser can then
+   scroll it into view). Toggled by JS on focusin/focusout of the form. */
+html.kb-typing{scroll-snap-type:none!important}
 /* about panel fills the hero-sized box: desktop/tablet = 50/50 with the photo at
    full height + copy vertically centred; mobile = stacked, photo fills the top */
 @media (min-width:821px) and (min-height:600px){
@@ -495,6 +501,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svc-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:center;margin-top:10px}
 .svc-hero-txt .eyebrow{margin-bottom:14px}
 .svc-hero-txt h1{margin:0 0 16px}
+/* keep the CTA at natural width — the snap-deck svc-hero-txt is a flex column
+   (align-items:stretch), which otherwise stretches the pill to the full column */
+.svc-hero-txt .btn{align-self:flex-start}
 .svc-hero-txt p{font-family:var(--sans);color:var(--ink-2);font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:44ch;margin-bottom:26px}
 .svc-hero-img{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/5;background:var(--panel)}
 .svc-hero-img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -602,16 +611,20 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .form-status{font-family:var(--sans);font-size:14px;color:var(--muted);min-height:18px}
 .form-status a{color:var(--blue);font-weight:500}
 /* full-screen cream form panel (contact) */
-.cform-card{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(26px,3.4vw,54px);display:flex;flex-direction:column}
-.cform-card>*{position:relative;z-index:1}
-.cform-head{flex:0 0 auto}
+/* header (eyebrow + heading + subtitle) sits OUTSIDE the cream card: beside it on
+   desktop (2-col grid), above it on tablet/mobile (stacked) */
+.cform-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(26px,4vw,60px);align-items:stretch}
+.cform-head{display:flex;flex-direction:column;justify-content:center}
 .cform-head h1{font-size:clamp(2rem,4.6vw,3.5rem);font-weight:500;line-height:1.02;letter-spacing:-.012em;margin-top:6px}
-.cform-head p{font-family:var(--sans);color:var(--ink-2);max-width:54ch;margin-top:14px;font-size:clamp(1.02rem,1.4vw,1.16rem)}
+.cform-head p{font-family:var(--sans);color:var(--ink-2);max-width:46ch;margin-top:14px;font-size:clamp(1.02rem,1.4vw,1.16rem)}
 .cform-head p a{color:var(--ink);font-weight:500;border-bottom:2px solid var(--ink)}
-.cform-card .contact-form{margin-top:clamp(20px,2.8vw,36px)}
+.cform-card{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(24px,3vw,46px);display:flex;flex-direction:column}
+.cform-card>*{position:relative;z-index:1}
+.cform-card .contact-form{margin-top:0}
 .cform-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .cform-msg{display:flex;flex-direction:column}
 .cform-msg textarea{flex:1 1 auto}
+@media(max-width:820px){.cform-layout{display:flex;flex-direction:column;gap:clamp(18px,3.4vw,30px)}}
 @media(max-width:560px){.cform-row{grid-template-columns:1fr}}
 .bento{margin-top:16px;display:grid;grid-template-columns:1.5fr 1fr;gap:16px;grid-template-areas:"cal mail" "cal link" "cal res"}
 .bx{border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;display:flex;flex-direction:column;justify-content:center;transition:transform .4s var(--ease),background .3s,border-color .3s}
@@ -1377,31 +1390,33 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 <section class="page" id="contact">
   <!-- Panel 1: the message form in a full-screen cream card (form grows to fill) -->
   <section class="contact-form-panel"><div class="wrap">
-    <div class="cform-card reveal">
-      <div class="ch-shapes" aria-hidden="true">
-        <span class="shape ch1"><span class="in"></span></span>
-        <span class="shape ch2"><span class="in"></span></span>
-        <span class="shape ch3"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
-      </div>
+    <div class="cform-layout reveal">
       <div class="cform-head">
         <span class="eyebrow"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</span>
         <h1>Tell me what you're building.</h1>
         <p>Tell me a little about it and I'll get back to you within a day or two — or reach me directly at <a href="mailto:hello@openframe.design">hello@openframe.design</a>.</p>
       </div>
-      <!-- Web3Forms (no account): get a free access key at web3forms.com by entering your email, then replace YOUR_ACCESS_KEY below. Submissions are emailed to you; nothing else to set up. -->
-      <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="800b9577-1510-4b13-a894-0f836d7dc846">
-        <input type="hidden" name="subject" value="New enquiry from the Open Frame site">
-        <input type="hidden" name="from_name" value="Open Frame website">
-        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
-        <div class="cform-row">
-          <div class="field"><label for="cName">Name</label><input id="cName" name="name" type="text" required autocomplete="name" placeholder="Your name"></div>
-          <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com"></div>
+      <div class="cform-card">
+        <div class="ch-shapes" aria-hidden="true">
+          <span class="shape ch1"><span class="in"></span></span>
+          <span class="shape ch2"><span class="in"></span></span>
+          <span class="shape ch3"><span class="in"><svg viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg></span></span>
         </div>
-        <div class="field cform-msg"><label for="cMsg">Message</label><textarea id="cMsg" name="message" required placeholder="Tell me a little about what you're working on…"></textarea></div>
-        <button class="btn btn-dark" type="submit"><svg class="bi" width="15" height="15"><use href="#i-send"/></svg>Send message</button>
-        <p class="form-status" role="status" aria-live="polite"></p>
-      </form>
+        <!-- Web3Forms (no account): get a free access key at web3forms.com by entering your email, then replace YOUR_ACCESS_KEY below. Submissions are emailed to you; nothing else to set up. -->
+        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="800b9577-1510-4b13-a894-0f836d7dc846">
+          <input type="hidden" name="subject" value="New enquiry from the Open Frame site">
+          <input type="hidden" name="from_name" value="Open Frame website">
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <div class="cform-row">
+            <div class="field"><label for="cName">Name</label><input id="cName" name="name" type="text" required autocomplete="name" placeholder="Your name"></div>
+            <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" required autocomplete="email" placeholder="you@email.com"></div>
+          </div>
+          <div class="field cform-msg"><label for="cMsg">Message</label><textarea id="cMsg" name="message" required placeholder="Tell me a little about what you're working on…"></textarea></div>
+          <button class="btn btn-dark" type="submit"><svg class="bi" width="15" height="15"><use href="#i-send"/></svg>Send message</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </div></section>
 
@@ -2492,6 +2507,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       } else {
         mailLink(s,name,email,msg,"This form isn't connected to a mailbox yet — for now,");
       }
+    });
+    /* mobile keyboard: the mandatory full-screen snap + fixed panel height otherwise
+       trap the focused field behind the on-screen keyboard. Drop snapping while a
+       field is focused so the browser can scroll it into view, and nudge it up. */
+    const de=document.documentElement;
+    form.addEventListener("focusin",function(e){
+      if(e.target.matches("input,textarea")){
+        de.classList.add("kb-typing");
+        setTimeout(function(){ try{e.target.scrollIntoView({block:"center",behavior:"smooth"});}catch(_){} },300);
+      }
+    });
+    form.addEventListener("focusout",function(e){
+      if(!form.contains(e.relatedTarget)) de.classList.remove("kb-typing");
     });
   }
 
