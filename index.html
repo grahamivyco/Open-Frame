@@ -186,22 +186,22 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .nav.open .nav-toggle .bars i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* hero — wide, short */
-/* hero — split 50/50: words on the cream side, the mark "reel" in its own panel */
-.hero{position:relative;background:var(--panel);border-radius:var(--r-lg);overflow:hidden;padding:clamp(32px,5vw,64px) clamp(24px,5vw,60px);text-align:left;margin:12px 0 var(--gutter);min-height:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(28px,4vw,60px)}
+/* hero — split 50/50, NO container box: words on the left, the mark "reel" on the
+   right, both sitting directly on the page (no cream panel behind them) */
+.hero{position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(32px,5vw,72px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
-/* the mark "reel" panel — the Open Frame mark cycling through materials / colours /
-   textures / environments. Real photo/AI shots drop in per scene via SCENES[].img. */
-.hero-reel{order:2;position:relative;align-self:stretch;min-height:clamp(340px,60vh,560px);border-radius:var(--r);overflow:hidden;perspective:1100px;box-shadow:inset 0 0 0 1px rgba(17,17,16,.07);opacity:0;transition:opacity .8s ease}
+/* the mark "reel" — a square panel cutting through real material shots of the mark
+   (grass, clouds, glass, tile, embroidery, chalk…) plus a few generated finishes */
+.hero-reel{order:2;position:relative;aspect-ratio:1/1;width:100%;max-width:520px;justify-self:center;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
 .hero-reel.on{opacity:1}
-.reel-bg{position:absolute;inset:0;background:var(--panel);background-size:cover;background-position:center}
-.reel-mark{position:absolute;top:50%;left:50%;width:min(64%,360px);height:auto;transform:translate(-50%,-50%);transform-style:preserve-3d;overflow:visible;will-change:transform,filter}
+.reel-bg{position:absolute;inset:0;background:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat}
+.reel-mark{position:absolute;top:50%;left:50%;width:52%;height:auto;transform:translate(-50%,-50%);overflow:visible;will-change:opacity,filter}
 .rm-frame{stroke:var(--rm-fs,#111110);fill:none}
 .rm-spark{fill:var(--rm-sp,#f24333)}
-/* per-cut: only the material/scene changes — the mark stays the SAME size & angle,
-   with just a soft fade as it swaps (no rotation / scale / skew) */
-@keyframes rm-in{from{opacity:.4}to{opacity:1}}
-.reel-mark.m-in{animation:rm-in .18s ease-out both}
-@media (prefers-reduced-motion:reduce){.reel-mark{animation:none!important}}
+/* quick fade on each cut — the mark holds the same size & angle (no rotate/scale/skew) */
+@keyframes rm-in{from{opacity:.35}to{opacity:1}}
+.reel-bg.cut,.reel-mark.cut{animation:rm-in .16s ease-out both}
+@media (prefers-reduced-motion:reduce){.reel-bg,.reel-mark{animation:none!important}}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -232,7 +232,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .hero h1{font-size:clamp(2.9rem,9vw,4.4rem)}
   .hero p{margin:18px auto 0}
   .hero-actions{justify-content:center}
-  .hero-reel{width:100%;min-height:clamp(260px,42vh,380px)}
+  .hero-reel{max-width:440px;margin:8px auto 0}
 }
 
 /* subhero */
@@ -923,13 +923,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       <div class="hero">
         <div class="hero-reel" aria-hidden="true">
           <div class="reel-bg"></div>
-          <svg class="reel-mark" viewBox="-20 -20 160 160" fill="none" aria-hidden="true">
+          <svg class="reel-mark" viewBox="18 18 84 84" fill="none" aria-hidden="true">
             <defs>
-              <linearGradient id="g-metal" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#f6f8fa"/><stop offset=".26" stop-color="#9aa0a8"/>
-                <stop offset=".5" stop-color="#eef1f4"/><stop offset=".74" stop-color="#6b707a"/>
-                <stop offset="1" stop-color="#cfd3d9"/>
-              </linearGradient>
               <linearGradient id="g-holo" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0" stop-color="#f24333"/><stop offset=".28" stop-color="#f4bf3a"/>
                 <stop offset=".54" stop-color="#33ac66"/><stop offset=".8" stop-color="#2f6bf0"/>
@@ -939,14 +934,6 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
                 <stop offset="0" stop-color="#fff6d8"/><stop offset=".45" stop-color="#f4bf3a"/>
                 <stop offset="1" stop-color="#8a6a1a"/>
               </radialGradient>
-              <linearGradient id="g-glass" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ffffff" stop-opacity=".95"/><stop offset=".5" stop-color="#dfeaff" stop-opacity=".7"/>
-                <stop offset="1" stop-color="#ffffff" stop-opacity=".9"/>
-              </linearGradient>
-              <filter id="f-liquid" x="-40%" y="-40%" width="180%" height="180%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.013 0.021" numOctaves="2" seed="7" result="n"/>
-                <feDisplacementMap in="SourceGraphic" in2="n" scale="15" xChannelSelector="R" yChannelSelector="G"/>
-              </filter>
             </defs>
             <path class="rm-frame" d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
             <g transform="translate(60,60) scale(0.42)"><path class="rm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></g>
@@ -2390,12 +2377,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 })();
 </script>
 
-<!-- Hero "brand mark reel" — the Open Frame mark, centred, cutting fast through
-     materials / colours / textures / environments (chrome, neon, holo, gold,
-     blueprint, liquid metal, risograph, glass…), each with a quick motion, while
-     the headline rides on top. Pure CSS/SVG (no assets). Respects
-     prefers-reduced-motion (one static scene) and pauses off-home / when hidden.
-     Real photo/AI scenes can be dropped in later by swapping SCENES[].bg. -->
+<!-- Hero "brand mark reel" — a square panel that hard-cuts (400ms) through real
+     material shots of the Open Frame mark (grass, clouds, glass, tile, embroidery,
+     chalk, flowers, ice, chrome, neon, croissant, amber) plus a few generated
+     finishes (holographic, gold, terrazzo, electric grid) at the same focal point.
+     Respects prefers-reduced-motion; pauses off-home / when hidden. Add a material
+     by dropping a square shot into images/hero/ and appending its name to IMG. -->
 <script>
 (() => {
   "use strict";
@@ -2406,65 +2393,49 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   const host = reel.closest(".hero");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Each scene = a background environment + the mark's frame/spark colour + optional filter.
-  const SCENES = [
-    { bg:"radial-gradient(120% 120% at 50% 25%, #34363b, #0d0e11)", fs:"url(#g-metal)", sp:"url(#g-metal)" },                                   // chrome studio
-    { bg:"#0b0b12", fs:"#f24333", sp:"#ffffff", filter:"drop-shadow(0 0 7px #f24333) drop-shadow(0 0 18px #f24333)" },                         // neon red
-    { bg:"linear-gradient(135deg,#f4bf3a,#f24333)", fs:"#ffffff", sp:"#ffffff" },                                                              // sunset
-    { bg:"linear-gradient(135deg,#2f6bf0,#33ac66)", fs:"#ffffff", sp:"#f4bf3a" },                                                              // ocean
-    { bg:"#f3f1ea", fs:"#111110", sp:"#f24333" },                                                                                              // cream paper (brand)
-    { bg:"repeating-linear-gradient(0deg,rgba(219,230,255,.16) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,rgba(219,230,255,.16) 0 1px,transparent 1px 26px),#123a8f", fs:"#e8f0ff", sp:"#e8f0ff" }, // blueprint
-    { bg:"#0e0f12", fs:"url(#g-holo)", sp:"url(#g-holo)", filter:"drop-shadow(0 0 6px rgba(176,107,240,.6))" },                                // holographic
-    { bg:"radial-gradient(120% 120% at 50% 20%, #201a08, #050403)", fs:"url(#g-gold)", sp:"url(#g-gold)", filter:"drop-shadow(0 0 8px rgba(244,191,58,.5))" }, // gold luxe
-    { bg:"radial-gradient(circle at 50% 45%, #3a3d44, #0f1013)", fs:"url(#g-metal)", sp:"url(#g-metal)", filter:"url(#f-liquid)" },            // liquid metal
-    { bg:"radial-gradient(rgba(17,17,16,.16) 22%,transparent 23%) 0 0/15px 15px,#f4bf3a", fs:"#111110", sp:"#f24333" },                        // pop halftone
+  // real photo/AI shots of the mark (square, consistent focal point)
+  const IMG = ["grass","clouds","glass","embroidery","chalk","flowers","tile","ice","chrome","neon","croissant","amber"]
+    .map(n => ({ img:"images/hero/of-" + n + ".webp" }));
+  // a few generated finishes — the SVG mark sized to the same focal point as the photos
+  const PROC = [
+    { bg:"#0e0f12", fs:"url(#g-holo)", sp:"url(#g-holo)", filter:"drop-shadow(0 0 6px rgba(176,107,240,.6))" },                       // holographic
+    { bg:"radial-gradient(120% 120% at 50% 20%, #201a08, #050403)", fs:"url(#g-gold)", sp:"url(#g-gold)", filter:"drop-shadow(0 0 8px rgba(244,191,58,.5))" }, // gold
     { bg:"radial-gradient(circle at 50% 50%,#f24333 0 2.5px,transparent 3px) 0 0/40px 40px,radial-gradient(circle at 20% 70%,#2f6bf0 0 2.5px,transparent 3px) 0 0/33px 33px,radial-gradient(circle at 80% 30%,#33ac66 0 2.5px,transparent 3px) 0 0/47px 47px,#efece1", fs:"#111110", sp:"#33ac66" }, // terrazzo
-    { bg:"linear-gradient(160deg,#33ac66,#1f7a49)", fs:"#f3f1ea", sp:"#f4bf3a" },                                                              // green field
-    { bg:"linear-gradient(130deg,#2f6bf0,#f24333 55%,#f4bf3a)", fs:"url(#g-glass)", sp:"#ffffff", filter:"blur(.2px) drop-shadow(0 0 5px rgba(255,255,255,.5))" }, // iridescent glass
-    { bg:"#111110", fs:"#f3f1ea", sp:"#f24333" },                                                                                              // night invert
-    { bg:"repeating-linear-gradient(0deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),#0b0b16", fs:"#2f6bf0", sp:"#ffffff", filter:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)" }, // electric grid
-    { bg:"radial-gradient(130% 120% at 50% 30%, #fbf4dd, #f0e7cf)", fs:"#f24333", sp:"#2f6bf0" }                                               // marigold cream
+    { bg:"repeating-linear-gradient(0deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),#0b0b16", fs:"#2f6bf0", sp:"#ffffff", filter:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)" } // electric grid
   ];
-  const MOTIONS = ["m-in"];  // no rotation/scale/skew — mark keeps the same size & angle
-  const INTERVAL = 200; // ms per cut (~5/sec)
-  // luminance tier per scene (0 dark · 1 mid · 2 light) — the sequence never jumps
-  // straight from dark to light, so it stays fast without hard strobing (photosensitivity)
-  const LUM = [0,0,2,1,2,0,0,0,0,2,2,1,1,0,0,2];
+  const SCENES = IMG.concat(PROC);
+  const INTERVAL = 400; // ms per cut (~2.5/sec)
 
-  function paint(i, mi){
+  IMG.forEach(s => { const im = new Image(); im.src = s.img; }); // preload the photos
+
+  function fade(el){ el.classList.remove("cut"); void el.offsetWidth; el.classList.add("cut"); }
+  function paint(i){
     const s = SCENES[i];
-    if (s.img){                                  // a real photo/AI shot of the mark
+    if (s.img){                                     // real material photo
       bg.style.background = "#0d0e11 url('" + s.img + "') center/cover no-repeat";
       mark.style.display = "none";
-    } else {                                     // a procedural material scene
+      fade(bg);
+    } else {                                        // generated finish (SVG mark on a bg)
       mark.style.display = "";
       bg.style.background = s.bg;
       reel.style.setProperty("--rm-fs", s.fs);
       reel.style.setProperty("--rm-sp", s.sp);
       mark.style.filter = s.filter || "none";
+      fade(bg); fade(mark);
     }
-    mark.classList.remove.apply(mark.classList, MOTIONS);
-    void mark.offsetWidth;                       // reflow so the animation retriggers
-    mark.classList.add(MOTIONS[mi % MOTIONS.length]);
   }
 
-  let idx = 4, mcount = 0, timer = 0, playing = false;
-  function nextIdx(cur){
-    let n, guard = 0;
-    do { n = Math.floor(Math.random()*SCENES.length); guard++; }
-    while ((n === cur || Math.abs(LUM[n] - LUM[cur]) > 1) && guard < 40);  // no dark<->light jump
-    return n;
-  }
-  function tick(){ idx = nextIdx(idx); paint(idx, mcount++); timer = setTimeout(tick, INTERVAL); }
+  let idx = 0, timer = 0, playing = false;
+  function nextIdx(cur){ let n; do { n = Math.floor(Math.random()*SCENES.length); } while (n === cur); return n; }
+  function tick(){ idx = nextIdx(idx); paint(idx); timer = setTimeout(tick, INTERVAL); }
   function play(){ if (playing || host.clientWidth === 0) return; playing = true; tick(); }
   function pause(){ playing = false; clearTimeout(timer); }
 
-  // reveal
-  paint(idx, 0);
+  paint(0);                                         // start on the grass shot
   requestAnimationFrame(() => reel.classList.add("on"));
 
   if (reduce) {
-    idx = 0; paint(0, 0);                         // one cool, legible still (chrome studio) — no cycling
+    paint(0);                                       // one static shot — no cycling
   } else {
     new IntersectionObserver(ents => { for (const en of ents) en.isIntersecting ? play() : pause(); },
       { threshold: 0.01 }).observe(reel);
