@@ -104,8 +104,18 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
    desktop/tablet + tall-enough viewports; off on mobile & reduced-motion */
 @media (min-width:821px) and (min-height:640px){
   html.snap-home{scroll-snap-type:y mandatory}
-  html.snap-home #home>section{min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start}
-  html.snap-home .site-footer{min-height:100svh;display:flex;flex-direction:column;justify-content:center;margin-top:0;scroll-snap-align:start}
+  html.snap-home #home>section,html.snap-home .site-footer{min-height:100svh;display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start}
+  html.snap-home .site-footer{margin-top:0}
+  /* top-aligned sections (services, work): heading sits below the header, the
+     interactive block grows to fill the rest of the screen */
+  html.snap-home #home>section.snaptop{justify-content:flex-start;padding-top:clamp(84px,10vh,110px)}
+  html.snap-home #home>section.snaptop>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
+  html.snap-home .snaptop .svc-acc,html.snap-home .snaptop .pj-strip{height:auto;flex:1 1 auto;min-height:0}
+  /* stretch sections (about, contact, footer): the inner container fills the screen */
+  html.snap-home .sect-narrow>.wrap,html.snap-home .cta-band>.wrap,html.snap-home .site-footer>.wrap{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;justify-content:center}
+  html.snap-home .about-panel,html.snap-home .cta-band .cta-dark,html.snap-home .footer-bar{flex:1 1 auto;min-height:0}
+  html.snap-home .cta-band .cta-dark{justify-content:center}
+  html.snap-home .footer-bar{align-content:center}
 }
 @media (prefers-reduced-motion:reduce){html.snap-home{scroll-snap-type:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
@@ -307,18 +317,26 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* home services = vertical expanding ACCORDION (desktop/tablet): one open tile,
    the rest collapse to bars; hover opens + a gentle autoplay cycles through them.
    Below 821px it falls back to the stacked .svc-bento cards above. */
+/* toolkit icons: thinner line, black at rest, brand colour only when the tile is
+   highlighted (open) — the corner arrow appears at the same time */
+.svc-stage .svc-acc .ico{stroke-width:1.5;color:var(--ink)}
 @media (min-width:821px){
   .svc-stage .svc-acc{display:flex;flex-direction:column;grid-template:none;gap:clamp(10px,1.3vh,16px);height:clamp(360px,62svh,600px)}
-  .svc-stage .svc-acc .svc-card{flex:1 1 0;flex-grow:1;min-height:0;flex-direction:row;align-items:center;gap:clamp(18px,2.2vw,34px);padding:clamp(14px,1.7vw,26px) clamp(24px,2.8vw,44px);transition:flex-grow .6s var(--ease),border-color .35s var(--ease),background .5s var(--ease)}
+  .svc-stage .svc-acc .svc-card{flex:1 1 0;flex-grow:1;min-height:0;flex-direction:row;align-items:center;gap:clamp(18px,2.2vw,34px);padding:clamp(14px,1.7vw,26px) clamp(24px,2.8vw,44px);transition:flex-grow .6s var(--ease),background .5s var(--ease)}
   .svc-stage .svc-acc .svc-card.s4{flex-direction:row;align-items:center;gap:clamp(18px,2.2vw,34px)}
-  .svc-stage .svc-acc .svc-card.open{flex-grow:3.4;border-color:var(--line-2)}
-  .svc-stage .svc-acc .svc-card .ico{margin:0;width:clamp(38px,3vw,52px);height:clamp(38px,3vw,52px);flex:0 0 auto;transition:width .5s var(--ease),height .5s var(--ease)}
-  .svc-stage .svc-acc .svc-card.open .ico{width:clamp(52px,4.6vw,78px);height:clamp(52px,4.6vw,78px)}
+  .svc-stage .svc-acc .svc-card.open{flex-grow:3.4}
+  /* outline stays a constant colour — no change on hover/open/lift */
+  .svc-stage .svc-acc .svc-card,.svc-stage .svc-acc .svc-card:hover{border-color:var(--line);transform:none}
+  .svc-stage .svc-acc .svc-card .ico{margin:0;width:clamp(38px,3vw,52px);height:clamp(38px,3vw,52px);flex:0 0 auto;transition:width .5s var(--ease),height .5s var(--ease),color .4s var(--ease)}
+  .svc-stage .svc-acc .svc-card.open .ico{width:clamp(52px,4.6vw,78px);height:clamp(52px,4.6vw,78px);color:var(--sccol)}
   .svc-stage .svc-acc .svc-card .svc-txt{min-width:0;margin:0}
   .svc-stage .svc-acc .svc-card h3{margin:0;font-size:clamp(1.18rem,1.7vw,1.55rem);transition:font-size .5s var(--ease)}
   .svc-stage .svc-acc .svc-card.open h3{font-size:clamp(1.55rem,2.5vw,2.2rem);margin-bottom:7px}
   .svc-stage .svc-acc .svc-card p{max-width:60ch;max-height:0;opacity:0;margin:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease)}
   .svc-stage .svc-acc .svc-card.open p{max-height:6em;opacity:1}
+  /* bullet list reappears in the open tile (space permitting); stays hidden on mobile */
+  .svc-stage .svc-acc .svc-card ul{display:flex;max-height:0;opacity:0;margin-top:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease) .05s,margin-top .4s var(--ease)}
+  .svc-stage .svc-acc .svc-card.open ul{max-height:12em;opacity:1;margin-top:clamp(12px,1.4vh,20px)}
   /* show the corner arrow on the open tile too (not just on hover) */
   .svc-stage .svc-acc .svc-card.open .fold{width:104px;height:104px}
   .svc-stage .svc-acc .svc-card.open .arr{opacity:1;transform:none}
@@ -348,23 +366,26 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .pj .meta{margin-top:18px}
 .pj .meta h3{font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:500;white-space:normal;line-height:1.12}
 .pj .cat{font-family:var(--sans);color:var(--muted);font-size:.96rem;margin-top:5px;display:flex;align-items:center;gap:9px;flex-wrap:nowrap;white-space:nowrap;overflow:hidden;max-width:100%}
-/* vertical name tab — only visible on the home strip's collapsed panels */
-.pj .pj-tab{display:none}
-/* home selected-work = horizontal EXPANDING STRIP (desktop/tablet): panels side by
-   side, the active one grows to reveal the cover + description; hover opens + autoplay.
-   Below 821px it falls back to the .pj-grid above. */
+/* wordmark elements — only shown on the home strip */
+.pj .pj-tab,.pj .pj-logo{display:none}
+/* home selected-work = horizontal EXPANDING STRIP (desktop/tablet): plain
+   brand-tinted "logo" panels side by side; the active one grows to show the
+   project wordmark (in its real typeface) + a one-line description. Hover opens
+   + gentle autoplay. No photo, no zoom, no outline. Falls back to .pj-grid <821. */
 @media (min-width:821px){
   #home .pj-strip{display:flex;flex-direction:row;gap:clamp(10px,1vw,16px);height:clamp(400px,60svh,600px)}
   #home .pj-strip .pj{flex:1 1 0;flex-grow:1;min-width:0;transition:flex-grow .6s var(--ease)}
   #home .pj-strip .pj.open{flex-grow:3.2}
-  #home .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
-  #home .pj-strip .pj .meta{display:none}
-  #home .pj-strip .pj .pj-tab{display:block;position:absolute;left:0;bottom:0;z-index:3;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;padding:22px 16px;font-family:var(--serif);font-weight:500;font-size:clamp(1.05rem,1.35vw,1.4rem);letter-spacing:.01em;color:#fff;white-space:nowrap;text-shadow:0 1px 14px rgba(0,0,0,.55);pointer-events:none;transition:opacity .4s var(--ease)}
+  #home .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%;border:none;background:color-mix(in srgb,var(--accent,#111) 12%,#fff)}
+  #home .pj-strip .pj .cover,#home .pj-strip .pj .pj-desc,#home .pj-strip .pj .meta{display:none}
+  /* collapsed: vertical wordmark spine */
+  #home .pj-strip .pj .pj-tab{display:block;position:absolute;left:0;bottom:0;z-index:3;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;padding:24px 18px;font-weight:600;font-size:clamp(1.05rem,1.35vw,1.42rem);letter-spacing:.005em;color:var(--ink);white-space:nowrap;pointer-events:none;transition:opacity .4s var(--ease)}
   #home .pj-strip .pj.open .pj-tab{opacity:0}
-  /* reveal the brand-tinted description overlay on the open panel (autoplay + hover) */
-  #home .pj-strip .pj.open .pj-desc{opacity:1}
-  #home .pj-strip .pj.open .pj-desc .pw,#home .pj-strip .pj.open .pj-desc p{transform:none}
-  #home .pj-strip .pj.open .cover{transform:scale(1.04)}
+  /* open: centred wordmark lockup + description */
+  #home .pj-strip .pj .pj-logo{display:flex;position:absolute;inset:0;z-index:3;flex-direction:column;align-items:center;justify-content:center;gap:clamp(12px,1.4vw,20px);padding:clamp(28px,3vw,52px);text-align:center;opacity:0;pointer-events:none;transition:opacity .5s var(--ease) .12s}
+  #home .pj-strip .pj.open .pj-logo{opacity:1}
+  #home .pj-strip .pj-logo .pw{font-weight:700;font-size:clamp(1.9rem,3.4vw,3.4rem);line-height:1.03;color:var(--ink);letter-spacing:-.01em}
+  #home .pj-strip .pj-logo p{font-family:var(--sans);color:var(--ink-2);font-size:clamp(.98rem,1.2vw,1.14rem);line-height:1.5;max-width:34ch}
 }
 /* service pages */
 .svc-detail{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,60px);align-items:start}
@@ -540,6 +561,10 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.on-dark{background:#fff}.cursor.grow.on-dark{background:rgba(255,255,255,.16);border-color:#fff}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
+
+/* toast (email-copied confirmation) */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
 /* reveal */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out)}
@@ -987,40 +1012,44 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     </div>
   </section>
 
-  <section class="svc-stage">
+  <section class="svc-stage snaptop">
     <div class="wrap">
       <div class="section-head wide reveal"><a class="eyebrow eb-link" data-go="services"><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Services</span><span class="eb-b">View our services</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a>
         <h2>A full toolkit for your brand's next stage.</h2></div>
       <div class="svc-bento svc-acc">
         <div class="svc-card s1 reveal" data-go="svc-brand">
           <span class="fold" style="background:var(--red)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
-          <svg class="ico" style="color:#f24333"><use href="#i-brand"/></svg>
+          <svg class="ico" style="--sccol:#f24333"><use href="#i-brand"/></svg>
           <div class="svc-txt"><h3>Brand Identity &amp; Strategy</h3>
-            <p>Logos, visual systems, positioning, and the story that ties it together — so your brand looks and sounds the part.</p></div>
+            <p>Logos, visual systems, positioning, and the story that ties it together — so your brand looks and sounds the part.</p>
+            <ul><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Logo &amp; visual identity</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand guidelines</li><li><svg class="spark c-red" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; messaging</li></ul></div>
         </div>
         <div class="svc-card s2 reveal d1" data-go="svc-web">
           <span class="fold" style="background:var(--blue)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
-          <svg class="ico" style="color:#2f6bf0"><use href="#i-web"/></svg>
+          <svg class="ico" style="--sccol:#2f6bf0"><use href="#i-web"/></svg>
           <div class="svc-txt"><h3>Web &amp; Product Design</h3>
-            <p>Websites and product UX, from research to responsive build.</p></div>
+            <p>Websites and product UX, from research to responsive build.</p>
+            <ul><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Websites &amp; landing pages</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Product UX &amp; UI design</li><li><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Responsive build &amp; handoff</li></ul></div>
         </div>
         <div class="svc-card s3 reveal d2" data-go="svc-marketing">
           <span class="fold" style="background:var(--yellow)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
-          <svg class="ico" style="color:#f4bf3a"><use href="#i-marketing"/></svg>
+          <svg class="ico" style="--sccol:#f4bf3a"><use href="#i-marketing"/></svg>
           <div class="svc-txt"><h3>Marketing &amp; Content</h3>
-            <p>Campaigns, social, and content across every touchpoint.</p></div>
+            <p>Campaigns, social, and content across every touchpoint.</p>
+            <ul><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Campaigns &amp; social</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Content &amp; copywriting</li><li><svg class="spark c-yellow" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Email &amp; collateral</li></ul></div>
         </div>
         <div class="svc-card s4 reveal" data-go="svc-growth">
           <span class="fold" style="background:var(--green)"></span><span class="arr"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></span>
-          <svg class="ico" style="color:#33ac66"><use href="#i-growth"/></svg>
+          <svg class="ico" style="--sccol:#33ac66"><use href="#i-growth"/></svg>
           <div class="svc-txt"><h3>Brand Growth &amp; Consulting</h3>
-            <p>A clear roadmap to scale — turning where you are today into where you want your brand to go.</p></div>
+            <p>A clear roadmap to scale — turning where you are today into where you want your brand to go.</p>
+            <ul><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Positioning &amp; roadmap</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Brand audits</li><li><svg class="spark c-green" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Ongoing consulting</li></ul></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="snaptop">
     <div class="wrap">
       <div class="section-head head-row reveal">
         <div><a class="eyebrow eb-link" data-go="work"><svg class="spark c-blue" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="eb-txt"><span class="eb-a">Work</span><span class="eb-b">See all work</span></span><svg class="eb-arr"><use href="#i-arrow-ur"/></svg></a><h2>Selected projects.</h2></div>
@@ -2408,10 +2437,24 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     if(acc) wire([].slice.call(acc.querySelectorAll(".svc-card")),3600);
     var strip=document.querySelector("#home .pj-strip");
     if(strip){
+      /* per-project tile colour (home strip only): hmong pink, park n go yellow,
+         wellness green, hellospoke blue — drives the tint + fold/arrow */
+      var TILE={hmong:"#FF6388",parkngo:"#FFC857",wellness:"#33ac66",hellospoke:"#2f6bf0"};
       strip.querySelectorAll(".pj").forEach(function(pj){
-        var face=pj.querySelector(".face"), p=PROJECTS[pj.getAttribute("data-go")];
-        if(face && p && !face.querySelector(".pj-tab")){
-          var t=document.createElement("span"); t.className="pj-tab"; t.textContent=p.name; face.appendChild(t);
+        var face=pj.querySelector(".face"), id=pj.getAttribute("data-go"), p=PROJECTS[id];
+        if(!face||!p) return;
+        var col=TILE[id]||p.accent, oc=onAccent(col);
+        pj.style.setProperty("--accent",col);
+        var fold=pj.querySelector(".fold"); if(fold) fold.style.background=col;
+        var arr=pj.querySelector(".arr"); if(arr) arr.style.color=oc;
+        if(!face.querySelector(".pj-tab")){
+          var t=document.createElement("span"); t.className="pj-tab"; t.textContent=p.name; t.style.fontFamily=p.font; face.appendChild(t);
+        }
+        if(!face.querySelector(".pj-logo")){
+          var l=document.createElement("div"); l.className="pj-logo";
+          var w=document.createElement("span"); w.className="pw"; w.textContent=p.name; w.style.fontFamily=p.font;
+          var d=document.createElement("p"); d.textContent=p.desc;
+          l.appendChild(w); l.appendChild(d); face.appendChild(l);
         }
       });
       wire([].slice.call(strip.querySelectorAll(".pj")),3200);
@@ -2427,6 +2470,25 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       t.classList.add("on"); if(panels[i]) panels[i].classList.add("on");
     });});
   });
+
+  /* email links: a bare mailto: silently does nothing when the browser has no
+     default mail app. So on click we also copy the address and confirm with a
+     toast — the mailto still fires for anyone who does have a mail client. */
+  (function(){
+    var toast;
+    function show(msg){
+      if(!toast){ toast=document.createElement("div"); toast.className="toast"; toast.setAttribute("role","status"); document.body.appendChild(toast); }
+      toast.textContent=msg; toast.classList.add("show");
+      clearTimeout(toast._t); toast._t=setTimeout(function(){ toast.classList.remove("show"); },2600);
+    }
+    document.addEventListener("click",function(e){
+      var a=e.target.closest('a[href^="mailto:"]'); if(!a) return;
+      var addr=a.getAttribute("href").replace(/^mailto:/,"").split("?")[0];
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(addr).then(function(){ show("Email copied — "+addr); }).catch(function(){});
+      }
+    });
+  })();
 
   /* case-study media: clear the loading shimmer once each image is in (or on error / inline-svg figures) */
   document.querySelectorAll(".cs-figure,.cs-hero-media").forEach(function(f){
