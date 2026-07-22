@@ -394,8 +394,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    large (open) title */
 .svc-stage .svc-acc .svc-card h3{margin:0;font-size:clamp(1.02rem,1.7vw,1.55rem);line-height:1.12;font-optical-sizing:none;font-variation-settings:"opsz" 40,"wght" 500;transition:font-size .5s var(--ease)}
 .svc-stage .svc-acc .svc-card.open h3{font-size:clamp(1.28rem,2.5vw,2.2rem);margin-bottom:6px}
-.svc-stage .svc-acc .svc-card p{max-width:60ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(.85rem,1.05vw,1.06rem);line-height:1.44;color:var(--muted);transition:max-height .55s var(--ease),opacity .4s var(--ease)}
-.svc-stage .svc-acc .svc-card.open p{max-height:8em;opacity:1}
+/* description follows the site's standard supporting-paragraph scale (like
+   about-body / cform-head), not a smaller one-off — min 1rem so tablet reads at
+   16px, ~18px on desktop */
+.svc-stage .svc-acc .svc-card p{max-width:82ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.5;color:var(--muted);transition:max-height .55s var(--ease),opacity .4s var(--ease)}
+.svc-stage .svc-acc .svc-card.open p{max-height:9.5em;opacity:1}
 /* bullet list reappears in the open tile where there's room */
 .svc-stage .svc-acc .svc-card ul{display:flex;max-height:0;opacity:0;margin-top:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease) .05s,margin-top .4s var(--ease)}
 .svc-stage .svc-acc .svc-card.open ul{max-height:12em;opacity:1;margin-top:clamp(10px,1.4vh,20px)}
@@ -422,7 +425,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 @media (max-height:700px){ .svc-stage .svc-acc .svc-card.open ul{display:none} }
 @media (max-width:560px){
   .svc-stage .section-head h2{font-size:clamp(1.5rem,6.4vw,2rem)}
-  .svc-stage .svc-acc .svc-card.open p{max-height:7em}
+  .svc-stage .svc-acc .svc-card.open p{max-height:8.5em}
 }
 
 /* work — aligned grid, logo cards, corner-peel + arrow */
