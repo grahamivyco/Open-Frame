@@ -188,11 +188,11 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* hero — wide, short */
 /* hero — split 50/50, NO container box: words on the left, the mark "reel" on the
    right, both sitting directly on the page (no cream panel behind them) */
-.hero{position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(32px,5vw,72px)}
+.hero{position:relative;text-align:left;margin:12px 0 var(--gutter);min-height:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));display:grid;grid-template-columns:1fr minmax(0,50%);align-items:center;gap:clamp(32px,5vw,72px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
 /* the mark "reel" — a square panel cutting through real material shots of the mark
    (grass, clouds, glass, tile, embroidery, chalk…) plus a few generated finishes */
-.hero-reel{order:2;position:relative;aspect-ratio:1/1;width:100%;max-width:520px;justify-self:center;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
+.hero-reel{order:2;position:relative;aspect-ratio:1/1;width:100%;max-width:680px;justify-self:end;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(17,17,16,.08);opacity:0;transition:opacity .8s ease}
 .hero-reel.on{opacity:1}
 .reel-bg{position:absolute;inset:0;background:var(--panel);background-size:cover;background-position:center;background-repeat:no-repeat}
 .reel-mark{position:absolute;top:50%;left:50%;width:52%;height:auto;transform:translate(-50%,-50%);overflow:visible;will-change:opacity,filter}
@@ -2404,7 +2404,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     { bg:"repeating-linear-gradient(0deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),repeating-linear-gradient(90deg,rgba(47,107,240,.22) 0 1px,transparent 1px 30px),#0b0b16", fs:"#2f6bf0", sp:"#ffffff", filter:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)" } // electric grid
   ];
   const SCENES = IMG.concat(PROC);
-  const INTERVAL = 400; // ms per cut (~2.5/sec)
+  const INTERVAL = 300; // ms per cut (~3.3/sec)
 
   IMG.forEach(s => { const im = new Image(); im.src = s.img; }); // preload the photos
 
