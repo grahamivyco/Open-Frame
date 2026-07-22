@@ -2392,14 +2392,14 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // real photoreal shots of the mark — all 2000² with identical size / placement
-  const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon"]
+  const IMG = ["chrome","ice","gold","rattan","glass","hedge","embroidery","yarn","beads","sandstone","coral","crayon","tile","succulent"]
     .map(n => ({ img:"images/hero/of-" + n + ".webp" }));
   const PROC = [];                 // all-photo reel now (CSS finishes retired)
   const SCENES = IMG.concat(PROC);
   const INTERVAL = 200; // ms per cut (~5/sec)
   // luminance tier per scene (0 dark · 1 mid · 2 light) — the picker never jumps straight
   // light↔dark, so 200ms hard cuts don't hard-strobe (photosensitivity)
-  const LUM = [1,2,0,2,0,2,0,2,0,1,2,2];
+  const LUM = [1,2,0,2,0,2,0,2,0,1,2,2,2,2];
 
   IMG.forEach(s => { const im = new Image(); im.src = s.img; }); // preload the photos
 
