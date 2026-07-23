@@ -342,12 +342,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* hero — wide, short */
 /* hero — split 50/50, NO container box: words centred in the left half, the mark
    "reel" filling the right half and as tall as the old cream box was */
-.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);overflow:hidden;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(16px,2.6vw,30px)}
+.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(30px,5vw,60px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
 /* the mark "reel" — fills its 50% column, height = cream-box height. Two stacked
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
 /* home hero mark: the brand icon, hard-cutting through finishes/mediums every 300ms (no bg, no shadow, static frames) */
-.hero-mark{--rm-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='14%2014%2092%2092'%3E%3Cpath%20d='M74%2022%20H36%20A14%2014%200%200%200%2022%2036%20V84%20A14%2014%200%200%200%2036%2098%20H84%20A14%2014%200%200%200%2098%2084%20V48'%20fill='none'%20stroke='%23000'%20stroke-width='15'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cg%20transform='translate(60,60)%20scale(0.46)'%3E%3Cpath%20d='M0%20-50%20C0%20-21%2021%200%2050%200%20C21%200%200%2021%200%2050%20C0%2021%20-21%200%20-50%200%20C-21%200%200%20-21%200%20-50%20Z'%20fill='%23000'/%3E%3C/g%3E%3C/svg%3E");position:relative;width:clamp(122px,15vw,188px);aspect-ratio:1;flex:0 0 auto;opacity:0;transition:opacity .6s ease}
+.hero-mark{--rm-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='14%2014%2092%2092'%3E%3Cpath%20d='M74%2022%20H36%20A14%2014%200%200%200%2022%2036%20V84%20A14%2014%200%200%200%2036%2098%20H84%20A14%2014%200%200%200%2098%2084%20V48'%20fill='none'%20stroke='%23000'%20stroke-width='15'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cg%20transform='translate(60,60)%20scale(0.46)'%3E%3Cpath%20d='M0%20-50%20C0%20-21%2021%200%2050%200%20C21%200%200%2021%200%2050%20C0%2021%20-21%200%20-50%200%20C-21%200%200%20-21%200%20-50%20Z'%20fill='%23000'/%3E%3C/g%3E%3C/svg%3E");position:relative;width:clamp(150px,18vw,236px);aspect-ratio:1;flex:0 0 auto;opacity:0;transition:opacity .6s ease}
 .hero-mark.on{opacity:1}
 .hero-mark>.rm-layer{position:absolute;inset:0}
 .hero-mark .rm-svg{width:100%;height:100%;display:block;overflow:visible}
@@ -390,7 +390,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .hero h1{font-size:clamp(2.5rem,8.4vw,3.9rem)}
   .hero p{margin:12px auto 0}
   .hero-actions{justify-content:center;margin-top:20px}
-  .hero-mark{width:clamp(104px,26vw,148px)}
+  .hero-mark{width:clamp(120px,30vw,176px)}
 }
 
 /* subhero */
@@ -1231,6 +1231,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           <linearGradient id="hg-holo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f24333"/><stop offset=".28" stop-color="#f4bf3a"/><stop offset=".54" stop-color="#33ac66"/><stop offset=".8" stop-color="#2f6bf0"/><stop offset="1" stop-color="#b06bf0"/></linearGradient>
           <linearGradient id="hg-ice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf7ff"/><stop offset=".5" stop-color="#bfe3f2"/><stop offset="1" stop-color="#8fc6e4"/></linearGradient>
           <linearGradient id="hg-sand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7cfa4"/><stop offset=".5" stop-color="#cda367"/><stop offset="1" stop-color="#a97e4c"/></linearGradient>
+          <linearGradient id="hg-wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b07a44"/><stop offset=".5" stop-color="#8a5a2e"/><stop offset="1" stop-color="#5e3c1d"/></linearGradient>
+          <linearGradient id="hg-copper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd9b0"/><stop offset=".3" stop-color="#c9743f"/><stop offset=".55" stop-color="#f0a875"/><stop offset=".8" stop-color="#9c4f27"/><stop offset="1" stop-color="#e0925e"/></linearGradient>
+          <linearGradient id="hg-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef6fb"/><stop offset=".5" stop-color="#cfe3ee"/><stop offset="1" stop-color="#aecad9"/></linearGradient>
         </defs></svg>
         <div class="hero-mark" id="heroMark" aria-hidden="true"></div>
         <div class="hero-inner">
@@ -2857,8 +2860,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     { fs:"url(#hg-metal)", sp:"url(#hg-metal)", f:"", fam:"metal" },
     { fs:"url(#hg-gold)",  sp:"url(#hg-gold)",  f:"drop-shadow(0 0 5px rgba(244,191,58,.55))", fam:"gold" },
     { fs:"url(#hg-holo)",  sp:"url(#hg-holo)",  f:"", fam:"holo" },
-    { fs:"#f24333",        sp:"#ffffff",        f:"drop-shadow(0 0 6px #f24333) drop-shadow(0 0 16px #f24333)", fam:"neon" },
-    { fs:"#2f6bf0",        sp:"#ffffff",        f:"drop-shadow(0 0 6px #2f6bf0) drop-shadow(0 0 16px #2f6bf0)", fam:"neon" },
+    { fs:"#f24333",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #f24333) drop-shadow(0 0 4px #f24333)", fam:"neon" },
+    { fs:"#2f6bf0",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #2f6bf0) drop-shadow(0 0 4px #2f6bf0)", fam:"neon" },
     { fs:"#f24333", sp:"#f24333", f:"", fam:"solid" },
     { fs:"#2f6bf0", sp:"#2f6bf0", f:"", fam:"solid" },
     { fs:"#f4bf3a", sp:"#f4bf3a", f:"", fam:"solid" },
@@ -2927,11 +2930,64 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     L.appendChild(w); return L;
   }
   const sandstone = () => wrap(`${S}${frame("url(#hg-sand)",10,"")}${spk("url(#hg-sand)")}</svg><span class="rm-grain"></span>`);
+  const glass = () => wrap(`${S}<path d="${BRACKET}" fill="none" stroke="url(#hg-glass)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>${spk("url(#hg-glass)")}<path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/><path d="M40 30 L30 44" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`);
+  function fuzz(shades,body,per1,per2){
+    const f=(pts,sc,per,spread)=>{let o="";for(const p of pts)for(let h=0;h<per;h++){const off=(Math.random()-0.5)*spread*sc;const rx=p.x+p.nx*off,ry=p.y+p.ny*off;const len=(2.4+Math.random()*6)*sc,dir=Math.random()<0.5?1:-1;let dx=p.nx+(Math.random()-0.5)*1.4,dy=p.ny+(Math.random()-0.5)*1.4;const m=Math.hypot(dx,dy)||1;o+=`<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx+dx/m*len*dir).toFixed(1)}" y2="${(ry+dy/m*len*dir).toFixed(1)}" stroke="${shades[Math.floor(Math.random()*shades.length)]}" stroke-width="${(0.5+Math.random()*0.8).toFixed(2)}" stroke-linecap="round"/>`;}return o;};
+    const b=sample(BRACKET,120),s=sample(SPARK,40,{ox:60,oy:60,s:0.46});
+    return wrap(`${S}<g>${f(b,1,per1,12)+f(s,0.7,per2,10)}</g>${frame(body,9,"")}${spk(body)}<g>${f(b,1,per1,7)+f(s,0.7,per2,6)}</g></svg>`);
+  }
+  const hedge = () => fuzz(["#245a2c","#2f7d3a","#3fa055","#6bbf5e","#8ecf74"],"#2f7d3a",4,3);
+  function coral(){
+    const cols=["#ff6f61","#ff9a76","#f24333","#ffb28b","#e85a6a"];
+    const b=sample(BRACKET,60),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
+    const knob=(p,i)=>{let o="";for(let k=0;k<2;k++){const off=(Math.random()-0.5)*4,r=1.5+Math.random()*2.2;o+=`<circle cx="${(p.x+p.nx*off).toFixed(1)}" cy="${(p.y+p.ny*off).toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[(i+k)%cols.length]}"/>`;}return o;};
+    return wrap(`${S}${b.map(knob).join("")}${s.map(knob).join("")}</svg>`);
+  }
+  function succulent(){
+    const b=sample(BRACKET,40),s=sample(SPARK,14,{ox:60,oy:60,s:0.46});
+    const leaf=(p,i)=>{const ang=Math.atan2(p.ty,p.tx)*180/Math.PI;const g=["#7fa86b","#9db97e","#6b9a5f","#b7c99a"][i%4];return `<g transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(0)})"><ellipse rx="5.2" ry="2.6" fill="${g}"/></g>`;};
+    return wrap(`${S}${b.map(leaf).join("")}${s.map(leaf).join("")}</svg>`);
+  }
+  function yarn(){
+    const cols=["#e0563f","#2f6bf0","#33ac66","#f4bf3a","#e0398f"];
+    const b=sample(BRACKET,54),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
+    const seg=(p,i)=>{const c=cols[Math.floor(i/3)%cols.length];const tick=`<line x1="${(p.x-p.nx*2.6).toFixed(1)}" y1="${(p.y-p.ny*2.6).toFixed(1)}" x2="${(p.x+p.tx*2+p.nx*2.6).toFixed(1)}" y2="${(p.y+p.ty*2+p.ny*2.6).toFixed(1)}" stroke="rgba(0,0,0,.18)" stroke-width="0.8"/>`;return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.6" fill="${c}"/>${tick}`;};
+    return wrap(`${S}${b.map(seg).join("")}${s.map(seg).join("")}</svg>`);
+  }
+  function marble(){
+    const b=sample(BRACKET,12);
+    let veins="";for(let k=0;k<5;k++){const p=b[(k*2+1)%b.length];veins+=`<path d="M${(p.x-6).toFixed(0)} ${(p.y-3).toFixed(0)} q4 5 8 1 q5 -4 9 2" stroke="#9a978f" stroke-width="0.7" fill="none" opacity="0.7"/>`;}
+    return wrap(`${S}${frame("#edeae2",10,"")}${spk("#e6e2d8")}<g>${veins}</g></svg><span class="rm-grain" style="opacity:.22"></span>`);
+  }
+  function wood(){
+    const b=sample(BRACKET,30);
+    const grain=b.filter((_,i)=>i%2===0).map(p=>`<line x1="${(p.x-p.tx*4).toFixed(1)}" y1="${(p.y-p.ty*4).toFixed(1)}" x2="${(p.x+p.tx*4).toFixed(1)}" y2="${(p.y+p.ty*4).toFixed(1)}" stroke="rgba(60,36,14,.4)" stroke-width="0.7"/>`).join("");
+    return wrap(`${S}${frame("url(#hg-wood)",10,"")}${spk("url(#hg-wood)")}<g>${grain}</g></svg><span class="rm-grain" style="opacity:.28"></span>`);
+  }
+  function terrazzo(){
+    const cols=["#f24333","#2f6bf0","#f4bf3a","#33ac66","#111110","#e0398f"];
+    const b=sample(BRACKET,60),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
+    const chip=(p,i)=>{const off=(Math.random()-0.5)*3.4,r=0.8+Math.random()*1.3;return `<circle cx="${(p.x+p.nx*off).toFixed(1)}" cy="${(p.y+p.ny*off).toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[i%cols.length]}"/>`;};
+    return wrap(`${S}${frame("#efece1",11,"")}${spk("#efece1")}<g>${b.map(chip).join("")}${s.map(chip).join("")}</g></svg>`);
+  }
+  function denim(){
+    const L=wrap(""); const w=document.createElement("div");
+    w.style.cssText="position:absolute;inset:0;background:repeating-linear-gradient(60deg,#3a5a8a 0 3px,#31517d 3px 6px),repeating-linear-gradient(-60deg,rgba(255,255,255,.14) 0 2px,transparent 2px 6px);-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat";
+    L.appendChild(w); return L;
+  }
+  const copper = () => wrap(`${S}${frame("url(#hg-copper)",9,"")}${spk("url(#hg-copper)")}</svg>`);
+  function lava(){
+    const b=sample(BRACKET,26),s=sample(SPARK,10,{ox:60,oy:60,s:0.46});
+    const crack=(p,i)=>i%2?"":`<line x1="${(p.x-p.tx*3).toFixed(1)}" y1="${(p.y-p.ty*3).toFixed(1)}" x2="${(p.x+p.tx*3).toFixed(1)}" y2="${(p.y+p.ty*3).toFixed(1)}" stroke="#ff7a1a" stroke-width="1.6" stroke-linecap="round"/>`;
+    return wrap(`${S}${frame("#1c1512",11,"")}${spk("#1c1512")}<g>${b.map(crack).join("")}${s.map(crack).join("")}</g></svg>`);
+  }
 
   const FRAMES = FIN.map(c => ({ mk:() => finish(c), fam:c.fam })).concat([
     { mk:wobble, fam:"line" }, { mk:fur, fam:"fur" }, { mk:pixels, fam:"pixel" }, { mk:paper, fam:"paper" },
     { mk:crayon, fam:"crayon" }, { mk:satin, fam:"satin" }, { mk:mcm, fam:"mcm" }, { mk:riso, fam:"riso" }, { mk:ink, fam:"inkbleed" },
-    { mk:ice, fam:"ice" }, { mk:beads, fam:"beads" }, { mk:tile, fam:"tile" }, { mk:rattan, fam:"woven" }, { mk:sandstone, fam:"stone" }
+    { mk:ice, fam:"ice" }, { mk:beads, fam:"beads" }, { mk:tile, fam:"tile" }, { mk:rattan, fam:"woven" }, { mk:sandstone, fam:"stone" },
+    { mk:glass, fam:"glass" }, { mk:hedge, fam:"greenfuzz" }, { mk:coral, fam:"coral" }, { mk:succulent, fam:"succ" }, { mk:yarn, fam:"yarn" },
+    { mk:marble, fam:"marble" }, { mk:wood, fam:"wood" }, { mk:terrazzo, fam:"terr" }, { mk:denim, fam:"denim" }, { mk:copper, fam:"copper" }, { mk:lava, fam:"lava" }
   ]);
 
   const layers = FRAMES.map((fr,i) => { const L=fr.mk(); L.style.display = i?"none":""; host.appendChild(L); return L; });
