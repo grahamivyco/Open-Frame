@@ -1333,6 +1333,18 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           <linearGradient id="hg-wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b07a44"/><stop offset=".5" stop-color="#8a5a2e"/><stop offset="1" stop-color="#5e3c1d"/></linearGradient>
           <linearGradient id="hg-copper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd9b0"/><stop offset=".3" stop-color="#c9743f"/><stop offset=".55" stop-color="#f0a875"/><stop offset=".8" stop-color="#9c4f27"/><stop offset="1" stop-color="#e0925e"/></linearGradient>
           <linearGradient id="hg-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef6fb"/><stop offset=".5" stop-color="#cfe3ee"/><stop offset="1" stop-color="#aecad9"/></linearGradient>
+          <!-- photoreal materials: lighting-filter finishes -->
+          <linearGradient id="st-g" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#9aa2ab"/><stop offset=".28" stop-color="#eef2f6"/><stop offset=".5" stop-color="#b6bdc6"/><stop offset=".72" stop-color="#f4f7fa"/><stop offset="1" stop-color="#7c848e"/></linearGradient>
+          <linearGradient id="gd-g" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#7a5314"/><stop offset=".32" stop-color="#f5cf5a"/><stop offset=".5" stop-color="#fff4c8"/><stop offset=".66" stop-color="#e3a52a"/><stop offset="1" stop-color="#6e4a10"/></linearGradient>
+          <linearGradient id="gl-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfeef6"/><stop offset=".5" stop-color="#bcd7e6"/><stop offset="1" stop-color="#9cc0d4"/></linearGradient>
+          <linearGradient id="cp-g" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#7a3b1e"/><stop offset=".32" stop-color="#e08a4f"/><stop offset=".5" stop-color="#ffd6ad"/><stop offset=".66" stop-color="#c9663a"/><stop offset="1" stop-color="#6e341a"/></linearGradient>
+          <pattern id="cb-p" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#1a1c20"/><path d="M0 0 L3 3 M3 3 L6 6" stroke="#33373d" stroke-width="1.6"/><path d="M3 0 L0 3 M6 3 L3 6" stroke="#26292e" stroke-width="1.6"/></pattern>
+          <filter id="st-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="b"/><feSpecularLighting in="b" surfaceScale="3.6" specularConstant="0.9" specularExponent="22" lighting-color="#ffffff" result="s"><feDistantLight azimuth="228" elevation="60"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feTurbulence type="fractalNoise" baseFrequency="0.006 0.5" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0" result="na"/><feComposite in="na" in2="SourceAlpha" operator="in" result="nc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="nc"/><feMergeNode in="sc"/></feMerge></filter>
+          <filter id="gd-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feSpecularLighting in="b" surfaceScale="4" specularConstant="1" specularExponent="26" lighting-color="#fff8e6" result="s"><feDistantLight azimuth="228" elevation="62"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sc"/></feMerge></filter>
+          <filter id="gl-f" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="fr"/><feDisplacementMap in="SourceGraphic" in2="fr" scale="1.6" result="d"/><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feSpecularLighting in="b" surfaceScale="2.4" specularConstant="0.8" specularExponent="14" lighting-color="#ffffff" result="s"><feDistantLight azimuth="235" elevation="55"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="d"/><feMergeNode in="sc"/></feMerge></filter>
+          <filter id="mb-f" x="-25%" y="-25%" width="150%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.05" numOctaves="4" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 -0.55" result="vm"/><feFlood flood-color="#8b8880" result="vc"/><feComposite in="vc" in2="vm" operator="in" result="veins"/><feDiffuseLighting in="n" surfaceScale="1.1" diffuseConstant="1.05" lighting-color="#ffffff" result="relief"><feDistantLight azimuth="230" elevation="62"/></feDiffuseLighting><feComposite in="relief" in2="SourceAlpha" operator="in" result="rc"/><feMerge><feMergeNode in="rc"/><feMergeNode in="veins"/></feMerge><feComposite in2="SourceAlpha" operator="in"/></filter>
+          <filter id="cp-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feSpecularLighting in="b" surfaceScale="3.8" specularConstant="0.95" specularExponent="24" lighting-color="#fff0e0" result="s"><feDistantLight azimuth="228" elevation="60"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sc"/></feMerge></filter>
+          <filter id="cb-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.3" result="b"/><feSpecularLighting in="b" surfaceScale="2.6" specularConstant="0.7" specularExponent="16" lighting-color="#9fb6d6" result="s"><feDistantLight azimuth="235" elevation="58"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sc"/></feMerge></filter>
         </defs></svg>
         <div class="hero-mark" id="heroMark" aria-hidden="true"></div>
         <div class="hero-inner">
@@ -2995,8 +3007,6 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   // ---- finishes (from your file) ----
   const FIN = [
     { fs:"#111110",        sp:"#f24333",        f:"", fam:"ink" },
-    { fs:"url(#hg-metal)", sp:"url(#hg-metal)", f:"", fam:"metal" },
-    { fs:"url(#hg-gold)",  sp:"url(#hg-gold)",  f:"drop-shadow(0 0 5px rgba(244,191,58,.55))", fam:"gold" },
     { fs:"url(#hg-holo)",  sp:"url(#hg-holo)",  f:"", fam:"holo" },
     { fs:"#f24333",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #f24333) drop-shadow(0 0 4px #f24333)", fam:"neon" },
     { fs:"#2f6bf0",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #2f6bf0) drop-shadow(0 0 4px #2f6bf0)", fam:"neon" },
@@ -3068,7 +3078,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     L.appendChild(w); return L;
   }
   const sandstone = () => wrap(`${S}${frame("url(#hg-sand)",10,"")}${spk("url(#hg-sand)")}</svg><span class="rm-grain"></span>`);
-  const glass = () => wrap(`${S}<path d="${BRACKET}" fill="none" stroke="url(#hg-glass)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>${spk("url(#hg-glass)")}<path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/><path d="M40 30 L30 44" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.85"/></svg>`);
+  const prMark=(paint,sw,filt)=>`${S}<g filter="url(#${filt})"><path d="${BRACKET}" fill="none" stroke="${paint}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>${spk(paint)}</g></svg>`;
+  const glass = () => wrap(`${S}<g filter="url(#gl-f)" opacity="0.9"><path d="${BRACKET}" fill="none" stroke="url(#gl-g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>${spk("url(#gl-g)")}</g><path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/></svg>`);
   function fuzz(shades,body,per1,per2){
     const f=(pts,sc,per,spread)=>{let o="";for(const p of pts)for(let h=0;h<per;h++){const off=(Math.random()-0.5)*spread*sc;const rx=p.x+p.nx*off,ry=p.y+p.ny*off;const len=(2.4+Math.random()*6)*sc,dir=Math.random()<0.5?1:-1;let dx=p.nx+(Math.random()-0.5)*1.4,dy=p.ny+(Math.random()-0.5)*1.4;const m=Math.hypot(dx,dy)||1;o+=`<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx+dx/m*len*dir).toFixed(1)}" y2="${(ry+dy/m*len*dir).toFixed(1)}" stroke="${shades[Math.floor(Math.random()*shades.length)]}" stroke-width="${(0.5+Math.random()*0.8).toFixed(2)}" stroke-linecap="round"/>`;}return o;};
     const b=sample(BRACKET,120),s=sample(SPARK,40,{ox:60,oy:60,s:0.46});
@@ -3092,11 +3103,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     const seg=(p,i)=>{const c=cols[Math.floor(i/3)%cols.length];const tick=`<line x1="${(p.x-p.nx*2.6).toFixed(1)}" y1="${(p.y-p.ny*2.6).toFixed(1)}" x2="${(p.x+p.tx*2+p.nx*2.6).toFixed(1)}" y2="${(p.y+p.ty*2+p.ny*2.6).toFixed(1)}" stroke="rgba(0,0,0,.18)" stroke-width="0.8"/>`;return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.6" fill="${c}"/>${tick}`;};
     return wrap(`${S}${b.map(seg).join("")}${s.map(seg).join("")}</svg>`);
   }
-  function marble(){
-    const b=sample(BRACKET,12);
-    let veins="";for(let k=0;k<5;k++){const p=b[(k*2+1)%b.length];veins+=`<path d="M${(p.x-6).toFixed(0)} ${(p.y-3).toFixed(0)} q4 5 8 1 q5 -4 9 2" stroke="#9a978f" stroke-width="0.7" fill="none" opacity="0.7"/>`;}
-    return wrap(`${S}${frame("#edeae2",10,"")}${spk("#e6e2d8")}<g>${veins}</g></svg><span class="rm-grain" style="opacity:.22"></span>`);
-  }
+  const marble = () => wrap(prMark("#eeece6",11,"mb-f"));
   function wood(){
     const b=sample(BRACKET,30);
     const grain=b.filter((_,i)=>i%2===0).map(p=>`<line x1="${(p.x-p.tx*4).toFixed(1)}" y1="${(p.y-p.ty*4).toFixed(1)}" x2="${(p.x+p.tx*4).toFixed(1)}" y2="${(p.y+p.ty*4).toFixed(1)}" stroke="rgba(60,36,14,.4)" stroke-width="0.7"/>`).join("");
@@ -3113,7 +3120,10 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     w.style.cssText="position:absolute;inset:0;background:repeating-linear-gradient(60deg,#3a5a8a 0 3px,#31517d 3px 6px),repeating-linear-gradient(-60deg,rgba(255,255,255,.14) 0 2px,transparent 2px 6px);-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat";
     L.appendChild(w); return L;
   }
-  const copper = () => wrap(`${S}${frame("url(#hg-copper)",9,"")}${spk("url(#hg-copper)")}</svg>`);
+  const copper = () => wrap(prMark("url(#cp-g)",11,"cp-f"));
+  const steel = () => wrap(prMark("url(#st-g)",11,"st-f"));
+  const goldR = () => wrap(prMark("url(#gd-g)",11,"gd-f"));
+  const carbon = () => wrap(prMark("url(#cb-p)",12,"cb-f"));
   function lava(){
     const b=sample(BRACKET,26),s=sample(SPARK,10,{ox:60,oy:60,s:0.46});
     const crack=(p,i)=>i%2?"":`<line x1="${(p.x-p.tx*3).toFixed(1)}" y1="${(p.y-p.ty*3).toFixed(1)}" x2="${(p.x+p.tx*3).toFixed(1)}" y2="${(p.y+p.ty*3).toFixed(1)}" stroke="#ff7a1a" stroke-width="1.6" stroke-linecap="round"/>`;
@@ -3125,7 +3135,8 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     { mk:crayon, fam:"crayon" }, { mk:satin, fam:"satin" }, { mk:mcm, fam:"mcm" }, { mk:riso, fam:"riso" }, { mk:ink, fam:"inkbleed" },
     { mk:ice, fam:"ice" }, { mk:beads, fam:"beads" }, { mk:tile, fam:"tile" }, { mk:rattan, fam:"woven" }, { mk:sandstone, fam:"stone" },
     { mk:glass, fam:"glass" }, { mk:hedge, fam:"greenfuzz" }, { mk:coral, fam:"coral" }, { mk:succulent, fam:"succ" }, { mk:yarn, fam:"yarn" },
-    { mk:marble, fam:"marble" }, { mk:wood, fam:"wood" }, { mk:terrazzo, fam:"terr" }, { mk:denim, fam:"denim" }, { mk:copper, fam:"copper" }, { mk:lava, fam:"lava" }
+    { mk:marble, fam:"marble" }, { mk:wood, fam:"wood" }, { mk:terrazzo, fam:"terr" }, { mk:denim, fam:"denim" }, { mk:copper, fam:"copper" }, { mk:lava, fam:"lava" },
+    { mk:steel, fam:"metal" }, { mk:goldR, fam:"gold" }, { mk:carbon, fam:"carbon" }
   ]);
 
   const layers = FRAMES.map((fr,i) => { const L=fr.mk(); L.style.display = i?"none":""; host.appendChild(L); return L; });
