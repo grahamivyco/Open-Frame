@@ -523,12 +523,17 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* home selected-work: plain brand-tinted "logo" panels that expand (hover +
    autoplay). Desktop/tablet ≥821 = horizontal strip; ≤820 = vertical accordion.
    No photo, no zoom, no outline. */
-.pj-strip .pj .face{border:none;background:color-mix(in srgb,var(--accent,#111) 12%,#fff);position:relative}
-.pj-strip .pj .cover,.pj-strip .pj .pj-desc,.pj-strip .pj .meta{display:none}
+.pj-strip .pj .face{border:none;background:color-mix(in srgb,var(--accent,#111) 12%,#fff);position:relative;overflow:hidden}
+.pj-strip .pj .pj-desc,.pj-strip .pj .meta{display:none}
+/* show each project's cover art filling the tile; a faint brand wash keeps it
+   cohesive and a bottom scrim keeps the wordmark legible over any cover */
+.pj-strip .pj .cover{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;transform:none}
+.pj-strip .pj .face::before{content:"";position:absolute;inset:0;z-index:1;background:var(--accent,#111110);opacity:.14;pointer-events:none}
+.pj-strip .pj .face::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,.12) 44%,transparent 70%);pointer-events:none}
 /* project titles use ONE consistent typeface (the site serif), not each brand's font */
 .pj-strip .pj-tab,.pj-strip .pj-logo .pw{font-family:var(--serif);font-weight:600}
-.pj-strip .pj-logo .pw{color:var(--ink);letter-spacing:-.01em;line-height:1.03}
-.pj-strip .pj-logo p{font-family:var(--sans);color:var(--ink-2);line-height:1.5}
+.pj-strip .pj-logo .pw{color:#fff;letter-spacing:-.01em;line-height:1.03;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+.pj-strip .pj-logo p{font-family:var(--sans);color:rgba(255,255,255,.92);line-height:1.5;text-shadow:0 1px 12px rgba(0,0,0,.45)}
 /* fold/arrow show ONLY on the OPEN strip tile (driven by JS, not :hover) so a
    collapsed tile can never keep a "stuck" corner after a tap on touch */
 .pj-strip .pj .fold{width:0;height:0}
@@ -541,7 +546,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .pj-strip .pj.open{flex-grow:3.2}
   .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
   /* collapsed: vertical wordmark spine */
-  .pj-strip .pj .pj-tab{display:block;position:absolute;left:0;bottom:0;z-index:3;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;padding:24px 18px;font-weight:600;font-size:clamp(1.05rem,1.35vw,1.42rem);color:var(--ink);white-space:nowrap;pointer-events:none;transition:opacity .35s var(--ease)}
+  .pj-strip .pj .pj-tab{display:block;position:absolute;left:0;bottom:0;z-index:3;writing-mode:vertical-rl;transform:rotate(180deg);transform-origin:center;padding:24px 18px;font-weight:600;font-size:clamp(1.05rem,1.35vw,1.42rem);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.5);white-space:nowrap;pointer-events:none;transition:opacity .35s var(--ease)}
   .pj-strip .pj.open .pj-tab{opacity:0}
   /* open: bottom-LEFT wordmark + description; fixed width (vw-based) so the text
      never reflows while the tile grows/shrinks — it's just clipped by the panel */
@@ -2767,6 +2772,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         pj.style.setProperty("--accent",col);
         var fold=pj.querySelector(".fold"); if(fold) fold.style.background=col;
         var arr=pj.querySelector(".arr"); if(arr) arr.style.color=oc;
+        /* show the cover art: home/work strips already carry <img class="cover">;
+           the case-study "more work" strips don't, so inject it from the project id */
+        if(p && !face.querySelector(".cover")){
+          var cv=document.createElement("img"); cv.className="cover"; cv.src="images/cover-"+id+".png"; cv.alt=name; cv.loading="lazy"; cv.decoding="async";
+          face.insertBefore(cv, face.firstChild);
+        }
         if(!face.querySelector(".pj-tab")){
           var t=document.createElement("span"); t.className="pj-tab"; t.textContent=name; face.appendChild(t);
         }
