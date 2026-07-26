@@ -643,22 +643,15 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .nav.open .nav-toggle .bars i:nth-child(2){opacity:0}
 .nav.open .nav-toggle .bars i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-/* hero — wide, short */
-/* hero — split 50/50, NO container box: words centred in the left half, the mark
-   "reel" filling the right half and as tall as the old cream box was */
-.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(30px,5vw,60px)}
+/* hero — centred copy inside the cream box, with an interactive water-ripple
+   canvas painted behind it (brand-coloured ripples follow the pointer) */
+.hero{--hero-h:calc(100svh - 12px - var(--gutter) - clamp(84px,9vh,102px));position:relative;background:var(--panel);border-radius:var(--r-lg);overflow:hidden;padding:clamp(40px,6vw,72px) clamp(24px,5vw,64px);text-align:center;margin:12px 0 var(--gutter);min-height:var(--hero-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(30px,5vw,60px)}
 .hero-shapes,.cta-shapes{position:absolute;inset:0;pointer-events:none}
 /* the mark "reel" — fills its 50% column, height = cream-box height. Two stacked
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
-/* home hero mark: the brand icon, hard-cutting through finishes/mediums every 300ms (no bg, no shadow, static frames) */
-.hero-mark{--rm-mask:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='14%2014%2092%2092'%3E%3Cpath%20d='M74%2022%20H36%20A14%2014%200%200%200%2022%2036%20V84%20A14%2014%200%200%200%2036%2098%20H84%20A14%2014%200%200%200%2098%2084%20V48'%20fill='none'%20stroke='%23000'%20stroke-width='15'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cg%20transform='translate(60,60)%20scale(0.46)'%3E%3Cpath%20d='M0%20-50%20C0%20-21%2021%200%2050%200%20C21%200%200%2021%200%2050%20C0%2021%20-21%200%20-50%200%20C-21%200%200%20-21%200%20-50%20Z'%20fill='%23000'/%3E%3C/g%3E%3C/svg%3E");position:relative;width:clamp(150px,18vw,236px);aspect-ratio:1;flex:0 0 auto;opacity:0;transition:opacity .6s ease}
-.hero-mark.on{opacity:1}
-.hero-mark>.rm-layer{position:absolute;inset:0}
-.hero-mark .rm-svg{width:100%;height:100%;display:block;overflow:visible}
-.hero-mark .rm-grain{position:absolute;inset:0;mix-blend-mode:multiply;opacity:.3;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Cfilter%20id='hn'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23hn)'/%3E%3C/svg%3E");-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat}
-.hero-mark .rm-a{transform:translate(-1.5px,-1px);mix-blend-mode:multiply}
-.hero-mark .rm-b{transform:translate(1.5px,1px);mix-blend-mode:multiply}
-.hero-mark .rm-ghost{transform:translate(2px,2.5px)}
+/* home hero water: interactive ripple canvas fills the cream box, behind the copy.
+   Dragging the pointer sends brand-coloured ripples out like a finger through water. */
+.hero-water{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;pointer-events:none}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -694,7 +687,6 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .hero h1{font-size:clamp(2.5rem,8.4vw,3.9rem)}
   .hero p{margin:12px auto 0}
   .hero-actions{justify-content:center;margin-top:20px}
-  .hero-mark{width:clamp(120px,30vw,176px)}
 }
 
 /* subhero */
@@ -1528,35 +1520,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   <section class="hero-sect" style="padding-top:clamp(84px,9vh,102px)">
     <div class="wrap">
       <div class="hero">
-        <!-- hero mark reel: static SVG finishes/mediums, hard-cut every 300ms; filter/gradient defs here -->
-        <svg id="heroFx" width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
-          <filter id="hf-wobble" x="-35%" y="-35%" width="170%" height="170%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="6" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter>
-          <filter id="hf-torn" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.013 0.016" numOctaves="3" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter>
-          <filter id="hf-crayon" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter>
-          <filter id="hf-ink" x="-45%" y="-45%" width="190%" height="190%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6" result="d"/><feGaussianBlur in="d" stdDeviation="0.5"/></filter>
-          <linearGradient id="hg-rainbow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0398f"/><stop offset="0.22" stop-color="#6a3ad0"/><stop offset="0.44" stop-color="#2f6bf0"/><stop offset="0.64" stop-color="#33ac66"/><stop offset="0.82" stop-color="#f4bf3a"/><stop offset="1" stop-color="#f24333"/></linearGradient>
-          <linearGradient id="hg-metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f8fa"/><stop offset=".26" stop-color="#9aa0a8"/><stop offset=".5" stop-color="#eef1f4"/><stop offset=".74" stop-color="#6b707a"/><stop offset="1" stop-color="#cfd3d9"/></linearGradient>
-          <radialGradient id="hg-gold" cx=".35" cy=".3" r=".95"><stop offset="0" stop-color="#fff6d8"/><stop offset=".45" stop-color="#f4bf3a"/><stop offset="1" stop-color="#8a6a1a"/></radialGradient>
-          <linearGradient id="hg-holo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f24333"/><stop offset=".28" stop-color="#f4bf3a"/><stop offset=".54" stop-color="#33ac66"/><stop offset=".8" stop-color="#2f6bf0"/><stop offset="1" stop-color="#b06bf0"/></linearGradient>
-          <linearGradient id="hg-ice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eaf7ff"/><stop offset=".5" stop-color="#bfe3f2"/><stop offset="1" stop-color="#8fc6e4"/></linearGradient>
-          <linearGradient id="hg-sand" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e7cfa4"/><stop offset=".5" stop-color="#cda367"/><stop offset="1" stop-color="#a97e4c"/></linearGradient>
-          <linearGradient id="hg-wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b07a44"/><stop offset=".5" stop-color="#8a5a2e"/><stop offset="1" stop-color="#5e3c1d"/></linearGradient>
-          <linearGradient id="hg-copper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd9b0"/><stop offset=".3" stop-color="#c9743f"/><stop offset=".55" stop-color="#f0a875"/><stop offset=".8" stop-color="#9c4f27"/><stop offset="1" stop-color="#e0925e"/></linearGradient>
-          <linearGradient id="hg-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef6fb"/><stop offset=".5" stop-color="#cfe3ee"/><stop offset="1" stop-color="#aecad9"/></linearGradient>
-          <!-- photoreal materials: lighting-filter finishes -->
-          <linearGradient id="st-g" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#9aa2ab"/><stop offset=".28" stop-color="#eef2f6"/><stop offset=".5" stop-color="#b6bdc6"/><stop offset=".72" stop-color="#f4f7fa"/><stop offset="1" stop-color="#7c848e"/></linearGradient>
-          <linearGradient id="gd-g" x1="0" y1="0" x2="0.38" y2="1"><stop offset="0" stop-color="#6f4b00"/><stop offset=".16" stop-color="#c9971a"/><stop offset=".3" stop-color="#fff2a6"/><stop offset=".46" stop-color="#d7a51c"/><stop offset=".62" stop-color="#fff7c8"/><stop offset=".78" stop-color="#b98209"/><stop offset="1" stop-color="#5f3f00"/></linearGradient>
-          <linearGradient id="gl-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfeef6"/><stop offset=".5" stop-color="#bcd7e6"/><stop offset="1" stop-color="#9cc0d4"/></linearGradient>
-          <linearGradient id="cp-g" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#7a3b1e"/><stop offset=".32" stop-color="#e08a4f"/><stop offset=".5" stop-color="#ffd6ad"/><stop offset=".66" stop-color="#c9663a"/><stop offset="1" stop-color="#6e341a"/></linearGradient>
-          <pattern id="cb-p" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#1a1c20"/><path d="M0 0 L3 3 M3 3 L6 6" stroke="#33373d" stroke-width="1.6"/><path d="M3 0 L0 3 M6 3 L3 6" stroke="#26292e" stroke-width="1.6"/></pattern>
-          <filter id="st-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="b"/><feSpecularLighting in="b" surfaceScale="3.6" specularConstant="0.9" specularExponent="22" lighting-color="#ffffff" result="s"><feDistantLight azimuth="228" elevation="60"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feTurbulence type="fractalNoise" baseFrequency="0.006 0.5" numOctaves="2" seed="4" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0" result="na"/><feComposite in="na" in2="SourceAlpha" operator="in" result="nc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="nc"/><feMergeNode in="sc"/></feMerge></filter>
-          <filter id="gd-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.45" result="b"/><feSpecularLighting in="b" surfaceScale="4.1" specularConstant="1" specularExponent="26" lighting-color="#fff8dc" result="s"><feDistantLight azimuth="232" elevation="63"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feTurbulence type="fractalNoise" baseFrequency="0.007 0.42" numOctaves="2" seed="8" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.18 0 0 0 0 0.12 0 0 0 0 0 0 0 0 0.18 0" result="na"/><feComposite in="na" in2="SourceAlpha" operator="in" result="nc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="nc"/><feMergeNode in="sc"/></feMerge></filter>
-          <filter id="gl-f" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="fr"/><feDisplacementMap in="SourceGraphic" in2="fr" scale="1.6" result="d"/><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feSpecularLighting in="b" surfaceScale="2.4" specularConstant="0.8" specularExponent="14" lighting-color="#ffffff" result="s"><feDistantLight azimuth="235" elevation="55"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="d"/><feMergeNode in="sc"/></feMerge></filter>
-          <filter id="mb-f" x="-25%" y="-25%" width="150%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.03 0.05" numOctaves="4" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 -0.55" result="vm"/><feFlood flood-color="#8b8880" result="vc"/><feComposite in="vc" in2="vm" operator="in" result="veins"/><feDiffuseLighting in="n" surfaceScale="1.1" diffuseConstant="1.05" lighting-color="#ffffff" result="relief"><feDistantLight azimuth="230" elevation="62"/></feDiffuseLighting><feComposite in="relief" in2="SourceAlpha" operator="in" result="rc"/><feMerge><feMergeNode in="rc"/><feMergeNode in="veins"/></feMerge><feComposite in2="SourceAlpha" operator="in"/></filter>
-          <filter id="cp-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/><feSpecularLighting in="b" surfaceScale="3.8" specularConstant="0.95" specularExponent="24" lighting-color="#fff0e0" result="s"><feDistantLight azimuth="228" elevation="60"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sc"/></feMerge></filter>
-          <filter id="cb-f" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur in="SourceAlpha" stdDeviation="1.3" result="b"/><feSpecularLighting in="b" surfaceScale="2.6" specularConstant="0.7" specularExponent="16" lighting-color="#9fb6d6" result="s"><feDistantLight azimuth="235" elevation="58"/></feSpecularLighting><feComposite in="s" in2="SourceAlpha" operator="in" result="sc"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sc"/></feMerge></filter>
-        </defs></svg>
-        <div class="hero-mark" id="heroMark" aria-hidden="true"></div>
+        <canvas class="hero-water" id="heroWater" aria-hidden="true"></canvas>
         <div class="hero-inner">
           <span class="eyebrow">Brand &amp; Product Design Studio</span>
           <h1>Bring your brand <em>into frame.</em></h1>
@@ -3276,184 +3240,165 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 })();
 </script>
 
-<!-- Home hero mark reel — the brand icon HARD-CUTS every 300ms through static SVG
-     "finishes" (brand ink, chrome, gold, holographic, neon red/blue, flat red/blue/yellow/green)
-     and drawn "mediums" (wobble, fur, pixels, cut-paper, crayon, satin, mid-century, riso, ink).
-     No background, no shadow (except the neon/gold finishes' own glow). A family-aware shuffle
-     keeps similar frames from repeating back-to-back. Respects prefers-reduced-motion; pauses
-     off-home / when hidden. Add a frame: append a builder to FRAMES with a `fam` tag. -->
+<!-- Home hero water — an interactive ripple canvas painted behind the copy on the
+     cream box. Moving the pointer across it drops travelling wavelets (a small
+     trail buffer); each ripple carries one of the four brand colours (red → blue →
+     yellow → green), so the accents bloom outward from the pointer like a finger
+     drawn through water. Single-pass WebGL fragment shader (stateless: drops are
+     passed as uniforms). Falls back to flat cream if WebGL is unavailable; respects
+     prefers-reduced-motion; pauses offscreen / when the tab is hidden. -->
 <script>
 (() => {
   "use strict";
-  const host = document.getElementById("heroMark");
-  const fx = document.getElementById("heroFx");
-  if (!host || !fx) return;
-  const NS = "http://www.w3.org/2000/svg";
+  const cv = document.getElementById("heroWater");
+  if (!cv) return;
+  const hero = cv.parentElement;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const BRACKET = "M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48";
-  const SPARK = "M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z";
+  const CREAM = [0.953, 0.945, 0.918];                 // #f3f1ea
+  // red, blue, yellow, green — the brand accents, cycled per ripple
+  const PAL = [[0.949,0.263,0.200],[0.184,0.420,0.941],[0.957,0.749,0.227],[0.200,0.675,0.400]];
+  const MAXD = 16;
 
-  function sample(d, count, tf){
-    const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); fx.appendChild(p);
-    const L = p.getTotalLength(), out = [];
-    for (let i=0;i<count;i++){ const l=L*i/count; const a=p.getPointAtLength(Math.max(0,l-0.6)), b=p.getPointAtLength(Math.min(L,l+0.6));
-      let tx=b.x-a.x, ty=b.y-a.y; const m=Math.hypot(tx,ty)||1; tx/=m; ty/=m; let x=(a.x+b.x)/2, y=(a.y+b.y)/2, nx=-ty, ny=tx;
-      if (tf){ x=tf.ox+tf.s*x; y=tf.oy+tf.s*y; } out.push({x,y,tx,ty,nx,ny}); }
-    fx.removeChild(p); return out;
-  }
-  const wrap = (inner, cls) => { const d=document.createElement("div"); d.className="rm-layer"+(cls?" "+cls:""); d.innerHTML=inner; return d; };
-  const S = `<svg class="rm-svg" viewBox="14 14 92 92">`;
-  const spk = (fill, extra="") => `<g transform="translate(60,60) scale(0.46)"><path d="${SPARK}" fill="${fill}" ${extra}/></g>`;
-  const frame = (stroke, sw, filter) => `<path d="${BRACKET}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${filter?`filter="url(#${filter})"`:""}/>`;
+  let gl = null;
+  try { gl = cv.getContext("webgl", {alpha:false, antialias:false, depth:false, premultipliedAlpha:false}); } catch(e){}
+  if (!gl) { cv.style.background = "#f3f1ea"; return; } // graceful fallback: plain cream
 
-  // ---- finishes (from your file) ----
-  const FIN = [
-    { fs:"#111110",        sp:"#f24333",        f:"", fam:"ink" },
-    { fs:"url(#hg-holo)",  sp:"url(#hg-holo)",  f:"", fam:"holo" },
-    { fs:"#f24333",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #f24333) drop-shadow(0 0 4px #f24333)", fam:"neon" },
-    { fs:"#2f6bf0",        sp:"#ffffff",        f:"drop-shadow(0 0 1.5px #2f6bf0) drop-shadow(0 0 4px #2f6bf0)", fam:"neon" },
-    { fs:"#f24333", sp:"#f24333", f:"", fam:"solid" },
-    { fs:"#2f6bf0", sp:"#2f6bf0", f:"", fam:"solid" },
-    { fs:"#f4bf3a", sp:"#f4bf3a", f:"", fam:"solid" },
-    { fs:"#33ac66", sp:"#33ac66", f:"", fam:"solid" }
-  ];
-  const finish = c => { const L=wrap(`${S}${frame(c.fs,8,"")}${spk(c.sp)}</svg>`); if (c.f) L.querySelector(".rm-svg").style.filter=c.f; return L; };
+  const VS = "attribute vec2 p; void main(){ gl_Position = vec4(p,0.0,1.0); }";
+  const FS = [
+    "precision highp float;",
+    "uniform vec2 uRes; uniform float uTime; uniform vec3 uCream;",
+    "uniform vec4 uDrops[16];",   // xy = pos (0..1, top-left), z = birth time, w = amplitude
+    "uniform vec3 uCol[16];",
+    "const float LIFE=2.7, SPEED=0.32, FREQ=40.0, SHARP=6.5, AGEDECAY=1.35, DDECAY=1.9;",
+    "float waveAt(vec2 uv, vec2 asp){",
+    "  float h=0.0;",
+    "  for(int i=0;i<16;i++){",
+    "    vec4 dp=uDrops[i]; float age=uTime-dp.z;",
+    "    if(dp.w<=0.0 || age<0.0 || age>LIFE) continue;",
+    "    float d=length((uv-dp.xy)*asp); float front=age*SPEED;",
+    "    float env=exp(-pow((d-front)*SHARP,2.0));",
+    "    float fade=smoothstep(0.0,0.16,age)*exp(-age*AGEDECAY)*exp(-d*DDECAY);",
+    "    h += sin((d-front)*FREQ)*env*fade*dp.w;",
+    "  }",
+    "  return h;",
+    "}",
+    "void main(){",
+    "  vec2 uv = gl_FragCoord.xy/uRes; uv.y = 1.0-uv.y;",
+    "  vec2 asp = vec2(uRes.x/uRes.y, 1.0);",
+    "  float h=0.0; vec3 tint=vec3(0.0); float energy=0.0;",
+    "  for(int i=0;i<16;i++){",
+    "    vec4 dp=uDrops[i]; float age=uTime-dp.z;",
+    "    if(dp.w<=0.0 || age<0.0 || age>LIFE) continue;",
+    "    float d=length((uv-dp.xy)*asp); float front=age*SPEED;",
+    "    float env=exp(-pow((d-front)*SHARP,2.0));",
+    "    float fade=smoothstep(0.0,0.16,age)*exp(-age*AGEDECAY)*exp(-d*DDECAY);",
+    "    float c=sin((d-front)*FREQ)*env*fade*dp.w;",
+    "    h+=c; float w=abs(c); tint+=uCol[i]*w; energy+=w;",
+    "  }",
+    "  float eps=1.7/uRes.y;",
+    "  float hx=waveAt(uv+vec2(eps,0.0),asp);",
+    "  float hy=waveAt(uv+vec2(0.0,eps),asp);",
+    "  vec3 n=normalize(vec3((h-hx)/eps,(h-hy)/eps,7.0));",
+    "  vec3 L=normalize(vec3(-0.35,-0.55,0.75));",
+    "  float spec=pow(max(dot(reflect(-L,n),vec3(0.0,0.0,1.0)),0.0),22.0);",
+    "  vec3 col=uCream;",
+    "  if(energy>0.0001){ col=mix(col, tint/energy, clamp(energy*0.85,0.0,0.6)); }",
+    "  col += spec*0.32;",         // glassy surface highlight
+    "  col += h*0.045;",           // faint crest/trough shading
+    "  gl_FragColor=vec4(clamp(col,0.0,1.0),1.0);",
+    "}"
+  ].join("\n");
 
-  // ---- drawn mediums (static, shadow-free) ----
-  const wobble = () => wrap(`${S}<g filter="url(#hf-wobble)">${frame("#2f6bf0",8,"")}${spk("#2f6bf0")}</g></svg>`);
-  function fur(){
-    const body="#d94a30", shades=["#a5331f","#c8402c","#e0563f","#ef7a55","#f6a074","#f4bf3a"];
-    const f=(pts,sc,per,spread)=>{ let o=""; for(const p of pts) for(let h=0;h<per;h++){ const off=(Math.random()-0.5)*spread*sc; const rx=p.x+p.nx*off, ry=p.y+p.ny*off; const len=(2.5+Math.random()*6.5)*sc, dir=Math.random()<0.5?1:-1; let dx=p.nx+(Math.random()-0.5)*1.3, dy=p.ny+(Math.random()-0.5)*1.3; const m=Math.hypot(dx,dy)||1; o+=`<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx+dx/m*len*dir).toFixed(1)}" y2="${(ry+dy/m*len*dir).toFixed(1)}" stroke="${shades[Math.floor(Math.random()*shades.length)]}" stroke-width="${(0.5+Math.random()*0.8).toFixed(2)}" stroke-linecap="round"/>`; } return o; };
-    const b=sample(BRACKET,120), s=sample(SPARK,40,{ox:60,oy:60,s:0.46});
-    return wrap(`${S}<g>${f(b,1,4,12)+f(s,0.7,3,10)}</g>${frame(body,9,"")}${spk(body)}<g>${f(b,1,3,7)+f(s,0.7,2,6)}</g></svg>`);
+  function compile(type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+    return s;
   }
-  function pixels(){
-    const L=wrap(""); const c=document.createElement("canvas"); c.className="rm-svg"; c.style.imageRendering="pixelated"; const SIZE=240; c.width=c.height=SIZE; const ctx=c.getContext("2d");
-    const N=22, low=document.createElement("canvas"); low.width=low.height=N; const lx=low.getContext("2d");
-    const bp=new Path2D(BRACKET), sp2=new Path2D(SPARK), pal=["#f24333","#f4bf3a"], sc=N/92, o=-14*sc;
-    lx.setTransform(sc,0,0,sc,o,o); const g=lx.createLinearGradient(14,14,106,106); g.addColorStop(0,pal[0]); g.addColorStop(1,pal[1]);
-    lx.lineWidth=9; lx.lineCap="round"; lx.lineJoin="round"; lx.strokeStyle=g; lx.stroke(bp);
-    lx.save(); lx.transform(0.46,0,0,0.46,60,60); lx.fillStyle=pal[1]; lx.fill(sp2); lx.restore();
-    ctx.imageSmoothingEnabled=false; ctx.drawImage(low,0,0,SIZE,SIZE); L.appendChild(c); return L;
-  }
-  const paper = () => wrap(`${S}<g filter="url(#hf-torn)">${frame("#f24333",10,"")}${spk("#2f6bf0")}</g></svg>`);
-  function crayon(){
-    let passes=""; for(let k=0;k<4;k++) passes+=`<path d="${BRACKET}" fill="none" stroke="url(#hg-rainbow)" stroke-width="${6+k*0.9}" stroke-linecap="round" stroke-linejoin="round" opacity="${(0.42+0.05*k).toFixed(2)}" transform="rotate(${(k-1.5)*0.7} 60 60)"/>`;
-    return wrap(`${S}<g filter="url(#hf-crayon)">${passes}${spk("url(#hg-rainbow)")}</g></svg><span class="rm-grain"></span>`);
-  }
-  function satin(){
-    const b=sample(BRACKET,150), s=sample(SPARK,54,{ox:60,oy:60,s:0.46});
-    const sat=(pts,hw,base,hi,lo)=>pts.map((p,i)=>{ const t=(Math.random()-0.5)*0.35; const nx=p.nx+p.tx*t, ny=p.ny+p.ty*t, m=Math.hypot(nx,ny)||1, ux=nx/m, uy=ny/m; const c=(i%7===0)?hi:(i%7===3?lo:base); return `<line x1="${(p.x-ux*hw).toFixed(1)}" y1="${(p.y-uy*hw).toFixed(1)}" x2="${(p.x+ux*hw).toFixed(1)}" y2="${(p.y+uy*hw).toFixed(1)}" stroke="${c}" stroke-width="1.7" stroke-linecap="round"/>`; }).join("");
-    return wrap(`${S}<g>${sat(b,4.4,"#2f6bf0","#8fb6ff","#1f49b0")+sat(s,3.4,"#f24333","#ff8a72","#c22a1c")}</g><path d="${BRACKET}" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
-  }
-  function mcm(){
-    const P=["#E0A32E","#2E7D74","#C1552B"];
-    return wrap(`${S}<g class="rm-ghost" opacity="0.5">${frame(P[2],11,"")}${spk(P[2])}</g>${frame(P[1],11,"")}${spk(P[0])}</svg><span class="rm-grain"></span>`);
-  }
-  const ink = () => wrap(`${S}<g filter="url(#hf-ink)"><path d="${BRACKET}" fill="none" stroke="#2f6bf0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.92"/>${spk("#f24333",'opacity="0.92"')}</g></svg>`);
-  function riso(){
-    const layer=(cls,col)=>`<div class="${cls}" style="position:absolute;inset:0">${S}${frame(col,9,"")}${spk(col)}</svg><span class="rm-grain" style="opacity:.4"></span></div>`;
-    return wrap(layer("rm-a","#2f6bf0")+layer("rm-b","#f24333"));
-  }
+  const vs = compile(gl.VERTEX_SHADER, VS), fs = compile(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fs) { cv.style.background = "#f3f1ea"; return; }
+  const prog = gl.createProgram(); gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { cv.style.background = "#f3f1ea"; return; }
+  gl.useProgram(prog);
 
-  // ---- photo-based SVG marks (ice, beads, mosaic tile, woven rattan, sandstone) ----
-  function ice(){
-    const b=sample(BRACKET,40), s=sample(SPARK,14,{ox:60,oy:60,s:0.46});
-    const cracks=[...b,...s].filter((_,i)=>i%3===0).map(p=>{const len=2+Math.random()*3,a=Math.random()*6.28;return `<line x1="${(p.x-Math.cos(a)*len).toFixed(1)}" y1="${(p.y-Math.sin(a)*len).toFixed(1)}" x2="${(p.x+Math.cos(a)*len).toFixed(1)}" y2="${(p.y+Math.sin(a)*len).toFixed(1)}" stroke="#ffffff" stroke-width="0.7" opacity="0.8"/>`;}).join("");
-    return wrap(`${S}${frame("url(#hg-ice)",9,"")}${spk("url(#hg-ice)")}<path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>${cracks}</svg>`);
-  }
-  function beads(){
-    const cols=["#7a9bff","#7affce","#b06bf0","#3fa0e0","#8f7aff"];
-    const b=sample(BRACKET,70), s=sample(SPARK,22,{ox:60,oy:60,s:0.46});
-    const dot=(p,i)=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="2.5" fill="${cols[i%cols.length]}"/>`;
-    return wrap(`${S}${b.map(dot).join("")}${s.map(dot).join("")}</svg>`);
-  }
-  function tile(){
-    const cols=["#f24333","#2f6bf0","#f4bf3a","#33ac66","#111110"];
-    const b=sample(BRACKET,46), s=sample(SPARK,16,{ox:60,oy:60,s:0.46});
-    const chip=(p,i)=>{const ang=Math.atan2(p.ty,p.tx)*180/Math.PI;return `<g transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(0)})"><rect x="-2.4" y="-4.3" width="4.8" height="8.6" rx="1" fill="${cols[i%cols.length]}"/></g>`;};
-    return wrap(`${S}${b.map(chip).join("")}${s.map(chip).join("")}</svg>`);
-  }
-  function rattan(){
-    const L=wrap(""); const w=document.createElement("div");
-    w.style.cssText="position:absolute;inset:0;background:repeating-linear-gradient(45deg,#c69a5e 0 4px,#a97e4c 4px 8px),repeating-linear-gradient(-45deg,rgba(120,86,46,.5) 0 4px,transparent 4px 8px);-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat";
-    L.appendChild(w); return L;
-  }
-  const sandstone = () => wrap(`${S}${frame("url(#hg-sand)",10,"")}${spk("url(#hg-sand)")}</svg><span class="rm-grain"></span>`);
-  const prMark=(paint,sw,filt)=>`${S}<g filter="url(#${filt})"><path d="${BRACKET}" fill="none" stroke="${paint}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>${spk(paint)}</g></svg>`;
-  const glass = () => wrap(`${S}<g filter="url(#gl-f)" opacity="0.9"><path d="${BRACKET}" fill="none" stroke="url(#gl-g)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>${spk("url(#gl-g)")}</g><path d="${BRACKET}" fill="none" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/></svg>`);
-  function fuzz(shades,body,per1,per2){
-    const f=(pts,sc,per,spread)=>{let o="";for(const p of pts)for(let h=0;h<per;h++){const off=(Math.random()-0.5)*spread*sc;const rx=p.x+p.nx*off,ry=p.y+p.ny*off;const len=(2.4+Math.random()*6)*sc,dir=Math.random()<0.5?1:-1;let dx=p.nx+(Math.random()-0.5)*1.4,dy=p.ny+(Math.random()-0.5)*1.4;const m=Math.hypot(dx,dy)||1;o+=`<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx+dx/m*len*dir).toFixed(1)}" y2="${(ry+dy/m*len*dir).toFixed(1)}" stroke="${shades[Math.floor(Math.random()*shades.length)]}" stroke-width="${(0.5+Math.random()*0.8).toFixed(2)}" stroke-linecap="round"/>`;}return o;};
-    const b=sample(BRACKET,120),s=sample(SPARK,40,{ox:60,oy:60,s:0.46});
-    return wrap(`${S}<g>${f(b,1,per1,12)+f(s,0.7,per2,10)}</g>${frame(body,9,"")}${spk(body)}<g>${f(b,1,per1,7)+f(s,0.7,per2,6)}</g></svg>`);
-  }
-  const hedge = () => fuzz(["#245a2c","#2f7d3a","#3fa055","#6bbf5e","#8ecf74"],"#2f7d3a",4,3);
-  function coral(){
-    const cols=["#ff6f61","#ff9a76","#f24333","#ffb28b","#e85a6a"];
-    const b=sample(BRACKET,60),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
-    const knob=(p,i)=>{let o="";for(let k=0;k<2;k++){const off=(Math.random()-0.5)*4,r=1.5+Math.random()*2.2;o+=`<circle cx="${(p.x+p.nx*off).toFixed(1)}" cy="${(p.y+p.ny*off).toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[(i+k)%cols.length]}"/>`;}return o;};
-    return wrap(`${S}${b.map(knob).join("")}${s.map(knob).join("")}</svg>`);
-  }
-  function succulent(){
-    const b=sample(BRACKET,40),s=sample(SPARK,14,{ox:60,oy:60,s:0.46});
-    const leaf=(p,i)=>{const ang=Math.atan2(p.ty,p.tx)*180/Math.PI;const g=["#7fa86b","#9db97e","#6b9a5f","#b7c99a"][i%4];return `<g transform="translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(0)})"><ellipse rx="5.2" ry="2.6" fill="${g}"/></g>`;};
-    return wrap(`${S}${b.map(leaf).join("")}${s.map(leaf).join("")}</svg>`);
-  }
-  function yarn(){
-    const cols=["#e0563f","#2f6bf0","#33ac66","#f4bf3a","#e0398f"];
-    const b=sample(BRACKET,54),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
-    const seg=(p,i)=>{const c=cols[Math.floor(i/3)%cols.length];const tick=`<line x1="${(p.x-p.nx*2.6).toFixed(1)}" y1="${(p.y-p.ny*2.6).toFixed(1)}" x2="${(p.x+p.tx*2+p.nx*2.6).toFixed(1)}" y2="${(p.y+p.ty*2+p.ny*2.6).toFixed(1)}" stroke="rgba(0,0,0,.18)" stroke-width="0.8"/>`;return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.6" fill="${c}"/>${tick}`;};
-    return wrap(`${S}${b.map(seg).join("")}${s.map(seg).join("")}</svg>`);
-  }
-  const marble = () => wrap(prMark("#eeece6",11,"mb-f"));
-  function wood(){
-    const b=sample(BRACKET,30);
-    const grain=b.filter((_,i)=>i%2===0).map(p=>`<line x1="${(p.x-p.tx*4).toFixed(1)}" y1="${(p.y-p.ty*4).toFixed(1)}" x2="${(p.x+p.tx*4).toFixed(1)}" y2="${(p.y+p.ty*4).toFixed(1)}" stroke="rgba(60,36,14,.4)" stroke-width="0.7"/>`).join("");
-    return wrap(`${S}${frame("url(#hg-wood)",10,"")}${spk("url(#hg-wood)")}<g>${grain}</g></svg><span class="rm-grain" style="opacity:.28"></span>`);
-  }
-  function terrazzo(){
-    const cols=["#f24333","#2f6bf0","#f4bf3a","#33ac66","#111110","#e0398f"];
-    const b=sample(BRACKET,60),s=sample(SPARK,20,{ox:60,oy:60,s:0.46});
-    const chip=(p,i)=>{const off=(Math.random()-0.5)*3.4,r=0.8+Math.random()*1.3;return `<circle cx="${(p.x+p.nx*off).toFixed(1)}" cy="${(p.y+p.ny*off).toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[i%cols.length]}"/>`;};
-    return wrap(`${S}${frame("#efece1",11,"")}${spk("#efece1")}<g>${b.map(chip).join("")}${s.map(chip).join("")}</g></svg>`);
-  }
-  function denim(){
-    const L=wrap(""); const w=document.createElement("div");
-    w.style.cssText="position:absolute;inset:0;background:repeating-linear-gradient(60deg,#3a5a8a 0 3px,#31517d 3px 6px),repeating-linear-gradient(-60deg,rgba(255,255,255,.14) 0 2px,transparent 2px 6px);-webkit-mask:var(--rm-mask) center/contain no-repeat;mask:var(--rm-mask) center/contain no-repeat";
-    L.appendChild(w); return L;
-  }
-  const copper = () => wrap(prMark("url(#cp-g)",11,"cp-f"));
-  const steel = () => wrap(prMark("url(#st-g)",11,"st-f"));
-  const goldR = () => wrap(prMark("url(#gd-g)",11,"gd-f"));
-  const carbon = () => wrap(prMark("url(#cb-p)",12,"cb-f"));
-  function lava(){
-    const b=sample(BRACKET,26),s=sample(SPARK,10,{ox:60,oy:60,s:0.46});
-    const crack=(p,i)=>i%2?"":`<line x1="${(p.x-p.tx*3).toFixed(1)}" y1="${(p.y-p.ty*3).toFixed(1)}" x2="${(p.x+p.tx*3).toFixed(1)}" y2="${(p.y+p.ty*3).toFixed(1)}" stroke="#ff7a1a" stroke-width="1.6" stroke-linecap="round"/>`;
-    return wrap(`${S}${frame("#1c1512",11,"")}${spk("#1c1512")}<g>${b.map(crack).join("")}${s.map(crack).join("")}</g></svg>`);
+  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes = gl.getUniformLocation(prog, "uRes"), uTime = gl.getUniformLocation(prog, "uTime"),
+        uCream = gl.getUniformLocation(prog, "uCream"), uDrops = gl.getUniformLocation(prog, "uDrops[0]"),
+        uCol = gl.getUniformLocation(prog, "uCol[0]");
+  gl.uniform3fv(uCream, CREAM);
+
+  // ---- drop trail (ring buffer) ----
+  const drops = new Float32Array(MAXD*4);              // x,y,birth,amp per drop
+  const cols  = new Float32Array(MAXD*3);
+  let ring = 0, colorIdx = 0;
+  const T0 = performance.now();
+  const nowSec = () => (performance.now() - T0) / 1000;
+  function drop(x, y, amp){
+    const b = ring*4, c = ring*3, col = PAL[colorIdx];
+    drops[b]=x; drops[b+1]=y; drops[b+2]=nowSec(); drops[b+3]=amp;
+    cols[c]=col[0]; cols[c+1]=col[1]; cols[c+2]=col[2];
+    ring = (ring+1)%MAXD; colorIdx = (colorIdx+1)%PAL.length;
   }
 
-  const FRAMES = FIN.map(c => ({ mk:() => finish(c), fam:c.fam })).concat([
-    { mk:wobble, fam:"line" }, { mk:fur, fam:"fur" }, { mk:pixels, fam:"pixel" }, { mk:paper, fam:"paper" },
-    { mk:crayon, fam:"crayon" }, { mk:satin, fam:"satin" }, { mk:mcm, fam:"mcm" }, { mk:riso, fam:"riso" }, { mk:ink, fam:"inkbleed" },
-    { mk:ice, fam:"ice" }, { mk:beads, fam:"beads" }, { mk:tile, fam:"tile" }, { mk:rattan, fam:"woven" }, { mk:sandstone, fam:"stone" },
-    { mk:glass, fam:"glass" }, { mk:hedge, fam:"greenfuzz" }, { mk:coral, fam:"coral" }, { mk:succulent, fam:"succ" }, { mk:yarn, fam:"yarn" },
-    { mk:marble, fam:"marble" }, { mk:wood, fam:"wood" }, { mk:terrazzo, fam:"terr" }, { mk:denim, fam:"denim" }, { mk:copper, fam:"copper" }, { mk:lava, fam:"lava" },
-    { mk:steel, fam:"metal" }, { mk:goldR, fam:"gold" }, { mk:carbon, fam:"carbon" }
-  ]);
-
-  const layers = FRAMES.map((fr,i) => { const L=fr.mk(); L.style.display = i?"none":""; host.appendChild(L); return L; });
-  requestAnimationFrame(() => host.classList.add("on"));
-
-  let i=0, timer=0, playing=false;
-  function pick(cur){ let n, tries=0; do { n=Math.floor(Math.random()*FRAMES.length); tries++; } while ((n===cur || FRAMES[n].fam===FRAMES[cur].fam) && tries<16); if (n===cur) n=(cur+1)%FRAMES.length; return n; }
-  function stepReel(){ layers[i].style.display="none"; i=pick(i); layers[i].style.display=""; }
-  function play(){ if (playing || host.clientWidth===0) return; playing=true; timer=setInterval(stepReel, 300); }
-  function pause(){ playing=false; clearInterval(timer); }
-
-  if (!reduce){
-    new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(host);
-    addEventListener("visibilitychange", () => document.hidden ? pause() : play());
+  // ---- sizing ----
+  let W=0, H=0;
+  function resize(){
+    const r = hero.getBoundingClientRect(); if (!r.width) return;
+    const dpr = Math.min(window.devicePixelRatio||1, 1.75);
+    W = Math.max(1, Math.round(r.width*dpr)); H = Math.max(1, Math.round(r.height*dpr));
+    cv.width=W; cv.height=H; gl.viewport(0,0,W,H);
   }
+  resize();
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(hero);
+  else addEventListener("resize", resize);
+
+  function render(){
+    gl.uniform2f(uRes, W, H);
+    gl.uniform1f(uTime, nowSec());
+    gl.uniform4fv(uDrops, drops);
+    gl.uniform3fv(uCol, cols);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  // reduced motion: paint one calm cream frame and stop
+  if (reduce) { render(); return; }
+
+  // ---- pointer trail: add a ripple every bit of travel across the box ----
+  let lastX=-9, lastY=-9;
+  function move(e){
+    const r = hero.getBoundingClientRect(); if (!r.width) return;
+    const x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+    if (x<-.05||x>1.05||y<-.05||y>1.05) return;
+    if (Math.hypot(x-lastX, y-lastY) < 0.028) return;   // throttle by distance
+    lastX=x; lastY=y; drop(x, y, 1.0);
+  }
+  hero.addEventListener("pointermove", move);
+  hero.addEventListener("pointerdown", e => {
+    const r = hero.getBoundingClientRect(); if (!r.width) return;
+    drop((e.clientX-r.left)/r.width, (e.clientY-r.top)/r.height, 1.35);
+  });
+
+  // ---- gentle ambient life when idle ----
+  let ambientAt = 0;
+  function ambient(t){
+    if (t < ambientAt) return;
+    ambientAt = t + 2.4;
+    // pseudo-random position without Math.random determinism issues
+    const rx = (Math.sin(t*12.9898)*43758.5453)%1, ry = (Math.sin(t*78.233+1.7)*24634.6345)%1;
+    drop(Math.abs(rx), Math.abs(ry), 0.32);
+  }
+
+  // ---- loop, paused offscreen / when hidden ----
+  let running=false, raf=0;
+  function frame(){ if (!running) return; ambient(nowSec()); render(); raf=requestAnimationFrame(frame); }
+  function play(){ if (running || W===0) return; running=true; raf=requestAnimationFrame(frame); }
+  function pause(){ running=false; cancelAnimationFrame(raf); }
+  render();
+  new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(hero);
+  addEventListener("visibilitychange", () => document.hidden ? pause() : play());
 })();
 </script>
 </body>
