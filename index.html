@@ -651,11 +651,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
 /* home hero — animated brand "equalizer": dots bounce, morph into moving sound bars,
    reform, on a loop. A bold, colourful mark above the copy. JS drives height/translateY. */
-.hero-eq{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(11px,1.5vw,20px);height:clamp(84px,15vh,156px);margin:0 auto clamp(22px,3.2vh,38px)}
-.eqbar{width:clamp(16px,2vw,28px);height:22px;border-radius:100px;will-change:height,transform,opacity}
-.eqlogo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--ink);pointer-events:none;opacity:0}
-.eqlogo .eqframe{fill:none;stroke:currentColor;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
-@media (prefers-reduced-motion:reduce){.eqbar{transform:none!important}}
+.hero-eq{position:relative;display:flex;align-items:center;justify-content:center;height:clamp(96px,16vh,172px);margin:0 auto clamp(22px,3.2vh,38px)}
+.hero-eq svg{height:100%;width:auto;display:block;overflow:visible}
+.hero-eq .eqframe{fill:none;stroke:#111110;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -3243,103 +3241,102 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   });
 })();
 </script>
-<!-- Home hero equaliser — a bold, colourful brand mark above the copy. Loop: a wave of
-     bouncing brand-colour dots -> they grow into a dancing sound-bar equaliser -> the bars
-     converge to the centre and fade as the Open Frame mark (open-frame bracket + 4-point
-     spark) draws itself in and holds -> the mark releases and the bars spread back into dots.
-     Each pill is a rounded rect (border-radius:100px) whose height tweens between a circle
-     (dot) and a bar; a JS rAF loop drives it. Respects prefers-reduced-motion (static logo
-     mark); pauses offscreen / when hidden. -->
+<!-- Home hero equaliser — a bold, colourful brand mark above the copy. Everything lives in
+     one SVG so the bars and the logo share coordinates and can morph smoothly. Loop: a wave
+     of bouncing brand-colour dots (red/yellow/green/blue + black) -> they grow into a dancing
+     sound-bar equaliser -> the bars TRAVEL and reshape (shrink to stroke-thick ticks, rotate
+     to the outline tangent, colour-shift to ink) so the moving marks flow into the Open Frame
+     mark as its bracket strokes on + the spark pops -> holds -> reverses back into dots.
+     rAF loop; static logo mark under prefers-reduced-motion; pauses offscreen / when hidden. -->
 <script>
 (() => {
   "use strict";
   const host = document.getElementById("heroEq");
   if (!host) return;
-  const COL = ["#f24333","#f4bf3a","#33ac66","#2f6bf0","#f24333","#f4bf3a","#33ac66"]; // red/yellow/green/blue…
-  const N = 7;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NS = "http://www.w3.org/2000/svg";
+  const INK = "#111110";
+  const COL = ["#f24333","#f4bf3a","#111110","#33ac66","#2f6bf0","#111110","#f24333"]; // red/yellow/BLACK/green/blue/BLACK/red
+  const N = 7;
   const BRACKET = "M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48";
   const SPARK = "M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z";
+  const VB_W=240, CY=60, OFF_X=60, barW=14, maxBar=100, BOUNCE=20;
 
+  // one SVG: logo group (behind) + the bar rects (on top)
+  const svg = document.createElementNS(NS,"svg");
+  svg.setAttribute("viewBox","0 0 240 120"); svg.setAttribute("fill","none"); svg.setAttribute("aria-hidden","true");
+  svg.innerHTML =
+    `<g transform="translate(${OFF_X},0)"><path class="eqframe" d="${BRACKET}"/>`+
+    `<g class="eqspark"><path d="${SPARK}" fill="${INK}"/></g></g>`;
+  host.appendChild(svg);
+  const framePath = svg.querySelector(".eqframe"), spark = svg.querySelector(".eqspark");
   const bars = [];
-  for (let i=0;i<N;i++){
-    const b = document.createElement("span");
-    b.className = "eqbar";
-    b.style.background = COL[i % COL.length];
-    host.appendChild(b);
-    bars.push(b);
-  }
-  // the real Open Frame mark, overlaid centred; drawn in during the "logo" beat
-  const NS = "http://www.w3.org/2000/svg";
-  const logo = document.createElementNS(NS,"svg");
-  logo.setAttribute("class","eqlogo"); logo.setAttribute("viewBox","0 0 120 120"); logo.setAttribute("fill","none"); logo.setAttribute("aria-hidden","true");
-  logo.innerHTML = `<path class="eqframe" d="${BRACKET}"/><g class="eqspark"><path d="${SPARK}" fill="currentColor"/></g>`;
-  host.appendChild(logo);
-  const frame = logo.querySelector(".eqframe"), spark = logo.querySelector(".eqspark");
-  let frameLen = 300;
-  try { frameLen = frame.getTotalLength(); } catch(e){}
-  frame.style.strokeDasharray = frameLen;
+  for (let i=0;i<N;i++){ const r=document.createElementNS(NS,"rect"); r.setAttribute("fill",COL[i]); svg.appendChild(r); bars.push(r); }
 
-  const P = bars.map((_,i)=>({ spd:2.4+i*0.55, ph:i*1.25, bspd:3.4, boff:i*0.62 }));
-  const smoother = (e0,e1,x)=>{ let t=Math.min(1,Math.max(0,(x-e0)/(e1-e0))); return t*t*t*(t*(t*6-15)+10); };
-
-  // loop segments (u in [0,1)): dots -> bars -> converge+draw logo -> hold -> release
-  function state(u){
-    let m, conv, barA, k;
-    if (u<0.22){ m=0; conv=0; barA=1; k=0; }
-    else if (u<0.30){ m=smoother(0.22,0.30,u); conv=0; barA=1; k=0; }
-    else if (u<0.52){ m=1; conv=0; barA=1; k=0; }
-    else if (u<0.62){ const r=smoother(0.52,0.62,u); m=1-r; conv=r; barA=1-r; k=r; }
-    else if (u<0.80){ m=0; conv=1; barA=0; k=1; }
-    else if (u<0.90){ const r=smoother(0.80,0.90,u); m=0; conv=1-r; barA=r; k=1-r; }
-    else { m=0; conv=0; barA=1; k=0; }
-    return {m, conv, barA, k};
-  }
-
-  let W=18, maxH=140, contH=140, dx=new Array(N).fill(0);
-  function measure(){
-    W = bars[0].getBoundingClientRect().width || 18;
-    contH = host.getBoundingClientRect().height || 140;
-    maxH = contH * 0.94;
-    const cx = host.clientWidth/2;
-    for (let i=0;i<N;i++){ dx[i] = cx - (bars[i].offsetLeft + bars[i].offsetWidth/2); }
-    const sz = (contH*1.06).toFixed(0);
-    logo.style.width = sz+"px"; logo.style.height = sz+"px";
-  }
-
-  function apply(t, s){
+  // morph targets: N points spread along the bracket outline (+ tangent angle)
+  let frameLen=300; const targets=[];
+  (function buildTargets(){
+    try { frameLen = framePath.getTotalLength(); } catch(e){}
+    framePath.style.strokeDasharray = frameLen;
     for (let i=0;i<N;i++){
-      const p = P[i];
-      const dotH = W;
-      const eqH  = W + (maxH - W) * (0.5 + 0.5*Math.sin(t*p.spd + p.ph));
-      const h = dotH + (eqH - dotH) * s.m;
-      const bounce = -0.24 * (contH - W) * Math.max(0, Math.sin(t*p.bspd - p.boff)) * (1 - s.m) * s.barA;
-      const b = bars[i];
-      b.style.height = h.toFixed(1) + "px";
-      b.style.opacity = s.barA.toFixed(3);
-      b.style.transform = "translate(" + (dx[i]*s.conv).toFixed(1) + "px," + bounce.toFixed(1) + "px)";
+      const l=((i+0.5)/N)*frameLen, p=framePath.getPointAtLength(l), p2=framePath.getPointAtLength(Math.min(frameLen,l+2));
+      targets.push({ x:p.x+OFF_X, y:p.y, ang:Math.atan2(p2.y-p.y, p2.x-p.x)*180/Math.PI });
     }
-    logo.style.opacity = s.k.toFixed(3);
-    frame.style.strokeDashoffset = (frameLen*(1-s.k)).toFixed(1);
-    spark.setAttribute("transform", "translate(60,60) scale(" + (0.42*s.k).toFixed(3) + ")");
+  })();
+
+  const rowX = i => 120 + (i-3)*30;                 // bars spread as a centred row
+  const P = bars.map((_,i)=>({ spd:2.4+i*0.55, ph:i*1.25, bspd:3.4, boff:i*0.62 }));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const smoother=(e0,e1,x)=>{ let t=Math.min(1,Math.max(0,(x-e0)/(e1-e0))); return t*t*t*(t*(t*6-15)+10); };
+  const h2r=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const INKrgb=h2r(INK), COLrgb=COL.map(h2r);
+  const mix=(a,b,t)=>`rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`;
+
+  // loop phases -> {m: dot(0)<->bar(1) height, k: row(0)<->logo(1) morph}
+  function state(u){
+    if (u<0.18) return {m:0, k:0};
+    if (u<0.26) return {m:smoother(0.18,0.26,u), k:0};
+    if (u<0.46) return {m:1, k:0};
+    if (u<0.60) return {m:1, k:smoother(0.46,0.60,u)};   // bars flow into the mark
+    if (u<0.80) return {m:1, k:1};                        // hold the logo
+    if (u<0.90) return {m:1, k:1-smoother(0.80,0.90,u)};  // release back to bars
+    return {m:1-smoother(0.90,1.0,u), k:0};               // settle to dots
   }
 
-  // reduced motion: just show the static Open Frame mark
+  function draw(t){
+    const s = state((t % LOOP)/LOOP), m=s.m, k=s.k;
+    for (let i=0;i<N;i++){
+      const p=P[i], tg=targets[i];
+      const eqH = barW + (maxBar-barW)*(0.5+0.5*Math.sin(t*p.spd+p.ph));
+      const baseH = barW + (eqH-barW)*m;
+      const bounce = -BOUNCE*Math.max(0,Math.sin(t*p.bspd-p.boff))*(1-m)*(1-k);
+      const cx = lerp(rowX(i), tg.x, k), cy = lerp(CY+bounce, tg.y, k);
+      const w = lerp(barW, 11, k), h = lerp(baseH, 8, k);
+      const r = bars[i];
+      r.setAttribute("x",(cx-w/2).toFixed(2)); r.setAttribute("y",(cy-h/2).toFixed(2));
+      r.setAttribute("width",w.toFixed(2)); r.setAttribute("height",h.toFixed(2));
+      r.setAttribute("rx",(Math.min(w,h)/2).toFixed(2));
+      r.setAttribute("fill",mix(COLrgb[i],INKrgb,k));
+      r.setAttribute("transform", k>0.001 ? `rotate(${(tg.ang*k).toFixed(1)} ${cx.toFixed(2)} ${cy.toFixed(2)})` : "");
+    }
+    framePath.style.strokeDashoffset = (frameLen*(1-k)).toFixed(1);
+    spark.setAttribute("transform", `translate(60,60) scale(${(0.42*k).toFixed(3)})`);
+  }
+
+  // reduced motion: static Open Frame mark (bars hidden)
   if (reduce){
-    measure();
-    for (const b of bars) b.style.opacity = "0";
-    apply(0, {m:0, conv:1, barA:0, k:1});
+    for (const b of bars) b.setAttribute("opacity","0");
+    framePath.style.strokeDashoffset = "0";
+    spark.setAttribute("transform","translate(60,60) scale(0.42)");
     return;
   }
 
-  const LOOP = 11.0;
-  const T0 = performance.now();
+  const LOOP = 11.0, T0 = performance.now();
   let running=false, raf=0;
-  function frameLoop(now){ if(!running) return; const t=(now-T0)/1000; apply(t, state((t % LOOP)/LOOP)); raf=requestAnimationFrame(frameLoop); }
-  function play(){ if(running) return; measure(); if(!host.getBoundingClientRect().height) return; running=true; raf=requestAnimationFrame(frameLoop); }
+  function frame(now){ if(!running) return; draw((now-T0)/1000); raf=requestAnimationFrame(frame); }
+  function play(){ if(running) return; running=true; raf=requestAnimationFrame(frame); }
   function pause(){ running=false; cancelAnimationFrame(raf); }
-  measure(); apply(0, state(0));
-  if (window.ResizeObserver) new ResizeObserver(measure).observe(host);
+  draw(0);
   new IntersectionObserver(es=>{ for(const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(host);
   addEventListener("visibilitychange", ()=> document.hidden ? pause() : play());
 })();
