@@ -101,7 +101,7 @@
   --serif:"Fraunces",Georgia,serif;
   --sans:"Inter",system-ui,-apple-system,sans-serif;
   --maxw:2200px;--gutter:clamp(18px,4.5vw,76px);--r:20px;--r-lg:30px;--pill:100px;--sect:clamp(58px,7vw,100px);
-  --ease:cubic-bezier(.22,1,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);
+  --ease:cubic-bezier(.22,1,.36,1);--ease-flow:cubic-bezier(.4,0,.2,1);--flow:.65s;--ease-out:cubic-bezier(.16,1,.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -880,8 +880,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svc-stage .svc-acc{display:flex;flex-direction:column;grid-template:none;gap:clamp(8px,1.2vh,16px);flex:1 1 auto;min-height:0}
 /* card is a COLUMN holding one .svc-main row (icon + text); collapsed centres it,
    open drops it to the BOTTOM of the tile */
-.svc-stage .svc-acc .svc-card,.svc-stage .svc-acc .svc-card.s4{flex:1 1 0;flex-grow:1;min-height:0;flex-direction:column;justify-content:center;align-items:stretch;flex-wrap:nowrap;gap:0;padding:clamp(8px,1.1vw,15px) clamp(18px,2.8vw,44px);transition:flex-grow .6s var(--ease),background .5s var(--ease)}
-.svc-stage .svc-acc .svc-card.open{flex-grow:5;justify-content:flex-end;padding-bottom:clamp(22px,3.6vh,46px)}
+.svc-stage .svc-acc .svc-card,.svc-stage .svc-acc .svc-card.s4{flex:1 1 0;flex-grow:1;min-height:0;flex-direction:column;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;gap:0;padding:clamp(8px,1.1vw,15px) clamp(18px,2.8vw,44px);transition:flex-grow var(--flow) var(--ease-flow),padding var(--flow) var(--ease-flow),background .5s var(--ease)}
+/* two flex spacers centre the content in a collapsed tile; on open the lower one shrinks to 0 so the
+   content GLIDES to the bottom (justify-content can't be animated, so it used to jump) */
+.svc-stage .svc-acc .svc-card::before,.svc-stage .svc-acc .svc-card::after{content:"";flex:1 1 0;min-height:0;transition:flex-grow var(--flow) var(--ease-flow)}
+.svc-stage .svc-acc .svc-card.open::after{flex-grow:0}
+.svc-stage .svc-acc .svc-card.open{flex-grow:5;padding-bottom:clamp(22px,3.6vh,46px)}
 /* The icon is absolutely positioned inside .svc-main so it can SMOOTHLY glide
    between the two states (you can't tween flex-direction): collapsed = centred
    on the LEFT beside the title; open = top-left ABOVE the title. .svc-txt's
@@ -889,32 +893,32 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svc-stage .svc-acc .svc-main{position:relative;display:flex;flex-direction:column;justify-content:center;width:100%;min-width:0;min-height:clamp(26px,2.6vw,38px)}
 /* outline stays a constant colour — no change on hover/open/lift */
 .svc-stage .svc-acc .svc-card,.svc-stage .svc-acc .svc-card:hover{border-color:var(--line);transform:none}
-.svc-stage .svc-acc .svc-card .ico{position:absolute;left:0;top:50%;transform:translateY(-50%);margin:0;width:clamp(26px,2.6vw,38px);height:clamp(26px,2.6vw,38px);transition:top .55s var(--ease),transform .55s var(--ease),width .55s var(--ease),height .55s var(--ease),color .4s var(--ease)}
+.svc-stage .svc-acc .svc-card .ico{position:absolute;left:0;top:50%;transform:translateY(-50%);margin:0;width:clamp(26px,2.6vw,38px);height:clamp(26px,2.6vw,38px);transition:top var(--flow) var(--ease-flow),transform var(--flow) var(--ease-flow),width var(--flow) var(--ease-flow),height var(--flow) var(--ease-flow),color .4s var(--ease)}
 /* open: icon slides to the top-left and grows BIGGER */
 .svc-stage .svc-acc .svc-card.open .ico{top:0;transform:none;width:clamp(54px,5.6vw,92px);height:clamp(54px,5.6vw,92px);color:var(--sccol)}
 /* collapsed: title sits to the RIGHT of the icon; open: DROPS below it with a
    generous gap (padding-top = big open icon + extra space) */
-.svc-stage .svc-acc .svc-card .svc-txt{min-width:0;margin:0;padding-left:calc(clamp(26px,2.6vw,38px) + clamp(11px,1.3vw,18px));transition:padding-left .55s var(--ease),padding-top .55s var(--ease)}
+.svc-stage .svc-acc .svc-card .svc-txt{min-width:0;margin:0;padding-left:calc(clamp(26px,2.6vw,38px) + clamp(11px,1.3vw,18px));transition:padding-left var(--flow) var(--ease-flow),padding-top var(--flow) var(--ease-flow)}
 .svc-stage .svc-acc .svc-card.open .svc-txt{padding-left:0;padding-top:calc(clamp(54px,5.6vw,92px) + clamp(18px,2.2vw,34px))}
 /* lock Fraunces' optical size so the "&" (and other glyphs) keep the display-style
    shape at every size — otherwise it changes form between the small (collapsed) and
    large (open) title */
-.svc-stage .svc-acc .svc-card h3{margin:0;font-size:clamp(1.02rem,1.7vw,1.55rem);line-height:1.12;font-optical-sizing:none;font-variation-settings:"opsz" 40,"wght" 500;transition:font-size .5s var(--ease)}
+.svc-stage .svc-acc .svc-card h3{margin:0;font-size:clamp(1.02rem,1.7vw,1.55rem);line-height:1.12;font-optical-sizing:none;font-variation-settings:"opsz" 40,"wght" 500;transition:font-size var(--flow) var(--ease-flow),margin var(--flow) var(--ease-flow)}
 .svc-stage .svc-acc .svc-card.open h3{font-size:clamp(1.28rem,2.5vw,2.2rem);margin-bottom:6px}
 /* description follows the site's standard supporting-paragraph scale (like
    about-body / cform-head), not a smaller one-off — min 1rem so tablet reads at
    16px, ~18px on desktop */
-.svc-stage .svc-acc .svc-card p{max-width:82ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.5;color:var(--muted);transition:max-height .55s var(--ease),opacity .4s var(--ease)}
+.svc-stage .svc-acc .svc-card p{max-width:82ch;max-height:0;opacity:0;margin:0;overflow:hidden;font-size:clamp(1rem,1.3vw,1.14rem);line-height:1.5;color:var(--muted);transition:max-height var(--flow) var(--ease-flow),opacity .4s var(--ease)}
 .svc-stage .svc-acc .svc-card.open p{max-height:9.5em;opacity:1}
 /* bullet list reappears in the open tile where there's room */
-.svc-stage .svc-acc .svc-card ul{display:flex;max-height:0;opacity:0;margin-top:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease) .05s,margin-top .4s var(--ease)}
+.svc-stage .svc-acc .svc-card ul{display:flex;max-height:0;opacity:0;margin-top:0;overflow:hidden;transition:max-height var(--flow) var(--ease-flow),opacity .4s var(--ease) .05s,margin-top var(--flow) var(--ease-flow)}
 .svc-stage .svc-acc .svc-card.open ul{max-height:12em;opacity:1;margin-top:clamp(10px,1.4vh,20px)}
 .svc-stage .svc-acc .svc-card.open .fold{width:clamp(80px,15vw,106px);height:clamp(80px,15vw,106px)}
 .svc-stage .svc-acc .svc-card.open .arr{opacity:1;transform:none}
 /* PROCESS accordion (.svc-acc-num): a serif step NUMBER instead of an icon, and NO
    corner tab (fold/arr omitted in markup) — so the number itself grows on open to
    signal the active tile. Glides left→above the title exactly like the icon does. */
-.svc-stage .svc-acc.svc-acc-num .svc-card .svc-num{position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:var(--serif);font-weight:500;line-height:1;letter-spacing:-.01em;color:var(--ink);font-size:clamp(1.05rem,1.9vw,1.6rem);transition:top .55s var(--ease),transform .55s var(--ease),font-size .55s var(--ease),color .4s var(--ease)}
+.svc-stage .svc-acc.svc-acc-num .svc-card .svc-num{position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:var(--serif);font-weight:500;line-height:1;letter-spacing:-.01em;color:var(--ink);font-size:clamp(1.05rem,1.9vw,1.6rem);transition:top var(--flow) var(--ease-flow),transform var(--flow) var(--ease-flow),font-size var(--flow) var(--ease-flow),color .4s var(--ease)}
 .svc-stage .svc-acc.svc-acc-num .svc-card.open .svc-num{top:0;transform:none;font-size:clamp(2.6rem,5.8vw,4.7rem);color:var(--sccol)}
 .svc-stage .svc-acc.svc-acc-num .svc-card .svc-txt{padding-left:calc(clamp(32px,3.4vw,52px) + clamp(11px,1.3vw,18px))}
 .svc-stage .svc-acc.svc-acc-num .svc-card.open .svc-txt{padding-left:0;padding-top:calc(clamp(2.6rem,5.8vw,4.7rem) + clamp(16px,2.1vw,30px))}
@@ -988,7 +992,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .pj-strip .pj.open .arr{opacity:1;transform:none}
 @media (min-width:821px){
   .pj-strip{display:flex;flex-direction:row;gap:clamp(10px,1vw,16px);height:clamp(400px,60svh,600px)}
-  .pj-strip .pj{flex:1 1 0;flex-grow:1;min-width:0;transition:flex-grow .6s var(--ease)}
+  .pj-strip .pj{flex:1 1 0;flex-grow:1;min-width:0;transition:flex-grow var(--flow) var(--ease-flow)}
   .pj-strip .pj.open{flex-grow:3.2}
   .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
   /* collapsed: vertical wordmark spine */
@@ -1006,13 +1010,13 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
      min-height on each .pj is a safety net so a tile can never collapse to 0 (the
      project panels don't have in-flow content — the wordmark is absolute). */
   .pj-strip{display:flex;flex-direction:column;gap:clamp(8px,1.4vh,14px);height:auto}
-  .pj-strip .pj{flex:1 1 0;flex-grow:1;min-height:clamp(58px,9vh,96px);transition:flex-grow .6s var(--ease)}
+  .pj-strip .pj{flex:1 1 0;flex-grow:1;min-height:clamp(58px,9vh,96px);transition:flex-grow var(--flow) var(--ease-flow)}
   .pj-strip .pj.open{flex-grow:4.4}
   .pj-strip .pj .face{aspect-ratio:auto;height:100%;width:100%}
   .pj-strip .pj .pj-tab{display:none}
   .pj-strip .pj .pj-logo{display:flex;position:absolute;inset:0;z-index:3;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:clamp(16px,4.4vw,24px);text-align:left;pointer-events:none}
   .pj-strip .pj-logo .pw{font-size:clamp(1.15rem,5.2vw,1.75rem)}
-  .pj-strip .pj-logo p{max-height:0;opacity:0;overflow:hidden;font-size:clamp(.85rem,3.4vw,.96rem);transition:max-height .5s var(--ease),opacity .4s var(--ease),margin-top .4s var(--ease)}
+  .pj-strip .pj-logo p{max-height:0;opacity:0;overflow:hidden;font-size:clamp(.85rem,3.4vw,.96rem);transition:max-height var(--flow) var(--ease-flow),opacity .4s var(--ease),margin-top var(--flow) var(--ease-flow)}
   .pj-strip .pj.open .pj-logo p{max-height:7em;opacity:1;margin-top:6px}
 }
 /* service pages */
@@ -3164,20 +3168,25 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   if (fine) {
     const cur=document.createElement("div"); cur.className="cursor hidden"; document.body.appendChild(cur);
     document.body.classList.add("has-cursor");
-    let tx=0,ty=0,cx=0,cy=0,shown=false,f2=0;
-    addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY;if(!shown){shown=true;cur.classList.remove("hidden");cx=tx;cy=ty;}});
+    let tx=0,ty=0,cx=0,cy=0,shown=false,f2=0,awake=false;
+    const wake=()=>{if(!awake){awake=true;requestAnimationFrame(loop);}};
+    addEventListener("mousemove",e=>{tx=e.clientX;ty=e.clientY;if(!shown){shown=true;cur.classList.remove("hidden");cx=tx;cy=ty;}wake();},{passive:true});
+    addEventListener("scroll",wake,{passive:true});
     addEventListener("mouseleave",()=>cur.classList.add("hidden"));
     addEventListener("mouseenter",()=>cur.classList.remove("hidden"));
     const it="a,button,[data-go],[data-nav],.nav-toggle,.pj,.bx,input,textarea,.link-arrow,.cs-back,.np-big,.svc-card";
     document.addEventListener("mouseover",e=>{if(e.target.closest(it))cur.classList.add("grow");});
     document.addEventListener("mouseout",e=>{if(e.target.closest(it))cur.classList.remove("grow");});
     const darkSel=".cta-dark,.btn-dark,.cs-next .np-plate,.nav-cta";
-    (function loop(){
+    /* follows the mouse, then sleeps once it has caught up (no work while idle) */
+    function loop(){
       cx+=(tx-cx)*.42; cy+=(ty-cy)*.42;
-      cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;
-      if((f2=(f2+1)%3)===0){const u=(tx>=0&&ty>=0)?document.elementFromPoint(tx,ty):null;cur.classList.toggle("on-dark",!!(u&&u.closest(darkSel)));}
+      const still=Math.abs(tx-cx)<.15&&Math.abs(ty-cy)<.15; if(still){cx=tx;cy=ty;}
+      cur.style.transform=`translate3d(${cx}px,${cy}px,0) translate(-50%,-50%)`;
+      if((f2=(f2+1)%3)===0||still){const u=(tx>=0&&ty>=0)?document.elementFromPoint(tx,ty):null;cur.classList.toggle("on-dark",!!(u&&u.closest(darkSel)));}
+      if(still){awake=false;return;}
       requestAnimationFrame(loop);
-    })();
+    }
   }
 
   /* Calendly lazy init */
@@ -3234,7 +3243,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     document.documentElement.classList.toggle("snap-deck", id==="home"||id==="work"||id==="services"||id==="about"||id==="contact"||id.indexOf("svc-")===0||CASE_STUDIES[id]===1);  /* full-page snap decks (home / work / services / about / contact / the 4 service-detail pages / the 5 case studies) */
     document.documentElement.classList.toggle("snap-free", CASE_STUDIES[id]===1);  /* case studies keep the full-height tiles but scroll freely (no visible snap) */
     setMeta(id);
-    scrollTo(0,0);
+    scrollTo({top:0,left:0,behavior:"instant"});
     document.querySelector(".nav").classList.remove("open");
   }
   const SLUG2ID={"":"home","work":"work","services":"services","about":"about","contact":"contact","park-n-go":"parkngo","hmong-cultural-center":"hmong","hellospoke":"hellospoke","wellness-in-the-woods":"wellness","needlework-guild-of-mn":"needlework"};
@@ -3242,9 +3251,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   /* the 4 service pages were merged into /services: old ids and URLs land on their section there */
   const SVC_SEC={"svc-brand":1,"svc-web":1,"svc-marketing":1,"svc-growth":1};
   const OLD_SVC={"brand-identity-strategy":"svc-brand","web-product-design":"svc-web","marketing-content":"svc-marketing","brand-growth-consulting":"svc-growth"};
-  function toSec(sv){requestAnimationFrame(function(){var el=document.getElementById(sv+"-sec");if(el)el.scrollIntoView();});}
-  function idFromLoc(){var p=location.pathname.replace(/^\/+|\/+$/g,"");if(p in OLD_SVC){history.replaceState(null,null,"/services");toSec(OLD_SVC[p]);return "services";}if(p in SLUG2ID)return SLUG2ID[p];if(location.hash){var h=location.hash.slice(1);if(PAGES.includes(h))return h;}return "home";}
-  function go(id){if(SVC_SEC[id]){if(!document.getElementById("services").classList.contains("active")){history.pushState({},"","/services");show("services");}toSec(id);return;}id=PAGES.includes(id)?id:"home";history.pushState({},"","/"+(ID2SLUG[id]||""));show(id);}
+  function toSec(sv,jump){requestAnimationFrame(function(){var el=document.getElementById(sv+"-sec");if(el)el.scrollIntoView({behavior:jump?"instant":"smooth"});});}
+  function idFromLoc(){var p=location.pathname.replace(/^\/+|\/+$/g,"");if(p in OLD_SVC){history.replaceState(null,null,"/services");toSec(OLD_SVC[p],1);return "services";}if(p in SLUG2ID)return SLUG2ID[p];if(location.hash){var h=location.hash.slice(1);if(PAGES.includes(h))return h;}return "home";}
+  function go(id){if(SVC_SEC[id]){var jump=!document.getElementById("services").classList.contains("active");if(jump){history.pushState({},"","/services");show("services");}toSec(id,jump);return;}id=PAGES.includes(id)?id:"home";history.pushState({},"","/"+(ID2SLUG[id]||""));show(id);}
   addEventListener("popstate",function(){show(idFromLoc());});
   document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g){e.preventDefault();go(g.getAttribute("data-go"));return;}var a=e.target.closest('a[href^="#"]');if(a){var id=a.getAttribute("href").slice(1);if(PAGES.includes(id)){e.preventDefault();go(id);}}});
   (function(){if(location.search&&location.search.charAt(1)==="/"){var d=location.search.slice(2).split("&").map(function(s){return s.replace(/~and~/g,"&");}).join("?");history.replaceState(null,null,"/"+d+location.hash);}})();
@@ -3362,7 +3371,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
     var canHover=matchMedia("(hover:hover) and (pointer:fine)").matches;
     function wire(items,interval){
       if(items.length<2) return;
-      var idx=0,timer=0,hovering=false;
+      var idx=0,timer=0,hovering=false,hov=0;
       function open(i){ idx=i; items.forEach(function(el,j){ el.classList.toggle("open",j===i); }); }
       function tick(){ if(!hovering) open((idx+1)%items.length); }
       function start(){ if(timer||reduce) return; timer=setInterval(tick,interval); }
@@ -3373,8 +3382,10 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       open(0);
       items.forEach(function(el,i){
         /* hover opens on pointer devices; on touch the autoplay just keeps cycling */
-        el.addEventListener("pointerenter",function(){ if(canHover){ hovering=true; open(i); } });
-        el.addEventListener("pointerleave",function(){ if(canHover) hovering=false; });
+        /* a short hover-intent delay: sweeping the mouse across the tiles no longer
+           ripples every one open and shut — only the tile you settle on opens */
+        el.addEventListener("pointerenter",function(){ if(canHover){ hovering=true; clearTimeout(hov); hov=setTimeout(function(){ open(i); },90); } });
+        el.addEventListener("pointerleave",function(){ if(canHover){ hovering=false; clearTimeout(hov); } });
         el.addEventListener("focusin",function(){ open(i); });
         /* TAP TO EXPAND (touch): first tap on a collapsed tile OPENS it (and holds it
            a cycle) instead of firing its link; the arrow / a second tap on the already-
