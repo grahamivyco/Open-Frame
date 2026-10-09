@@ -1141,7 +1141,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .footer-bar{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(30px,4vw,50px);display:grid;grid-template-columns:1fr auto;gap:clamp(24px,4vw,48px);align-items:start}
 .footer-bar>*{position:relative;z-index:1}
 /* supersized brand wordmark, half cut off — fills the full-screen home footer */
-.footer-big{display:none;position:absolute;left:50%;bottom:0;z-index:0;transform:translate(-50%,28%);font-family:"Manrope",var(--sans);font-weight:700;font-size:clamp(2.6rem,16.3vw,15.2rem);letter-spacing:-.045em;line-height:.82;white-space:nowrap;color:#e5e2d7;pointer-events:none;user-select:none}
+.footer-big{display:none;position:absolute;left:50%;bottom:clamp(30px,4vw,50px);z-index:0;transform:translateX(-50%);font-family:"Manrope",var(--sans);font-weight:700;font-size:clamp(2.4rem,15vw,14rem);letter-spacing:-.045em;line-height:1.2;white-space:nowrap;color:#e5e2d7;pointer-events:none;user-select:none}
 @media (min-height:600px){ html.snap-deck .footer-big{display:block} }
 .footer-bar .fbrand{display:inline-flex;align-items:center;gap:11px;width:fit-content}
 .footer-bar .fbrand .wordmark{font-size:19px}
