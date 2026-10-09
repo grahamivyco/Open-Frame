@@ -115,5 +115,7 @@ Open/optional: real per-project logo files (need the source files); submit `site
 - `cover-needlework.webp` (2400×3200, replaces the old PNG everywhere) is a sage field with a tilted brick of **photo-free** high-res UI crops, so it stays sharp at every size.
 - Old `ngm-brandhero/collage/patterns/logo/ia/new-meetings/new-events/old-home` images are unused on the page now (left in `images/`).
 
+**Résumé sync (Oct 2026)** — site content now matches `Graham-Ivy-Resume.pdf`: About career strip = Wellness in the Woods (Brand & Product Designer · Content Strategist, Sept 2023–Present), Needlework Guild of MN (freelance, Dec 2024–Present), HelloSpoke (freelance), SOTA Extracts (Product Designer · Brand & Web, 2020–2023), Selina (Visual Designer · Community Engagement, 2022). Gustavus was moved out of the strip; education (UMN UX/UI certificate + Gustavus B.A.) is a line in "Studio of one", which also gained a 5+ years line. Wellness case study: role/timeline from the résumé + the 113% / 223% / 40% results. Needlework: timeline Dec 2024–Present + "first engagement growth in 15 years". JSON-LD Person has `alumniOf` + `knowsLanguage`. If the résumé changes, update these spots too.
+
 ## Working with Graham
 Non-technical by background (learning as he goes) — explain what a change does and why, and prefer safe, reversible steps. He often works on **one page at a time**.
