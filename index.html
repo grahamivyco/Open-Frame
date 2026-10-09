@@ -3725,7 +3725,7 @@ html.svm-open,html.svm-open body{overflow:hidden}
 /* Open Frame Bauhaus reel. makeReel(W,H,opts).draw(ctx,t) paints one frame at t seconds in a W x H
    logical space (always >= 1920 x 1080; the caller scales the canvas). Timeline: shape trio (0-2.2s) ->
    BRAND / PRODUCT / MARKETING (2.2-4.4s) -> tile wave (4.4-7.6s) -> logo builds + quarter turns (7.6-11s)
-   -> logo settles on opts.target (11-12.6s) -> holds, the spark turning every 4s.
+   -> logo settles on opts.target (11-12.6s; every time after the words is +D, the extra word hold) -> holds, the spark turning every 4s.
    opts.endText draws the closing copy + CTA on the canvas (video); the site hero uses real HTML instead. */
 window.makeReel=function(W,H,opts){
 opts=opts||{};
@@ -3780,8 +3780,8 @@ function scene1(ctx,t){
 function letters(ctx,word,font,sp){ctx.font=font;const ws=[...word].map(ch=>ctx.measureText(ch).width);const tot=ws.reduce((a,b)=>a+b,0)+sp*(word.length-1);let x=CX-tot/2;return [...word].map((ch,i)=>{const o={ch,x,w:ws[i]};x+=ws[i]+sp;return o;});}
 function fit(ctx,word,maxW){let size=320,ls;for(;;){ls=letters(ctx,word,"800 "+size+'px "Manrope", sans-serif',size*.02);const tot=ls[ls.length-1].x+ls[ls.length-1].w-ls[0].x;if(tot<=maxW||size<120)break;size-=8;}
   return {ls,font:"800 "+size+'px "Manrope", sans-serif',cap:size*.725,base:CY+size*.725/2};}
-function scene2(ctx,t){
-  if(t<2.95){ // BRAND rises out of a mask, the A is a triangle
+function scene2(ctx,t,w){
+  if(w===0){ // BRAND rises out of a mask, the A is a triangle
     bg(ctx,R);
     const {ls,font,cap,base}=fit(ctx,"BRAND",1500);
     ctx.save();ctx.beginPath();ctx.rect(0,base-cap-40,W,cap+80);ctx.clip();
@@ -3790,7 +3790,7 @@ function scene2(ctx,t){
       else{ctx.font=font;ctx.fillStyle=CREAM;ctx.fillText(l.ch,l.x,base+yy);}});
     ctx.restore();
     const s=eOutBack(seg(t,2.3,2.7));square(ctx,250,230,110*s,t*2.2,INK);circle(ctx,W-250,H-230,60*s,Y);
-  }else if(t<3.7){ // PRODUCT drops + bounces, the O is a circle
+  }else if(w===1){ // PRODUCT drops + bounces, the O is a circle
     bg(ctx,B);
     const {ls,font,cap,base}=fit(ctx,"PRODUCT",1640);
     ls.forEach((l,i)=>{const p=eOutBounce(seg(t,2.95+i*.05,3.42+i*.05)),yy=lerp(-300,0,p);
@@ -3893,18 +3893,24 @@ function endText(ctx,t){ // the hero copy, drawn for the video
 
 /* transitions + HUD */
 function bars(ctx,t){[R,B,G,INK].forEach((c,i)=>{const p=eIOExpo(seg(t,4.15+i*.06,4.65+i*.06));if(p<=0||p>=1)return;ctx.fillStyle=c;ctx.fillRect(lerp(-W,W,p),0,W,H);});}
-function hud(ctx,t){
+function hud(ctx,t,real){
   if(t>11.3)return;
   const dark=(t>=1.95&&t<3.7)||(t>4.35&&t<4.6);
   ctx.fillStyle=dark?CREAM:INK;ctx.globalAlpha=.85;ctx.font='600 22px "Inter", sans-serif';
   ctx.fillText("OPEN FRAME  /  BRAND · PRODUCT · MARKETING",64,76);
-  const f=Math.floor(t*30),s=Math.floor(t);
+  const f=Math.floor(real*30),s=Math.floor(real);
   ctx.textAlign="right";ctx.fillText("00:"+String(s).padStart(2,"0")+":"+String(f%30).padStart(2,"0"),W-64,76);ctx.textAlign="left";ctx.globalAlpha=1;
 }
-return {W,H,draw(ctx,t){
+// each word holds HOLD seconds longer than its entrance needs; everything after the words shifts by D
+const HOLD=.4,D=HOLD*3;
+return {W,H,D,draw(ctx,t){
   ctx.textBaseline="alphabetic";ctx.textAlign="left";ctx.globalAlpha=1;
-  if(t<2.2)scene1(ctx,t);else if(t<4.4)scene2(ctx,t);else if(t<7.6)scene3(ctx,t);else scene4(ctx,t);
-  bars(ctx,t);if(opts.hud)hud(ctx,t);
+  if(t<2.2)scene1(ctx,t);
+  else if(t<2.95+HOLD)scene2(ctx,t,0);
+  else if(t<3.7+2*HOLD)scene2(ctx,t-HOLD,1);
+  else if(t<4.4+D)scene2(ctx,t-2*HOLD,2);
+  else if(t<7.6+D)scene3(ctx,t-D);else scene4(ctx,t-D);
+  bars(ctx,t-D);if(opts.hud)hud(ctx,t-D,t);
 }};
 };
 
@@ -3914,7 +3920,7 @@ return {W,H,draw(ctx,t){
         slot = document.getElementById("heroMark"), btn = document.getElementById("heroSkip");
   if (!hero || !cv || !slot || !cv.getContext) { hero && hero.classList.remove("intro"); return; }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ctx = cv.getContext("2d"), REVEAL = 11.35, SETTLED = 13;
+  const ctx = cv.getContext("2d"), D = 1.2, REVEAL = 11.35 + D, SETTLED = 13 + D;   // D = makeReel's extra word hold
   let reel = null, start = performance.now(), pausedAt = 0, running = false, raf = 0, revealed = reduce, began = false;
   const now = () => reduce ? SETTLED : (performance.now() - start) / 1000;
   function layout(){
@@ -3933,7 +3939,7 @@ return {W,H,draw(ctx,t){
   function frame(){
     if (!running) return;
     const t = now();
-    if (t < 15 || ((t-13.6) % 4) < .7) paint(t);           // after the intro only the spark's quarter turn animates
+    if (t < 15 + D || ((t-D-13.6) % 4) < .7) paint(t);           // after the intro only the spark's quarter turn animates
     raf = requestAnimationFrame(frame);
   }
   function play(){ if (running || reduce || !began) return; if (pausedAt){ start += performance.now()-pausedAt; pausedAt = 0; } running = true; raf = requestAnimationFrame(frame); }
