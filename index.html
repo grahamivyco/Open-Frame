@@ -1626,8 +1626,9 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .svm-slide.t2 .svm-h-time,.svm-slide.t2 .svm-time{display:none}
 .svm-slide.t3 .svm-lead{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
 .svm-slide.t4 .svm-h-inc,.svm-slide.t4 .svm-list{display:none}
-.svm-x{all:unset;cursor:none;position:absolute;top:14px;right:14px;z-index:3;width:44px;height:44px;border-radius:100px;background:#fff;border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;transition:transform .4s var(--ease-out)}
+.svm-x{all:unset;cursor:none;position:absolute;top:14px;right:14px;z-index:3;width:44px;height:44px;background:none;color:#fff;mix-blend-mode:difference;display:grid;place-items:center;transition:transform .4s var(--ease-out)}
 .svm-x:hover{transform:rotate(90deg)}
+.svm-x:focus-visible{outline:2px solid #fff;outline-offset:-4px;border-radius:100px}
 .svm-nav{position:absolute;right:clamp(20px,3vw,40px);bottom:clamp(16px,2.4vh,26px);z-index:3;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:100px;padding:6px}
 .svm-arrow{all:unset;cursor:none;width:34px;height:34px;border-radius:100px;display:grid;place-items:center;color:var(--ink);transition:background .3s var(--ease-out)}
 .svm-arrow:hover{background:var(--panel)}
@@ -2190,7 +2191,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         </div>
       </article>
     </div>
-    <button class="svm-x" type="button" data-svm-close aria-label="Close"><svg width="20" height="20"><use href="#i-x"/></svg></button>
+    <button class="svm-x" type="button" data-svm-close aria-label="Close"><svg width="26" height="26"><use href="#i-x"/></svg></button>
     <div class="svm-nav">
       <button class="svm-arrow" type="button" data-svm-step="-1" aria-label="Previous service"><svg width="18" height="18"><use href="#i-arrow-ur"/></svg></button>
       <div class="svm-dots"><button type="button" class="svm-dot" data-svm-to="0" aria-label="Service 1"></button><button type="button" class="svm-dot" data-svm-to="1" aria-label="Service 2"></button><button type="button" class="svm-dot" data-svm-to="2" aria-label="Service 3"></button><button type="button" class="svm-dot" data-svm-to="3" aria-label="Service 4"></button></div>
@@ -3435,7 +3436,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
       panel.style.transition="none"; panel.style.setProperty("--ci", r?insetFrom(r):"0px");
       slides[i].scrollTop=0; goTo(i,true);
       panel.offsetWidth; panel.style.transition="";
-      requestAnimationFrame(function(){ m.classList.add("on"); panel.style.setProperty("--ci","0px"); m.querySelector(".svm-x").focus({preventScroll:true}); });
+      requestAnimationFrame(function(){ m.classList.add("on"); panel.style.setProperty("--ci","0px"); });
     };
     window.closeSvc=function(instant){
       if(m.hidden) return;
