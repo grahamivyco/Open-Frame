@@ -38,7 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&family=Nunito:wght@700;800&family=Lexend:wght@700&family=Poppins:wght@500&family=Outfit:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;700&family=Staatliches&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&family=Nunito:wght@700;800&family=Lexend:wght@700&family=Poppins:wght@500&family=Outfit:wght@600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;700&family=Staatliches&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Structured data: tells search engines Open Frame is a design studio (not the openFrame microscope) -->
 <script type="application/ld+json">
@@ -795,8 +795,13 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 /* home hero — animated brand "equalizer": dots bounce, morph into moving sound bars,
    reform, on a loop. A bold, colourful mark above the copy. JS drives height/translateY. */
 .hero-eq{position:relative;display:flex;align-items:center;justify-content:center;height:clamp(96px,16vh,172px);margin:0 auto clamp(22px,3.2vh,38px)}
-.hero-eq svg{height:100%;width:auto;display:block;overflow:visible}
-.hero-eq .eqframe{fill:none;stroke:#111110;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+/* Bauhaus reel: a canvas behind the hero copy plays the intro, then lands the logo on #heroMark */
+.hero-reel{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block}
+.hero-inner>*{transition:opacity .6s var(--ease,ease),transform .7s cubic-bezier(.22,1,.36,1)}
+.hero-inner>.eyebrow{transition-delay:.05s}.hero-inner>h1{transition-delay:.18s}.hero-inner>.hero-actions{transition-delay:.36s}
+.hero.intro .hero-inner>:not(.hero-eq){opacity:0;transform:translateY(18px);pointer-events:none}
+.hero-skip{position:absolute;right:clamp(14px,2vw,22px);bottom:clamp(14px,2vw,22px);z-index:3;font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--panel);background:var(--ink);border:0;border-radius:100px;padding:9px 14px;opacity:.8;transition:opacity .2s}
+.hero-skip:hover,.hero-skip:focus-visible{opacity:1}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
 .shape{position:absolute;animation:drift 24s ease-in-out infinite;pointer-events:auto;cursor:pointer}
@@ -1653,16 +1658,18 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   <section class="hero-sect" style="padding-top:clamp(84px,9vh,102px)">
     <div class="wrap">
       <div class="hero">
+        <canvas class="hero-reel" id="heroReel" aria-hidden="true"></canvas>
         <div class="hero-inner">
-          <div class="hero-eq" id="heroEq" aria-hidden="true"></div>
+          <div class="hero-eq" id="heroMark" aria-hidden="true"></div>
           <span class="eyebrow">Brand &amp; Product Design Studio</span>
           <h1>Bring your brand <em>into frame.</em></h1>
-          <p>Brand identity, websites, and marketing — designed to take growing brands to their next stage.</p>
           <div class="hero-actions">
-            <a class="btn btn-dark" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Start a project</a>
+            <a class="btn btn-dark" href="#contact"><svg class="spark" viewBox="-52 -52 104 104"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Tell me what you're working on</a>
           </div>
         </div>
+        <button class="hero-skip" id="heroSkip" type="button" hidden>Skip intro</button>
       </div>
+      <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.querySelector("#home .hero").classList.add("intro");</script>
     </div>
   </section>
 
@@ -3513,104 +3520,240 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   });
 })();
 </script>
-<!-- Home hero equaliser — a bold, colourful brand mark above the copy. Everything lives in
-     one SVG so the bars and the logo share coordinates and can morph smoothly. Loop: a wave
-     of bouncing brand-colour dots (red/yellow/green/blue + black) -> they grow into a dancing
-     sound-bar equaliser -> the bars TRAVEL and reshape (shrink to stroke-thick ticks, rotate
-     to the outline tangent, colour-shift to ink) so the moving marks flow into the Open Frame
-     mark as its bracket strokes on + the spark pops -> holds -> reverses back into dots.
-     rAF loop; static logo mark under prefers-reduced-motion; pauses offscreen / when hidden. -->
+<!-- Home hero Bauhaus reel (see CLAUDE.md "Home hero"). makeReel() draws the 15s intro on #heroReel in a
+     logical space at least 1920x1080 (scaled to the hero box), then parks the logo on #heroMark and the HTML
+     copy fades in. Skip/Replay pill; static end frame under prefers-reduced-motion; pauses offscreen. -->
 <script>
+/* Open Frame Bauhaus reel. makeReel(W,H,opts).draw(ctx,t) paints one frame at t seconds in a W x H
+   logical space (always >= 1920 x 1080; the caller scales the canvas). Timeline: shape trio (0-2.2s) ->
+   BRAND / PRODUCT / MARKETING (2.2-4.4s) -> tile wave (4.4-7.6s) -> logo builds + quarter turns (7.6-11s)
+   -> logo settles on opts.target (11-12.6s) -> holds, the spark turning every 4s.
+   opts.endText draws the closing copy + CTA on the canvas (video); the site hero uses real HTML instead. */
+window.makeReel=function(W,H,opts){
+opts=opts||{};
+const CX=W/2,CY=H/2;
+const INK="#111110",INK2="#4b4a46",CREAM="#f3f1ea",R="#f24333",Y="#f4bf3a",B="#2f6bf0",G="#33ac66";
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a),0,1);
+const lerp=(a,b,t)=>a+(b-a)*t;
+const eOutExpo=x=>x>=1?1:1-Math.pow(2,-10*x);
+const eInExpo=x=>x<=0?0:Math.pow(2,10*x-10);
+const eIOExpo=x=>x<=0?0:x>=1?1:x<.5?Math.pow(2,20*x-10)/2:(2-Math.pow(2,-20*x+10))/2;
+const eIOCubic=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eOutCubic=x=>1-Math.pow(1-x,3);
+const c1=1.70158,c2=c1*1.525,c3=c1+1;
+const eOutBack=x=>1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);
+const eInBack=x=>c3*x*x*x-c1*x*x;
+const eIOBack=x=>x<.5?(Math.pow(2*x,2)*((c2+1)*2*x-c2))/2:(Math.pow(2*x-2,2)*((c2+1)*(x*2-2)+c2)+2)/2;
+const eOutBounce=x=>{const n=7.5625,d=2.75;if(x<1/d)return n*x*x;if(x<2/d)return n*(x-=1.5/d)*x+.75;if(x<2.5/d)return n*(x-=2.25/d)*x+.9375;return n*(x-=2.625/d)*x+.984375;};
+const rgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const mix=(a,b,t)=>{const A=rgb(a),Bc=rgb(b);return "rgb("+A.map((v,i)=>Math.round(lerp(v,Bc[i],t))).join(",")+")";};
+const SPARK=new Path2D("M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z");
+const SEGS=[
+  {p:new Path2D("M74 22 H36 A14 14 0 0 0 22 36"),c:R,d:[1,0]},
+  {p:new Path2D("M22 36 V84 A14 14 0 0 0 36 98"),c:B,d:[0,-1]},
+  {p:new Path2D("M36 98 H84 A14 14 0 0 0 98 84"),c:Y,d:[-1,0]},
+  {p:new Path2D("M98 84 V48"),c:G,d:[0,1]},
+];
+const TGT=opts.target||{x:CX,y:CY-215,size:300};
+const Q=Math.max(1,Math.min(2.2,H/W*1.2)); // corner shapes grow on tall (phone) screens
+const COVER=Math.hypot(W,H)*.6;
+function spark(ctx,x,y,r,rot,col){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.scale(r/50,r/50);ctx.fillStyle=col;ctx.fill(SPARK);ctx.restore();}
+function circle(ctx,x,y,r,col){if(r<=0)return;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();}
+function tri(ctx,x,y,s,rot,col){if(s<=0)return;ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.beginPath();const h=s*Math.sqrt(3)/2;ctx.moveTo(0,-h*2/3);ctx.lineTo(s/2,h/3);ctx.lineTo(-s/2,h/3);ctx.closePath();ctx.fillStyle=col;ctx.fill();ctx.restore();}
+function square(ctx,x,y,s,rot,col){if(s<=0)return;ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.fillStyle=col;ctx.fillRect(-s/2,-s/2,s,s);ctx.restore();}
+function bg(ctx,col){ctx.fillStyle=col;ctx.fillRect(0,0,W,H);}
+
+/* scene 1: the Bauhaus trio (0-2.2s) */
+function scene1(ctx,t){
+  bg(ctx,CREAM);
+  const out=eInExpo(seg(t,1.62,2.2));
+  const lr=eOutExpo(seg(t,1.0,1.45)),lo=seg(t,1.55,1.75);
+  if(lr>0&&lo<1){ctx.fillStyle=INK;ctx.fillRect(CX-600+1200*lo,CY+250,1200*lr*(1-lo),6);}
+  const sq=eOutExpo(seg(t,.25,.85)),sqOut=eInBack(seg(t,1.55,1.85));
+  if(sq>0)square(ctx,lerp(-300,CX,sq),CY-sqOut*H,300*(1+.08*Math.sin(seg(t,1.15,1.4)*Math.PI)),lerp(-Math.PI,0,sq)+sqOut*1.2,B);
+  const tr=eOutExpo(seg(t,.5,1.1)),trOut=eInBack(seg(t,1.6,1.9));
+  if(tr>0)tri(ctx,lerp(W+300,CX+390,tr)+trOut*W*.5,CY+30,340*(1+.08*Math.sin(seg(t,1.25,1.5)*Math.PI)),lerp(2.1,0,tr)-trOut,Y);
+  const dr=eOutBounce(seg(t,0,.75)),sqz=1+.12*Math.sin(seg(t,1.05,1.3)*Math.PI);
+  circle(ctx,lerp(CX-390,CX,out),lerp(lerp(-200,CY,dr),CY,out),lerp(150*sqz,COVER,out),R);
+}
+
+/* scene 2: kinetic type (2.2-4.45s) */
+function letters(ctx,word,font,sp){ctx.font=font;const ws=[...word].map(ch=>ctx.measureText(ch).width);const tot=ws.reduce((a,b)=>a+b,0)+sp*(word.length-1);let x=CX-tot/2;return [...word].map((ch,i)=>{const o={ch,x,w:ws[i]};x+=ws[i]+sp;return o;});}
+function fit(ctx,word,maxW){let size=320,ls;for(;;){ls=letters(ctx,word,"800 "+size+'px "Manrope", sans-serif',size*.02);const tot=ls[ls.length-1].x+ls[ls.length-1].w-ls[0].x;if(tot<=maxW||size<120)break;size-=8;}
+  return {ls,font:"800 "+size+'px "Manrope", sans-serif',cap:size*.725,base:CY+size*.725/2};}
+function scene2(ctx,t){
+  if(t<2.95){ // BRAND rises out of a mask, the A is a triangle
+    bg(ctx,R);
+    const {ls,font,cap,base}=fit(ctx,"BRAND",1500);
+    ctx.save();ctx.beginPath();ctx.rect(0,base-cap-40,W,cap+80);ctx.clip();
+    ls.forEach((l,i)=>{const p=eOutExpo(seg(t,2.2+i*.045,2.62+i*.045)),yy=(1-p)*(cap+90);
+      if(l.ch==="A"){ctx.beginPath();ctx.moveTo(l.x+l.w/2,base-cap+yy);ctx.lineTo(l.x+l.w,base+yy);ctx.lineTo(l.x,base+yy);ctx.closePath();ctx.fillStyle=Y;ctx.fill();}
+      else{ctx.font=font;ctx.fillStyle=CREAM;ctx.fillText(l.ch,l.x,base+yy);}});
+    ctx.restore();
+    const s=eOutBack(seg(t,2.3,2.7));square(ctx,250,230,110*s,t*2.2,INK);circle(ctx,W-250,H-230,60*s,Y);
+  }else if(t<3.7){ // PRODUCT drops + bounces, the O is a circle
+    bg(ctx,B);
+    const {ls,font,cap,base}=fit(ctx,"PRODUCT",1640);
+    ls.forEach((l,i)=>{const p=eOutBounce(seg(t,2.95+i*.05,3.42+i*.05)),yy=lerp(-300,0,p);
+      if(l.ch==="O")circle(ctx,l.x+l.w/2,base-cap/2+yy,cap/2+6,Y);
+      else{ctx.fillStyle=CREAM;ctx.font=font;ctx.fillText(l.ch,l.x,base+yy);}});
+    const s=eOutBack(seg(t,3.05,3.4));tri(ctx,260,H-200,150*s,-t*1.6,G);square(ctx,W-200,170,80*s,t*1.8,R);
+  }else{ // MARKETING rides a wave
+    bg(ctx,Y);
+    const {ls,font,base}=fit(ctx,"MARKETING",1700);
+    ls.forEach((l,i)=>{const p=eOutBack(seg(t,3.7+i*.03,4.0+i*.03)),bob=-40*Math.max(0,Math.sin((t-3.85)*11-i*.8))*seg(t,3.85,3.95);
+      ctx.save();ctx.translate(l.x+l.w/2,base+bob);ctx.scale(1,p);ctx.fillStyle=i%2?INK:R;ctx.font=font;ctx.fillText(l.ch,-l.w/2,0);ctx.restore();});
+    for(let i=0;i<12;i++){const h=20+60*Math.max(0,Math.sin((t-3.7)*12-i*.7));ctx.fillStyle=INK;ctx.fillRect(CX-330+i*58,base+70,24,h*seg(t,3.75,3.9));}
+  }
+}
+
+/* scene 3: Bauhaus tile wave (4.4-7.6s) */
+const T=240,COLS=Math.ceil(W/T),ROWS=Math.ceil(H/T),X0=(W-COLS*T)/2,Y0=(H-ROWS*T)/2,MAXD=Math.hypot((COLS-1)/2,(ROWS-1)/2)||1;
+const PAL=[R,Y,B,INK,CREAM,G];
+function tile(ctx,c,r,t){
+  const k=(c*5+r*3)%6,bgc=PAL[k],m0=PAL[(k+2+((c+r)%3))%6],mc=m0===bgc?PAL[(k+3)%6]:m0;
+  const type=(c*2+r*3)%4,d=(c+r)/(COLS+ROWS-2)*.5;
+  const dist=Math.hypot(c-(COLS-1)/2,r-(ROWS-1)/2)/MAXD;
+  let s=eOutBack(seg(t,4.4+d,4.82+d));
+  s*=1-eInBack(seg(t,6.95+(1-dist)*.3,7.3+(1-dist)*.3));
+  if(s<=.001)return;
+  let rot=((c*3+r)%4)*Math.PI/2;
+  [5.0,5.75,6.5].forEach(b=>{rot+=eIOBack(seg(t,b+d,b+d+.45))*Math.PI/2*((c+r)%2?1:-1);});
+  ctx.save();ctx.translate(X0+c*T+T/2,Y0+r*T+T/2);ctx.scale(s,s);ctx.rotate(rot);
+  ctx.beginPath();ctx.rect(-T/2,-T/2,T,T);ctx.clip();
+  ctx.fillStyle=bgc;ctx.fillRect(-T/2,-T/2,T,T);
+  ctx.fillStyle=mc;ctx.beginPath();
+  if(type===0){ctx.moveTo(-T/2,-T/2);ctx.arc(-T/2,-T/2,T,0,Math.PI/2);ctx.closePath();}
+  else if(type===1){ctx.arc(0,T/2,T/2,Math.PI,0);ctx.closePath();}
+  else if(type===2){ctx.arc(0,0,T*.34,0,Math.PI*2);}
+  else{ctx.moveTo(-T/2,-T/2);ctx.lineTo(T/2,-T/2);ctx.lineTo(-T/2,T/2);ctx.closePath();}
+  ctx.fill();
+  if(type===2){ctx.fillStyle=bgc;ctx.beginPath();ctx.arc(0,0,T*.12,0,Math.PI*2);ctx.fill();}
+  ctx.restore();
+}
+function scene3(ctx,t){bg(ctx,CREAM);for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)tile(ctx,c,r,t);}
+
+/* scene 4: logo build, quarter turns, settle (7.6s on) */
+function sparkSpin(t){if(t<13.6)return 0;const n=(t-13.6)/4;return Math.PI/2*(Math.floor(n)+eIOExpo(clamp((n%1)*8,0,1)));}
+function logo(ctx,t,x,y,size){
+  const u=size/120;
+  const rot=Math.PI/2*(eIOExpo(seg(t,9.65,9.95))+eIOExpo(seg(t,10.0,10.3)))+Math.PI*eIOExpo(seg(t,10.4,10.8)); // a full 360, ends upright
+  ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.scale(u,u);ctx.translate(-60,-60);
+  ctx.lineCap="round";ctx.lineJoin="round";ctx.lineWidth=8;
+  SEGS.forEach((sg,i)=>{
+    const p=eOutExpo(seg(t,7.6+i*.1,8.35+i*.1)),off=(1-p)*260;
+    if(p<=0)return;
+    const k=eIOCubic(seg(t,9.0+i*.08,9.35+i*.08));
+    ctx.save();ctx.translate(sg.d[0]*off,sg.d[1]*off);ctx.strokeStyle=mix(sg.c,INK,k);ctx.stroke(sg.p);ctx.restore();
+  });
+  const dIn=eOutBack(seg(t,9.5,9.75)),dOut=eInBack(seg(t,10.7,10.95));
+  if(dIn>0&&dOut<1)circle(ctx,92,28,7.5*dIn*(1-dOut),[R,B,G][t<9.98?0:t<10.35?1:2]);
+  ctx.restore();
+  const sp=eOutBack(seg(t,8.3,8.85));
+  if(sp>0)spark(ctx,x,y,21*u*sp,(1-sp)*-Math.PI-rot+sparkSpin(t),mix(R,INK,seg(t,9.2,9.5)));
+}
+function scene4(ctx,t){
+  bg(ctx,CREAM);
+  const a=eOutBack(seg(t,7.65,8.2)),z=eInBack(seg(t,10.75,11.2)),k=a*(1-z);
+  if(t<11.3){
+    circle(ctx,250*Q,210*Q,300*k*Q,Y);
+    ctx.save();ctx.translate(W-200,H);ctx.rotate(lerp(Math.PI,0,eOutExpo(seg(t,7.8,8.5)))+z*Math.PI);ctx.beginPath();ctx.arc(0,0,340*k*Q,Math.PI,0);ctx.fillStyle=B;ctx.fill();ctx.restore();
+    ctx.fillStyle=R;ctx.fillRect(W-440,lerp(-480,110,eOutExpo(seg(t,7.9,8.5)))-z*700,46,420);
+    ctx.save();ctx.translate(0,H);ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,280*k*Q,-Math.PI/2,0);ctx.closePath();ctx.fillStyle=G;ctx.fill();ctx.restore();
+  }
+  if(t>=11.3)corners(ctx,t);
+  const m=eIOExpo(seg(t,10.85,11.5));
+  logo(ctx,t,lerp(CX,TGT.x,m),lerp(CY,TGT.y,m),lerp(520,TGT.size,m));
+  if(opts.endText&&t>=11.3)endText(ctx,t);
+}
+function corners(ctx,t){
+  const g=eOutBack(seg(t,11.4,11.95));
+  ctx.save();ctx.translate(W,H);ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,360*g*Q,Math.PI,Math.PI*1.5);ctx.closePath();ctx.fillStyle=G;ctx.fill();ctx.restore();
+  circle(ctx,W-220*Q,190*Q,80*Q*eOutBack(seg(t,11.55,11.95)),Y);
+  square(ctx,150*Q,lerp(-200,H-180*Q,eOutBounce(seg(t,11.6,12.3))),110*Q,0,B);
+  ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,200*Q*eOutBack(seg(t,11.5,11.9)),0,Math.PI/2);ctx.closePath();ctx.fillStyle=R;ctx.fill();
+}
+function endText(ctx,t){ // the hero copy, drawn for the video
+  ctx.textAlign="center";
+  const e=eOutCubic(seg(t,11.55,12.0));ctx.globalAlpha=e;
+  ctx.font='600 26px "Inter", sans-serif';ctx.letterSpacing="4px";ctx.fillStyle=INK2;
+  ctx.fillText("BRAND & PRODUCT DESIGN STUDIO",CX+2,CY-10+(1-e)*20);ctx.letterSpacing="0px";
+  const h=eOutExpo(seg(t,11.75,12.35));ctx.globalAlpha=1;
+  const f1='500 124px "Fraunces", serif',f2='italic 400 124px "Fraunces", serif',s1="Bring your brand ",s2="into frame.";
+  ctx.font=f1;const w1=ctx.measureText(s1).width;ctx.font=f2;const w2=ctx.measureText(s2).width;const x0=CX-(w1+w2)/2;
+  ctx.save();ctx.beginPath();ctx.rect(0,CY+10,W,170);ctx.clip();ctx.textAlign="left";ctx.fillStyle=INK;
+  const yy=CY+140+(1-h)*170;ctx.font=f1;ctx.fillText(s1,x0,yy);ctx.font=f2;ctx.fillText(s2,x0+w1,yy);ctx.restore();
+  const b=eOutBack(seg(t,12.2,12.6)),press=1-.05*Math.sin(seg(t,13.8,14.1)*Math.PI);
+  if(b>0){const label="Tell me what you're working on";ctx.font='600 32px "Inter", sans-serif';const tw=ctx.measureText(label).width,bw=tw+130,bh=84;
+    ctx.save();ctx.translate(CX,CY+275);ctx.scale(b*press,b*press);
+    ctx.beginPath();ctx.roundRect(-bw/2,-bh/2,bw,bh,bh/2);ctx.fillStyle=INK;ctx.fill();
+    spark(ctx,-bw/2+50,0,14,sparkSpin(t),CREAM);
+    ctx.textAlign="left";ctx.fillStyle=CREAM;ctx.fillText(label,-bw/2+80,11);ctx.restore();}
+  ctx.textAlign="left";ctx.globalAlpha=1;
+}
+
+/* transitions + HUD */
+function bars(ctx,t){[R,B,G,INK].forEach((c,i)=>{const p=eIOExpo(seg(t,4.15+i*.06,4.65+i*.06));if(p<=0||p>=1)return;ctx.fillStyle=c;ctx.fillRect(lerp(-W,W,p),0,W,H);});}
+function hud(ctx,t){
+  if(t>11.3)return;
+  const dark=(t>=1.95&&t<3.7)||(t>4.35&&t<4.6);
+  ctx.fillStyle=dark?CREAM:INK;ctx.globalAlpha=.85;ctx.font='600 22px "Inter", sans-serif';
+  ctx.fillText("OPEN FRAME  /  BRAND · PRODUCT · MARKETING",64,76);
+  const f=Math.floor(t*30),s=Math.floor(t);
+  ctx.textAlign="right";ctx.fillText("00:"+String(s).padStart(2,"0")+":"+String(f%30).padStart(2,"0"),W-64,76);ctx.textAlign="left";ctx.globalAlpha=1;
+}
+return {W,H,draw(ctx,t){
+  ctx.textBaseline="alphabetic";ctx.textAlign="left";ctx.globalAlpha=1;
+  if(t<2.2)scene1(ctx,t);else if(t<4.4)scene2(ctx,t);else if(t<7.6)scene3(ctx,t);else scene4(ctx,t);
+  bars(ctx,t);if(opts.hud)hud(ctx,t);
+}};
+};
+
 (() => {
   "use strict";
-  const host = document.getElementById("heroEq");
-  if (!host) return;
+  const hero = document.querySelector("#home .hero"), cv = document.getElementById("heroReel"),
+        slot = document.getElementById("heroMark"), btn = document.getElementById("heroSkip");
+  if (!hero || !cv || !slot || !cv.getContext) { hero && hero.classList.remove("intro"); return; }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NS = "http://www.w3.org/2000/svg";
-  const INK = "#111110";
-  const COL = ["#f24333","#f4bf3a","#111110","#33ac66","#2f6bf0","#111110","#f24333"]; // red/yellow/BLACK/green/blue/BLACK/red
-  const N = 7;
-  const BRACKET = "M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48";
-  const SPARK = "M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z";
-  const VB_W=240, CY=60, OFF_X=60, barW=14, maxBar=100, BOUNCE=20;
-
-  // one SVG: logo group (behind) + the bar rects (on top)
-  const svg = document.createElementNS(NS,"svg");
-  svg.setAttribute("viewBox","0 0 240 120"); svg.setAttribute("fill","none"); svg.setAttribute("aria-hidden","true");
-  svg.innerHTML =
-    `<g transform="translate(${OFF_X},0)"><path class="eqframe" d="${BRACKET}"/>`+
-    `<g class="eqspark"><path d="${SPARK}" fill="${INK}"/></g></g>`;
-  host.appendChild(svg);
-  const framePath = svg.querySelector(".eqframe"), spark = svg.querySelector(".eqspark");
-  const bars = [];
-  for (let i=0;i<N;i++){ const r=document.createElementNS(NS,"rect"); r.setAttribute("fill",COL[i]); svg.appendChild(r); bars.push(r); }
-
-  // morph targets: N points spread along the bracket outline (+ tangent angle)
-  let frameLen=300; const targets=[];
-  (function buildTargets(){
-    try { frameLen = framePath.getTotalLength(); } catch(e){}
-    framePath.style.strokeDasharray = frameLen;
-    for (let i=0;i<N;i++){
-      const l=((i+0.5)/N)*frameLen, p=framePath.getPointAtLength(l), p2=framePath.getPointAtLength(Math.min(frameLen,l+2));
-      targets.push({ x:p.x+OFF_X, y:p.y, ang:Math.atan2(p2.y-p.y, p2.x-p.x)*180/Math.PI });
-    }
-  })();
-
-  const rowX = i => 120 + (i-3)*30;                 // bars spread as a centred row
-  const P = bars.map((_,i)=>({ spd:2.4+i*0.55, ph:i*1.25, bspd:3.4, boff:i*0.62 }));
-  const lerp=(a,b,t)=>a+(b-a)*t;
-  const smoother=(e0,e1,x)=>{ let t=Math.min(1,Math.max(0,(x-e0)/(e1-e0))); return t*t*t*(t*(t*6-15)+10); };
-  const h2r=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
-  const INKrgb=h2r(INK), COLrgb=COL.map(h2r);
-  const mix=(a,b,t)=>`rgb(${Math.round(lerp(a[0],b[0],t))},${Math.round(lerp(a[1],b[1],t))},${Math.round(lerp(a[2],b[2],t))})`;
-
-  // loop phases -> {m: dot(0)<->bar(1) height, k: row(0)<->logo(1) morph}
-  function state(u){
-    if (u<0.18) return {m:0, k:0};
-    if (u<0.26) return {m:smoother(0.18,0.26,u), k:0};
-    if (u<0.46) return {m:1, k:0};
-    if (u<0.60) return {m:1, k:smoother(0.46,0.60,u)};   // bars flow into the mark
-    if (u<0.80) return {m:1, k:1};                        // hold the logo
-    if (u<0.90) return {m:1, k:1-smoother(0.80,0.90,u)};  // release back to bars
-    return {m:1-smoother(0.90,1.0,u), k:0};               // settle to dots
+  const ctx = cv.getContext("2d"), REVEAL = 11.35, SETTLED = 13;
+  let reel = null, start = performance.now(), pausedAt = 0, running = false, raf = 0, revealed = reduce, began = false;
+  const now = () => reduce ? SETTLED : (performance.now() - start) / 1000;
+  function layout(){
+    const r = hero.getBoundingClientRect(); if (!r.width || !r.height) return false;
+    const dpr = Math.min(2, devicePixelRatio || 1), S = Math.min(r.width/1920, r.height/1080), s = slot.getBoundingClientRect();
+    cv.width = Math.round(r.width*dpr); cv.height = Math.round(r.height*dpr);
+    reel = makeReel(r.width/S, r.height/S, {target:{x:(s.left+s.width/2-r.left)/S, y:(s.top+s.height/2-r.top)/S, size:s.height/S}});
+    ctx.setTransform(dpr*S,0,0,dpr*S,0,0);
+    return true;
   }
-
-  function draw(t){
-    const s = state((t % LOOP)/LOOP), m=s.m, k=s.k;
-    for (let i=0;i<N;i++){
-      const p=P[i], tg=targets[i];
-      const eqH = barW + (maxBar-barW)*(0.5+0.5*Math.sin(t*p.spd+p.ph));
-      const baseH = barW + (eqH-barW)*m;
-      const bounce = -BOUNCE*Math.max(0,Math.sin(t*p.bspd-p.boff))*(1-m)*(1-k);
-      const cx = lerp(rowX(i), tg.x, k), cy = lerp(CY+bounce, tg.y, k);
-      const w = lerp(barW, 11, k), h = lerp(baseH, 8, k);
-      const r = bars[i];
-      r.setAttribute("x",(cx-w/2).toFixed(2)); r.setAttribute("y",(cy-h/2).toFixed(2));
-      r.setAttribute("width",w.toFixed(2)); r.setAttribute("height",h.toFixed(2));
-      r.setAttribute("rx",(Math.min(w,h)/2).toFixed(2));
-      r.setAttribute("fill",mix(COLrgb[i],INKrgb,k));
-      r.setAttribute("transform", k>0.001 ? `rotate(${(tg.ang*k).toFixed(1)} ${cx.toFixed(2)} ${cy.toFixed(2)})` : "");
-    }
-    framePath.style.strokeDashoffset = (frameLen*(1-k)).toFixed(1);
-    spark.setAttribute("transform", `translate(60,60) scale(${(0.42*k).toFixed(3)})`);
+  function paint(t){
+    if (!reel) return;
+    reel.draw(ctx, t);
+    if (!revealed && t >= REVEAL){ revealed = true; hero.classList.remove("intro"); btn.textContent = "Replay"; }
   }
-
-  // reduced motion: static Open Frame mark (bars hidden)
-  if (reduce){
-    for (const b of bars) b.setAttribute("opacity","0");
-    framePath.style.strokeDashoffset = "0";
-    spark.setAttribute("transform","translate(60,60) scale(0.42)");
-    return;
+  function frame(){
+    if (!running) return;
+    const t = now();
+    if (t < 15 || ((t-13.6) % 4) < .7) paint(t);           // after the intro only the spark's quarter turn animates
+    raf = requestAnimationFrame(frame);
   }
-
-  const LOOP = 11.0, T0 = performance.now();
-  let running=false, raf=0;
-  function frame(now){ if(!running) return; draw((now-T0)/1000); raf=requestAnimationFrame(frame); }
-  function play(){ if(running) return; running=true; raf=requestAnimationFrame(frame); }
-  function pause(){ running=false; cancelAnimationFrame(raf); }
-  draw(0);
-  new IntersectionObserver(es=>{ for(const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(host);
-  addEventListener("visibilitychange", ()=> document.hidden ? pause() : play());
+  function play(){ if (running || reduce || !began) return; if (pausedAt){ start += performance.now()-pausedAt; pausedAt = 0; } running = true; raf = requestAnimationFrame(frame); }
+  function pause(){ if (!running) return; running = false; pausedAt = performance.now(); cancelAnimationFrame(raf); }
+  btn.addEventListener("click", () => {
+    if (!revealed) start = performance.now() - SETTLED*1000;
+    else { start = performance.now(); revealed = false; hero.classList.add("intro"); btn.textContent = "Skip intro"; }
+    pausedAt = 0; paint(now());
+  });
+  new ResizeObserver(() => { if (layout()) paint(now()); }).observe(hero);
+  new IntersectionObserver(es => { for (const e of es) e.isIntersecting ? play() : pause(); }, {threshold:.01}).observe(hero);
+  addEventListener("visibilitychange", () => document.hidden ? pause() : play());
+  // wait (briefly) for the display faces so the words don't flash in a fallback font
+  const fonts = document.fonts ? Promise.all(["800 100px Manrope","500 40px Inter"].map(f => document.fonts.load(f))) : Promise.resolve();
+  Promise.race([fonts, new Promise(r => setTimeout(r, 1500))]).then(() => {
+    began = true; start = performance.now(); layout(); paint(now());
+    if (!reduce){ btn.hidden = false; play(); }
+  });
 })();
 </script>
 </body>
