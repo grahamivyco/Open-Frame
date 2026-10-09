@@ -3724,7 +3724,7 @@ html.svm-open,html.svm-open body{overflow:hidden}
 <script>
 /* Open Frame Bauhaus reel. makeReel(W,H,opts).draw(ctx,t) paints one frame at t seconds in a W x H
    logical space (always >= 1920 x 1080; the caller scales the canvas). Timeline: shape trio (0-2.2s) ->
-   BRAND / PRODUCT / MARKETING (2.2-4.4s) -> tile wave (4.4-7.6s) -> logo builds + quarter turns (7.6-11s)
+   BRAND / PRODUCT / MARKETING, each with its illustration (2.2-8.8s) -> tile wave (4.4-7.6s) -> logo builds + quarter turns (7.6-11s)
    -> logo settles on opts.target (11-12.6s; every time after the words is +D, the extra word hold) -> holds, the spark turning every 4s.
    opts.endText draws the closing copy + CTA on the canvas (video); the site hero uses real HTML instead. */
 window.makeReel=function(W,H,opts){
@@ -3780,6 +3780,7 @@ function scene1(ctx,t){
 function letters(ctx,word,font,sp){ctx.font=font;const ws=[...word].map(ch=>ctx.measureText(ch).width);const tot=ws.reduce((a,b)=>a+b,0)+sp*(word.length-1);let x=CX-tot/2;return [...word].map((ch,i)=>{const o={ch,x,w:ws[i]};x+=ws[i]+sp;return o;});}
 function fit(ctx,word,maxW){let size=320,ls;for(;;){ls=letters(ctx,word,"800 "+size+'px "Manrope", sans-serif',size*.02);const tot=ls[ls.length-1].x+ls[ls.length-1].w-ls[0].x;if(tot<=maxW||size<120)break;size-=8;}
   return {ls,font:"800 "+size+'px "Manrope", sans-serif',cap:size*.725,base:CY+size*.725/2};}
+let decK=1;
 function scene2(ctx,t,w){
   if(w===0){ // BRAND rises out of a mask, the A is a triangle
     bg(ctx,R);
@@ -3789,14 +3790,14 @@ function scene2(ctx,t,w){
       if(l.ch==="A"){ctx.beginPath();ctx.moveTo(l.x+l.w/2,base-cap+yy);ctx.lineTo(l.x+l.w,base+yy);ctx.lineTo(l.x,base+yy);ctx.closePath();ctx.fillStyle=Y;ctx.fill();}
       else{ctx.font=font;ctx.fillStyle=CREAM;ctx.fillText(l.ch,l.x,base+yy);}});
     ctx.restore();
-    const s=eOutBack(seg(t,2.3,2.7));square(ctx,250,230,110*s,t*2.2,INK);circle(ctx,W-250,H-230,60*s,Y);
+    const s=eOutBack(seg(t,2.3,2.7))*decK;square(ctx,250,230,110*s,t*2.2,INK);circle(ctx,W-250,H-230,60*s,Y);
   }else if(w===1){ // PRODUCT drops + bounces, the O is a circle
     bg(ctx,B);
     const {ls,font,cap,base}=fit(ctx,"PRODUCT",1640);
     ls.forEach((l,i)=>{const p=eOutBounce(seg(t,2.95+i*.05,3.42+i*.05)),yy=lerp(-300,0,p);
       if(l.ch==="O")circle(ctx,l.x+l.w/2,base-cap/2+yy,cap/2+6,Y);
       else{ctx.fillStyle=CREAM;ctx.font=font;ctx.fillText(l.ch,l.x,base+yy);}});
-    const s=eOutBack(seg(t,3.05,3.4));tri(ctx,260,H-200,150*s,-t*1.6,G);square(ctx,W-200,170,80*s,t*1.8,R);
+    const s=eOutBack(seg(t,3.05,3.4))*decK;tri(ctx,260,H-200,150*s,-t*1.6,G);square(ctx,W-200,170,80*s,t*1.8,R);
   }else{ // MARKETING rides a wave
     bg(ctx,Y);
     const {ls,font,base}=fit(ctx,"MARKETING",1700);
@@ -3804,6 +3805,58 @@ function scene2(ctx,t,w){
       ctx.save();ctx.translate(l.x+l.w/2,base+bob);ctx.scale(1,p);ctx.fillStyle=i%2?INK:R;ctx.font=font;ctx.fillText(l.ch,-l.w/2,0);ctx.restore();});
     for(let i=0;i<12;i++){const h=20+60*Math.max(0,Math.sin((t-3.7)*12-i*.7));ctx.fillStyle=INK;ctx.fillRect(CX-330+i*58,base+70,24,h*seg(t,3.75,3.9));}
   }
+}
+
+/* word illustrations (one per word, after it lifts): BRAND swatch fan + logo stamp, PRODUCT phone + tap, MARKETING doc + video + chart */
+function rr(ctx,x,y,w,h,r,col){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=col;ctx.fill();}
+function ring(ctx,x,y,r,lw,col,a){if(a<=0||r<=0)return;ctx.save();ctx.globalAlpha*=a;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.lineWidth=lw;ctx.strokeStyle=col;ctx.stroke();ctx.restore();}
+function illBrand(ctx,v,IY){
+  const px=CX-250,py=IY+200;
+  [INK,B,Y,CREAM,G].forEach((c,k)=>{const p=eOutBack(seg(v,.05+k*.06,.55+k*.06));if(p<=0)return;
+    ctx.save();ctx.translate(px,py);ctx.rotate((-48+k*24)*Math.PI/180*p);ctx.scale(1,Math.min(1,p*1.4));
+    rr(ctx,-52,-400,104,400,18,c);rr(ctx,-36,-384,72,56,10,c===CREAM?INK:CREAM);ctx.restore();});
+  if(v>.05)circle(ctx,px,py-30,14*eOutBack(seg(v,.05,.3)),R);
+  const sp=seg(v,.5,.68),x=CX+300,y=IY+10;
+  if(sp>0){const k=1+.7*(1-eInExpo(sp)),rot=lerp(-.5,-.1,eInExpo(sp));
+    ctx.save();ctx.globalAlpha=Math.min(1,sp*2.5);ctx.translate(x,y);ctx.rotate(rot);ctx.scale(k,k);
+    rr(ctx,-150,-150,300,300,26,CREAM);circle(ctx,-38,8,72,INK);tri(ctx,52,24,140,0,Y);square(ctx,62,-78,46,0,B);ctx.restore();}
+  const im=seg(v,.68,1.15);if(im>0&&im<1)ring(ctx,x,y,lerp(190,330,eOutExpo(im)),10,CREAM,1-im);
+}
+function illProduct(ctx,v,IY){
+  const s=eOutBack(seg(v,.1,.5));
+  circle(ctx,CX+210,IY-140,190*s,Y);square(ctx,CX-250,IY+150,170*s,.3,R);
+  const up=eOutExpo(seg(v,0,.5));if(up<=0)return;
+  const pw=280,ph=520,x=CX,y=lerp(IY+H*.6,IY,up);
+  ctx.save();ctx.translate(x,y);ctx.rotate(lerp(.25,-.05,up));
+  rr(ctx,-pw/2,-ph/2,pw,ph,44,INK);rr(ctx,-pw/2+14,-ph/2+14,pw-28,ph-28,32,CREAM);rr(ctx,-40,-ph/2+24,80,18,9,INK);
+  const pop=(a,f)=>{const p=eOutBack(seg(v,a,a+.3));if(p<=0)return;ctx.save();ctx.globalAlpha*=Math.min(1,p*2);ctx.translate(0,(1-p)*24);f();ctx.restore();};
+  pop(.38,()=>{rr(ctx,-110,-200,220,120,16,B);circle(ctx,60,-150,26,Y);});
+  pop(.46,()=>{rr(ctx,-110,-60,170,16,8,INK);rr(ctx,-110,-32,120,12,6,INK2);});
+  pop(.54,()=>{rr(ctx,-110,0,104,90,14,G);rr(ctx,6,0,104,90,14,Y);});
+  const press=1-.08*Math.sin(seg(v,.92,1.08)*Math.PI);
+  pop(.62,()=>{ctx.save();ctx.translate(0,165);ctx.scale(press,press);rr(ctx,-110,-28,220,56,28,R);rr(ctx,-40,-6,80,12,6,CREAM);ctx.restore();});
+  const tp=eOutBack(seg(v,.78,.92)),tout=seg(v,1.12,1.25);
+  if(tp>0&&tout<1){ctx.globalAlpha=.85*(1-tout);circle(ctx,30,175,34*tp,INK);ctx.globalAlpha=1;}
+  const rp=seg(v,.95,1.3);if(rp>0&&rp<1)ring(ctx,30,175,lerp(34,120,eOutExpo(rp)),6,INK,1-rp);
+  ctx.restore();
+}
+function illMarketing(ctx,v,IY){
+  let p=eOutBack(seg(v,0,.42));
+  if(p>0){ctx.save();ctx.translate(CX-420,IY);ctx.rotate(lerp(-.6,-.08,p));ctx.scale(p,p);
+    ctx.beginPath();ctx.moveTo(-130,-170);ctx.lineTo(80,-170);ctx.lineTo(130,-120);ctx.lineTo(130,170);ctx.lineTo(-130,170);ctx.closePath();ctx.fillStyle=CREAM;ctx.fill();
+    ctx.beginPath();ctx.moveTo(80,-170);ctx.lineTo(80,-120);ctx.lineTo(130,-120);ctx.closePath();ctx.fillStyle=INK2;ctx.fill();
+    rr(ctx,-90,-120,150*eOutExpo(seg(v,.3,.55)),26,6,R);
+    [180,180,130,180,100].forEach((w,i)=>{const q=eOutExpo(seg(v,.4+i*.07,.65+i*.07));if(q>0)rr(ctx,-90,-60+i*36,w*q,12,6,INK);});
+    rr(ctx,-90,124,60*eOutBack(seg(v,.8,1)),24,12,B);ctx.restore();}
+  p=eOutBack(seg(v,.15,.55));
+  if(p>0){ctx.save();ctx.translate(CX,IY-20);ctx.scale(p,p);rr(ctx,-180,-115,360,230,22,INK);
+    const pl=1+.18*Math.sin(seg(v,.6,.8)*Math.PI);ctx.save();ctx.scale(pl,pl);tri(ctx,8,0,90,Math.PI/2,CREAM);ctx.restore();
+    rr(ctx,-150,84,300,10,5,INK2);rr(ctx,-150,84,300*seg(v,.6,1.35),10,5,R);ctx.restore();}
+  ctx.save();ctx.translate(CX+420,IY+150);
+  const bl=eOutExpo(seg(v,.3,.55));if(bl>0)rr(ctx,-140,0,280*bl,10,5,INK);
+  [[B,100],[G,170],[R,240],[INK,320]].forEach(([c,h],i)=>{const q=eOutBack(seg(v,.42+i*.08,.8+i*.08));if(q>0)rr(ctx,-120+i*64,-h*q,48,h*q,8,c);});
+  const ar=eOutBack(seg(v,.95,1.2));if(ar>0)tri(ctx,72,-380,70*ar,0,R);
+  ctx.restore();
 }
 
 /* scene 3: Bauhaus tile wave (4.4-7.6s) */
@@ -3893,23 +3946,30 @@ function endText(ctx,t){ // the hero copy, drawn for the video
 
 /* transitions + HUD */
 function bars(ctx,t){[R,B,G,INK].forEach((c,i)=>{const p=eIOExpo(seg(t,4.15+i*.06,4.65+i*.06));if(p<=0||p>=1)return;ctx.fillStyle=c;ctx.fillRect(lerp(-W,W,p),0,W,H);});}
-function hud(ctx,t,real){
+function hud(ctx,t,real,dark){
   if(t>11.3)return;
-  const dark=(t>=1.95&&t<3.7)||(t>4.35&&t<4.6);
   ctx.fillStyle=dark?CREAM:INK;ctx.globalAlpha=.85;ctx.font='600 22px "Inter", sans-serif';
   ctx.fillText("OPEN FRAME  /  BRAND · PRODUCT · MARKETING",64,76);
   const f=Math.floor(real*30),s=Math.floor(real);
   ctx.textAlign="right";ctx.fillText("00:"+String(s).padStart(2,"0")+":"+String(f%30).padStart(2,"0"),W-64,76);ctx.textAlign="left";ctx.globalAlpha=1;
 }
-// each word holds HOLD seconds longer than its entrance needs; everything after the words shifts by D
-const HOLD=.4,D=HOLD*3;
+// each word gets a WL-second window: it lands, lifts + shrinks, then its illustration plays; everything after the words shifts by D
+const WL=2.2,WEND=2.2+3*WL,D=WEND-4.4,ILL=[illBrand,illProduct,illMarketing];
+function words(ctx,t){
+  const w=Math.min(2,Math.floor((t-2.2)/WL)),u=t-2.2-w*WL,lift=eIOExpo(seg(u,.75,1.15)),IK=Math.min(1.35,Q),IY=CY+130*IK;
+  bg(ctx,[R,B,Y][w]);decK=1-lift;
+  ctx.save();ctx.translate(CX,CY-lift*260*IK);ctx.scale(1-.45*lift,1-.45*lift);ctx.translate(-CX,-CY);
+  scene2(ctx,[2.2,2.95,3.7][w]+u,w);ctx.restore();decK=1;
+  const v=u-.85,out=eInBack(seg(u,2.02,2.2));
+  if(v>0&&out<1){ctx.save();ctx.translate(CX,IY);ctx.scale(IK*(1-out),IK*(1-out));ctx.translate(-CX,-IY);ILL[w](ctx,v,IY);ctx.restore();}
+  return w;
+}
 return {W,H,D,draw(ctx,t){
-  ctx.textBaseline="alphabetic";ctx.textAlign="left";ctx.globalAlpha=1;
-  if(t<2.2)scene1(ctx,t);
-  else if(t<2.95+HOLD)scene2(ctx,t,0);
-  else if(t<3.7+2*HOLD)scene2(ctx,t-HOLD,1);
-  else if(t<4.4+D)scene2(ctx,t-2*HOLD,2);
+  ctx.textBaseline="alphabetic";ctx.textAlign="left";ctx.globalAlpha=1;let dark=false;
+  if(t<2.2){scene1(ctx,t);dark=t>=1.95;}
+  else if(t<WEND)dark=words(ctx,t)<2;
   else if(t<7.6+D)scene3(ctx,t-D);else scene4(ctx,t-D);
+  bars(ctx,t-D);if(opts.hud)hud(ctx,t-D,t,dark||(t-D>4.35&&t-D<4.6));
   bars(ctx,t-D);if(opts.hud)hud(ctx,t-D,t);
 }};
 };
@@ -3920,7 +3980,7 @@ return {W,H,D,draw(ctx,t){
         slot = document.getElementById("heroMark"), btn = document.getElementById("heroSkip");
   if (!hero || !cv || !slot || !cv.getContext) { hero && hero.classList.remove("intro"); return; }
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ctx = cv.getContext("2d"), D = 1.2, REVEAL = 11.35 + D, SETTLED = 13 + D;   // D = makeReel's extra word hold
+  const ctx = cv.getContext("2d"), D = 4.4, REVEAL = 11.35 + D, SETTLED = 13 + D;   // D = makeReel's extra word hold
   let reel = null, start = performance.now(), pausedAt = 0, running = false, raf = 0, revealed = reduce, began = false;
   const now = () => reduce ? SETTLED : (performance.now() - start) / 1000;
   function layout(){
