@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review your posts · Open Frame</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#f3f1ea">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111110;--ink2:#4b4a46;--muted:#84827b;--cream:#f3f1ea;--line:#e2ded2;--r:#f24333;--b:#2f6bf0;--y:#f4bf3a;--g:#33ac66}
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--cream);color:var(--ink);font:400 16px/1.5 Inter,system-ui,sans-serif;min-height:100dvh;padding:28px 16px 48px}
+  main{max-width:520px;margin:0 auto}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+  header svg{width:34px;height:34px;flex:none}
+  header .who{flex:1;min-width:0}
+  header .eyebrow{font:600 11px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2)}
+  header h1{font:500 22px/1.2 Fraunces,serif;margin-top:4px;overflow-wrap:anywhere}
+  .count{font-size:14px;color:var(--ink2);white-space:nowrap}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px}
+  .label{font-size:13px;color:var(--ink2);margin-bottom:12px}.label b{color:var(--ink);font-weight:600}
+  .media{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -4px 14px;padding:0 4px}
+  .media img,.media video{width:100%;max-height:460px;object-fit:contain;border-radius:12px;background:#ebe7dc;flex:none;scroll-snap-align:center}
+  .media.many img,.media.many video{width:86%}
+  .text{white-space:pre-wrap;font-size:15px;margin-bottom:8px;overflow-wrap:anywhere}
+  .due{font-size:13px;color:var(--muted)}
+  .ask{font:500 19px/1.3 Fraunces,serif;margin:16px 0 12px}
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  button{font:500 16px/1.2 Inter,sans-serif;border-radius:100px;padding:15px 12px;cursor:pointer;border:1.5px solid var(--ink);background:#fff;color:var(--ink)}
+  button.yes{background:var(--ink);color:var(--cream)}
+  button:disabled{opacity:.5;cursor:default}
+  .skip{display:block;margin:14px auto 0;background:none;border:0;color:var(--ink2);font-size:14px;padding:6px;text-decoration:underline}
+  textarea{width:100%;min-height:100px;font:inherit;font-size:15px;padding:12px;border:1.5px solid var(--line);border-radius:14px;margin-bottom:12px;resize:vertical}
+  textarea:focus{outline:none;border-color:var(--ink)}
+  .done{text-align:center;padding:40px 20px}
+  .done h2{font:500 26px/1.2 Fraunces,serif;margin-bottom:8px}
+  .done h2 em{font-weight:400}
+  .done p{color:var(--ink2)}
+  .results{margin-top:28px;font-size:15px;color:var(--ink2)}
+  .results a{color:var(--ink)}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px}
+  .tile b{display:block;font:500 24px/1.2 Fraunces,serif;color:var(--ink)}
+  .row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+  .mute{color:var(--muted);font-size:14px}
+  footer{margin-top:36px;text-align:center;font-size:13px;color:var(--muted)}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <svg viewBox="14 14 92 92" aria-label="Open Frame">
+      <path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <g transform="translate(60,60) scale(0.46)"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g>
+    </svg>
+    <div class="who"><p class="eyebrow">Posts to review</p><h1 id="client">&nbsp;</h1></div>
+    <span class="count" id="count"></span>
+  </header>
+  <div id="box"><p class="mute">Loading your posts...</p></div>
+  <div class="results" id="results"></div>
+  <footer>Questions? <a href="mailto:hello@openframe.design">hello@openframe.design</a></footer>
+</main>
+<script>
+// The Open Frame Check-in script (Google Apps Script web app, ends in /exec).
+const API = 'PASTE_WEB_APP_URL';
+const TOKEN = location.hash.slice(1);
+
+const $ = (t, a = {}, ...kids) => { const e = document.createElement(t); Object.entries(a).forEach(([k, v]) => k === 'on' ? Object.entries(v).forEach(([n, f]) => e.addEventListener(n, f)) : k === 'text' ? e.textContent = v : e.setAttribute(k, v)); kids.flat().forEach(c => c && e.append(c)); return e; };
+async function call(params) {
+  const r = await fetch(API + '?' + new URLSearchParams(Object.assign({ c: TOKEN }, params)));
+  const d = await r.json();
+  if (d.error) { alert(d.error); throw new Error(d.error); }
+  return d;
+}
+function mediaEl(urls, poster) {
+  if (!urls.length && poster) urls = [poster];
+  if (!urls.length) return '';
+  return $('div', { class: 'media' + (urls.length > 1 ? ' many' : '') }, urls.map(u => /\.(mp4|mov|webm)(\?|$)/i.test(u)
+    ? $('video', Object.assign({ src: u, controls: '', preload: 'metadata', playsinline: '' }, poster ? { poster } : {}))
+    : $('img', { src: u, loading: 'lazy', alt: '' })));
+}
+const fmt = v => (v == null ? '–' : Math.round(v).toLocaleString('en-US'));
+const pct = (a, b) => (a == null || b == null || b === 0) ? '' : ' (' + (a >= b ? 'up ' : 'down ') + Math.abs(Math.round((a - b) / b * 100)) + '%)';
+
+function results(R) {
+  const box = document.getElementById('results');
+  if (!R || R.empty) { box.append($('p', { text: 'Your results will show here after the first month of posts.' })); return; }
+  const t = {}; R.tiles.forEach(x => t[x.title] = x);
+  const reach = t['Accounts reached'], fol = t['New followers'], clk = t['Clicks and taps'];
+  const parts = [];
+  if (reach && reach.value != null) parts.push('reached ' + fmt(reach.value) + ' people' + pct(reach.value, reach.prev));
+  if (fol && fol.value != null) parts.push(fmt(fol.value) + ' new followers');
+  if (clk && clk.value != null) parts.push(fmt(clk.value) + ' clicks');
+  if (!parts.length) return;
+  box.append($('p', { text: R.month + ' so far: you ' + parts.join(', ') + '.' }));
+  const detail = $('div', { hidden: '' },
+    $('div', { class: 'tiles' }, R.tiles.map(x => $('div', { class: 'tile' }, $('b', { text: fmt(x.value) }), x.title + pct(x.value, x.prev)))),
+    R.top.length ? $('p', { style: 'margin:16px 0 4px;color:var(--ink)', text: 'Top posts this month' }) : '',
+    R.top.map(p => $('div', { class: 'row' }, $('span', { text: p.caption.slice(0, 70) }), p.url ? $('a', { href: p.url, target: '_blank', rel: 'noopener', text: 'See post' }) : '')),
+    R.report_url ? $('p', { style: 'margin-top:12px' }, $('a', { href: R.report_url, target: '_blank', rel: 'noopener', text: 'Monthly report (PDF)' })) : '');
+  box.append($('a', { href: '#', text: 'See more', on: { click: e => { e.preventDefault(); detail.hidden = !detail.hidden; } } }), detail);
+}
+
+function runQueue(items, box, countEl, onDone) {
+  let i = 0;
+  const show = () => {
+    box.innerHTML = '';
+    if (i >= items.length) { countEl.textContent = ''; return onDone(); }
+    countEl.textContent = (i + 1) + ' of ' + items.length;
+    const it = items[i], next = () => { i++; show(); window.scrollTo(0, 0); };
+    const busy = (b, fn) => { b.querySelectorAll('button').forEach(x => x.disabled = true); return fn().then(next, () => b.querySelectorAll('button').forEach(x => x.disabled = false)); };
+    const card = $('div', { class: 'card' }, $('div', { class: 'label' }, it.label), ...it.body, $('p', { class: 'ask', text: it.ask }));
+    const btns = $('div', { class: 'btns' },
+      $('button', { class: 'yes', text: 'Looks good', on: { click: () => busy(card, it.yes) } }),
+      $('button', { text: 'Change something', on: { click: () => {
+        const ta = $('textarea', { placeholder: 'What should we change?' });
+        const send = $('button', { class: 'yes', text: 'Send', on: { click: () => { if (!ta.value.trim()) return ta.focus(); busy(card, () => it.change(ta.value.trim())); } } });
+        btns.replaceWith($('div', {}, ta, $('div', { class: 'btns' }, $('button', { text: 'Back', on: { click: show } }), send))); ta.focus();
+      } } }));
+    card.append(btns, $('button', { class: 'skip', text: 'Skip this one', on: { click: () => busy(card, it.skip) } }));
+    box.append(card);
+  };
+  show();
+}
+
+const box = document.getElementById('box');
+if (!TOKEN || API.indexOf('/exec') < 0) box.innerHTML = '<div class="card done"><h2>This link isn\'t <em>active</em></h2><p>Ask Open Frame for a new one.</p></div>';
+else call({ api: 'client' }).then(d => {
+  document.getElementById('client').textContent = d.client;
+  document.title = d.client + ' · Review your posts';
+  results(d.results);
+  const open = d.posts.filter(p => p.status === 'in_review' || p.status === 'plan');
+  const decide = (p, d, note) => call({ api: 'decide', ids: p.ids.join(','), d, note: note || '' });
+  const items = open.map(p => {
+    const caps = p.posts.filter((x, i, a) => a.findIndex(y => y.caption === x.caption) === i);
+    const plan = p.status === 'plan';
+    return {
+      label: [$('b', { text: plan ? 'Post idea' : 'Post' }), ' · goes out ' + p.when],
+      body: [mediaEl(p.media, p.preview), ...caps.map(x => $('p', { class: 'text', text: x.caption || '' })),
+        p.deadline ? $('p', { class: 'due', text: 'Please answer by ' + p.deadline + '.' }) : ''],
+      ask: plan ? 'Sound good?' : 'Good to post?',
+      yes: () => decide(p, 'approve'), change: n => decide(p, 'change', n), skip: () => decide(p, 'skip'),
+    };
+  });
+  runQueue(items, box, document.getElementById('count'), () => box.append($('div', { class: 'card done' },
+    items.length ? $('h2', {}, 'All done, ', $('em', { text: 'thank you.' })) : $('h2', {}, 'You\'re all ', $('em', { text: 'caught up.' })),
+    $('p', { text: 'We\'ll email you when the next posts are ready.' }))));
+}).catch(() => { box.innerHTML = '<div class="card done"><h2>Something went <em>wrong</em></h2><p>Try again in a minute, or email hello@openframe.design.</p></div>'; });
+</script>
+</body>
+</html>
