@@ -69,7 +69,7 @@
 </main>
 <script>
 // The Open Frame Check-in script (Google Apps Script web app, ends in /exec).
-const API = 'PASTE_WEB_APP_URL';
+const API = 'https://script.google.com/macros/s/AKfycbyBkDfWO-LghULYws9PCWUuqyga7kbGz2cat0w8tMIw09DmoEgtxBB7XprqRfCUyfGhpg/exec';
 const TOKEN = location.hash.slice(1);
 
 const $ = (t, a = {}, ...kids) => { const e = document.createElement(t); Object.entries(a).forEach(([k, v]) => k === 'on' ? Object.entries(v).forEach(([n, f]) => e.addEventListener(n, f)) : k === 'text' ? e.textContent = v : e.setAttribute(k, v)); kids.flat().forEach(c => c && e.append(c)); return e; };
