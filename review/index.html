@@ -96,15 +96,16 @@ const pct = (a, b) => (a == null || b == null || b === 0) ? '' : ' (' + (a >= b 
 
 function results(R) {
   const box = document.getElementById('results');
-  if (!R || R.empty) { box.append($('p', { text: 'Your results will show here after the first month of posts.' })); return; }
+  const news = R && R.newsletter ? $('p', { style: 'margin-top:8px', text: R.newsletter }) : '';
+  if (!R || R.empty) { box.append($('p', { text: 'Your results will show here after the first month of posts.' }), news); return; }
   const t = {}; R.tiles.forEach(x => t[x.title] = x);
   const reach = t['Accounts reached'], fol = t['New followers'], clk = t['Clicks and taps'];
   const parts = [];
   if (reach && reach.value != null) parts.push('reached ' + fmt(reach.value) + ' people' + pct(reach.value, reach.prev));
   if (fol && fol.value != null) parts.push(fmt(fol.value) + ' new followers');
   if (clk && clk.value != null) parts.push(fmt(clk.value) + ' clicks');
-  if (!parts.length) return;
-  box.append($('p', { text: R.month + ' so far: you ' + parts.join(', ') + '.' }));
+  if (!parts.length) { box.append(news); return; }
+  box.append($('p', { text: R.month + ' so far: you ' + parts.join(', ') + '.' }), news);
   const detail = $('div', { hidden: '' },
     $('div', { class: 'tiles' }, R.tiles.map(x => $('div', { class: 'tile' }, $('b', { text: fmt(x.value) }), x.title + pct(x.value, x.prev)))),
     R.top.length ? $('p', { style: 'margin:16px 0 4px;color:var(--ink)', text: 'Top posts this month' }) : '',
