@@ -76,7 +76,7 @@ const $ = (t, a = {}, ...kids) => { const e = document.createElement(t); Object.
 async function call(params) {
   const r = await fetch(API + '?' + new URLSearchParams(Object.assign({ c: TOKEN }, params)));
   const d = await r.json();
-  if (d.error) { alert(d.error); throw new Error(d.error); }
+  if (d.error) { const e = new Error(d.error); e.expired = !!d.expired; e.known = true; throw e; }
   return d;
 }
 function mediaEl(urls, poster) {
@@ -115,7 +115,7 @@ function runQueue(items, box, countEl, onDone) {
     if (i >= items.length) { countEl.textContent = ''; return onDone(); }
     countEl.textContent = (i + 1) + ' of ' + items.length;
     const it = items[i], next = () => { i++; show(); window.scrollTo(0, 0); };
-    const busy = (b, fn) => { b.querySelectorAll('button').forEach(x => x.disabled = true); return fn().then(next, () => b.querySelectorAll('button').forEach(x => x.disabled = false)); };
+    const busy = (b, fn) => { b.querySelectorAll('button').forEach(x => x.disabled = true); return fn().then(next, e => { if (e.expired) return expired(); alert(e.known ? e.message : 'That didn\'t go through. Try again in a minute.'); b.querySelectorAll('button').forEach(x => x.disabled = false); }); };
     const card = $('div', { class: 'card' }, $('div', { class: 'label' }, it.label), ...it.body, $('p', { class: 'ask', text: it.ask }));
     const btns = $('div', { class: 'btns' },
       $('button', { class: 'yes', text: 'Looks good', on: { click: () => busy(card, it.yes) } }),
@@ -131,7 +131,18 @@ function runQueue(items, box, countEl, onDone) {
 }
 
 const box = document.getElementById('box');
-if (!TOKEN || API.indexOf('/exec') < 0) box.innerHTML = '<div class="card done"><h2>This link isn\'t <em>active</em></h2><p>Ask Open Frame for a new one.</p></div>';
+const note = (h, p, extra) => { box.innerHTML = ''; document.getElementById('count').textContent = ''; box.append($('div', { class: 'card done' }, $('h2', {}, h[0], $('em', { text: h[1] })), $('p', { text: p }), extra || '')); };
+const inactive = () => note(['This link isn\'t ', 'active'], 'Use the newest email from Open Frame, or reply to it and we\'ll send a fresh link.');
+// Links expire after each review window. A fresh one only goes to the email address on file.
+function expired() {
+  const btn = $('button', { class: 'yes', style: 'margin-top:20px', text: 'Email me a new link', on: { click: () => {
+    btn.disabled = true;
+    call({ api: 'resend' }).then(() => note(['Check your ', 'email'], 'We sent a fresh link to the address we have on file.'),
+      () => { btn.disabled = false; alert('That didn\'t go through. Reply to our last email and we\'ll help.'); });
+  } } });
+  note(['This link has ', 'expired'], 'For your privacy, review links only work for a short time.', btn);
+}
+if (!/^[a-z2-9]{4}(-[a-z2-9]{4}){3}$/.test(TOKEN) || API.indexOf('/exec') < 0) inactive();
 else call({ api: 'client' }).then(d => {
   document.getElementById('client').textContent = d.client;
   document.title = d.client + ' · Review your posts';
@@ -152,7 +163,7 @@ else call({ api: 'client' }).then(d => {
   runQueue(items, box, document.getElementById('count'), () => box.append($('div', { class: 'card done' },
     items.length ? $('h2', {}, 'All done, ', $('em', { text: 'thank you.' })) : $('h2', {}, 'You\'re all ', $('em', { text: 'caught up.' })),
     $('p', { text: 'We\'ll email you when the next posts are ready.' }))));
-}).catch(() => { box.innerHTML = '<div class="card done"><h2>Something went <em>wrong</em></h2><p>Try again in a minute, or email hello@openframe.design.</p></div>'; });
+}).catch(e => e.expired ? expired() : e.known ? inactive() : note(['Something went ', 'wrong'], 'Try again in a minute, or email hello@openframe.design.'));
 </script>
 </body>
 </html>
