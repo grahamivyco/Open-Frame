@@ -156,6 +156,50 @@
   .srow .dot{margin-top:6px}
   .srow p{color:var(--ink2);font-size:14px}
   .srow .fix{color:var(--ink);font-size:14px;margin-top:4px}
+  /* admin side menu (Studio v1): frosted like the site header, icons only, widens with labels on hover. Phone = bottom bar with labels */
+  .rail{position:fixed;z-index:110;left:calc(12px + env(safe-area-inset-left));top:var(--head);bottom:12px;width:64px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:32px;overflow:hidden;transition:width .3s var(--ease)}
+  .rail::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.6);backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);z-index:-1}
+  .rail button{display:flex;align-items:center;gap:14px;width:100%;padding:12px 13px;border:0;border-radius:100px;background:transparent;font-size:15px;white-space:nowrap;color:var(--ink2);transition:background .16s,color .16s}
+  .rail button svg{width:22px;height:22px;flex:none;stroke-width:1.75}
+  .rail button span{opacity:0;transition:opacity .2s}
+  .rail button:hover,.rail button[aria-current="page"]{color:var(--ink)}
+  .rail button[aria-current="page"]{background:rgba(0,0,0,.05)}
+  .rail .rail-out{position:absolute;left:8px;right:8px;bottom:8px;width:auto}
+  @media (hover:hover) and (min-width:761px){.rail:hover{width:200px}.rail:hover button span{opacity:1}}
+  .hub.admin{max-width:720px}
+  .hub.admin .shead{margin-bottom:22px}
+  @media (min-width:761px) and (max-width:940px){.hub.admin{padding-left:96px}}
+  @media (max-width:760px){
+    .rail{top:auto;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:auto;height:64px;flex-direction:row;justify-content:space-around;gap:2px;padding:6px;border-radius:100px;border:1px solid var(--line)}
+    .rail::before{background:rgba(255,255,255,.85)}
+    .rail button{flex:1;flex-direction:column;justify-content:center;gap:3px;padding:6px 2px;font-size:11px}
+    .rail button svg{width:20px;height:20px}
+    .rail button span{opacity:1}
+    .rail .rail-out{position:static;width:auto}
+    .hub.admin{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
+  }
+  /* Home: approvals (Hub Approvals tab), then the check-in cards */
+  .aq-h{display:flex;align-items:center;gap:10px;font:500 22px/1.2 Fraunces,serif;margin:26px 0 12px}
+  #aq>.aq-h:first-child{margin-top:0}
+  .aq-h .n{font:600 12px/1 Inter,sans-serif;background:var(--ink);color:#fff;border-radius:100px;padding:5px 9px}
+  .acard{margin-bottom:12px}
+  .acard h3{font:500 20px/1.25 Fraunces,serif;margin-bottom:8px;overflow-wrap:anywhere}
+  .acard .hint{font-size:13px;color:var(--ink2);margin-top:10px}
+  .acard .btns{margin-top:14px}
+  .acard .btns.one{grid-template-columns:1fr}
+  .acard .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:14px}
+  .acard .alts{display:flex;flex-wrap:wrap;gap:4px 18px;justify-content:center;margin-top:10px}
+  .acard .alts .skip{margin:0}
+  .acard textarea{margin:14px 0 0}
+  .acard .plink{display:inline-block;margin-top:6px}
+  .wrow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+  .wrow>span:first-child{min-width:0;overflow-wrap:anywhere}
+  .wrow>span:last-child{flex:none;white-space:nowrap}
+  .sect .wrow:first-of-type{border-top:0}
+  .sect .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .sect .head h3{margin:0}
+  .nudge{padding:8px 16px;font-size:14px;border-color:var(--line-2)}
+  .nudge:hover:not(:disabled){border-color:var(--ink)}
   [hidden]{display:none!important}
   /* the site's own menu, copied from index.html (desktop pill + footer-style cream card on mobile). Keep in sync. */
   .site-header{position:fixed;top:0;left:0;right:0;z-index:120;font-size:16.5px;line-height:1.6;padding:calc(16px + env(safe-area-inset-top)) 0 16px}
@@ -221,7 +265,7 @@
 <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol><symbol id="i-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 </defs></svg>
 <header class="site-header">
   <div class="wrap">
@@ -255,19 +299,19 @@
     <div class="sign" id="sign"></div>
     <div class="art" aria-hidden="true"><canvas id="art"></canvas></div>
   </section>
+  <nav class="rail" id="rail" aria-label="Studio" hidden>
+    <button type="button" data-view="home"><svg><use href="#i-home"/></svg><span>Home</span></button>
+    <button type="button" data-view="analytics"><svg><use href="#i-chart"/></svg><span>Analytics</span></button>
+    <button type="button" data-view="loops"><svg><use href="#i-loop"/></svg><span>Loops</span></button>
+    <button type="button" class="rail-out"><svg><use href="#i-logout"/></svg><span>Log out</span></button>
+  </nav>
   <div class="hub" id="hub" hidden>
   <div class="shead">
     <div class="who"><p class="eyebrow">Studio</p><h1 id="h">&nbsp;</h1></div>
     <span class="count" id="count"></span>
   </div>
-  <div class="tabs" id="tabs" role="tablist" hidden>
-    <button role="tab" aria-selected="true" data-tab="todo">Needs you</button>
-    <button role="tab" aria-selected="false" data-tab="reels">Reels</button>
-    <button role="tab" aria-selected="false" data-tab="results">Results</button>
-    <button role="tab" aria-selected="false" data-tab="status">Status</button>
-  </div>
   <div id="projects"></div>
-  <div id="todo"><div id="box"><p class="mute">Loading...</p></div><div class="more" id="more"></div></div>
+  <div id="todo"><div id="aq"></div><div id="box"><p class="mute">Loading...</p></div><div class="more" id="more"></div></div>
   <div id="reels" hidden></div>
   <div id="results" hidden></div>
   <div id="status" hidden></div>
@@ -300,11 +344,15 @@ async function post(body) {
   return d;
 }
 function call(fn, key, ...args) {
-  return post({ op: 'call', s: saved(), name: fn, args }).then(d => d.out, e => {
+  const p = post({ op: 'call', s: saved(), name: fn, args }).then(d => d.out, e => {
     if (e.signedOut) { keep(''); signIn('Please sign in again.'); }
     else alert(e.known ? e.message : 'That didn\'t go through. Try again in a minute.');
     throw e;
   });
+  // Posts and topics waiting on Graham now show as approval cards on Home, so the check-in cards leave them out
+  // (only once the approvals loaded; an older Hub keeps them on the check-in cards).
+  if (fn !== 'getDashboard' || !aqReady) return p;
+  return Promise.all([p, aqReady]).then(([d, ok]) => { if (ok) { d.topics = []; d.approve = []; } return d; });
 }
 
 let loaded = '';
@@ -326,7 +374,7 @@ function loadCards(role) {
 // ---------- sign in ----------
 
 // Signed out shows the full-screen bento (card + tile art); signed in shows the hub column.
-function stage(on) { byId('stage').hidden = !on; byId('hub').hidden = on; art(on); }
+function stage(on) { byId('stage').hidden = !on; byId('hub').hidden = on; if (on) byId('rail').hidden = true; art(on); }
 const SPK = '<svg viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>';
 function head(word) {
   const eb = mk('p', { className: 'eyebrow', innerHTML: SPK + 'Sign in' });
@@ -335,7 +383,8 @@ function head(word) {
 
 function signIn(msg) {
   byId('projects').textContent = '';
-  byId('tabs').hidden = true; byId('results').hidden = true; byId('todo').hidden = false;
+  byId('rail').hidden = true; byId('hub').classList.remove('admin'); byId('aq').textContent = '';
+  ['results', 'reels', 'status'].forEach(t => { byId(t).hidden = true; }); byId('todo').hidden = false;
   byId('more').textContent = ''; byId('count').textContent = ''; byId('out').hidden = true; byId('me').textContent = ''; lio(false);
   stage(true);
   const box = byId('sign'); box.textContent = '';
@@ -426,11 +475,11 @@ function start(d) {
   BOOT = Object.assign(BOOT, { client: who.name });
   return loadCards(role).then(() => {
     if (role === 'client') { byId('h').textContent = who.name; return showProjects().then(startClient); }
-    byId('h').textContent = 'Open Frame Studio';
-    byId('tabs').hidden = false;
+    byId('hub').classList.add('admin'); byId('rail').hidden = false; byId('out').hidden = true;
+    document.querySelector('.shead .eyebrow').textContent = 'Open Frame Studio';
+    showTab(new URLSearchParams(location.search).get('tab') || 'home');
+    loadApprovals();
     startAdmin();
-    const want = new URLSearchParams(location.search).get('tab');
-    if (want) showTab(want);
   }).catch(x => { byId('box').textContent = ''; byId('box').append(mk('div', { className: 'card done' }, mk('h2', { textContent: 'Can\'t reach the Hub' }), mk('p', { textContent: x.message + ' Try again in a minute.' }))); });
 }
 
@@ -479,18 +528,154 @@ function projectCard(p, stages) {
 
 const DOTS = ['var(--r)', 'var(--b)', 'var(--y)', 'var(--g)'];
 let resultsLoaded = false;
+// ---------- side menu (admins) ----------
+// view -> [box id, title]. Old ?tab= names (todo, results, status) still work.
+const VIEWS = { home: ['todo', 'Home'], analytics: ['results', 'Analytics'], loops: ['status', 'Loops'], reels: ['reels', 'Reels'] };
+const ALIAS = { todo: 'home', results: 'analytics', status: 'loops' };
 const TABS = ['todo', 'reels', 'results', 'status'];
 function showTab(tab) {
-  if (TABS.indexOf(tab) < 0) tab = 'todo';
-  byId('tabs').querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', String(x.dataset.tab === tab)));
-  TABS.forEach(t => { byId(t).hidden = t !== tab; });
-  byId('count').hidden = tab !== 'todo';
-  history.replaceState(null, '', tab === 'todo' ? location.pathname : '?tab=' + tab);
-  if (tab === 'results' && !resultsLoaded) { resultsLoaded = true; showResults(); }
-  if (tab === 'reels') showReels();
-  if (tab === 'status') showStatus();
+  tab = ALIAS[tab] || tab;
+  if (!VIEWS[tab]) tab = 'home';
+  const box = VIEWS[tab][0];
+  byId('rail').querySelectorAll('[data-view]').forEach(b => b.dataset.view === tab ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+  TABS.forEach(t => { byId(t).hidden = t !== box; });
+  byId('h').textContent = VIEWS[tab][1];
+  byId('count').hidden = box !== 'todo';
+  history.replaceState(null, '', tab === 'home' ? location.pathname : '?tab=' + tab);
+  if (box === 'results' && !resultsLoaded) { resultsLoaded = true; showResults(); }
+  if (box === 'reels') showReels();
+  if (box === 'status') showStatus();
+  scrollTo(0, 0);
 }
-byId('tabs').onclick = e => { const b = e.target.closest('button'); if (b) showTab(b.dataset.tab); };
+byId('rail').onclick = e => { const b = e.target.closest('button'); if (b) b.dataset.view ? showTab(b.dataset.view) : signOut(); };
+
+// ---------- approvals (Hub Approvals tab) ----------
+// Home: Needs you first (Graham's yes), Waiting on clients (with Nudge), In the works. The same card draws a client's Ready for you.
+let AQ = null, aqReady = null;
+const KIND = { post: 'Post', reel: 'Reel', newsletter: 'Newsletter', report: 'Report', pick_one: 'Pick one', design: 'Design', set: 'Set', launch: 'Launch', files: 'Files',
+  brand_deal: 'Brand deal', reply: 'Reply', repost: 'Repost', ad_spend: 'Ad spend', request: 'Request', hours: 'Hours', quote: 'Quote', invoice: 'Invoice' };
+const dueText = d => {
+  if (!d) return '';
+  const x = new Date(/^\d{4}-\d{2}-\d{2}$/.test(d) ? d + 'T12:00:00' : d);
+  return isNaN(x) ? '' : 'due ' + x.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+};
+const isImg = u => /\.(jpe?g|png|webp|gif)(\?|$)/i.test(u || ''), isVid = u => /\.(mp4|mov|webm|m4v)(\?|$)/i.test(u || '');
+
+function loadApprovals() {
+  const box = byId('aq');
+  box.innerHTML = '<p class="mute">Loading...</p>';
+  // post, not call: an older Hub without this answers "Unknown request", which should just mean no approvals section.
+  aqReady = post({ op: 'call', s: saved(), name: 'studioApprovals', args: [] }).then(d => { AQ = d.out; drawApprovals(); return true; }, () => { box.textContent = ''; return false; });
+}
+
+function aqHead(text, n) { return mk('h2', { className: 'aq-h' }, text, n ? mk('span', { className: 'n', textContent: n }) : ''); }
+function wrow(r, note) {
+  return mk('div', { className: 'wrow' }, mk('span', {}, r.title, note ? mk('span', { className: 'mute', textContent: ' · ' + note }) : ''),
+    mk('span', { className: 'mute', textContent: [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ') }));
+}
+
+function drawApprovals() {
+  const box = byId('aq');
+  box.textContent = '';
+  // Replies stay on the check-in cards below, where the reply text can be edited before it goes.
+  const needs = AQ.needs.filter(r => r.kind !== 'reply');
+  box.append(aqHead('Needs you first', needs.length));
+  if (!needs.length) box.append(mk('div', { className: 'card done' }, mk('p', { textContent: 'Nothing to approve right now.' })));
+  needs.forEach(r => box.append(approvalCard(r, true, out => {
+    AQ.needs = AQ.needs.filter(x => x.id !== r.id);
+    if (out.status === 'client') AQ.waiting.push(out); else if (out.status === 'changes') AQ.changing.push(out);
+    drawApprovals();
+  })));
+  const by = {};
+  AQ.waiting.forEach(r => (by[r.client] = by[r.client] || []).push(r));
+  box.append(aqHead('Waiting on clients', AQ.waiting.length));
+  if (!AQ.waiting.length) box.append(mk('p', { className: 'mute', style: 'margin-bottom:12px', textContent: 'Nothing is waiting on a client.' }));
+  Object.keys(by).forEach(name => {
+    const nb = mk('button', { className: 'nudge', type: 'button', textContent: 'Nudge' });
+    nb.onclick = () => {
+      nb.disabled = true; nb.textContent = 'Sending...';
+      call('adminNudge', K, name).then(() => { nb.textContent = 'Sent'; }, () => { nb.disabled = false; nb.textContent = 'Nudge'; });
+    };
+    const s = mk('div', { className: 'sect' }, mk('div', { className: 'head' }, mk('h3', { textContent: name }), nb));
+    by[name].forEach(r => s.append(wrow(r)));
+    box.append(s);
+  });
+  const works = AQ.changing.concat(AQ.planned);
+  if (works.length) {
+    const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'In the works' }));
+    works.forEach(r => s.append(wrow(Object.assign({}, r, { title: r.client + ': ' + r.title }), r.status === 'changes' ? 'being changed' + (r.comment ? ' (' + r.comment + ')' : '') : 'planned')));
+    box.append(s);
+  }
+  box.append(reelsLine(), aqHead('From the check-in'));
+}
+// Reels now live off the menu; a quiet line on Home gets there until they move under Clients.
+function reelsLine() {
+  const b = mk('button', { className: 'lights', type: 'button' }, mk('span', { textContent: 'Reel drafts and scripts' }), mk('span', { textContent: 'Open ›' }));
+  b.onclick = () => showTab('reels');
+  return b;
+}
+
+// One approval card. admin = Graham's view (client name on the label, his answer goes through adminApproval).
+function approvalCard(r, admin, done) {
+  const card = mk('div', { className: 'card acard' });
+  card.append(mk('p', { className: 'label' }, admin ? mk('b', { textContent: r.client }) : '', (admin ? ' · ' : '') + [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ')));
+  const media = r.media && r.media.length ? r.media : isImg(r.preview) || isVid(r.preview) ? [r.preview] : [];
+  if (media.length) {
+    const m = mk('div', { className: 'media' + (media.length > 1 ? ' many' : '') });
+    media.forEach(u => m.append(isVid(u) ? mk('video', { src: u, controls: true, playsInline: true, preload: 'metadata' }) : mk('img', { src: u, alt: '', loading: 'lazy' })));
+    card.append(m);
+  }
+  card.append(mk('h3', { textContent: r.title }));
+  if (r.text) {
+    const t = mk('div', { className: 'lines short', textContent: r.text });
+    const more = mk('button', { className: 'more-btn', type: 'button', textContent: 'Show all' });
+    more.onclick = () => { t.classList.toggle('short'); more.textContent = t.classList.contains('short') ? 'Show all' : 'Show less'; };
+    card.append(t, more);
+  }
+  if (r.detail) card.append(mk('p', { className: r.text ? 'mute' : 'text', textContent: r.detail }));
+  if (r.preview && !media.length) card.append(mk('a', { className: 'plink', href: r.preview, target: '_blank', rel: 'noopener', textContent: 'Open it ↗' }));
+  if (admin && r.client_ok === 'yes') card.append(mk('p', { className: 'hint', textContent: 'Your yes sends it to ' + r.client + ' to approve.' }));
+  const area = mk('div');
+  card.append(area);
+  const send = (b, note) => {
+    area.querySelectorAll('button').forEach(x => { x.disabled = true; });
+    call(admin ? 'adminApproval' : 'clientApproval', K, r.id, b.label, note || '').then(out => {
+      if (r.kind === 'files' && b.act === 'ok' && r.preview) open(r.preview, '_blank', 'noopener');
+      done(out);
+    }, () => area.querySelectorAll('button').forEach(x => { x.disabled = false; }));
+  };
+  const tap = b => {
+    if (b.act === 'open') { if (r.preview) open(r.preview, '_blank', 'noopener'); return; }
+    if (b.act === 'change') return note(b);
+    send(b);
+  };
+  const note = b => {
+    area.textContent = '';
+    const ta = mk('textarea', { placeholder: r.kind === 'report' || /question/i.test(b.label) ? 'Your question' : 'What should change?' });
+    const go = mk('button', { className: 'yes', type: 'button', textContent: 'Send note' });
+    const back = mk('button', { type: 'button', textContent: 'Cancel' });
+    go.onclick = () => { if (ta.value.trim()) send(b, ta.value.trim()); else ta.focus(); };
+    back.onclick = draw;
+    area.append(ta, mk('div', { className: 'btns' }, go, back));
+    ta.focus();
+  };
+  const btn = (b, cls) => { const x = mk('button', { className: cls || '', type: 'button', textContent: b.label }); x.onclick = () => tap(b); return x; };
+  function draw() {
+    area.textContent = '';
+    const bs = r.buttons || [];
+    if (r.kind === 'pick_one') {
+      area.append(mk('div', { className: 'opts' }, ...bs.filter(b => b.act === 'ok').map(b => btn(b))));
+      const rest = bs.filter(b => b.act !== 'ok');
+      if (rest.length) area.append(mk('div', { className: 'alts' }, ...rest.map(b => btn(b, 'skip'))));
+      return;
+    }
+    if (!bs.length) return;
+    area.append(mk('div', { className: 'btns' + (bs.length === 1 ? ' one' : '') }, btn(bs[0], 'yes'), bs[1] ? btn(bs[1]) : ''));
+    if (bs.length > 2) area.append(mk('div', { className: 'alts' }, ...bs.slice(2).map(b => btn(b, 'skip'))));
+  }
+  draw();
+  return card;
+}
 
 function showResults() {
   const box = byId('results');
