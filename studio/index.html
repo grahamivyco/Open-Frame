@@ -219,6 +219,30 @@
   .acard.focus{border-color:var(--ink)}
   .acard button.picked{box-shadow:0 0 0 4px rgba(47,107,240,.3)}
   .acard .tapnote{font-size:13px;color:var(--b);text-align:center;margin-top:8px}
+  /* Loops (Studio v1): thin tiles, 3 a row, broken first; a tile opens in place across the row */
+  .ltiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:min-content;gap:8px}
+  @media (max-width:760px){.ltiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.ltiles{grid-template-columns:minmax(0,1fr)}}
+  .ltile{display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:13px;color:var(--ink2);cursor:pointer;transition:border-color .16s}
+  .ltile:hover{border-color:var(--line-2)}
+  .ltile .t{display:flex;gap:6px;align-items:baseline;min-width:0}
+  .ltile .t b{color:var(--ink);font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:none;max-width:60%}
+  .ltile .t span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ltile .s{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .ltile .s>span:first-child{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sq{display:flex;gap:3px;flex:none}
+  .sq i{width:9px;height:9px;border-radius:2px;background:#eceae1}
+  .sq i.l1{background:var(--g)}.sq i.l2{background:var(--y)}.sq i.l3{background:var(--r)}
+  .ltag{flex:none;font-size:11px;font-weight:600;color:var(--ink);border-radius:100px;padding:2px 8px;background:#fdf3d8}
+  .ltag.l3{background:#fde3df}
+  .ltile.open{grid-column:1/-1;cursor:default;padding:16px 18px;border-color:var(--ink);gap:8px}
+  .ltile .x{display:none}
+  .ltile.open .x{display:block}
+  .ltile .x h4{font:600 13px/1.3 Inter,sans-serif;color:var(--ink);margin:10px 0 4px}
+  .ltile .x .bad{background:#fde3df;border-radius:12px;padding:10px 12px;color:var(--ink);font-size:14px}
+  .ltile .x .wrow{font-size:13px}
+  .ltile .x a{display:inline-block;margin-top:10px;font-size:14px;font-weight:500}
+  .lfoot{margin-top:14px;font-size:14px}
   [hidden]{display:none!important}
   /* the site's own menu, copied from index.html (desktop pill + footer-style cream card on mobile). Keep in sync. */
   .site-header{position:fixed;top:0;left:0;right:0;z-index:120;font-size:16.5px;line-height:1.6;padding:calc(16px + env(safe-area-inset-top)) 0 16px}
@@ -574,7 +598,7 @@ function showTab(tab) {
   if (box === 'results' && !resultsLoaded) { resultsLoaded = true; showResults(); }
   if (box === 'reels') showReels();
   if (box === 'clients') showClients();
-  if (box === 'status') showStatus();
+  if (box === 'status') showLoops();
   scrollTo(0, 0);
 }
 byId('rail').onclick = e => { const b = e.target.closest('button'); if (b) b.dataset.view ? showTab(b.dataset.view) : signOut(); };
@@ -978,9 +1002,66 @@ function showReels() {
   }, () => { box.innerHTML = '<p class="mute">Reels didn\'t load. Try again in a minute.</p>'; });
 }
 
-// ---------- status (admins) ----------
-function showStatus() {
+// ---------- loops (admins) ----------
+// Thin tiles from the Hub's Loop runs tab (studioLoops). Tap one to open it across the row: what went wrong,
+// the last runs, Full log. The Mac line on top opens the old status list. An older Hub without studioLoops gets that list.
+let loopFilter = 'all';
+function showLoops() {
   const box = byId('status');
+  if (!box.firstChild) box.innerHTML = '<p class="mute">Loading...</p>';
+  post({ op: 'call', s: saved(), name: 'studioLoops', args: [] }).then(d => {
+    const L = d.out;
+    box.textContent = '';
+    const macBox = mk('div', { hidden: true });
+    box.append(macLine(L.mac, () => { macBox.hidden = !macBox.hidden; if (!macBox.firstChild) showStatus(macBox); }), macBox);
+    const broken = L.loops.filter(l => l.state > 1);
+    const filters = mk('div', { className: 'types', role: 'tablist' });
+    [['all', 'All', L.loops.length], ['bad', 'Needs a look', broken.length]].forEach(([k, t, n]) => {
+      const b = mk('button', { type: 'button', role: 'tab' }, t, n ? mk('b', { textContent: n }) : '');
+      b.setAttribute('aria-selected', String(loopFilter === k));
+      b.onclick = () => { loopFilter = k; showLoops(); };
+      filters.append(b);
+    });
+    box.append(filters);
+    const list = loopFilter === 'bad' ? broken : L.loops;
+    if (!list.length) box.append(mk('div', { className: 'card done' }, mk('p', { textContent: loopFilter === 'bad' ? 'Nothing needs a look.' : 'No loop runs logged in the last 30 days.' })));
+    const grid = mk('div', { className: 'ltiles' });
+    list.forEach(l => grid.append(loopTile(l, L.log)));
+    box.append(grid);
+    if (L.log) box.append(mk('p', { className: 'lfoot' }, mk('a', { href: L.log, target: '_blank', rel: 'noopener', textContent: 'Full log ↗' })));
+  }, () => showStatus(box));
+}
+function loopTile(l, log) {
+  const t = mk('div', { className: 'ltile', tabIndex: 0 });
+  t.setAttribute('role', 'button');
+  const sq = mk('span', { className: 'sq' });
+  (l.days || []).forEach(v => sq.append(mk('i', { className: v ? 'l' + v : '' })));
+  sq.setAttribute('aria-hidden', 'true');
+  t.append(mk('div', { className: 't' }, mk('b', { textContent: l.loop }), mk('span', { textContent: l.client })),
+    mk('div', { className: 's' }, mk('span', { textContent: l.last ? 'Ran ' + l.last.replace(/^[A-Z][a-z]{2} /, '') : '' }), l.state > 1 ? mk('span', { className: 'ltag l' + l.state, textContent: l.state > 2 ? 'Failed' : 'Check' }) : sq));
+  const x = mk('div', { className: 'x' });
+  if (l.line) x.append(mk('p', { textContent: 'Last run: ' + l.line }));
+  if (l.wrong) x.append(mk('h4', { textContent: 'What went wrong' }), mk('p', { className: 'bad', textContent: l.wrong }));
+  if (l.runs && l.runs.length) {
+    x.append(mk('h4', { textContent: 'Last runs' }));
+    l.runs.forEach(r => x.append(mk('div', { className: 'wrow' }, mk('span', { textContent: r.note || '' }), mk('span', { className: 'mute', textContent: (r.state > 2 ? 'Failed · ' : r.state > 1 ? 'Check · ' : '') + r.at }))));
+  }
+  const href = l.link || log;
+  if (href) x.append(mk('a', { href, target: '_blank', rel: 'noopener', textContent: l.link ? 'Open in n8n ↗' : 'Full log ↗' }));
+  t.append(x);
+  const flip = e => {
+    if (e.target.closest('a')) return;
+    const open = !t.classList.contains('open');
+    t.parentNode.querySelectorAll('.ltile.open').forEach(o => o.classList.remove('open'));
+    t.classList.toggle('open', open);
+  };
+  t.onclick = flip;
+  t.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(e); } };
+  return t;
+}
+
+// The Mac and n8n checks (the old Status tab), drawn into box.
+function showStatus(box) {
   box.innerHTML = '<p class="mute">Checking...</p>';
   call('studioStatus', K).then(S => {
     box.textContent = '';
