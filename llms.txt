@@ -8,11 +8,19 @@ Contact: hello@openframe.design. Book a free 30-minute consult: https://calendly
 
 ## Services
 
-- [Services overview](https://openframe.design/services): what Open Frame offers and how a project runs
+- [Services and pricing](https://openframe.design/services): what Open Frame offers, how a project runs, and prices
 - Brand identity and strategy: logos, visual systems, brand guidelines, positioning and messaging
 - Web and product design: websites, landing pages, product UX and UI, responsive build and handoff
 - Marketing and content: campaigns, social media, content and copywriting, email and collateral
 - Brand growth and consulting: brand audits, positioning, roadmaps and ongoing consulting
+
+## Pricing
+
+Full price list: https://openframe.design/services#pricing (USD, October 2026). Registered 501(c)(3) nonprofits get 10% off plans and projects (not Care or hourly).
+
+- Monthly plans (setup $950, 3-month minimum): Care $400/mo, Starter $1,400/mo, Growth $2,500/mo, Full Comms $3,800/mo
+- One-time projects: quick audit free, deep brand and marketing audit $450, brand kit $1,800, website redesign from $4,500, SEO and AI search check $450 (setup $950, then $300/mo), newsletter setup $850, Giving Tuesday kit $750, Google Ad Grants setup $1,000 (+$300/mo management), case study $600
+- Extras: hourly work $95/hr, website support $200/mo, website handoff guide $450
 
 ## Case studies
 
