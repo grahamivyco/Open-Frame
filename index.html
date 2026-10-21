@@ -1262,15 +1262,17 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
 
-/* cookie notice (Google Analytics consent) */
-.cookie-note{position:fixed;left:var(--gutter);bottom:var(--gutter);z-index:390;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink-2);display:none}
-.cookie-note.show{display:block}
-.cookie-note p{margin:0 0 12px}
-.cookie-note .cn-row{display:flex;gap:10px;align-items:center}
-.cookie-note button{font:inherit;font-weight:600;border-radius:100px;padding:8px 16px;border:1px solid var(--ink)}
+/* cookie notice (Google Analytics consent): one centred pill in the bottom gutter, below the hero card */
+.cookie-note{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:390;display:none;align-items:center;gap:14px;white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:100px;padding:5px 5px 5px 18px;font-family:var(--sans);font-size:13px;line-height:1.3;color:var(--ink-2)}
+.cookie-note.show{display:flex}
+.cookie-note p{margin:0}
+.cookie-note .cn-row{display:flex;gap:6px;align-items:center}
+.cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:100px;padding:7px 14px;border:1px solid var(--ink)}
 .cookie-note .cn-yes{background:var(--ink);color:#fff}
 .cookie-note .cn-no{background:none;color:var(--ink)}
-@media (max-width:560px){.cookie-note{right:var(--gutter);max-width:none}}
+/* while the notice shows, the hero's bottom gap grows to fit it (no-op on desktop, where the gutter already fits) */
+html.cn-on .hero{--cn-gap:max(var(--gutter),calc(var(--cn-h,48px) + 20px));--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}
+@media (max-width:560px){.cookie-note{white-space:normal;width:calc(100% - 2*var(--gutter));justify-content:space-between;gap:10px;padding-left:14px;font-size:12px}}
 
 /* toast (email-copied confirmation) */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
@@ -4150,13 +4152,14 @@ return {W,H,D,draw(ctx,t){
 })();
 </script>
 <div class="cookie-note" id="cookieNote" role="region" aria-label="Cookie notice">
-  <p>I use Google Analytics cookies to see how people find this site and what they look at. No ads, no selling data.</p>
+  <p>I use cookies to see how people find this site. No ads.</p>
   <div class="cn-row"><button type="button" class="cn-yes">Allow</button><button type="button" class="cn-no">No thanks</button></div>
 </div>
 <script>
 (function(){var n=document.getElementById("cookieNote");if(!n)return;
-  if(window.ofConsent!=="yes"&&window.ofConsent!=="no")n.classList.add("show");
-  function pick(v){try{localStorage.setItem("of-consent",v);}catch(_){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});n.classList.remove("show");}
+  var de=document.documentElement;function fit(){de.style.setProperty("--cn-h",n.offsetHeight+"px");}
+  if(window.ofConsent!=="yes"&&window.ofConsent!=="no"){n.classList.add("show");de.classList.add("cn-on");fit();addEventListener("resize",fit);}
+  function pick(v){try{localStorage.setItem("of-consent",v);}catch(_){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});n.classList.remove("show");de.classList.remove("cn-on");}
   n.querySelector(".cn-yes").addEventListener("click",function(){pick("yes");});
   n.querySelector(".cn-no").addEventListener("click",function(){pick("no");});
 })();
