@@ -37,7 +37,9 @@
   .sign button.yes{width:100%;border-color:var(--ink);transition:background .16s,border-color .16s}
   .sign button.yes:hover:not(:disabled){background:var(--r);border-color:var(--r)}
   .sign .skip{margin:16px 0 0;padding:6px 0;text-align:left}
-  .sign .gsi{justify-content:flex-start;margin-bottom:16px}
+  .sign .gsi{justify-content:flex-start;margin-bottom:16px;overflow:hidden}
+  /* Google's button can't be wider than 400px, so the email column stops there too and everything lines up */
+  .sign .gsi,.sign .or,.sign form{max-width:400px}
   .sign .or{display:flex;align-items:center;gap:12px;text-align:left;margin:0 0 14px!important}
   .sign .or::before,.sign .or::after{content:"";flex:1;height:1px;background:var(--line-2)}
   .art{position:relative;border-radius:var(--rad-lg);overflow:hidden;background:var(--cream);min-height:0}
@@ -330,8 +332,9 @@ function googleButton(el, or, err) {
     if (!c.google) return;
     const draw = () => {
       google.accounts.id.initialize({ client_id: c.google, ux_mode: 'popup', callback: r => post({ op: 'google', credential: r.credential }).then(start, x => { err.textContent = x.known ? x.message : 'That didn\'t go through. Try again.'; err.hidden = false; }) });
-      google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', width: Math.max(200, Math.min(el.clientWidth || el.parentNode.clientWidth, 400)) });
+      // show it first so it can be measured: the email field's width (Google's button tops out at 400px)
       el.hidden = false; or.hidden = false;
+      google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', width: Math.max(200, Math.min(el.clientWidth, 400)) });
     };
     if (window.google && google.accounts) return draw();
     const s = document.createElement('script');
