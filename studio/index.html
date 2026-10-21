@@ -585,14 +585,28 @@ const art = (() => {
   const eIOBack = x => x < .5 ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2 : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
   const FRAME = new Path2D('M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48');
   const SPARK = new Path2D('M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z');
-  let W = 0, H = 0, T = 0, COLS = 0, ROWS = 0, X0 = 0, Y0 = 0, MC = 0, MR = 0, raf = 0, t0 = 0, on = false;
+  let W = 0, H = 0, COLS = 0, ROWS = 0, MC = 0, MR = 0, raf = 0, t0 = 0, on = false;
   const EVERY = 3.2; // seconds between quarter-turn waves
+  // Everything is drawn in device pixels and every cell edge lands on a whole pixel, so neighbouring
+  // tiles meet exactly (fractional edges let the canvas blend colours and left thin seams). The grid
+  // fills the panel exactly: cells are as close to square as whole rows and columns allow.
+  let XS = [], YS = [];
   function size() {
     const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
-    W = r.width; H = r.height; if (!W || !H) return;
-    cv.width = Math.round(W * d); cv.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
-    COLS = Math.max(3, Math.round(W / 170)); T = W / COLS; ROWS = Math.ceil(H / T) + (Math.ceil(H / T) % 2 ? 0 : 1);
-    X0 = 0; Y0 = (H - ROWS * T) / 2; MC = Math.floor(COLS / 2); MR = Math.floor(ROWS / 2);
+    if (!r.width || !r.height) { W = 0; return; }
+    cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d); ctx.setTransform(1, 0, 0, 1, 0, 0);
+    W = cv.width; H = cv.height;
+    // pick the grid whose cells come closest to square, with tiles roughly 110-260px wide
+    let best = 9;
+    for (let c = 3; c <= 12; c++) {
+      const cw = r.width / c; if (cw < 110 || cw > 260) continue;
+      const rows = Math.max(3, Math.round(r.height / cw)), err = Math.abs(Math.log((r.height / rows) / cw));
+      if (err < best) { best = err; COLS = c; ROWS = rows; }
+    }
+    if (best === 9) { COLS = Math.max(3, Math.round(r.width / 170)); ROWS = Math.max(3, Math.round(r.height / (r.width / COLS))); }
+    XS = Array.from({ length: COLS + 1 }, (_, i) => Math.round(i * W / COLS));
+    YS = Array.from({ length: ROWS + 1 }, (_, i) => Math.round(i * H / ROWS));
+    MC = Math.floor(COLS / 2); MR = Math.floor(ROWS / 2);
   }
   function tile(c, r, t) {
     const k = (c * 5 + r * 3) % 6, bgc = PAL[k], m0 = PAL[(k + 2 + ((c + r) % 3)) % 6], mc = m0 === bgc ? PAL[(k + 3) % 6] : m0;
@@ -601,28 +615,36 @@ const art = (() => {
     if (s <= .001) return;
     let wave = 0;
     if (!still && t > 1.6) { const n = Math.floor((t - 1.6) / EVERY), f = (t - 1.6) - n * EVERY; wave = n + eIOBack(seg(f, d, d + .5)); }
-    const rot = ((c * 3 + r) % 4) * Math.PI / 2 + ((c + r) % 2 ? 1 : -1) * Math.PI / 2 * wave;
-    ctx.save(); ctx.translate(X0 + c * T + T / 2, Y0 + r * T + T / 2); ctx.scale(s, s);
+    const turns = ((c * 3 + r) % 4) + ((c + r) % 2 ? 1 : -1) * wave;
+    // a whole number of quarter turns: rotate exactly (sin/cos of k*PI/2 leave tiny errors that blur edges)
+    const q = Math.round(turns), at = Math.abs(turns - q) < 1e-6 && s === 1;
+    const x0 = XS[c], x1 = XS[c + 1], y0 = YS[r], y1 = YS[r + 1], T = x1 - x0;
+    ctx.save();
+    if (at) { ctx.beginPath(); ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.clip(); }
+    ctx.translate((x0 + x1) / 2, (y0 + y1) / 2); ctx.scale(s, s * (y1 - y0) / T);
     if (c === MC && r === MR) { // the mark tile: cream with the ink frame; its spark turns with each wave
-      ctx.fillStyle = CREAM; ctx.fillRect(-T / 2, -T / 2, T, T);
+      ctx.fillStyle = CREAM; ctx.fillRect(-T / 2 - 1, -T / 2 - 1, T + 2, T + 2);
+      ctx.scale(1, T / (y1 - y0)); // keep the mark itself unstretched
       const k2 = T / 120 * .62; ctx.scale(k2, k2); ctx.translate(-60, -60);
       ctx.strokeStyle = INK; ctx.lineWidth = 8; ctx.lineCap = ctx.lineJoin = 'round'; ctx.stroke(FRAME);
       ctx.translate(60, 60); ctx.rotate(Math.PI / 2 * wave); ctx.scale(.42, .42); ctx.fillStyle = INK; ctx.fill(SPARK);
       ctx.restore(); return;
     }
-    ctx.rotate(rot);
-    ctx.beginPath(); ctx.rect(-T / 2 - .5, -T / 2 - .5, T + 1, T + 1); ctx.clip();
-    ctx.fillStyle = bgc; ctx.fillRect(-T / 2 - .5, -T / 2 - .5, T + 1, T + 1);
+    if (at) { const qq = ((q % 4) + 4) % 4; ctx.transform([1, 0, -1, 0][qq], [0, 1, 0, -1][qq], [0, -1, 0, 1][qq], [1, 0, -1, 0][qq], 0, 0); }
+    else { ctx.rotate(turns * Math.PI / 2); ctx.beginPath(); ctx.rect(-T / 2, -T / 2, T, T); ctx.clip(); }
+    // shapes overshoot the cell by 2px on the sides they share with it; the clip trims them flush
+    const h = T / 2, o = 2;
+    ctx.fillStyle = bgc; ctx.fillRect(-h - o, -h - o, T + 2 * o, T + 2 * o);
     ctx.fillStyle = mc; ctx.beginPath();
-    if (type === 0) { ctx.moveTo(-T / 2, -T / 2); ctx.arc(-T / 2, -T / 2, T, 0, Math.PI / 2); ctx.closePath(); }
-    else if (type === 1) { ctx.arc(0, T / 2, T / 2, Math.PI, 0); ctx.closePath(); }
+    if (type === 0) { ctx.moveTo(-h - o, -h - o); ctx.lineTo(h, -h - o); ctx.arc(-h, -h, T, 0, Math.PI / 2); ctx.lineTo(-h - o, h); ctx.closePath(); }
+    else if (type === 1) { ctx.arc(0, h, h, Math.PI, 0); ctx.lineTo(h, h + o); ctx.lineTo(-h, h + o); ctx.closePath(); }
     else if (type === 2) { ctx.arc(0, 0, T * .34, 0, Math.PI * 2); }
-    else { ctx.moveTo(-T / 2, -T / 2); ctx.lineTo(T / 2, -T / 2); ctx.lineTo(-T / 2, T / 2); ctx.closePath(); }
+    else { ctx.moveTo(-h - o, -h - o); ctx.lineTo(h + o, -h - o); ctx.lineTo(-h - o, h + o); ctx.closePath(); }
     ctx.fill();
     if (type === 2) { ctx.fillStyle = bgc; ctx.beginPath(); ctx.arc(0, 0, T * .12, 0, Math.PI * 2); ctx.fill(); }
     ctx.restore();
   }
-  function draw(t) { ctx.fillStyle = CREAM; ctx.fillRect(0, 0, W, H); for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) tile(c, r, t); }
+  function draw(t) { if (!W) return; ctx.fillStyle = CREAM; ctx.fillRect(0, 0, W, H); for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) tile(c, r, t); }
   function loop(now) { if (!on) return; if (!document.hidden) draw((now - t0) / 1000); raf = requestAnimationFrame(loop); }
   new ResizeObserver(() => { if (!on) return; size(); if (still) draw(99); }).observe(cv);
   return show => {
