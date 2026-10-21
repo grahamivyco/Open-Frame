@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="facebook-domain-verification" content="1p001ci7lkiteqwny58b7umyr8yhjq" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Analytics (GA4). Consent mode: nothing is stored until the visitor taps Allow on the cookie notice (#cookieNote, bottom of <body>); before that Google only gets cookieless pings. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RF906YB2TT"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  var ofConsent=null;try{ofConsent=localStorage.getItem("of-consent");}catch(_){}
+  gtag("consent","default",{analytics_storage:ofConsent==="yes"?"granted":"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+  gtag("js",new Date());
+  gtag("config","G-RF906YB2TT");
+</script>
 <title>Open Frame | Design &amp; Marketing for Mission-Driven Brands</title>
 <meta name="description" content="Design and marketing made easy for mission-driven organizations and brands. Branding, websites, social and content. Minneapolis and Barcelona, on US hours.">
 <meta name="author" content="Graham Ivy">
@@ -1251,6 +1261,16 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.on-dark{background:#fff}.cursor.grow.on-dark{background:rgba(255,255,255,.16);border-color:#fff}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
+
+/* cookie notice (Google Analytics consent) */
+.cookie-note{position:fixed;left:var(--gutter);bottom:var(--gutter);z-index:390;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;font-family:var(--sans);font-size:14px;line-height:1.45;color:var(--ink-2);display:none}
+.cookie-note.show{display:block}
+.cookie-note p{margin:0 0 12px}
+.cookie-note .cn-row{display:flex;gap:10px;align-items:center}
+.cookie-note button{font:inherit;font-weight:600;border-radius:100px;padding:8px 16px;border:1px solid var(--ink)}
+.cookie-note .cn-yes{background:var(--ink);color:#fff}
+.cookie-note .cn-no{background:none;color:var(--ink)}
+@media (max-width:560px){.cookie-note{right:var(--gutter);max-width:none}}
 
 /* toast (email-copied confirmation) */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
@@ -3579,7 +3599,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           const r=await fetch(form.action,{method:"POST",body:data,headers:{Accept:"application/json"}});
           const j=await r.json().catch(()=>({}));
           if(!r.ok || j.success===false) throw 0;
-          form.reset(); s.style.color="var(--ink)"; s.textContent="Thanks — I'll be in touch soon.";
+          form.reset(); if(window.gtag) gtag("event","generate_lead",{form:"contact"}); s.style.color="var(--ink)"; s.textContent="Thanks — I'll be in touch soon.";
         }catch(_){ mailLink(s,name,email,msg,"Couldn't send just now —"); }
       } else {
         mailLink(s,name,email,msg,"This form isn't connected to a mailbox yet — for now,");
@@ -4127,6 +4147,18 @@ return {W,H,D,draw(ctx,t){
     began = true; start = performance.now(); layout(); paint(now());
     if (!reduce){ btn.hidden = false; play(); }
   });
+})();
+</script>
+<div class="cookie-note" id="cookieNote" role="region" aria-label="Cookie notice">
+  <p>I use Google Analytics cookies to see how people find this site and what they look at. No ads, no selling data.</p>
+  <div class="cn-row"><button type="button" class="cn-yes">Allow</button><button type="button" class="cn-no">No thanks</button></div>
+</div>
+<script>
+(function(){var n=document.getElementById("cookieNote");if(!n)return;
+  if(window.ofConsent!=="yes"&&window.ofConsent!=="no")n.classList.add("show");
+  function pick(v){try{localStorage.setItem("of-consent",v);}catch(_){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});n.classList.remove("show");}
+  n.querySelector(".cn-yes").addEventListener("click",function(){pick("yes");});
+  n.querySelector(".cn-no").addEventListener("click",function(){pick("no");});
 })();
 </script>
 </body>
