@@ -226,6 +226,26 @@
   @media (max-width:1000px){.agrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"appr appr" "proj pay" "month notes"}}
   @media (max-width:640px){.agrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"appr" "proj" "pay" "month" "notes"}.cacts{margin:0 0 16px;justify-content:flex-start}}
   /* Client page bento (mock D version B) */
+  .aline{font-size:14px;margin:2px 0 6px}
+  .aline b{font-weight:600}
+  .inc{display:grid;grid-template-columns:minmax(0,1fr) 64px 50px;gap:10px;align-items:center;font-size:13.5px;padding:3px 0}
+  .inc .bar{height:5px;border-radius:3px;background:rgba(0,0,0,.08);overflow:hidden}
+  .inc .bar i{display:block;height:100%;background:var(--ink)}
+  .inc .mute{font-size:12.5px;text-align:right}
+  .pfoot{margin-top:auto;display:flex;align-items:center;gap:12px;border-top:1px solid rgba(0,0,0,.1);padding-top:12px}
+  .pfoot>div{flex:1}
+  .pfoot .amt{font-size:24px;line-height:1.1}
+  .pfoot .mute{font-size:12.5px}
+  .pfoot .pbtn{padding:11px 22px}
+  .pbtn.off{opacity:.55;pointer-events:none}
+  .mlink{display:inline-block;margin-top:12px;font-size:13px;color:var(--ink2)}
+  .lrow.due span{display:flex;align-items:center;gap:7px}
+  .lrow.due i,.paynote i{width:8px;height:8px;border-radius:50%;background:var(--y);flex:none;display:inline-block}
+  .paynote{font-size:13px;margin-top:8px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .paynote i.ok{background:var(--g)}
+  .paynote a{color:var(--ink2)}
+  .plinks{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+
   .hub.wide.cview{max-width:1360px;padding-left:24px;padding-right:24px}
   .hub.cview .shead h1{font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em}
   .hub.cview .shead h1 i{font-style:italic;font-weight:400}
@@ -297,6 +317,7 @@
   .wcl b{font-weight:500}
   .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px}
   .nums .teb{grid-column:1/-1}
+  .nums .mline{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px;margin-top:6px}
   .nums>div{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.3;color:var(--ink2)}
   .nums .serif{font-size:28px;color:var(--ink);line-height:1.1}
   @media (max-width:1000px){.hgrid{grid-template-columns:minmax(0,1fr)}.qtile{min-height:0;padding:18px;border-radius:24px}.qhead h2{font-size:26px}}
@@ -859,11 +880,14 @@ function drawApprovals() {
   const approved = (AQ.done || []).filter(r => r.updated && new Date(r.updated) > wk).length;
   const nums = mk('section', { className: 'bt nums' }, teb('This week', 'var(--g)'));
   [[approved, 'answered this week'], [AQ.waiting.length, 'waiting on clients'], [works.length, 'in the works']].forEach(([n, t]) => nums.append(mk('div', {}, mk('span', { className: 'serif', textContent: String(n) }), mk('span', { textContent: t }))));
+  if (MONEY && (MONEY.billed || MONEY.unpaid)) nums.append(mk('div', { className: 'mline' }, mk('span', { className: 'serif', textContent: money(MONEY.billed) }), mk('span', { textContent: 'billed this month' + (MONEY.unpaid ? ' · ' + money(MONEY.unpaid) + ' unpaid' : '') })));
   side.append(nums);
   box.append(q, side, aqHead('From the check-in'));
 }
-// Broken loops for the Home alert. Quiet on an older Hub.
+// Broken loops and the money line for Home. Quiet on an older Hub.
+let MONEY = null;
 function loadLoopAlert() {
+  post({ op: 'call', s: saved(), name: 'studioMoney', args: [] }).then(d => { MONEY = d.out; if (AQ && !byId('todo').hidden) drawApprovals(); }, () => {});
   post({ op: 'call', s: saved(), name: 'studioLoops', args: [] }).then(d => {
     LOOPS_BAD = ((d.out || {}).loops || []).filter(l => l.state > 1);
     if (AQ && !byId('todo').hidden) drawApprovals();
@@ -985,12 +1009,8 @@ function clientPageEl(P, opts) {
     projs.forEach(p => { const c = projectCard(p, P.projects.stages); c.classList.add('flat'); pj.append(c); });
     box.append(pj);
 
-    // Payments + links (agreements come with the next step)
-    const pay = mk('section', { className: 'bt c-pay' }, teb('Payments and files', 'var(--y)'));
-    const btns = [['pay', 'Pay invoice', 'yes'], ['files', 'Open your Drive folder', ''], ['report', 'Monthly report', '']].filter(([k]) => L[k]);
-    if (!btns.length) pay.append(mk('p', { className: 'mute', textContent: 'Invoices and your files will show here.' }));
-    btns.forEach(([k, t, c]) => pay.append(mk('a', { className: 'pbtn ' + c, href: L[k], target: '_blank', rel: 'noopener', textContent: t + ' ↗' })));
-    box.append(pay);
+    // What we agreed: plan + this month's counts, next payment with Pay now, past payments
+    box.append(moneyTile(P, preview));
 
     // Coming up
     const cu = mk('section', { className: 'bt c-coming' }, teb('Coming up', 'var(--b)'));
@@ -1013,6 +1033,7 @@ function clientPageEl(P, opts) {
       });
       mo.append(g);
     }
+    if (L.report) mo.append(mk('a', { className: 'mlink', href: L.report, target: '_blank', rel: 'noopener', textContent: 'Monthly report ↗' }));
     box.append(mo);
 
     // Your files: finished, approved work
@@ -1036,6 +1057,41 @@ function clientPageEl(P, opts) {
   };
   draw();
   return box;
+}
+const money = v => v == null ? '' : '$' + Math.round(v).toLocaleString('en-US');
+const shortDate = d => { const x = d && new Date(/^\d{4}-\d{2}-\d{2}$/.test(d) ? d + 'T12:00:00' : d); return x && !isNaN(x) ? x.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : ''; };
+// The client's "What we agreed" tile (also used in Graham's preview).
+function moneyTile(P, preview) {
+  const M = P.money || { agreements: [], due: [], past: [] }, L = P.links || {};
+  const t = mk('section', { className: 'bt c-pay' });
+  const pdf = M.agreements.find(a => a.pdf);
+  t.append(mk('div', { className: 'thead' }, teb('What we agreed', 'var(--y)'), pdf ? mk('a', { href: pdf.pdf, target: '_blank', rel: 'noopener', textContent: 'Agreement PDF ↗' }) : ''));
+  if (!M.agreements.length && !M.next) t.append(mk('p', { className: 'mute', textContent: 'Your plan and invoices will show here.' }));
+  M.agreements.forEach(a => {
+    t.append(mk('p', { className: 'aline' }, mk('b', { textContent: a.item + (a.per === 'month' && !/plan$/i.test(a.item) ? ' plan' : '') }),
+      mk('span', { className: 'mute', textContent: [a.per === 'month' && a.start ? 'since ' + shortDate(a.start) : '', a.per === 'once' && a.price ? money(a.price) : ''].filter(Boolean).map(x => ' · ' + x).join('') + (a.includes.length ? ' · this month' : '') })));
+    a.includes.forEach(i => t.append(mk('div', { className: 'inc' }, mk('span', { textContent: i.label }),
+      mk('span', { className: 'bar' }, mk('i', { style: 'width:' + Math.min(100, Math.round(i.done / Math.max(1, i.qty) * 100)) + '%' })), mk('span', { className: 'mute', textContent: i.done + ' of ' + i.qty }))));
+  });
+  const nx = M.next, payUrl = nx ? nx.pay_url || L.pay : L.pay;
+  if (nx || payUrl) {
+    const foot = mk('div', { className: 'pfoot' });
+    const left = mk('div', {});
+    if (nx) left.append(mk('p', { className: 'serif amt', textContent: money(nx.amount) }), mk('p', { className: 'mute', textContent: (nx.due ? 'Due ' + shortDate(nx.due) : 'Due now') + (nx.item ? ' · ' + nx.item : '') }));
+    else left.append(mk('p', { className: 'mute', textContent: 'Nothing due right now.' }));
+    foot.append(left);
+    if (payUrl && nx) foot.append(mk('a', { className: 'pbtn yes', href: payUrl, target: '_blank', rel: 'noopener', textContent: 'Pay now' }));
+    t.append(foot);
+  }
+  if (M.past.length) {
+    const b = mk('button', { type: 'button', className: 'linkish', textContent: 'Past payments' });
+    const list = mk('div', { hidden: true });
+    M.past.forEach(p => list.append(mk('div', { className: 'lrow' }, mk('span', { textContent: (p.item || 'Invoice') + ' · ' + shortDate(p.paid_at || p.due) }), mk('span', { textContent: money(p.amount) }))));
+    b.onclick = () => { list.hidden = !list.hidden; };
+    t.append(b, list);
+  }
+  if (preview) t.querySelectorAll('.pbtn').forEach(a => { a.removeAttribute('href'); a.classList.add('off'); });
+  return t;
 }
 // Small square for a list row: the first image, else a cream square with the kind's first letter.
 function thumb(r) {
@@ -1116,6 +1172,8 @@ function showClient(name, preview) {
     const manage = mk('button', { type: 'button', className: 'apill', innerHTML: '<svg><use href="#i-gear"/></svg>Manage' });
     manage.onclick = e => { e.stopPropagation(); menu(manage, [
       ['Add a project', 'Name, step, next from you, need from them', () => projectPanel(P, null, again)],
+      ['Add an agreement', 'Plan or project, price, what it includes, signed PDF', () => agreementPanel(P, again)],
+      ['Add an invoice', 'Amount, due date, payment link', () => invoicePanel(P, again)],
       ['Add a note', 'Only you see it', () => { const t = box.querySelector('.notes textarea'); if (t) { t.focus(); t.scrollIntoView({ block: 'center' }); } }],
       ['Edit client details', 'Contacts who can sign in, links', () => detailsPanel(P, again)],
       null,
@@ -1177,14 +1235,22 @@ function showClient(name, preview) {
     addp.onclick = () => projectPanel(P, null, again);
     pj.append(addp);
     g.append(pj);
-    // Links (agreements and payments come in the next step)
-    const L = P.links || {};
-    const pay = mk('section', { className: 'bt a-pay' }, teb('Payments and files', 'var(--y)'));
-    [['pay', 'Invoice link'], ['files', 'Drive folder'], ['report', 'Monthly report']].forEach(([k, t]) => pay.append(mk('div', { className: 'lrow' }, mk('span', { textContent: t }),
-      L[k] ? mk('a', { href: L[k], target: '_blank', rel: 'noopener', textContent: 'Open ↗' }) : mk('span', { className: 'mute', textContent: 'Not set' }))));
-    const ed = mk('button', { type: 'button', className: 'linkish', textContent: 'Edit links' });
-    ed.onclick = () => detailsPanel(P, again);
-    pay.append(ed);
+    // Agreement and payments
+    const L = P.links || {}, MO = P.money || { agreements: [], due: [], past: [] };
+    const pay = mk('section', { className: 'bt a-pay' }, teb('Agreement and payments', 'var(--y)'));
+    if (!MO.agreements.length) pay.append(mk('p', { className: 'mute', textContent: 'No agreement yet.' }));
+    MO.agreements.forEach(a => pay.append(mk('div', { className: 'lrow' }, mk('span', { textContent: a.item }), mk('b', { textContent: money(a.price) + (a.per === 'month' ? '/mo' : '') }))));
+    MO.due.forEach(p => {
+      const mp = mk('button', { type: 'button', className: 'mini', textContent: 'Mark paid' });
+      mp.onclick = () => { mp.disabled = true; call('adminPaymentPaid', K, p.id).then(again, () => { mp.disabled = false; }); };
+      pay.append(mk('div', { className: 'lrow due' }, mk('span', {}, mk('i'), money(p.amount) + ' due ' + (shortDate(p.due) || 'now') + (p.item ? ' · ' + p.item : '')), mp));
+    });
+    if (MO.past[0]) pay.append(mk('p', { className: 'mute paynote' }, mk('i', { className: 'ok' }), 'Paid ' + shortDate(MO.past[0].paid_at || MO.past[0].due) + ' · ' + money(MO.past[0].amount)));
+    const pl = mk('div', { className: 'plinks' });
+    [['+ Agreement', () => agreementPanel(P, again)], ['+ Invoice', () => invoicePanel(P, again)], ['Edit links', () => detailsPanel(P, again)]].forEach(([t, f]) => { const b = mk('button', { type: 'button', className: 'linkish', textContent: t }); b.onclick = f; pl.append(b); });
+    pay.append(pl);
+    const lk = [['files', 'Drive folder'], ['report', 'Monthly report']].filter(([k]) => L[k]);
+    if (lk.length) pay.append(mk('p', { className: 'mute paynote' }, ...lk.map(([k, t], i) => mk('a', { href: L[k], target: '_blank', rel: 'noopener', textContent: (i ? ' · ' : '') + t + ' ↗' }))));
     g.append(pay);
     // This month
     const M = P.month, mo = mk('section', { className: 'bt a-month' }, teb(M ? M.month : 'This month', 'var(--g)'));
@@ -1260,6 +1326,37 @@ function panel(title, fields, saveText, onSave) {
   document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
   const first = f.querySelector('input,textarea,select'); if (first) first.focus();
   return el;
+}
+
+// Plan and project names from /pricing (stable keys for agreements and payments).
+const PRICE_ITEMS = ['Care', 'Starter', 'Growth', 'Full Comms', 'Setup', 'Quick audit', 'Deep brand and marketing audit', 'Brand kit', 'Website redesign',
+  'SEO and AI search check', 'SEO and AI search setup', 'Newsletter setup', 'Giving Tuesday kit', 'Google Ad Grants setup', 'Case study', 'Hourly work', 'Website support', 'Website handoff guide'];
+function itemList(el) {
+  const id = 'pitems';
+  if (!byId(id)) { const d = mk('datalist', { id }); PRICE_ITEMS.forEach(n => d.append(mk('option', { value: n }))); document.body.append(d); }
+  el.setAttribute('list', id);
+}
+function agreementPanel(P, done) {
+  const el = panel('Add an agreement', [
+    ['item', 'Plan or project (from your price list)', 'text', ''],
+    ['price', 'Price ($)', 'text', ''],
+    ['per', 'Billed', 'select', 'month', [['month', 'Every month'], ['once', 'Once (a project)']]],
+    ['start', 'Start date', 'date', ''],
+    ['includes', 'Each month includes (e.g. posts:12, newsletter:1, report:1)', 'text', ''],
+    ['pdf_url', 'Signed agreement (PDF link)', 'url', ''],
+  ], 'Save agreement', ['adminAgreementSet', v => [P.client, v], () => done()]);
+  itemList(el.item);
+}
+function invoicePanel(P, done) {
+  const X = P.admin || {}, a = (P.money && P.money.agreements[0]) || {};
+  const el = panel('Add an invoice', [
+    ['item', 'For', 'text', a.item || ''],
+    ['amount', 'Amount ($)', 'text', a.price || ''],
+    ['due', 'Due', 'date', ''],
+    ['pay_url', 'Payment link (Pay now opens it)', 'url', X.pay_url || ''],
+    ['note', 'Note (only you)', 'text', ''],
+  ], 'Add invoice', ['adminPaymentAdd', v => [P.client, v], () => done()]);
+  itemList(el.item);
 }
 
 function sendPanel(P, done) {
