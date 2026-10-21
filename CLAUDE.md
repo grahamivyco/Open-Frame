@@ -138,3 +138,11 @@ Static pages for Graham's Glow mobile game, outside the SPA: `glow/privacy/`, `g
 
 ## Link-in-bio page (Oct 2026)
 `links/index.html` is a standalone static page at **openframe.design/links**, outside the SPA (like `glow/`), used as the Instagram/Facebook bio link instead of Linktree. Primary button = free 30-min consult (Calendly); then Work, Services, home, email. Every link carries `utm_source=social&utm_medium=bio&utm_campaign=links` so bio traffic shows up in analytics and Calendly. Self-contained CSS, same tokens as the site.
+
+## SEO + AI search (Oct 2026)
+- **Every route has its own static file** (`work.html`, `services.html`, `about.html`, `contact.html`, and one per case study). GitHub Pages serves `/work` from `work.html` with a 200, so Google and AI crawlers can index each page. Before this, every route except `/` came back as an HTTP 404 (the `404.html` SPA redirect), so only the home page could be indexed.
+- **These files are generated. Never edit them by hand.** After ANY change to `index.html`, run `node tools/build-pages.js` and commit the results. It copies `index.html` per route, bakes in that route's `PAGE_META` title/description/canonical/OG tags, adds a `WebPage` + `BreadcrumbList` JSON-LD block, marks the route's `.page` active, and rewrites `sitemap.xml` (lastmod = today). Adding a route = add it to `SLUG2ID` + `PAGE_META`, then rerun.
+- `idFromLoc()` strips a trailing `.html`, so `/about.html` also routes to About.
+- **`llms.txt`** at the root is a plain summary of Open Frame for AI assistants (positioning, services, case studies with outcomes, contact). Update it when services, case studies or positioning change.
+- Positioning used in meta + JSON-LD: design and marketing studio for mission-driven organizations and brands, Minneapolis + Barcelona, US hours. JSON-LD `sameAs` = Instagram, Facebook, LinkedIn.
+- `preview/*` concept pages for prospects are `noindex` so they never show up in search under other orgs' names.
