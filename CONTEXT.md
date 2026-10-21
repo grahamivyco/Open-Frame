@@ -23,7 +23,7 @@ Last updated: 2026-10-21.
 - Each phase = one Hub PR (social-assets) + one Studio page PR (Open-Frame).
 
 ## Pricing
-- Lives on `/services#pricing` in `index.html` (`.pr-*` classes). Prices also appear in the Organization JSON-LD `hasOfferCatalog` and in `llms.txt`. Change all three together.
+- Own page at **/pricing** (`#pricing` page in `index.html`, `.pr-*` classes; moved off Services 2026-10-21, old `/services#pricing` links redirect). Services keeps a "See pricing" button in "What to expect". Plan names (Studio agreements/payments use them, keep stable): monthly **Care / Starter / Growth / Full Comms** + Setup; projects **Quick audit / Deep brand and marketing audit / Brand kit / Website redesign / SEO and AI search check (and setup) / Newsletter setup / Giving Tuesday kit / Google Ad Grants setup / Case study**; extras **Hourly work / Website support / Website handoff guide**. Prices also appear in the Organization JSON-LD `hasOfferCatalog` and in `llms.txt`. Change all three together.
 
 ## Analytics and privacy
 - Google Analytics 4, ID **G-RF906YB2TT**. One tag only, in `<head>`. Never add a second one.
