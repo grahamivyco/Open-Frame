@@ -96,6 +96,11 @@
   .more,#results{margin-top:24px;font-size:15px;color:var(--ink2)}
   .more>p{margin-bottom:8px}
   .mute{color:var(--muted);font-size:14px}
+  .skel{display:grid;gap:12px;margin-bottom:12px}
+  .skel i{display:block;height:var(--h,120px);border-radius:20px;background:linear-gradient(90deg,var(--cream) 40%,#faf8f2 50%,var(--cream) 60%) 0 0/300% 100%;animation:skel 1.3s linear infinite}
+  .skel i:first-child{--h:22px;width:38%;border-radius:100px}
+  @keyframes skel{from{background-position:100% 0}to{background-position:0 0}}
+  @media (prefers-reduced-motion:reduce){.skel i{animation:none}}
   .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
   .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px}
   .tile b{display:block;font:500 24px/1.2 Fraunces,serif;color:var(--ink)}
@@ -157,15 +162,15 @@
   .srow p{color:var(--ink2);font-size:14px}
   .srow .fix{color:var(--ink);font-size:14px;margin-top:4px}
   /* admin side menu (Studio v1): frosted like the site header, icons only, widens with labels on hover. Phone = bottom bar with labels */
-  .rail{position:fixed;z-index:110;left:calc(12px + env(safe-area-inset-left));top:var(--head);bottom:12px;width:64px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:32px;overflow:hidden;transition:width .3s var(--ease)}
+  .rail{position:fixed;z-index:110;left:calc(12px + env(safe-area-inset-left));top:var(--head);bottom:12px;width:64px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px;border-radius:32px;overflow:hidden;transition:width .2s var(--ease)}
   .rail::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.6);backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);z-index:-1}
   .rail button{display:flex;align-items:center;gap:14px;width:100%;padding:12px 13px;border:0;border-radius:100px;background:transparent;font-size:15px;white-space:nowrap;color:var(--ink2);transition:background .16s,color .16s}
   .rail button svg{width:22px;height:22px;flex:none;stroke-width:1.75}
-  .rail button span{opacity:0;transition:opacity .2s}
+  .rail button span{opacity:0;transition:opacity .15s}
   .rail button:hover,.rail button[aria-current="page"]{color:var(--ink)}
   .rail button[aria-current="page"]{background:rgba(0,0,0,.05)}
   .rail .rail-out{position:absolute;left:8px;right:8px;bottom:8px;width:auto}
-  @media (hover:hover) and (min-width:761px){.rail:hover{width:200px}.rail:hover button span{opacity:1}}
+  @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
   @media (min-width:761px) and (max-width:940px){.hub.admin{padding-left:96px}}
@@ -357,7 +362,7 @@
   </div>
   <div id="cpage" hidden></div>
   <div id="projects"></div>
-  <div id="todo"><div id="aq"></div><div id="box"><p class="mute">Loading...</p></div><div class="more" id="more"></div></div>
+  <div id="todo"><div id="aq"></div><div id="box"></div><div class="more" id="more"></div></div>
   <div id="clients" hidden></div>
   <div id="reels" hidden></div>
   <div id="results" hidden></div>
@@ -378,6 +383,8 @@ const STORE = 'of-studio';
 // It expects BOOT, K and call(fn, K, ...args). K stays empty here: the Hub adds the admin key after checking the session.
 let BOOT = { metaInbox: 'https://business.facebook.com/latest/inbox/all' };
 const K = '';
+// Skeleton tiles while the Hub answers (Graham didn't want "Loading..." text).
+const LOADING = '<div class="skel" role="status" aria-label="Loading"><i></i><i></i><i style="--h:84px"></i></div>';
 const byId = id => document.getElementById(id);
 const mk = (t, attrs, ...kids) => { const e = document.createElement(t); Object.assign(e, attrs || {}); kids.forEach(k => k && e.append(k)); return e; };
 const saved = () => { try { return localStorage.getItem(STORE) || ''; } catch (e) { return ''; } };
@@ -517,7 +524,7 @@ function start(d) {
   stage(false);
   byId('me').textContent = who.email + ' ·';
   byId('out').hidden = false; lio(true);
-  byId('box').innerHTML = '<p class="mute">Loading...</p>';
+  byId('box').innerHTML = LOADING;
   const role = who.role === 'admin' ? 'admin' : 'client';
   BOOT = Object.assign(BOOT, { client: who.name });
   return loadCards(role).then(() => {
@@ -617,7 +624,8 @@ const isImg = u => /\.(jpe?g|png|webp|gif)(\?|$)/i.test(u || ''), isVid = u => /
 
 function loadApprovals() {
   const box = byId('aq');
-  box.innerHTML = '<p class="mute">Loading...</p>';
+  box.innerHTML = LOADING;
+  if (byId('box').querySelector('.skel')) byId('box').textContent = '';
   // post, not call: an older Hub without this answers "Unknown request", which should just mean no approvals section.
   aqReady = post({ op: 'call', s: saved(), name: 'studioApprovals', args: [] }).then(d => { AQ = d.out; drawApprovals(); return true; }, () => { box.textContent = ''; return false; });
 }
@@ -814,7 +822,7 @@ function showClients() {
   const box = byId('clients'), me = ++clientReq;
   crumbs(); byId('h').textContent = 'Clients';
   history.replaceState(null, '', '?tab=clients');
-  box.innerHTML = '<p class="mute">Loading...</p>';
+  box.innerHTML = LOADING;
   call('studioClients', K).then(list => {
     if (me !== clientReq) return;
     box.textContent = '';
@@ -839,7 +847,7 @@ function showClient(name) {
   const box = byId('clients'), me = ++clientReq;
   crumbs([['Clients', showClients]]); byId('h').textContent = name;
   history.replaceState(null, '', '?tab=clients&c=' + encodeURIComponent(name));
-  box.innerHTML = '<p class="mute">Loading...</p>';
+  box.innerHTML = LOADING;
   scrollTo(0, 0);
   call('studioClient', K, name).then(P => {
     if (me !== clientReq) return;
@@ -856,7 +864,7 @@ function showClient(name) {
 
 function showResults() {
   const box = byId('results');
-  box.innerHTML = '<p class="mute">Loading results...</p>';
+  box.innerHTML = LOADING;
   call('studioResults', K).then(R => {
     box.textContent = '';
     const n = v => (v == null ? '–' : Math.round(v).toLocaleString('en-US'));
@@ -964,7 +972,7 @@ function draftCard(g, redraw) {
 }
 function showReels() {
   const box = byId('reels');
-  if (!box.firstChild) box.innerHTML = '<p class="mute">Loading Reels...</p>';
+  if (!box.firstChild) box.innerHTML = LOADING;
   clearTimeout(reelTimer);
   return call('studioReels', K).then(R => {
     box.textContent = '';
@@ -1008,7 +1016,7 @@ function showReels() {
 let loopFilter = 'all';
 function showLoops() {
   const box = byId('status');
-  if (!box.firstChild) box.innerHTML = '<p class="mute">Loading...</p>';
+  if (!box.firstChild) box.innerHTML = LOADING;
   post({ op: 'call', s: saved(), name: 'studioLoops', args: [] }).then(d => {
     const L = d.out;
     box.textContent = '';
