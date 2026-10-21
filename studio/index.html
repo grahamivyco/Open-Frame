@@ -173,6 +173,26 @@
   @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
+  /* Analytics */
+  .rnote{margin:-6px 0 12px}
+  .rtiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
+  .rt{display:flex;flex-direction:column;gap:2px;padding:16px 18px;font-size:13.5px;color:var(--ink2)}
+  .rt .serif{font-size:30px;color:var(--ink);line-height:1.1}
+  .rt b{font-weight:500}.rt .up{color:#1f7a47}.rt .down{color:#b4321f}
+  .rgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
+  .rgrid.low{grid-template-columns:1fr 1fr}
+  .rchart{display:flex;flex-direction:column;gap:8px}
+  .cbox svg{width:100%;height:240px;display:block}
+  .xax{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+  .trow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+  .bt .teb+.trow{border-top:0}
+  .trow b{display:block;font-weight:500;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .trow .mute{font-size:12.5px}
+  .trow .serif{font-size:18px}
+  a.trow:hover b{text-decoration:underline}
+  select.apill{appearance:none;-webkit-appearance:none;padding-right:34px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111110' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;font-family:inherit;cursor:pointer}
+  @media (max-width:1000px){.rtiles{grid-template-columns:repeat(3,minmax(0,1fr))}.rgrid,.rgrid.low{grid-template-columns:minmax(0,1fr)}}
+  @media (max-width:640px){.rtiles{grid-template-columns:1fr 1fr}.cbox svg{height:180px}.rchart .thead>.mute{display:none}}
   /* One client, Graham's view */
   .cacts{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin:-58px 0 22px}
   .apill{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:14px;font-weight:500;color:var(--ink)}
@@ -754,7 +774,7 @@ function showTab(tab) {
   byId('rail').querySelectorAll('[data-view]').forEach(b => b.dataset.view === lit ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
   crumbs(tab === 'reels' ? [['Clients', () => showTab('clients')], ['Open Frame', () => { showTab('clients'); showClient('Open Frame'); }]] : null);
   TABS.forEach(t => { byId(t).hidden = t !== box; });
-  byId('hub').classList.toggle('wide', box === 'todo' || box === 'clients' || box === 'status');
+  byId('hub').classList.toggle('wide', box === 'todo' || box === 'clients' || box === 'status' || box === 'results');
   byId('h').textContent = VIEWS[tab][1];
   byId('count').hidden = box !== 'todo';
   history.replaceState(null, '', tab === 'home' ? location.pathname : '?tab=' + tab);
@@ -1402,47 +1422,79 @@ function detailsPanel(P, done) {
   ], 'Save', ['adminClientSet', v => [P.client, Object.assign(v, { client_approves: v.client_approves || 'no' })], () => done()]);
 }
 
+// Analytics (mock D): one client dropdown, five number tiles (this month vs last), a 30 day chart of the reach of
+// posts by the day they went out, top posts, reports, then the loops' week and what you said yes to.
+let RES = null, resClient = '';
 function showResults() {
   const box = byId('results');
   box.innerHTML = LOADING;
-  call('studioResults', K).then(R => {
-    box.textContent = '';
-    const n = v => (v == null ? '–' : Math.round(v).toLocaleString('en-US'));
-    const chg = (a, b) => (a == null || b == null || b === 0) ? '' : ' (' + (a >= b ? 'up ' : 'down ') + Math.abs(Math.round((a - b) / b * 100)) + '%)';
-    R.clients.forEach((c, i) => {
-      const x = c.results || {}, s = mk('div', { className: 'sect' });
-      s.append(mk('h3', {}, mk('i', { style: 'background:' + DOTS[i % 4] }), c.client));
-      if (x.empty || !x.tiles) s.append(mk('p', { className: 'mute', textContent: 'Results show after the first stats pull.' }));
-      else {
-        const reach = x.tiles.find(t => t.title === 'Accounts reached');
-        s.append(mk('p', { className: 'mute', textContent: x.month + ' so far' }), mk('p', { className: 'big', textContent: n(reach && reach.value) }),
-          mk('p', { className: 'mute', textContent: 'people reached' + chg(reach && reach.value, reach && reach.prev) }));
-        const tiles = mk('div', { className: 'tiles' });
-        x.tiles.filter(t => t !== reach).forEach(t => tiles.append(mk('div', { className: 'tile' }, mk('b', { textContent: n(t.value) }), t.title + chg(t.value, t.prev))));
-        s.append(tiles);
-        if (x.top && x.top.length) {
-          s.append(mk('p', { style: 'margin:14px 0 2px;color:var(--ink)', textContent: 'Top posts' }));
-          x.top.forEach(p => s.append(mk('div', { className: 'row' }, mk('span', { textContent: p.caption.slice(0, 70) || p.type || 'Post' }), p.url ? mk('a', { href: p.url, target: '_blank', rel: 'noopener', textContent: 'See' }) : '')));
-        }
-      }
-      if (x.newsletter) s.append(mk('p', { className: 'mute', style: 'margin-top:10px', textContent: x.newsletter }));
-      if (x.report_url) s.append(mk('p', { style: 'margin-top:10px' }, mk('a', { href: x.report_url, target: '_blank', rel: 'noopener', textContent: 'Monthly report (PDF)' })));
-      box.append(s);
-    });
-    const loops = mk('div', { className: 'sect' }, mk('h3', { textContent: 'Loops, last 7 days' }));
-    if (!R.runs.length) loops.append(mk('p', { className: 'mute', textContent: 'No loop runs logged this week. Is the Mac on?' }));
-    R.runs.forEach(r => loops.append(mk('div', { className: 'row' },
-      mk('span', {}, mk('b', { textContent: r.loop }), mk('br'), mk('span', { className: 'mute', textContent: r.made + ' made, ' + r.kept + ' passed the check, ' + r.cards + ' cards' + (r.failed ? ', ' + r.failed + ' failed' : '') })),
-      mk('span', { className: 'mute', textContent: r.last }))));
-    box.append(loops);
-    if (R.yes.length) {
-      const y = mk('div', { className: 'sect' }, mk('h3', { textContent: 'You said yes to' }));
-      R.yes.forEach(r => y.append(mk('div', { className: 'row' },
-        mk('span', {}, r.title || r.loop, mk('br'), mk('span', { className: 'mute', textContent: [r.client, r.loop, r.status === 'change' ? 'changed' : r.status].filter(Boolean).join(' · ') })),
-        r.link ? mk('a', { href: r.link, target: '_blank', rel: 'noopener', textContent: 'Open' }) : mk('span', { className: 'mute', textContent: r.when }))));
-      box.append(y);
-    }
-  }, () => { box.innerHTML = '<p class="mute">Results didn\'t load. Try again in a minute.</p>'; resultsLoaded = false; });
+  call('studioResults', K).then(R => { RES = R; drawResults(); }, () => { box.innerHTML = '<p class="mute">Analytics didn\'t load. Try again in a minute.</p>'; resultsLoaded = false; });
+}
+function drawResults() {
+  const box = byId('results'), R = RES;
+  box.textContent = '';
+  const n = v => (v == null ? '–' : v >= 10000 ? (v / 1000).toFixed(0) + 'k' : v >= 1000 ? (v / 1000).toFixed(1) + 'k' : Math.round(v).toLocaleString('en-US'));
+  const sel = mk('select', { className: 'apill', ariaLabel: 'Client' });
+  sel.append(mk('option', { value: '', textContent: 'All clients' }));
+  R.clients.forEach(c => sel.append(mk('option', { value: c.client, textContent: c.client, selected: c.client === resClient })));
+  sel.onchange = () => { resClient = sel.value; drawResults(); };
+  box.append(mk('div', { className: 'cacts' }, sel));
+  const list = R.clients.filter(c => !resClient || c.client === resClient), withData = list.filter(c => c.results && !c.results.empty && c.results.tiles);
+  const month = withData[0] && withData[0].results.month, prevMonth = withData[0] && withData[0].results.prevMonth;
+  // five tiles, summed over the chosen clients
+  const sum = (title, f) => { const v = withData.map(c => (c.results.tiles.find(t => t.title === title) || {})[f]).filter(v => v != null); return v.length ? v.reduce((a, b) => a + b, 0) : null; };
+  const tiles = mk('div', { className: 'rtiles' });
+  [['Accounts reached', 'people reached'], ['New followers', 'new followers'], ['Interactions', 'interactions'], ['Views', 'views'], ['Clicks and taps', 'clicks and taps']].forEach(([t, label]) => {
+    const v = sum(t, 'value'), pv = sum(t, 'prev'), ch = v != null && pv ? Math.round((v - pv) / pv * 100) : null;
+    tiles.append(mk('div', { className: 'bt rt' }, mk('span', { className: 'serif', textContent: (t === 'New followers' && v ? '+' : '') + n(v) }),
+      mk('span', {}, label, ch != null ? mk('b', { className: ch >= 0 ? 'up' : 'down', textContent: ' ' + (ch >= 0 ? '+' : '') + ch + '%' }) : '')));
+  });
+  box.append(mk('p', { className: 'mute rnote', textContent: month ? month + ' so far, compared with ' + prevMonth + '.' : 'Numbers show after the first stats pull.' }), tiles);
+  // chart + top posts
+  const g = mk('div', { className: 'rgrid' });
+  const ch = mk('section', { className: 'bt rchart' }, mk('div', { className: 'thead' }, teb('Reach of posts, last 30 days', 'var(--b)'), mk('span', { className: 'mute', textContent: 'by the day they went out' })));
+  const days = [], byDay = {};
+  for (let i = 29; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5); days.push(d.toISOString().slice(0, 10)); }
+  withData.forEach(c => (c.results.daily || []).forEach(x => { byDay[x.d] = (byDay[x.d] || 0) + x.reach; }));
+  const vals = days.map(d => byDay[d] || 0), max = Math.max(1, ...vals);
+  if (!vals.some(Boolean)) ch.append(mk('p', { className: 'mute', textContent: 'No post stats from the last 30 days yet.' }));
+  else {
+    // Bars, not a line: most days have no post, and a line would dive to zero between them.
+    const W = 600, H = 200, bw = W / 30, y = v => (H - 4 - v / max * (H - 20)).toFixed(1);
+    const svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Reach of posts by day, peak ' + n(max) + '">'
+      + [0.25, 0.5, 0.75, 1].map(f => '<line x1="0" x2="' + W + '" y1="' + y(max * f) + '" y2="' + y(max * f) + '" stroke="rgba(0,0,0,.07)" vector-effect="non-scaling-stroke"/>').join('')
+      + vals.map((v, i) => v ? '<rect x="' + (i * bw + bw * 0.18).toFixed(1) + '" width="' + (bw * 0.64).toFixed(1) + '" y="' + y(v) + '" height="' + (H - 4 - y(v)).toFixed(1) + '" rx="3" fill="#2f6bf0"><title>' + shortDate(days[i]) + ': ' + n(v) + '</title></rect>' : '').join('')
+      + '<line x1="0" x2="' + W + '" y1="' + (H - 4) + '" y2="' + (H - 4) + '" stroke="rgba(0,0,0,.15)" vector-effect="non-scaling-stroke"/></svg>';
+    ch.append(mk('div', { className: 'cbox', innerHTML: svg }), mk('div', { className: 'xax' }, ...[0, 7, 14, 21, 29].map(i => mk('span', { textContent: shortDate(days[i]) }))),
+      mk('p', { className: 'mute', textContent: 'Peak ' + n(max) + ' on ' + shortDate(days[vals.indexOf(max)]) + '.' }));
+  }
+  g.append(ch);
+  const tp = mk('section', { className: 'bt rtop' }, teb('Top posts this month', 'var(--r)'));
+  const top = [];
+  withData.forEach(c => (c.results.top || []).forEach(p => top.push(Object.assign({ client: c.client }, p))));
+  top.sort((a, b) => (b.reach || 0) - (a.reach || 0));
+  if (!top.length) tp.append(mk('p', { className: 'mute', textContent: 'Top posts show after the first stats pull.' }));
+  top.slice(0, 5).forEach(p => tp.append(mk(p.url ? 'a' : 'div', Object.assign({ className: 'trow' }, p.url ? { href: p.url, target: '_blank', rel: 'noopener' } : {}),
+    mk('span', {}, mk('b', { textContent: (p.caption || p.type || 'Post').slice(0, 60) }), mk('span', { className: 'mute', textContent: [p.client, p.platform].filter(Boolean).join(' · ') })),
+    mk('span', { className: 'serif', textContent: n(p.reach) }))));
+  const reps = list.filter(c => c.results && c.results.report_url);
+  if (reps.length) tp.append(mk('p', { className: 'paynote' }, ...reps.map((c, i) => mk('a', { href: c.results.report_url, target: '_blank', rel: 'noopener', textContent: (i ? ' · ' : '') + c.client + ' report ↗' }))));
+  const nl = list.filter(c => c.results && c.results.newsletter);
+  nl.forEach(c => tp.append(mk('p', { className: 'mute paynote', textContent: (resClient ? '' : c.client + ': ') + c.results.newsletter })));
+  g.append(tp);
+  box.append(g);
+  // loops + yes, smaller
+  const g2 = mk('div', { className: 'rgrid low' });
+  const loops = mk('section', { className: 'bt' }, teb('Loops, last 7 days', 'var(--y)'));
+  if (!R.runs.length) loops.append(mk('p', { className: 'mute', textContent: 'No loop runs logged this week. Is the Mac on?' }));
+  R.runs.slice(0, 8).forEach(r => loops.append(mk('div', { className: 'wrow' }, mk('span', {}, mk('b', { textContent: r.loop + ' ' }), mk('span', { className: 'mute', textContent: r.made + ' made, ' + r.kept + ' kept' + (r.failed ? ', ' + r.failed + ' failed' : '') })), mk('span', { className: 'mute', textContent: r.last }))));
+  g2.append(loops);
+  const yes = (R.yes || []).filter(r => !resClient || !r.client || r.client === resClient || (list[0] && r.client === list[0].brand));
+  const y = mk('section', { className: 'bt' }, teb('You said yes to', 'var(--g)'));
+  if (!yes.length) y.append(mk('p', { className: 'mute', textContent: 'Nothing this week.' }));
+  yes.slice(0, 8).forEach(r => y.append(mk('div', { className: 'wrow' }, mk('span', { textContent: r.title || r.loop }), r.link ? mk('a', { href: r.link, target: '_blank', rel: 'noopener', textContent: 'Open' }) : mk('span', { className: 'mute', textContent: r.when }))));
+  g2.append(y);
+  box.append(g2);
 }
 
 // ---------- reels (admins) ----------
