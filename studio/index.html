@@ -1038,7 +1038,7 @@ function loopTile(l, log) {
   (l.days || []).forEach(v => sq.append(mk('i', { className: v ? 'l' + v : '' })));
   sq.setAttribute('aria-hidden', 'true');
   t.append(mk('div', { className: 't' }, mk('b', { textContent: l.loop }), mk('span', { textContent: l.client })),
-    mk('div', { className: 's' }, mk('span', { textContent: l.last ? 'Ran ' + l.last.replace(/^[A-Z][a-z]{2} /, '') : '' }), l.state > 1 ? mk('span', { className: 'ltag l' + l.state, textContent: l.state > 2 ? 'Failed' : 'Check' }) : sq));
+    mk('div', { className: 's' }, mk('span', { textContent: l.last ? l.last.replace(/^[A-Z][a-z]{2} /, '') : '' }), l.state > 1 ? mk('span', { className: 'ltag l' + l.state, textContent: l.state > 2 ? 'Failed' : 'Check' }) : sq));
   const x = mk('div', { className: 'x' });
   if (l.line) x.append(mk('p', { textContent: 'Last run: ' + l.line }));
   if (l.wrong) x.append(mk('h4', { textContent: 'What went wrong' }), mk('p', { className: 'bad', textContent: l.wrong }));
