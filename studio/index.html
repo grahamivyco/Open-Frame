@@ -316,7 +316,7 @@ function loadCards(role) {
 function stage(on) { byId('stage').hidden = !on; byId('hub').hidden = on; art(on); }
 const SPK = '<svg viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>';
 function head(word) {
-  const eb = mk('p', { className: 'eyebrow', innerHTML: SPK + 'Studio' });
+  const eb = mk('p', { className: 'eyebrow', innerHTML: SPK + 'Sign in' });
   return [eb, mk('h1', {}, word[0], mk('em', { textContent: word[1] }))];
 }
 
@@ -340,7 +340,7 @@ function signIn(msg) {
   };
   const g = mk('div', { className: 'gsi', hidden: true });
   const or = mk('p', { className: 'or mute', hidden: true, textContent: 'or use your email' });
-  box.append(...head(['Your ', 'studio.']), mk('p', { className: 'lead', textContent: 'Everything we\'re working on together, in one place.' }), g, or, form);
+  box.append(...head(['Open Frame ', 'Studio.']), mk('p', { className: 'lead', textContent: 'For Open Frame clients. Sign in with the email I have for you.' }), g, or, form);
   googleButton(g, or, err);
   if (matchMedia('(hover:hover)').matches) email.focus();
 }
@@ -396,7 +396,7 @@ function start(d) {
   BOOT = Object.assign(BOOT, { client: who.name });
   return loadCards(role).then(() => {
     if (role === 'client') { byId('h').textContent = who.name; return showProjects().then(startClient); }
-    byId('h').textContent = 'Your studio';
+    byId('h').textContent = 'Open Frame Studio';
     byId('tabs').hidden = false;
     startAdmin();
     const want = new URLSearchParams(location.search).get('tab');
