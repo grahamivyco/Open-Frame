@@ -6,6 +6,7 @@ Status: agreed design (Graham, 2026-10-21). The Hub writes the **Approvals** tab
 
 ## Flow
 
+0. Optional: a loop adds the row early with `status = planned`. It shows on the client's Coming up list with no buttons, then the loop moves it to `draft` (Hub `approval-set`) once it's made.
 1. A loop (or Graham) adds a row with `status = draft`.
 2. Graham sees it on **Home** and taps Looks good, Change or Skip.
 3. If the client needs to sign off (`client_ok = yes`), it moves to `status = client` and shows on the client's page. If not, it goes straight to `approved`.
@@ -27,7 +28,7 @@ Status: agreed design (Graham, 2026-10-21). The Hub writes the **Approvals** tab
 | `due` | Date the answer is needed (YYYY-MM-DD) | `2026-10-28` |
 | `client_ok` | `yes` if the client must sign off, `no` if Graham alone decides | `yes` |
 | `made_by` | The loop or `graham` | `wellness-posts` |
-| `status` | `draft` → `client` → `approved` / `changes` / `skipped` | `draft` |
+| `status` | (`planned` →) `draft` → `client` → `approved` / `changes` / `skipped` | `draft` |
 | `answer` | Written by Studio: the button pressed or option picked | `Direction B` |
 | `comment` | Written by Studio: the note left with Change | `Warmer green please` |
 | `updated` | Written by Studio | `2026-10-22T10:14:00Z` |
