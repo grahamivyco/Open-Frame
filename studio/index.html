@@ -176,8 +176,9 @@
   .nav-links a.nav-cta{margin-left:6px;padding:9px 15px;border:1px solid transparent;font-weight:500;color:#fff;background:var(--ink);transition:background .16s}
   .nav-links a.nav-cta:hover{background:var(--r);color:#fff}
   .nav-cta svg{width:15px;height:15px;fill:currentColor}
-  .nav-studio{flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;margin-left:8px;border-radius:50%;border:1px solid var(--ink);background:var(--ink);color:#fff}
-  .nav-studio svg{width:18px;height:18px}
+  /* same outlined pill as the site's "Log in"; reads "Log out" once signed in */
+  .nav-studio{flex:none;display:inline-flex;align-items:center;margin-left:8px;padding:9px 15px;border-radius:100px;border:1px solid rgba(0,0,0,.18);font-size:15px;font-weight:500;color:var(--ink);transition:color .25s,border-color .25s,background .25s}
+  .nav-studio:hover{color:#fff;background:var(--b);border-color:var(--b)}
   .nav-scrim{position:fixed;inset:0;z-index:100;background:var(--bg);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .34s var(--ease),visibility .34s}
   .nav-toggle{display:none;background:none;border:0;color:var(--ink);padding:8px;border-radius:0;z-index:2}
   .nav-toggle .bars{display:block;width:24px;height:16px;position:relative}
@@ -234,7 +235,7 @@
         <a href="/services#pricing"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Pricing</a>
         <a href="/about"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
         <a class="only-mobile" href="/contact"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
-        <a class="only-mobile nav-signin" href="/studio/" aria-current="page"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Studio sign-in</a>
+        <a class="only-mobile nav-signin" href="/studio/" aria-current="page"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="lio">Log in</span></a>
         <a class="nav-cta" href="/contact">Contact</a>
         <div class="nav-socials only-mobile">
           <a href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg><span>LinkedIn</span></a>
@@ -243,7 +244,7 @@
         </div>
         <svg class="nav-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       </div>
-      <a class="nav-studio" href="/studio/" aria-current="page" aria-label="Studio" title="Studio"><svg aria-hidden="true"><use href="#i-user"/></svg></a>
+      <a class="nav-studio" href="/studio/" aria-current="page"><span class="lio">Log in</span></a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     </nav>
   </div>
@@ -335,7 +336,7 @@ function head(word) {
 function signIn(msg) {
   byId('projects').textContent = '';
   byId('tabs').hidden = true; byId('results').hidden = true; byId('todo').hidden = false;
-  byId('more').textContent = ''; byId('count').textContent = ''; byId('out').hidden = true; byId('me').textContent = '';
+  byId('more').textContent = ''; byId('count').textContent = ''; byId('out').hidden = true; byId('me').textContent = ''; lio(false);
   stage(true);
   const box = byId('sign'); box.textContent = '';
   const err = mk('p', { className: 'err', hidden: !msg, textContent: msg || '' });
@@ -419,7 +420,7 @@ function start(d) {
   const who = d.who;
   stage(false);
   byId('me').textContent = who.email + ' ·';
-  byId('out').hidden = false;
+  byId('out').hidden = false; lio(true);
   byId('box').innerHTML = '<p class="mute">Loading...</p>';
   const role = who.role === 'admin' ? 'admin' : 'client';
   BOOT = Object.assign(BOOT, { client: who.name });
@@ -433,7 +434,10 @@ function start(d) {
   }).catch(x => { byId('box').textContent = ''; byId('box').append(mk('div', { className: 'card done' }, mk('h2', { textContent: 'Can\'t reach the Hub' }), mk('p', { textContent: x.message + ' Try again in a minute.' }))); });
 }
 
-byId('out').onclick = () => { const s = saved(); keep(''); if (s) post({ op: 'out', s }).catch(() => {}); location.replace(location.pathname); };
+const signOut = () => { const s = saved(); keep(''); if (s) post({ op: 'out', s }).catch(() => {}); location.replace(location.pathname); };
+byId('out').onclick = signOut;
+// header + mobile-menu Log in / Log out: signed in, a click signs out instead of reloading the sign-in page
+function lio(on) { document.querySelectorAll('.nav-studio,.nav-signin').forEach(a => { a.querySelector('.lio').textContent = on ? 'Log out' : 'Log in'; a.onclick = on ? e => { e.preventDefault(); signOut(); } : null; }); }
 
 // ---------- projects (clients) ----------
 
