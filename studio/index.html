@@ -200,6 +200,25 @@
   .sect .head h3{margin:0}
   .nudge{padding:8px 16px;font-size:14px;border-color:var(--line-2)}
   .nudge:hover:not(:disabled){border-color:var(--ink)}
+  /* Clients list + client page (Studio v1) */
+  .shead .eyebrow button{background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .shead .eyebrow button:hover{color:var(--ink)}
+  .pill-out{flex:none;padding:9px 18px;font-size:14px;border-color:var(--line-2)}
+  .pill-out:hover{border-color:var(--ink)}
+  .ctiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .ctile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;border:1px solid var(--line);border-radius:20px;padding:18px;background:#fff;font-size:14px;color:var(--ink2);transition:border-color .16s}
+  .ctile:hover{border-color:var(--ink)}
+  .ctile h3{font:500 20px/1.2 Fraunces,serif;color:var(--ink);overflow-wrap:anywhere}
+  .ctile .n{color:var(--ink);font-weight:600}
+  .ctile .tag{margin:4px 0 0}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .links a{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border:1px solid var(--line-2);border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;color:var(--ink);transition:border-color .16s}
+  .links a:hover{border-color:var(--ink)}
+  .preview{border:1px dashed var(--line-2);border-radius:24px;padding:16px;margin-top:8px}
+  .preview>.eyebrow{margin-bottom:12px}
+  .acard.focus{border-color:var(--ink)}
+  .acard button.picked{box-shadow:0 0 0 4px rgba(47,107,240,.3)}
+  .acard .tapnote{font-size:13px;color:var(--b);text-align:center;margin-top:8px}
   [hidden]{display:none!important}
   /* the site's own menu, copied from index.html (desktop pill + footer-style cream card on mobile). Keep in sync. */
   .site-header{position:fixed;top:0;left:0;right:0;z-index:120;font-size:16.5px;line-height:1.6;padding:calc(16px + env(safe-area-inset-top)) 0 16px}
@@ -301,6 +320,7 @@
   </section>
   <nav class="rail" id="rail" aria-label="Studio" hidden>
     <button type="button" data-view="home"><svg><use href="#i-home"/></svg><span>Home</span></button>
+    <button type="button" data-view="clients"><svg><use href="#i-users"/></svg><span>Clients</span></button>
     <button type="button" data-view="analytics"><svg><use href="#i-chart"/></svg><span>Analytics</span></button>
     <button type="button" data-view="loops"><svg><use href="#i-loop"/></svg><span>Loops</span></button>
     <button type="button" class="rail-out"><svg><use href="#i-logout"/></svg><span>Log out</span></button>
@@ -309,9 +329,12 @@
   <div class="shead">
     <div class="who"><p class="eyebrow">Studio</p><h1 id="h">&nbsp;</h1></div>
     <span class="count" id="count"></span>
+    <button type="button" class="pill-out" id="cout" hidden>Log out</button>
   </div>
+  <div id="cpage" hidden></div>
   <div id="projects"></div>
   <div id="todo"><div id="aq"></div><div id="box"><p class="mute">Loading...</p></div><div class="more" id="more"></div></div>
+  <div id="clients" hidden></div>
   <div id="reels" hidden></div>
   <div id="results" hidden></div>
   <div id="status" hidden></div>
@@ -384,7 +407,7 @@ function head(word) {
 function signIn(msg) {
   byId('projects').textContent = '';
   byId('rail').hidden = true; byId('hub').classList.remove('admin'); byId('aq').textContent = '';
-  ['results', 'reels', 'status'].forEach(t => { byId(t).hidden = true; }); byId('todo').hidden = false;
+  ['results', 'reels', 'status', 'clients', 'cpage', 'cout'].forEach(t => { byId(t).hidden = true; }); byId('todo').hidden = false; crumbs();
   byId('more').textContent = ''; byId('count').textContent = ''; byId('out').hidden = true; byId('me').textContent = ''; lio(false);
   stage(true);
   const box = byId('sign'); box.textContent = '';
@@ -474,10 +497,13 @@ function start(d) {
   const role = who.role === 'admin' ? 'admin' : 'client';
   BOOT = Object.assign(BOOT, { client: who.name });
   return loadCards(role).then(() => {
-    if (role === 'client') { byId('h').textContent = who.name; return showProjects().then(startClient); }
-    byId('hub').classList.add('admin'); byId('rail').hidden = false; byId('out').hidden = true;
+    // Clients in the trial (studio = yes) get the new page; everyone else keeps the review cards.
+    if (role === 'client') { byId('h').textContent = who.name; return showClientPage().then(ok => ok || showProjects().then(startClient)); }
+    byId('hub').classList.add('admin'); byId('rail').hidden = false; byId('out').hidden = true; byId('me').textContent = who.email;
     document.querySelector('.shead .eyebrow').textContent = 'Open Frame Studio';
-    showTab(new URLSearchParams(location.search).get('tab') || 'home');
+    const qs = new URLSearchParams(location.search);
+    showTab(qs.get('tab') || 'home');
+    if (qs.get('c') && !byId('clients').hidden) showClient(qs.get('c'));
     loadApprovals();
     startAdmin();
   }).catch(x => { byId('box').textContent = ''; byId('box').append(mk('div', { className: 'card done' }, mk('h2', { textContent: 'Can\'t reach the Hub' }), mk('p', { textContent: x.message + ' Try again in a minute.' }))); });
@@ -530,20 +556,24 @@ const DOTS = ['var(--r)', 'var(--b)', 'var(--y)', 'var(--g)'];
 let resultsLoaded = false;
 // ---------- side menu (admins) ----------
 // view -> [box id, title]. Old ?tab= names (todo, results, status) still work.
-const VIEWS = { home: ['todo', 'Home'], analytics: ['results', 'Analytics'], loops: ['status', 'Loops'], reels: ['reels', 'Reels'] };
+const VIEWS = { home: ['todo', 'Home'], clients: ['clients', 'Clients'], analytics: ['results', 'Analytics'], loops: ['status', 'Loops'], reels: ['reels', 'Reels'] };
 const ALIAS = { todo: 'home', results: 'analytics', status: 'loops' };
-const TABS = ['todo', 'reels', 'results', 'status'];
+const TABS = ['todo', 'clients', 'reels', 'results', 'status'];
 function showTab(tab) {
   tab = ALIAS[tab] || tab;
   if (!VIEWS[tab]) tab = 'home';
   const box = VIEWS[tab][0];
-  byId('rail').querySelectorAll('[data-view]').forEach(b => b.dataset.view === tab ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+  // Reels live under Clients › Open Frame, so the menu keeps Clients lit there.
+  const lit = tab === 'reels' ? 'clients' : tab;
+  byId('rail').querySelectorAll('[data-view]').forEach(b => b.dataset.view === lit ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
+  crumbs(tab === 'reels' ? [['Clients', () => showTab('clients')], ['Open Frame', () => { showTab('clients'); showClient('Open Frame'); }]] : null);
   TABS.forEach(t => { byId(t).hidden = t !== box; });
   byId('h').textContent = VIEWS[tab][1];
   byId('count').hidden = box !== 'todo';
   history.replaceState(null, '', tab === 'home' ? location.pathname : '?tab=' + tab);
   if (box === 'results' && !resultsLoaded) { resultsLoaded = true; showResults(); }
   if (box === 'reels') showReels();
+  if (box === 'clients') showClients();
   if (box === 'status') showStatus();
   scrollTo(0, 0);
 }
@@ -606,9 +636,9 @@ function drawApprovals() {
     works.forEach(r => s.append(wrow(Object.assign({}, r, { title: r.client + ': ' + r.title }), r.status === 'changes' ? 'being changed' + (r.comment ? ' (' + r.comment + ')' : '') : 'planned')));
     box.append(s);
   }
-  box.append(reelsLine(), aqHead('From the check-in'));
+  box.append(aqHead('From the check-in'));
 }
-// Reels now live off the menu; a quiet line on Home gets there until they move under Clients.
+// Reels live under Clients › Open Frame (Graham's own content).
 function reelsLine() {
   const b = mk('button', { className: 'lights', type: 'button' }, mk('span', { textContent: 'Reel drafts and scripts' }), mk('span', { textContent: 'Open ›' }));
   b.onclick = () => showTab('reels');
@@ -618,6 +648,7 @@ function reelsLine() {
 // One approval card. admin = Graham's view (client name on the label, his answer goes through adminApproval).
 function approvalCard(r, admin, done) {
   const card = mk('div', { className: 'card acard' });
+  card.dataset.id = r.id;
   card.append(mk('p', { className: 'label' }, admin ? mk('b', { textContent: r.client }) : '', (admin ? ' · ' : '') + [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ')));
   const media = r.media && r.media.length ? r.media : isImg(r.preview) || isVid(r.preview) ? [r.preview] : [];
   if (media.length) {
@@ -674,7 +705,129 @@ function approvalCard(r, admin, done) {
     if (bs.length > 2) area.append(mk('div', { className: 'alts' }, ...bs.slice(2).map(b => btn(b, 'skip'))));
   }
   draw();
+  // From an email button: open that item with the button picked, so one tap sends it. Change opens the note box.
+  card.pick = label => {
+    const b = (r.buttons || []).find(x => x.label === label);
+    if (!b) return;
+    if (b.act === 'change') return note(b);
+    const el = [...area.querySelectorAll('button')].find(x => x.textContent === label);
+    if (!el) return;
+    el.classList.add('picked');
+    area.append(mk('p', { className: 'tapnote', textContent: 'Tap ' + label + ' to send.' }));
+  };
   return card;
+}
+
+// ---------- crumbs (the eyebrow above the title) ----------
+// list = [[text, onClick], ...]; empty = "Open Frame Studio" (admins) / "Studio" (clients).
+function crumbs(list) {
+  const eb = document.querySelector('.shead .eyebrow');
+  eb.textContent = '';
+  if (!list) { eb.textContent = byId('hub').classList.contains('admin') ? 'Open Frame Studio' : 'Studio'; return; }
+  list.forEach(([t, f], i) => {
+    if (i) eb.append(' › ');
+    if (f) { const b = mk('button', { type: 'button', textContent: t }); b.onclick = f; eb.append(b); } else eb.append(t);
+  });
+}
+
+// ---------- client page (Studio v1) ----------
+// Ready for you, the project cards, Coming up, link buttons (invoice, files, report), recently answered.
+// Graham sees the same thing under Clients › name with the buttons switched off (preview).
+function clientPageEl(P, opts) {
+  const box = mk('div'), A = P.approvals, preview = opts && opts.preview;
+  const draw = () => {
+    box.textContent = '';
+    box.append(aqHead('Ready for you', A.ready.length));
+    if (!A.ready.length) box.append(mk('div', { className: 'card done' }, mk('p', { textContent: 'Nothing needs you right now. I\'ll email you when something does.' })));
+    A.ready.forEach(r => box.append(approvalCard(r, false, out => {
+      A.ready = A.ready.filter(x => x.id !== r.id);
+      if (out.status === 'client') A.ready.push(out); else A.done.unshift(out);
+      draw();
+    })));
+    const L = P.links || {}, links = [['pay', 'Pay invoice'], ['files', 'Your files'], ['report', 'Monthly report']].filter(([k]) => L[k]);
+    const projs = (P.projects && P.projects.projects) || [];
+    if (projs.length) { box.append(aqHead(projs.length > 1 ? 'Your projects' : 'Your project')); projs.forEach(p => box.append(mk('div', { style: 'margin-bottom:12px' }, projectCard(p, P.projects.stages)))); }
+    if (A.coming.length) {
+      const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'Coming up' }));
+      A.coming.forEach(r => s.append(wrow(r, r.status === 'changes' ? 'being changed' : 'in the works')));
+      box.append(s);
+    }
+    if (links.length) box.append(mk('div', { className: 'links' }, ...links.map(([k, t]) => mk('a', { href: L[k], target: '_blank', rel: 'noopener', textContent: t + ' ↗' }))));
+    if (A.done.length) {
+      const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'You answered' }));
+      A.done.slice(0, 8).forEach(r => s.append(mk('div', { className: 'wrow' }, mk('span', { textContent: r.title }), mk('span', { className: 'mute', textContent: r.answer || '' }))));
+      box.append(s);
+    }
+    if (preview) box.querySelectorAll('.acard button:not(.more-btn)').forEach(b => { b.disabled = true; });
+  };
+  draw();
+  return box;
+}
+
+let FOCUS = null;   // { id, label } from an email button
+function showClientPage() {
+  return post({ op: 'call', s: saved(), name: 'getClientPage', args: [] }).then(d => {
+    const P = d.out;
+    if (!P || !P.studio) return false;
+    byId('todo').hidden = true; byId('projects').textContent = ''; byId('out').hidden = true; byId('me').textContent = byId('me').textContent.replace(/ ·$/, '');
+    byId('cout').hidden = false; byId('cout').onclick = signOut;
+    const box = byId('cpage');
+    box.hidden = false; box.textContent = '';
+    box.append(clientPageEl(P));
+    if (FOCUS) {
+      const card = box.querySelector('.acard[data-id="' + CSS.escape(FOCUS.id) + '"]');
+      if (card) { card.classList.add('focus'); card.pick(FOCUS.label); card.scrollIntoView({ block: 'center' }); }
+      FOCUS = null;
+    }
+    return true;
+  }, () => false);
+}
+
+// ---------- clients (admins) ----------
+// Only the newest request draws, so a slow list can't land on top of a client page opened after it.
+let clientReq = 0;
+function showClients() {
+  const box = byId('clients'), me = ++clientReq;
+  crumbs(); byId('h').textContent = 'Clients';
+  history.replaceState(null, '', '?tab=clients');
+  box.innerHTML = '<p class="mute">Loading...</p>';
+  call('studioClients', K).then(list => {
+    if (me !== clientReq) return;
+    box.textContent = '';
+    const grid = mk('div', { className: 'ctiles' });
+    list.forEach(c => {
+      const t = mk('button', { className: 'ctile', type: 'button' }, mk('h3', { textContent: c.client }));
+      const bits = [];
+      if (c.waiting) bits.push(mk('span', {}, mk('span', { className: 'n', textContent: c.waiting }), ' waiting on them'));
+      if (c.needs) bits.push(mk('span', {}, mk('span', { className: 'n', textContent: c.needs }), ' need you'));
+      if (!bits.length) bits.push(mk('span', { textContent: 'Nothing waiting' }));
+      t.append(...bits);
+      if (c.project) t.append(mk('span', { textContent: c.project.name + (c.project.stage ? ' · ' + c.project.stage : '') }));
+      if (!c.studio) t.append(mk('span', { className: 'tag', textContent: 'Not on the new page yet' }));
+      t.onclick = () => showClient(c.client);
+      grid.append(t);
+    });
+    box.append(grid);
+  }, () => { box.innerHTML = '<p class="mute">Clients didn\'t load. Try again in a minute.</p>'; });
+}
+
+function showClient(name) {
+  const box = byId('clients'), me = ++clientReq;
+  crumbs([['Clients', showClients]]); byId('h').textContent = name;
+  history.replaceState(null, '', '?tab=clients&c=' + encodeURIComponent(name));
+  box.innerHTML = '<p class="mute">Loading...</p>';
+  scrollTo(0, 0);
+  call('studioClient', K, name).then(P => {
+    if (me !== clientReq) return;
+    box.textContent = '';
+    if (P.needs.length) {
+      box.append(aqHead('Needs you first', P.needs.length));
+      P.needs.forEach(r => box.append(approvalCard(r, true, () => showClient(name))));
+    }
+    if (/^open frame$/i.test(P.client)) box.append(reelsLine());
+    const pv = mk('div', { className: 'preview' }, mk('p', { className: 'eyebrow', textContent: P.studio ? 'Preview as client' : 'Preview as client (not switched on for them yet)' }), clientPageEl(P, { preview: true }));
+    box.append(pv);
+  }, () => { box.innerHTML = '<p class="mute">That client didn\'t load. Try again in a minute.</p>'; });
 }
 
 function showResults() {
@@ -930,11 +1083,15 @@ const art = (() => {
 // ---------- boot ----------
 // A sign-in link from the email lands here as #t=...; it's used once and wiped from the address bar.
 const link = (location.hash.match(/^#t=([0-9a-f]{64})$/) || [])[1];
+// A button in a "ready for you" email lands as #r=<review link>&i=<item>&b=<button>: it signs in and opens that item.
+const H = new URLSearchParams(location.hash.slice(1)), review = /^[a-z0-9]{4}(-[a-z0-9]{4}){3}$/.test(H.get('r') || '') ? H.get('r') : '';
+if (review && H.get('i')) FOCUS = { id: H.get('i'), label: H.get('b') || '' };
 if (location.hash) history.replaceState(null, '', location.pathname);
-addEventListener('hashchange', () => { if (/^#t=/.test(location.hash)) location.reload(); });
-if (API.indexOf('/exec') < 0 || link || saved()) byId('hub').hidden = false;
+addEventListener('hashchange', () => { if (/^#[tr]=/.test(location.hash)) location.reload(); });
+if (API.indexOf('/exec') < 0 || link || review || saved()) byId('hub').hidden = false;
 if (API.indexOf('/exec') < 0) byId('box').innerHTML = '<p class="mute">Not set up yet.</p>';
 else if (link) post({ op: 'link', token: link }).then(start, x => signIn(x.known ? x.message : ''));
+else if (review) post({ op: 'review', r: review }).then(start, x => signIn(x.known ? x.message : ''));
 else if (saved()) post({ op: 'me', s: saved() }).then(start, x => { if (x.signedOut) keep(''); signIn(x.signedOut ? '' : 'Can\'t reach the Hub right now. Try again in a minute.'); });
 else signIn();
 </script>
