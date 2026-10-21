@@ -98,6 +98,24 @@
   .sect h3{font:500 19px/1.25 Fraunces,serif;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
   .sect h3 i{width:9px;height:9px;border-radius:50%;flex:none}
   .sect .row:first-of-type{border-top:0}
+  /* client Project cards (Hub "Projects" tab): step bar, Graham's note, next from me / need from you */
+  #projects{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+  #projects:empty{display:none}
+  .proj{display:flex;flex-direction:column;gap:12px}
+  .proj .label{margin:0}
+  .pbar,.pnames{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px}
+  .pbar i{height:6px;border-radius:3px;background:#eceae1}
+  .pbar i.on{background:var(--ink)}
+  .pbar i.now{background:var(--y)}
+  .pnames{margin-top:-6px;font-size:11px;color:var(--muted)}
+  .pnames span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pnames .here{color:var(--ink);font-weight:600}
+  .pnote{font:500 19px/1.3 Fraunces,serif;overflow-wrap:anywhere}
+  .prow{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;padding-top:10px;border-top:1px solid var(--line);font-size:15px}
+  .prow>span:first-child{color:var(--ink2);font-size:14px}
+  .prow>span:last-child{overflow-wrap:anywhere}
+  .plink{align-self:flex-start;font-size:14px;font-weight:500;padding:6px 0}
+  @media (max-width:380px){.prow{grid-template-columns:1fr;gap:2px}}
   .big{font:500 30px/1.1 Fraunces,serif;color:var(--ink)}
   footer{margin-top:36px;text-align:center;font-size:13px;color:var(--muted)}
   footer a,footer button{color:var(--muted);font-size:13px}
@@ -235,6 +253,7 @@
     <button role="tab" aria-selected="false" data-tab="results">Results</button>
     <button role="tab" aria-selected="false" data-tab="status">Status</button>
   </div>
+  <div id="projects"></div>
   <div id="todo"><div id="box"><p class="mute">Loading...</p></div><div class="more" id="more"></div></div>
   <div id="reels" hidden></div>
   <div id="results" hidden></div>
@@ -302,6 +321,7 @@ function head(word) {
 }
 
 function signIn(msg) {
+  byId('projects').textContent = '';
   byId('tabs').hidden = true; byId('results').hidden = true; byId('todo').hidden = false;
   byId('more').textContent = ''; byId('count').textContent = ''; byId('out').hidden = true; byId('me').textContent = '';
   stage(true);
@@ -375,7 +395,7 @@ function start(d) {
   const role = who.role === 'admin' ? 'admin' : 'client';
   BOOT = Object.assign(BOOT, { client: who.name });
   return loadCards(role).then(() => {
-    if (role === 'client') { byId('h').textContent = who.name; return startClient(); }
+    if (role === 'client') { byId('h').textContent = who.name; return showProjects().then(startClient); }
     byId('h').textContent = 'Your studio';
     byId('tabs').hidden = false;
     startAdmin();
@@ -385,6 +405,42 @@ function start(d) {
 }
 
 byId('out').onclick = () => { const s = saved(); keep(''); if (s) post({ op: 'out', s }).catch(() => {}); location.replace(location.pathname); };
+
+// ---------- projects (clients) ----------
+
+// Project cards from the Hub's Projects tab. A quiet failure (an older Hub, a hiccup) just means no cards; review cards still load.
+function showProjects() {
+  const box = byId('projects');
+  box.textContent = '';
+  BOOT.projects = 0;
+  return post({ op: 'call', s: saved(), name: 'getClientProjects', args: [] }).then(d => {
+    const P = d.out || {}, stages = P.stages || [];
+    (P.projects || []).forEach(p => box.append(projectCard(p, stages)));
+    BOOT.projects = box.children.length;
+  }, () => {});
+}
+
+function projectCard(p, stages) {
+  const at = p.done ? stages.length - 1 : p.stage;
+  const card = mk('div', { className: 'card proj' });
+  const where = p.done ? 'Done' : at >= 0 ? 'Step ' + (at + 1) + ' of ' + stages.length : '';
+  card.append(mk('p', { className: 'label' }, mk('b', { textContent: p.project }), where ? ' · ' + where : ''));
+  if (at >= 0) {
+    const bar = mk('div', { className: 'pbar' }), names = mk('div', { className: 'pnames' });
+    stages.forEach((s, i) => {
+      bar.append(mk('i', { className: p.done || i < at ? 'on' : i === at ? 'now' : '' }));
+      names.append(mk('span', { className: i === at && !p.done ? 'here' : '', textContent: s }));
+    });
+    bar.setAttribute('aria-hidden', 'true');
+    card.append(bar, names);
+  }
+  if (p.note) card.append(mk('p', { className: 'pnote', textContent: p.note }));
+  const next = [p.next, p.due && (p.next ? 'by ' : 'Due ') + p.due].filter(Boolean).join(', ');
+  if (!p.done && next) card.append(mk('div', { className: 'prow' }, mk('span', { textContent: 'Next from me' }), mk('span', { textContent: next })));
+  if (!p.done && p.need) card.append(mk('div', { className: 'prow' }, mk('span', { textContent: 'Need from you' }), mk('span', { textContent: p.need })));
+  if (p.link) card.append(mk('a', { className: 'plink', href: p.link, target: '_blank', rel: 'noopener', textContent: p.done ? 'See the final work' : 'See the latest' }));
+  return card;
+}
 
 // ---------- results (admins) ----------
 
