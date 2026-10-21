@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="facebook-domain-verification" content="1p001ci7lkiteqwny58b7umyr8yhjq" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Google Analytics (GA4). Consent mode: nothing is stored until the visitor taps Allow on the cookie notice (#cookieNote, bottom of <body>); before that Google only gets cookieless pings. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RF906YB2TT"></script>
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  var ofConsent=null;try{ofConsent=localStorage.getItem("of-consent");}catch(_){}
+  gtag("consent","default",{analytics_storage:ofConsent==="yes"?"granted":"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+  gtag("js",new Date());
+  gtag("config","G-RF906YB2TT");
+</script>
 <title>Needlework Guild of MN — Brand &amp; Web Design | Open Frame</title>
 <meta name="description" content="A new identity, a token-based design system and 43 rebuilt pages for a Minnesota needlework guild founded in 1972, built so volunteers can keep it up.">
 <meta name="author" content="Graham Ivy">
@@ -806,14 +816,14 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    layers hard-cut with an INSTANT (no-fade) opacity swap so the loop never flickers. */
 /* home hero — animated brand "equalizer": dots bounce, morph into moving sound bars,
    reform, on a loop. A bold, colourful mark above the copy. JS drives height/translateY. */
-.hero-eq{position:relative;display:flex;align-items:center;justify-content:center;height:clamp(96px,16vh,172px);margin:0 auto clamp(22px,3.2vh,38px)}
+.hero-eq{display:none}  /* the reel no longer parks the logo above the copy (Graham, Oct 2026); the slot stays for the script */
 /* Bauhaus reel: a canvas behind the hero copy plays the intro, then lands the logo on #heroMark */
 .hero-reel{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block}
 .hero-inner>*{transition:opacity .6s var(--ease,ease),transform .7s cubic-bezier(.22,1,.36,1)}
 .hero-inner>.eyebrow{transition-delay:.05s}.hero-inner>h1{transition-delay:.18s}.hero-inner>.hero-actions{transition-delay:.36s}
 .hero.intro .hero-inner>:not(.hero-eq){opacity:0;transform:translateY(18px);pointer-events:none}
-.hero-skip{position:absolute;right:clamp(14px,2vw,22px);bottom:clamp(14px,2vw,22px);z-index:3;width:40px;height:40px;display:grid;place-items:center;color:var(--panel);background:var(--ink);border:0;border-radius:50%;padding:0;opacity:.8;transition:opacity .2s}
-.hero-skip svg{width:17px;height:17px}.hero-skip .hs-replay,.hero-skip.done .hs-skip{display:none}.hero-skip.done .hs-replay{display:block}
+.hero-skip{position:absolute;right:clamp(14px,2vw,22px);bottom:clamp(14px,2vw,22px);z-index:3;width:40px;height:40px;display:grid;place-items:center;color:var(--ink);background:none;border:0;border-radius:50%;padding:0;opacity:.55;transition:opacity .2s}
+.hero-skip svg{width:22px;height:22px}.hero-skip .hs-replay,.hero-skip.done .hs-skip{display:none}.hero-skip.done .hs-replay{display:block}
 .hero-skip:hover,.hero-skip:focus-visible{opacity:1}
 /* the mark reel replaces the old floating geometric sparks */
 .hero .hero-shapes{display:none}
@@ -836,7 +846,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .hero h1{font-size:clamp(2.6rem,4.4vw,4.6rem);font-weight:500;line-height:.96;letter-spacing:-.025em}
 .hero h1 em{font-style:italic;font-weight:400}
 .hero p{font-family:var(--sans);color:var(--ink-2);max-width:44ch;margin:20px auto 0;font-size:clamp(1.05rem,1.4vw,1.2rem)}
-.hero-actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.hero-actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:clamp(32px,4.5vh,48px)}  /* headline→button gap stays bigger than eyebrow→headline */
 /* stack on smaller screens: words on top, mark panel below */
 @media (max-width:820px){
   /* mobile/tablet: full-viewport hero — compact words on top, photo fills the rest.
@@ -849,7 +859,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .hero .eyebrow{display:inline-flex}                 /* keep the eyebrow on tablet/mobile too */
   .hero h1{font-size:clamp(2.5rem,8.4vw,3.9rem)}
   .hero p{margin:12px auto 0}
-  .hero-actions{justify-content:center;margin-top:20px}
+  .hero-actions{justify-content:center;margin-top:clamp(30px,4vh,40px)}
 }
 
 /* subhero */
@@ -1251,6 +1261,28 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.on-dark{background:#fff}.cursor.grow.on-dark{background:rgba(255,255,255,.16);border-color:#fff}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
+
+/* cookie notice (Google Analytics consent): a one-line white rounded rect with a hairline outline. Desktop/tablet: centred in the gap
+   between the hero card and the bottom of the screen (html.cn-on widens that gap to fit it). Menu-button widths (≤860px, same as the mobile menu): sits inside
+   the hero's bottom edge and lifts the skip button above it. Below the custom cursor (z 300). */
+:root{--cn-h:48px;--cn-gap:max(var(--gutter),calc(var(--cn-h) + 24px))}
+.cookie-note{position:fixed;left:50%;bottom:calc((var(--cn-gap) - var(--cn-h))/2);transform:translateX(-50%);width:max-content;z-index:290;display:none;align-items:center;gap:16px;white-space:nowrap;background:#fff;color:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:6px 6px 6px 18px;font-family:var(--sans);font-size:13px;line-height:1.3}
+.cookie-note.show{display:flex}
+.cookie-note p{margin:0}
+.cookie-note .cn-row{display:flex;gap:6px;align-items:center}
+.cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:10px;padding:8px 14px;border:1px solid var(--ink)}
+.cookie-note .cn-yes{background:var(--ink);color:#fff}
+.cookie-note .cn-no{background:none;color:var(--ink);border-color:var(--line-2)}
+.cookie-note button{transition:background .16s,color .16s,border-color .16s}
+.cookie-note .cn-yes:hover{background:var(--red);border-color:var(--red)}  /* same hovers as .btn-dark / .btn-line */
+.cookie-note .cn-no:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+@media (min-width:861px){html.cn-on .hero{--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}}
+@media (max-width:560px){.cookie-note .cn-row button{flex:1}}  /* phones: two equal buttons; tablets keep natural width */
+@media (max-width:860px){
+  .cookie-note{white-space:normal;width:auto;border-radius:var(--r-lg);left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:stretch;gap:12px;padding:14px;font-size:13px;text-align:center}
+  .cookie-note .cn-row{justify-content:center}
+  html.cn-on .hero-skip{bottom:calc(var(--cn-h) + 22px)}
+}
 
 /* toast (email-copied confirmation) */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
@@ -3580,7 +3612,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           const r=await fetch(form.action,{method:"POST",body:data,headers:{Accept:"application/json"}});
           const j=await r.json().catch(()=>({}));
           if(!r.ok || j.success===false) throw 0;
-          form.reset(); s.style.color="var(--ink)"; s.textContent="Thanks — I'll be in touch soon.";
+          form.reset(); if(window.gtag) gtag("event","generate_lead",{form:"contact"}); s.style.color="var(--ink)"; s.textContent="Thanks — I'll be in touch soon.";
         }catch(_){ mailLink(s,name,email,msg,"Couldn't send just now —"); }
       } else {
         mailLink(s,name,email,msg,"This form isn't connected to a mailbox yet — for now,");
@@ -4018,8 +4050,9 @@ function scene4(ctx,t){
     ctx.save();ctx.translate(0,H);ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,280*k*Q,-Math.PI/2,0);ctx.closePath();ctx.fillStyle=G;ctx.fill();ctx.restore();
   }
   if(t>=11.3)corners(ctx,t);
-  const m=eIOExpo(seg(t,10.85,11.5));
-  logo(ctx,t,lerp(CX,TGT.x,m),lerp(CY,TGT.y,m),lerp(520,TGT.size,m));
+  if(opts.noMark){const f=1-eOutCubic(seg(t,10.85,11.4));if(f>0){ctx.save();ctx.globalAlpha=f;logo(ctx,t,CX,CY,520*(.8+.2*f));ctx.restore();}} // site hero: the mark fades out instead of parking above the copy
+  else{const m=eIOExpo(seg(t,10.85,11.5));
+  logo(ctx,t,lerp(CX,TGT.x,m),lerp(CY,TGT.y,m),lerp(520,TGT.size,m));}
   if(opts.endText&&t>=11.3)endText(ctx,t);
 }
 function corners(ctx,t){
@@ -4091,7 +4124,7 @@ return {W,H,D,draw(ctx,t){
     const r = hero.getBoundingClientRect(); if (!r.width || !r.height) return false;
     const dpr = Math.min(2, devicePixelRatio || 1), S = Math.min(r.width/1920, r.height/1080), s = slot.getBoundingClientRect();
     cv.width = Math.round(r.width*dpr); cv.height = Math.round(r.height*dpr);
-    reel = makeReel(r.width/S, r.height/S, {target:{x:(s.left+s.width/2-r.left)/S, y:(s.top+s.height/2-r.top)/S, size:s.height/S}});
+    reel = makeReel(r.width/S, r.height/S, {noMark:true, target:{x:(s.left+s.width/2-r.left)/S, y:(s.top+s.height/2-r.top)/S, size:s.height/S}});
     ctx.setTransform(dpr*S,0,0,dpr*S,0,0);
     return true;
   }
@@ -4128,6 +4161,19 @@ return {W,H,D,draw(ctx,t){
     began = true; start = performance.now(); layout(); paint(now());
     if (!reduce){ btn.hidden = false; play(); }
   });
+})();
+</script>
+<div class="cookie-note" id="cookieNote" role="region" aria-label="Cookie notice">
+  <p>I use cookies to see how people find this site. No ads.</p>
+  <div class="cn-row"><button type="button" class="cn-yes">Allow</button><button type="button" class="cn-no">No thanks</button></div>
+</div>
+<script>
+(function(){var n=document.getElementById("cookieNote");if(!n)return;
+  var de=document.documentElement;function fit(){de.style.setProperty("--cn-h",n.offsetHeight+"px");}
+  if(window.ofConsent!=="yes"&&window.ofConsent!=="no"){n.classList.add("show");de.classList.add("cn-on");fit();addEventListener("resize",fit);}
+  function pick(v){try{localStorage.setItem("of-consent",v);}catch(_){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});n.classList.remove("show");de.classList.remove("cn-on");}
+  n.querySelector(".cn-yes").addEventListener("click",function(){pick("yes");});
+  n.querySelector(".cn-no").addEventListener("click",function(){pick("no");});
 })();
 </script>
 </body>

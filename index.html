@@ -1273,10 +1273,14 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:10px;padding:8px 14px;border:1px solid var(--ink)}
 .cookie-note .cn-yes{background:var(--ink);color:#fff}
 .cookie-note .cn-no{background:none;color:var(--ink);border-color:var(--line-2)}
+.cookie-note button{transition:background .16s,color .16s,border-color .16s}
+.cookie-note .cn-yes:hover{background:var(--red);border-color:var(--red)}  /* same hovers as .btn-dark / .btn-line */
+.cookie-note .cn-no:hover{background:var(--blue);border-color:var(--blue);color:#fff}
 @media (min-width:861px){html.cn-on .hero{--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}}
+@media (max-width:560px){.cookie-note .cn-row button{flex:1}}  /* phones: two equal buttons; tablets keep natural width */
 @media (max-width:860px){
-  .cookie-note{white-space:normal;width:auto;left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:stretch;gap:12px;padding:14px;font-size:13px;text-align:center}
-  .cookie-note .cn-row button{flex:1}
+  .cookie-note{white-space:normal;width:auto;border-radius:var(--r-lg);left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:stretch;gap:12px;padding:14px;font-size:13px;text-align:center}
+  .cookie-note .cn-row{justify-content:center}
   html.cn-on .hero-skip{bottom:calc(var(--cn-h) + 22px)}
 }
 
