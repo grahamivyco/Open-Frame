@@ -173,6 +173,40 @@
   @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
+  /* Client page bento (mock D version B) */
+  .hub.wide.cview{max-width:1360px;padding-left:24px;padding-right:24px}
+  .hub.cview .shead h1{font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em}
+  .hub.cview .shead h1 i{font-style:italic;font-weight:400}
+  .hub.cview>footer{display:none}
+  .cgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-areas:"ready proj pay" "ready coming month" "files files files";gap:16px;align-items:stretch}
+  .c-ready{grid-area:ready}.c-proj{grid-area:proj}.c-pay{grid-area:pay}.c-coming{grid-area:coming}.c-month{grid-area:month}.c-files{grid-area:files}
+  .cgrid .qtile{min-height:0}
+  .bt .proj.flat{border:0;padding:0;margin:0 0 14px;background:none}
+  .bt.c-pay{display:flex;flex-direction:column;gap:8px;background:#fdf3d8;border:0}
+  .pbtn{display:block;text-align:center;padding:12px 16px;border-radius:100px;border:1px solid var(--ink);color:var(--ink);text-decoration:none;font-size:14px;font-weight:500}
+  .pbtn.yes{background:var(--ink);color:#fff}
+  .pbtn:hover{background:var(--ink);color:#fff}
+  .cu{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .bt .teb+.cu{border-top:0}
+  .cu b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cu .mute{font-size:12px}
+  .th{width:40px;height:40px;border-radius:9px;object-fit:cover;background:var(--cream);display:flex;align-items:center;justify-content:center;font:500 16px Fraunces,serif;color:var(--ink2)}
+  .cu .st{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;white-space:nowrap}
+  .cu .st i{width:7px;height:7px;border-radius:50%}
+  .bt .foot{margin-top:10px;font-size:12.5px}
+  .mnums{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}
+  .mnums>div{display:flex;flex-direction:column;font-size:13px;color:var(--ink2);line-height:1.3}
+  .mnums .serif{font-size:28px;color:var(--ink);line-height:1.1}
+  .mnums .chg{font-size:12px}.mnums .up{color:#1f7a47}.mnums .down{color:var(--muted)}
+  .thead{display:flex;justify-content:space-between;align-items:baseline}
+  .thead a{font-size:13px;color:var(--ink2)}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .fcell{position:relative;aspect-ratio:1;border-radius:12px;background:var(--cream);overflow:hidden;color:var(--ink);text-decoration:none}
+  .fcell img{width:100%;height:100%;object-fit:cover}
+  .fcell span{position:absolute;left:6px;right:6px;bottom:6px;background:rgba(255,255,255,.94);border-radius:8px;padding:5px 7px;font-size:11px;line-height:1.25;color:var(--ink2)}
+  .fcell b{display:block;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  @media (max-width:1000px){.cgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"ready ready" "proj pay" "coming month" "files files"}}
+  @media (max-width:640px){.cgrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"ready" "proj" "coming" "pay" "month" "files"}}
   /* Wide admin views (Home, Clients, Loops) and the Home bento (mock D) */
   .hub.admin.wide{max-width:1360px}
   @media (min-width:761px){.hub.admin.wide{padding-left:96px;padding-right:24px}}
@@ -686,53 +720,60 @@ function wrow(r, note) {
 }
 
 // Home bento (mock D): one approval at a time on the left with kind filters, side tiles on the right.
-let aqAt = 0, aqKind = '', LOOPS_BAD = null;
+const HQ = { at: 0, kind: '' };
+let LOOPS_BAD = null;
 const PLURAL = { post: 'Posts', reel: 'Reels', newsletter: 'Newsletters', report: 'Reports', pick_one: 'Picks', design: 'Designs', set: 'Sets', launch: 'Launches', files: 'Files',
   brand_deal: 'Brand deals', repost: 'Reposts', ad_spend: 'Ad spend', request: 'Requests', hours: 'Hours', quote: 'Quotes', invoice: 'Invoices' };
 const SPKC = c => '<svg width="10" height="10" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="' + c + '"/></svg>';
 const teb = (text, c) => mk('p', { className: 'teb', innerHTML: SPKC(c) + ' ' }, text);
+// The big cream tile: one approval at a time, arrows, kind filter chips. Used by Home and the client page.
+// state = { at, kind } kept by the caller so a redraw stays on the same item.
+function queueTile(o) {
+  const st = o.state, kinds = {};
+  o.list.forEach(r => { kinds[r.kind] = (kinds[r.kind] || 0) + 1; });
+  if (st.kind && !kinds[st.kind]) st.kind = '';
+  const list = st.kind ? o.list.filter(r => r.kind === st.kind) : o.list;
+  if (st.at >= list.length) st.at = Math.max(0, list.length - 1);
+  const q = mk('section', { className: 'bt qtile' });
+  const nav = mk('div', { className: 'qnav' });
+  if (list.length > 1) {
+    const prev = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Previous', innerHTML: '<svg><use href="#i-chev-l"/></svg>' });
+    const next = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Next', innerHTML: '<svg><use href="#i-chev-r"/></svg>' });
+    prev.onclick = () => { st.at = (st.at - 1 + list.length) % list.length; o.redraw(); };
+    next.onclick = () => { st.at = (st.at + 1) % list.length; o.redraw(); };
+    nav.append(prev, mk('span', { textContent: (st.at + 1) + ' of ' + list.length }), next);
+  } else if (list.length) nav.append(mk('span', { textContent: '1 of 1' }));
+  q.append(mk('div', { className: 'qhead' }, mk('div', {}, teb(o.eyebrow, 'var(--r)'), mk('h2', { textContent: o.title })), nav));
+  if (Object.keys(kinds).length > 1) {
+    const f = mk('div', { className: 'chips' });
+    const chip = (k, t, n) => { const c = mk('button', { type: 'button', className: 'chip' + (st.kind === k ? ' on' : ''), textContent: t + ' ' + n }); c.onclick = () => { st.kind = k; st.at = 0; o.redraw(); }; f.append(c); };
+    chip('', 'All', o.list.length);
+    Object.keys(kinds).forEach(k => chip(k, PLURAL[k] || KIND[k] || k, kinds[k]));
+    q.append(f);
+  }
+  if (!list.length) q.append(mk('div', { className: 'qempty' }, mk('p', { className: 'serif', textContent: 'All caught up.' }), mk('p', { className: 'mute', textContent: o.empty })));
+  else {
+    const r = list[st.at];
+    const c = approvalCard(r, o.admin, out => { o.answered(r, out); o.redraw(); });
+    if (c.querySelector('.media')) c.classList.add('hasm');
+    if (o.preview) c.querySelectorAll('button:not(.more-btn)').forEach(b => { b.disabled = true; });
+    q.append(c);
+  }
+  return q;
+}
 function drawApprovals() {
   const box = byId('aq');
   box.textContent = '';
   box.className = 'hgrid';
   // Replies stay on the check-in cards below, where the reply text can be edited before it goes.
   const needs = AQ.needs.filter(r => r.kind !== 'reply');
-  const kinds = {};
-  needs.forEach(r => { kinds[r.kind] = (kinds[r.kind] || 0) + 1; });
-  if (aqKind && !kinds[aqKind]) aqKind = '';
-  const list = aqKind ? needs.filter(r => r.kind === aqKind) : needs;
-  if (aqAt >= list.length) aqAt = Math.max(0, list.length - 1);
-
-  // left: the queue
-  const q = mk('section', { className: 'bt qtile' });
-  const nav = mk('div', { className: 'qnav' });
-  if (list.length > 1) {
-    const prev = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Previous', innerHTML: '<svg><use href="#i-chev-l"/></svg>' });
-    const next = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Next', innerHTML: '<svg><use href="#i-chev-r"/></svg>' });
-    prev.onclick = () => { aqAt = (aqAt - 1 + list.length) % list.length; drawApprovals(); };
-    next.onclick = () => { aqAt = (aqAt + 1) % list.length; drawApprovals(); };
-    nav.append(prev, mk('span', { textContent: (aqAt + 1) + ' of ' + list.length }), next);
-  } else if (list.length) nav.append(mk('span', { textContent: '1 of 1' }));
-  q.append(mk('div', { className: 'qhead' }, mk('div', {}, teb('To approve', 'var(--r)'), mk('h2', { textContent: 'Needs you first' })), nav));
-  if (Object.keys(kinds).length > 1) {
-    const f = mk('div', { className: 'chips' });
-    const chip = (k, t, n) => { const c = mk('button', { type: 'button', className: 'chip' + (aqKind === k ? ' on' : ''), textContent: t + ' ' + n }); c.onclick = () => { aqKind = k; aqAt = 0; drawApprovals(); }; f.append(c); };
-    chip('', 'All', needs.length);
-    Object.keys(kinds).forEach(k => chip(k, PLURAL[k] || KIND[k] || k, kinds[k]));
-    q.append(f);
-  }
-  if (!list.length) q.append(mk('div', { className: 'qempty' }, mk('p', { className: 'serif', textContent: 'All caught up.' }), mk('p', { className: 'mute', textContent: 'Nothing needs your OK right now. New drafts from the loops land here.' })));
-  else {
-    const r = list[aqAt];
-    const c = approvalCard(r, true, out => {
+  const q = queueTile({ eyebrow: 'To approve', title: 'Needs you first', list: needs, admin: true, state: HQ, redraw: drawApprovals,
+    empty: 'Nothing needs your OK right now. New drafts from the loops land here.',
+    answered: (r, out) => {
       AQ.needs = AQ.needs.filter(x => x.id !== r.id);
       if (out.status === 'client') AQ.waiting.push(out); else if (out.status === 'changes') AQ.changing.push(out);
       (AQ.done = AQ.done || []).unshift(Object.assign({}, r, out, { updated: new Date().toISOString() }));
-      drawApprovals();
-    });
-    if (c.querySelector('.media')) c.classList.add('hasm');
-    q.append(c);
-  }
+    } });
 
   // right: alert, waiting on clients, in the works, this week
   const side = mk('div', { className: 'hside' });
@@ -871,35 +912,83 @@ function crumbs(list) {
 // ---------- client page (Studio v1) ----------
 // Ready for you, the project cards, Coming up, link buttons (invoice, files, report), recently answered.
 // Graham sees the same thing under Clients › name with the buttons switched off (preview).
+// The client page bento (mock D, version B). Clients land on it; Graham sees it under Preview as client (buttons off).
 function clientPageEl(P, opts) {
-  const box = mk('div'), A = P.approvals, preview = opts && opts.preview;
+  opts = opts || {};
+  const box = mk('div', { className: 'cgrid' }), A = P.approvals, preview = opts.preview, st = { at: 0, kind: '' };
+  if (opts.focus) st.at = Math.max(0, A.ready.findIndex(r => r.id === opts.focus));
+  const L = P.links || {};
   const draw = () => {
     box.textContent = '';
-    box.append(aqHead('Ready for you', A.ready.length));
-    if (!A.ready.length) box.append(mk('div', { className: 'card done' }, mk('p', { textContent: 'Nothing needs you right now. I\'ll email you when something does.' })));
-    A.ready.forEach(r => box.append(approvalCard(r, false, out => {
-      A.ready = A.ready.filter(x => x.id !== r.id);
-      if (out.status === 'client') A.ready.push(out); else A.done.unshift(out);
-      draw();
-    })));
-    const L = P.links || {}, links = [['pay', 'Pay invoice'], ['files', 'Your files'], ['report', 'Monthly report']].filter(([k]) => L[k]);
+    const ready = queueTile({ eyebrow: 'Ready for you', title: A.ready.length ? 'Your OK, please' : 'Ready for you', list: A.ready, admin: false, state: st, redraw: draw, preview,
+      empty: 'Nothing needs you right now. I\'ll email you when something does.',
+      answered: (r, out) => { A.ready = A.ready.filter(x => x.id !== r.id); if (out.status === 'client') A.ready.push(out); else A.done.unshift(out); } });
+    ready.classList.add('c-ready');
+    box.append(ready);
+
+    // Your project(s)
     const projs = (P.projects && P.projects.projects) || [];
-    if (projs.length) { box.append(aqHead(projs.length > 1 ? 'Your projects' : 'Your project')); projs.forEach(p => box.append(mk('div', { style: 'margin-bottom:12px' }, projectCard(p, P.projects.stages)))); }
-    if (A.coming.length) {
-      const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'Coming up' }));
-      A.coming.forEach(r => s.append(wrow(r, r.status === 'changes' ? 'being changed' : 'in the works')));
-      box.append(s);
+    const pj = mk('section', { className: 'bt c-proj' }, teb(projs.length > 1 ? 'Your projects' : 'Your project', 'var(--b)'));
+    if (!projs.length) pj.append(mk('p', { className: 'mute', textContent: 'No project running right now.' }));
+    projs.forEach(p => { const c = projectCard(p, P.projects.stages); c.classList.add('flat'); pj.append(c); });
+    box.append(pj);
+
+    // Payments + links (agreements come with the next step)
+    const pay = mk('section', { className: 'bt c-pay' }, teb('Payments and files', 'var(--y)'));
+    const btns = [['pay', 'Pay invoice', 'yes'], ['files', 'Open your Drive folder', ''], ['report', 'Monthly report', '']].filter(([k]) => L[k]);
+    if (!btns.length) pay.append(mk('p', { className: 'mute', textContent: 'Invoices and your files will show here.' }));
+    btns.forEach(([k, t, c]) => pay.append(mk('a', { className: 'pbtn ' + c, href: L[k], target: '_blank', rel: 'noopener', textContent: t + ' ↗' })));
+    box.append(pay);
+
+    // Coming up
+    const cu = mk('section', { className: 'bt c-coming' }, teb('Coming up', 'var(--b)'));
+    if (!A.coming.length) cu.append(mk('p', { className: 'mute', textContent: 'Nothing in the works right now.' }));
+    A.coming.slice(0, 5).forEach(r => cu.append(mk('div', { className: 'cu' }, thumb(r), mk('span', {}, mk('b', { textContent: r.title }), mk('span', { className: 'mute', textContent: [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ') })),
+      mk('span', { className: 'st' }, mk('i', { style: 'background:' + (r.status === 'changes' ? 'var(--y)' : 'var(--b)') }), r.status === 'changes' ? 'Changing' : 'In the works'))));
+    cu.append(mk('p', { className: 'mute foot', textContent: 'It moves to Ready for you when there\'s something to check.' }));
+    box.append(cu);
+
+    // This month
+    const M = P.month, mo = mk('section', { className: 'bt c-month' }, teb(M ? M.month : 'This month', 'var(--g)'));
+    if (!M) mo.append(mk('p', { className: 'mute', textContent: 'Your numbers show after the first stats pull.' }));
+    else {
+      const g = mk('div', { className: 'mnums' });
+      const n = v => v == null ? '–' : v >= 10000 ? (v / 1000).toFixed(0) + 'k' : v >= 1000 ? (v / 1000).toFixed(1) + 'k' : String(Math.round(v));
+      M.tiles.forEach(t => {
+        const ch = t.value != null && t.prev ? Math.round((t.value - t.prev) / t.prev * 100) : null;
+        g.append(mk('div', {}, mk('span', { className: 'serif', textContent: n(t.value) }), mk('span', { textContent: t.title.toLowerCase() }),
+          ch != null ? mk('span', { className: 'chg ' + (ch >= 0 ? 'up' : 'down'), textContent: (ch >= 0 ? '+' : '') + ch + '% vs ' + M.prevMonth }) : ''));
+      });
+      mo.append(g);
     }
-    if (links.length) box.append(mk('div', { className: 'links' }, ...links.map(([k, t]) => mk('a', { href: L[k], target: '_blank', rel: 'noopener', textContent: t + ' ↗' }))));
-    if (A.done.length) {
-      const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'You answered' }));
-      A.done.slice(0, 8).forEach(r => s.append(mk('div', { className: 'wrow' }, mk('span', { textContent: r.title }), mk('span', { className: 'mute', textContent: r.answer || '' }))));
-      box.append(s);
+    box.append(mo);
+
+    // Your files: finished, approved work
+    const fl = mk('section', { className: 'bt c-files' }, mk('div', { className: 'thead' }, teb('Your files', 'var(--y)'), L.files ? mk('a', { href: L.files, target: '_blank', rel: 'noopener', textContent: 'See all ↗' }) : ''));
+    const made = A.done.filter(r => /^(Looks good|Approve|Yes|Send|Mark read|Done)/i.test(r.answer || '') || r.status === 'approved');
+    if (!made.length) fl.append(mk('p', { className: 'mute', textContent: 'Finished work you approve lands here.' }));
+    else {
+      const g = mk('div', { className: 'fgrid' });
+      made.slice(0, 6).forEach(r => {
+        const u = r.preview || (r.media && r.media[0]) || '';
+        const f = mk(u ? 'a' : 'div', { className: 'fcell' });
+        if (u) { f.href = u; f.target = '_blank'; f.rel = 'noopener'; }
+        const m = (r.media && r.media.find(isImg)) || (isImg(r.preview) ? r.preview : '');
+        if (m) f.append(mk('img', { src: m, alt: '', loading: 'lazy' }));
+        f.append(mk('span', {}, mk('b', { textContent: r.title }), KIND[r.kind] || ''));
+        g.append(f);
+      });
+      fl.append(g);
     }
-    if (preview) box.querySelectorAll('.acard button:not(.more-btn)').forEach(b => { b.disabled = true; });
+    box.append(fl);
   };
   draw();
   return box;
+}
+// Small square for a list row: the first image, else a cream square with the kind's first letter.
+function thumb(r) {
+  const m = (r.media && r.media.find(isImg)) || (isImg(r.preview) ? r.preview : '');
+  return m ? mk('img', { className: 'th', src: m, alt: '', loading: 'lazy' }) : mk('span', { className: 'th', textContent: (KIND[r.kind] || '?')[0] });
 }
 
 let FOCUS = null;   // { id, label } from an email button
@@ -911,7 +1000,10 @@ function showClientPage() {
     byId('cout').hidden = false; byId('cout').onclick = signOut;
     const box = byId('cpage');
     box.hidden = false; box.textContent = '';
-    box.append(clientPageEl(P));
+    byId('h').innerHTML = '';
+    byId('h').append('Hi, ' + P.client.replace(/\s+(\S+)$/, ' '), mk('i', { textContent: P.client.split(/\s+/).pop() + '.' }));
+    byId('hub').classList.add('wide', 'cview');
+    box.append(clientPageEl(P, { focus: FOCUS && FOCUS.id }));
     if (FOCUS) {
       const card = box.querySelector('.acard[data-id="' + CSS.escape(FOCUS.id) + '"]');
       if (card) { card.classList.add('focus'); card.pick(FOCUS.label); card.scrollIntoView({ block: 'center' }); }
