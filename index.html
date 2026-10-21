@@ -4,8 +4,20 @@
 <meta charset="UTF-8">
 <meta name="facebook-domain-verification" content="1p001ci7lkiteqwny58b7umyr8yhjq" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- Google Analytics (GA4). Consent mode: nothing is stored until the visitor taps Allow on the cookie notice (#cookieNote, bottom of <body>); before that Google only gets cookieless pings. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RF906YB2TT"></script>
+<!-- Google Analytics (GA4). Nothing from Google loads until the visitor taps Allow on the cookie card (#cookieNote, bottom of <body>).
+     The choice lives in localStorage "of-consent" (yes/no) + "of-consent-at" and is asked again after 12 months.
+     A browser Global Privacy Control or Do Not Track signal counts as "no". -->
+<script>
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  var ofConsent=null;try{ofConsent=localStorage.getItem("of-consent");var at=+localStorage.getItem("of-consent-at")||0;if(ofConsent&&Date.now()-at>365*864e5)ofConsent=null;}catch(_){}
+  if(!ofConsent&&(navigator.globalPrivacyControl===true||navigator.doNotTrack==="1"))ofConsent="no";
+  gtag("consent","default",{analytics_storage:ofConsent==="yes"?"granted":"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+  gtag("js",new Date());
+  gtag("config","G-RF906YB2TT");
+  function ofLoadGA(){if(window.ofGA)return;window.ofGA=1;var g=document.createElement("script");g.async=true;g.src="https://www.googletagmanager.com/gtag/js?id=G-RF906YB2TT";document.head.appendChild(g);}
+  if(ofConsent==="yes")ofLoadGA();
+</script>
 <script>
   window.dataLayer=window.dataLayer||[];
   function gtag(){dataLayer.push(arguments);}
@@ -1184,6 +1196,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cform-head h1{font-size:clamp(2rem,4.6vw,3.5rem);font-weight:500;line-height:1.02;letter-spacing:-.012em;margin-top:6px}
 .cform-head p{font-family:var(--sans);color:var(--ink-2);max-width:46ch;margin-top:14px;font-size:clamp(1.02rem,1.4vw,1.16rem)}
 .cform-head p a{color:var(--ink);font-weight:500;border-bottom:2px solid var(--ink)}
+.form-note{margin:10px 0 0;font-family:var(--sans);font-size:13px;color:var(--muted)}.form-note a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .cform-card{position:relative;overflow:hidden;background:var(--panel);border-radius:var(--r-lg);padding:clamp(24px,3vw,46px);display:flex;flex-direction:column}
 .cform-card>*{position:relative;z-index:1}
 .cform-card .contact-form{margin-top:0}
@@ -1262,23 +1275,19 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
 
-/* cookie notice (Google Analytics consent): a standard full-width bar pinned to the bottom of the screen.
-   White, hairline top border, text left + buttons right; stacks on phones. Sits over the page (it doesn't move
-   the hero or its controls) and below the custom cursor (z 300). */
-.cookie-note{position:fixed;left:0;right:0;bottom:0;z-index:290;display:none;align-items:center;justify-content:center;gap:clamp(16px,3vw,40px);background:#fff;border-top:1px solid var(--line);padding:14px var(--gutter) calc(14px + env(safe-area-inset-bottom,0px));font-family:var(--sans);font-size:14px;line-height:1.4;color:var(--ink-2)}
+/* cookie notice (Google Analytics consent): a small white card in the bottom-left corner (full width minus 12px on
+   phones). Sits over the page and below the custom cursor (z 300). "Cookie settings" in the footer reopens it. */
+.cookie-note{position:fixed;left:var(--gutter);bottom:calc(var(--gutter) + env(safe-area-inset-bottom,0px));z-index:290;display:none;flex-direction:column;gap:14px;width:min(380px,calc(100vw - 2*var(--gutter)));background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-2)}
 .cookie-note.show{display:flex}
-.cookie-note p{margin:0;display:flex;align-items:center;gap:10px}
-.cookie-note p .spark{width:14px;height:14px;flex:0 0 auto;fill:var(--red)}
-.cookie-note .cn-row{display:flex;gap:8px;align-items:center;flex:0 0 auto}
-.cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:var(--pill);padding:9px 20px;border:1px solid var(--ink);transition:background .16s,color .16s,border-color .16s}
-.cookie-note .cn-yes{background:var(--ink);color:#fff}
-.cookie-note .cn-no{background:none;color:var(--ink);border-color:var(--line-2)}
-.cookie-note .cn-yes:hover{background:var(--red);border-color:var(--red)}  /* same hovers as .btn-dark / .btn-line */
+.cookie-note p{margin:0}
+.cookie-note p a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+.cookie-note .cn-row{display:flex;gap:8px}
+/* both choices look the same at rest, so saying no is as easy as saying yes */
+.cookie-note button{flex:1;font:inherit;font-weight:600;white-space:nowrap;border-radius:var(--pill);padding:9px 18px;background:none;color:var(--ink);border:1px solid var(--line-2);transition:background .16s,color .16s,border-color .16s}
+.cookie-note .cn-yes:hover{background:var(--red);border-color:var(--red);color:#fff}
 .cookie-note .cn-no:hover{background:var(--blue);border-color:var(--blue);color:#fff}
-@media (max-width:560px){
-  .cookie-note{flex-direction:column;align-items:stretch;gap:12px;text-align:left;font-size:13px}
-  .cookie-note .cn-row button{flex:1}
-}
+@media (max-width:560px){ .cookie-note{left:12px;right:12px;width:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));font-size:13px} }
+.footer-meta .cn-open{font:inherit;color:inherit;background:none;border:0;padding:0;margin-left:14px;cursor:pointer}
 
 /* toast (email-copied confirmation) */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
@@ -2139,6 +2148,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
           <div class="field cform-msg"><label for="cMsg">Message</label><textarea id="cMsg" name="message" required placeholder="Tell me a little about what you're working on…"></textarea></div>
           <button class="btn btn-dark" type="submit"><svg class="bi" width="15" height="15"><use href="#i-send"/></svg>Send message</button>
           <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">I only use your details to reply. <a href="/privacy/">Privacy policy</a></p>
         </form>
       </div>
     </div>
@@ -3403,7 +3413,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <a href="/about" data-go="about"><svg class="fspark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
         <a href="/contact" data-go="contact"><svg class="fspark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
       </nav>
-      <div class="footer-meta"><span>© <span data-year>2026</span> Open Frame</span> <a href="/studio/" rel="nofollow" style="color:inherit;margin-left:14px">Client sign-in</a></div>
+      <div class="footer-meta"><span>© <span data-year>2026</span> Open Frame</span> <a href="/studio/" rel="nofollow" style="color:inherit;margin-left:14px">Client sign-in</a> <a href="/privacy/" style="color:inherit;margin-left:14px">Privacy</a> <button type="button" class="cn-open">Cookie settings</button></div>
     </div>
   </div>
 </footer>
@@ -4159,19 +4169,27 @@ return {W,H,D,draw(ctx,t){
 })();
 </script>
 <div class="cookie-note" id="cookieNote" role="region" aria-label="Cookie notice">
-  <p><svg class="spark" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>I use cookies to see how people find this site. No ads.</p>
+  <p>I'd like to use Google Analytics cookies to see how people find this site. No ads. <a href="/privacy/">Privacy policy</a></p>
   <div class="cn-row"><button type="button" class="cn-yes">Allow</button><button type="button" class="cn-no">No thanks</button></div>
 </div>
 <script>
 (function(){var n=document.getElementById("cookieNote");if(!n)return;
   var sk=document.getElementById("heroSkip");
-  /* while the bar is up, lift the replay button just clear of it; it drops back once a choice is made */
+  /* while the card is up, lift the replay button just clear of it if they overlap; it drops back once a choice is made */
   function clear(){if(!sk)return;sk.style.translate="";if(!n.classList.contains("show"))return;
-    var o=sk.getBoundingClientRect().bottom+scrollY-(innerHeight-n.offsetHeight)+12;if(o>0)sk.style.translate="0 "+(-o)+"px";}
-  if(window.ofConsent!=="yes"&&window.ofConsent!=="no"){n.classList.add("show");clear();addEventListener("resize",clear);}
-  function pick(v){try{localStorage.setItem("of-consent",v);}catch(_){}if(v==="yes")gtag("consent","update",{analytics_storage:"granted"});n.classList.remove("show");clear();removeEventListener("resize",clear);}
+    var a=sk.getBoundingClientRect(),b=n.getBoundingClientRect();if(a.right<b.left||a.left>b.right)return;
+    var o=a.bottom+scrollY-(b.top+scrollY)+12;if(o>0&&scrollY<1)sk.style.translate="0 "+(-o)+"px";}
+  var mo=sk&&window.MutationObserver?new MutationObserver(clear):null;  /* the button starts hidden until the reel runs */
+  function open(){n.classList.add("show");clear();addEventListener("resize",clear);if(mo)mo.observe(sk,{attributes:true,attributeFilter:["hidden"]});addEventListener("load",clear);setTimeout(clear,600);}
+  if(window.ofConsent!=="yes"&&window.ofConsent!=="no")open();
+  /* drop Google Analytics cookies when someone says no (or takes back a yes) */
+  function wipe(){document.cookie.split(";").forEach(function(c){var k=c.split("=")[0].trim();if(/^_ga/.test(k))[location.hostname,"."+location.hostname.replace(/^www\./,"")].forEach(function(d){document.cookie=k+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain="+d;});document.cookie=k+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";});}
+  function pick(v){try{localStorage.setItem("of-consent",v);localStorage.setItem("of-consent-at",Date.now());}catch(_){}window.ofConsent=v;
+    gtag("consent","update",{analytics_storage:v==="yes"?"granted":"denied"});if(v==="yes")ofLoadGA();else wipe();
+    n.classList.remove("show");clear();removeEventListener("resize",clear);if(mo)mo.disconnect();}
   n.querySelector(".cn-yes").addEventListener("click",function(){pick("yes");});
   n.querySelector(".cn-no").addEventListener("click",function(){pick("no");});
+  document.querySelectorAll(".cn-open").forEach(function(b){b.addEventListener("click",open);});
 })();
 </script>
 </body>
