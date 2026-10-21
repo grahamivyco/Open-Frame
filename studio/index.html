@@ -277,12 +277,16 @@ let loaded = '';
 function loadCards(role) {
   if (loaded === role) return Promise.resolve();
   if (loaded) { location.reload(); return new Promise(() => {}); }
-  return new Promise((ok, no) => {
-    const s = document.createElement('script');
-    s.src = API + '?api=studio_js&r=' + role;
-    s.onload = () => { loaded = role; ok(); }; s.onerror = () => no(new Error('The Hub didn\'t answer.'));
-    document.head.append(s);
-  });
+  // fetch (no Google cookies) instead of <script src>: a browser signed in to several Google accounts gets an
+  // error page from Apps Script for cookie-carrying requests, which is what broke the card code loading.
+  return fetch(API + '?api=studio_js&r=' + role, { credentials: 'omit' }).then(r => r.ok ? r.text() : Promise.reject())
+    .then(code => {
+      if (/^\s*</.test(code)) throw 0;   // an HTML error page, not the card code
+      const s = document.createElement('script');
+      s.textContent = code;
+      document.head.append(s);
+      loaded = role;
+    }).catch(() => { throw new Error('The Hub didn\'t answer.'); });
 }
 
 // ---------- sign in ----------
