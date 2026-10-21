@@ -21,6 +21,7 @@ Last updated: 2026-10-21.
   - Phase 2: Deliverables tab + proof approvals + emails. **Next, when Graham asks.**
   - Phase 3: Files tab (Drive links). Phase 4: admin buttons in Studio. Later: billing.
 - Each phase = one Hub PR (social-assets) + one Studio page PR (Open-Frame).
+- **Approval items:** every automation that needs a yes writes rows in the Hub's **Approvals** tab using [`docs/approval-items.md`](docs/approval-items.md) (columns, kinds, buttons, flow). One format for posts, brand kits, website launches, brand deals, sensitive replies and the rest. Tab + Studio reader = Phase 2, not built yet.
 
 ## Pricing
 - Own page at **/pricing** (`#pricing` page in `index.html`, `.pr-*` classes; moved off Services 2026-10-21, old `/services#pricing` links redirect). Services keeps a "See pricing" button in "What to expect". Plan names (Studio agreements/payments use them, keep stable): monthly **Care / Starter / Growth / Full Comms** + Setup; projects **Quick audit / Deep brand and marketing audit / Brand kit / Website redesign / SEO and AI search check (and setup) / Newsletter setup / Giving Tuesday kit / Google Ad Grants setup / Case study**; extras **Hourly work / Website support / Website handoff guide**. Prices also appear in the Organization JSON-LD `hasOfferCatalog` and in `llms.txt`. Change all three together.
