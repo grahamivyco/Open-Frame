@@ -2,6 +2,8 @@
 
 Context for Claude Code working in this repo. Keep this file current: when you make a meaningful change, update the relevant section below.
 
+**Read [`CONTEXT.md`](CONTEXT.md) first.** It holds the facts shared with Graham's other Claude projects (where the Hub lives, the Studio plan, analytics/privacy, copy and workflow rules). Design rules for any new page: [`docs/design-rules.md`](docs/design-rules.md). Update both when those facts change.
+
 ## What this is
 The portfolio website for **Open Frame**, the design studio of **Graham Ivy** (Minneapolis) — brand & product design: identity, websites, marketing. Tagline: *"Bring your brand into frame."*
 Live at **https://openframe.design**.
