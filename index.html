@@ -1266,7 +1266,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
    between the hero card and the bottom of the screen (html.cn-on widens that gap to fit it). Menu-button widths (≤860px, same as the mobile menu): sits inside
    the hero's bottom edge and lifts the skip button above it. Below the custom cursor (z 300), which turns white over it. */
 :root{--cn-h:48px;--cn-gap:max(var(--gutter),calc(var(--cn-h) + 24px))}
-.cookie-note{position:fixed;left:50%;bottom:calc((var(--cn-gap) - var(--cn-h))/2);transform:translateX(-50%);z-index:290;display:none;align-items:center;gap:16px;white-space:nowrap;background:var(--ink);color:rgba(255,255,255,.82);border-radius:14px;padding:6px 6px 6px 18px;font-family:var(--sans);font-size:13px;line-height:1.3}
+.cookie-note{position:fixed;left:50%;bottom:calc((var(--cn-gap) - var(--cn-h))/2);transform:translateX(-50%);width:max-content;z-index:290;display:none;align-items:center;gap:16px;white-space:nowrap;background:var(--ink);color:rgba(255,255,255,.82);border-radius:14px;padding:6px 6px 6px 18px;font-family:var(--sans);font-size:13px;line-height:1.3}
 .cookie-note.show{display:flex}
 .cookie-note p{margin:0}
 .cookie-note .cn-row{display:flex;gap:6px;align-items:center}
@@ -1275,7 +1275,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cookie-note .cn-no{background:none;color:var(--panel);border-color:rgba(255,255,255,.4)}
 @media (min-width:861px){html.cn-on .hero{--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}}
 @media (max-width:860px){
-  .cookie-note{white-space:normal;left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:stretch;gap:12px;padding:14px;font-size:13px;text-align:center}
+  .cookie-note{white-space:normal;width:auto;left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));flex-direction:column;align-items:stretch;gap:12px;padding:14px;font-size:13px;text-align:center}
   .cookie-note .cn-row button{flex:1}
   html.cn-on .hero-skip{bottom:calc(var(--cn-h) + 22px)}
 }
