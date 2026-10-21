@@ -173,6 +173,47 @@
   @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
+  /* Wide admin views (Home, Clients, Loops) and the Home bento (mock D) */
+  .hub.admin.wide{max-width:1360px}
+  @media (min-width:761px){.hub.admin.wide{padding-left:96px;padding-right:24px}}
+  .hub.admin.wide #box,.hub.admin.wide #more{max-width:720px}
+  .serif{font-family:Fraunces,serif;font-weight:500;letter-spacing:-.01em}
+  .bt{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 22px}
+  .teb{display:flex;align-items:center;gap:8px;font:500 11.5px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+  .hgrid>.aq-h{grid-column:1/-1;margin:18px 0 0}
+  .hside{display:flex;flex-direction:column;gap:16px}
+  .qtile{background:var(--cream);border:0;border-radius:30px;padding:26px;min-height:min(640px,calc(100dvh - var(--head) - 120px));display:flex;flex-direction:column}
+  .qhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .qhead h2{font:500 32px/1.05 Fraunces,serif;letter-spacing:-.02em}
+  .qnav{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink2);white-space:nowrap}
+  .qarrow{width:36px;height:36px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line)}
+  .qarrow svg{width:16px;height:16px}
+  .qarrow:hover{border-color:var(--ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+  .chip{padding:7px 14px;font-size:13px;border-radius:100px;border:1px solid rgba(0,0,0,.16);background:transparent}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .qtile .acard{flex:1;margin:0;border:0;border-radius:20px;padding:22px}
+  @media (min-width:1000px){
+    .qtile .acard.hasm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:24px;align-content:start}
+    .qtile .acard.hasm>*{grid-column:2}
+    .qtile .acard.hasm>.media{grid-column:1;grid-row:1/span 12;margin:0}
+    .qtile .acard.hasm .media img,.qtile .acard.hasm .media video{max-height:520px}
+  }
+  .qempty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;background:#fff;border-radius:20px;padding:40px 20px}
+  .qempty .serif{font-size:26px}
+  .alert{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:#fdf3d8;border:0;border-radius:20px;padding:16px 18px;font-size:14px;color:var(--ink2)}
+  .alert i{width:10px;height:10px;border-radius:50%;background:var(--y);margin-top:5px;flex:none}
+  .alert b{display:block;color:var(--ink);font-weight:500;font-size:15px;margin-bottom:2px}
+  .alert:hover{background:#fbecc1}
+  .wcl{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+  .bt .teb+.wcl,.bt .teb+.wrow{border-top:0}
+  .wcl b{font-weight:500}
+  .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px}
+  .nums .teb{grid-column:1/-1}
+  .nums>div{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.3;color:var(--ink2)}
+  .nums .serif{font-size:28px;color:var(--ink);line-height:1.1}
+  @media (max-width:1000px){.hgrid{grid-template-columns:minmax(0,1fr)}.qtile{min-height:0;padding:18px;border-radius:24px}.qhead h2{font-size:26px}}
   .shead .eyebrow:empty{display:none}
   .shead .eyebrow:empty+h1{margin-top:0}
   .hub.admin>footer{display:none}
@@ -318,7 +359,7 @@
 <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol><symbol id="i-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol><symbol id="i-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol><symbol id="i-chev-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol><symbol id="i-chev-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 </defs></svg>
 <header class="site-header">
   <div class="wrap">
@@ -542,6 +583,7 @@ function start(d) {
     showTab(qs.get('tab') || 'home');
     if (qs.get('c') && !byId('clients').hidden) showClient(qs.get('c'));
     loadApprovals();
+    loadLoopAlert();
     startAdmin();
   }).catch(x => { byId('box').textContent = ''; byId('box').append(mk('div', { className: 'card done' }, mk('h2', { textContent: 'Can\'t reach the Hub' }), mk('p', { textContent: x.message + ' Try again in a minute.' }))); });
 }
@@ -605,6 +647,7 @@ function showTab(tab) {
   byId('rail').querySelectorAll('[data-view]').forEach(b => b.dataset.view === lit ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current'));
   crumbs(tab === 'reels' ? [['Clients', () => showTab('clients')], ['Open Frame', () => { showTab('clients'); showClient('Open Frame'); }]] : null);
   TABS.forEach(t => { byId(t).hidden = t !== box; });
+  byId('hub').classList.toggle('wide', box === 'todo' || box === 'clients' || box === 'status');
   byId('h').textContent = VIEWS[tab][1];
   byId('count').hidden = box !== 'todo';
   history.replaceState(null, '', tab === 'home' ? location.pathname : '?tab=' + tab);
@@ -642,39 +685,96 @@ function wrow(r, note) {
     mk('span', { className: 'mute', textContent: [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ') }));
 }
 
+// Home bento (mock D): one approval at a time on the left with kind filters, side tiles on the right.
+let aqAt = 0, aqKind = '', LOOPS_BAD = null;
+const PLURAL = { post: 'Posts', reel: 'Reels', newsletter: 'Newsletters', report: 'Reports', pick_one: 'Picks', design: 'Designs', set: 'Sets', launch: 'Launches', files: 'Files',
+  brand_deal: 'Brand deals', repost: 'Reposts', ad_spend: 'Ad spend', request: 'Requests', hours: 'Hours', quote: 'Quotes', invoice: 'Invoices' };
+const SPKC = c => '<svg width="10" height="10" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="' + c + '"/></svg>';
+const teb = (text, c) => mk('p', { className: 'teb', innerHTML: SPKC(c) + ' ' }, text);
 function drawApprovals() {
   const box = byId('aq');
   box.textContent = '';
+  box.className = 'hgrid';
   // Replies stay on the check-in cards below, where the reply text can be edited before it goes.
   const needs = AQ.needs.filter(r => r.kind !== 'reply');
-  box.append(aqHead('Needs you first', needs.length));
-  if (!needs.length) box.append(mk('div', { className: 'card done' }, mk('p', { textContent: 'Nothing to approve right now.' })));
-  needs.forEach(r => box.append(approvalCard(r, true, out => {
-    AQ.needs = AQ.needs.filter(x => x.id !== r.id);
-    if (out.status === 'client') AQ.waiting.push(out); else if (out.status === 'changes') AQ.changing.push(out);
-    drawApprovals();
-  })));
+  const kinds = {};
+  needs.forEach(r => { kinds[r.kind] = (kinds[r.kind] || 0) + 1; });
+  if (aqKind && !kinds[aqKind]) aqKind = '';
+  const list = aqKind ? needs.filter(r => r.kind === aqKind) : needs;
+  if (aqAt >= list.length) aqAt = Math.max(0, list.length - 1);
+
+  // left: the queue
+  const q = mk('section', { className: 'bt qtile' });
+  const nav = mk('div', { className: 'qnav' });
+  if (list.length > 1) {
+    const prev = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Previous', innerHTML: '<svg><use href="#i-chev-l"/></svg>' });
+    const next = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Next', innerHTML: '<svg><use href="#i-chev-r"/></svg>' });
+    prev.onclick = () => { aqAt = (aqAt - 1 + list.length) % list.length; drawApprovals(); };
+    next.onclick = () => { aqAt = (aqAt + 1) % list.length; drawApprovals(); };
+    nav.append(prev, mk('span', { textContent: (aqAt + 1) + ' of ' + list.length }), next);
+  } else if (list.length) nav.append(mk('span', { textContent: '1 of 1' }));
+  q.append(mk('div', { className: 'qhead' }, mk('div', {}, teb('To approve', 'var(--r)'), mk('h2', { textContent: 'Needs you first' })), nav));
+  if (Object.keys(kinds).length > 1) {
+    const f = mk('div', { className: 'chips' });
+    const chip = (k, t, n) => { const c = mk('button', { type: 'button', className: 'chip' + (aqKind === k ? ' on' : ''), textContent: t + ' ' + n }); c.onclick = () => { aqKind = k; aqAt = 0; drawApprovals(); }; f.append(c); };
+    chip('', 'All', needs.length);
+    Object.keys(kinds).forEach(k => chip(k, PLURAL[k] || KIND[k] || k, kinds[k]));
+    q.append(f);
+  }
+  if (!list.length) q.append(mk('div', { className: 'qempty' }, mk('p', { className: 'serif', textContent: 'All caught up.' }), mk('p', { className: 'mute', textContent: 'Nothing needs your OK right now. New drafts from the loops land here.' })));
+  else {
+    const r = list[aqAt];
+    const c = approvalCard(r, true, out => {
+      AQ.needs = AQ.needs.filter(x => x.id !== r.id);
+      if (out.status === 'client') AQ.waiting.push(out); else if (out.status === 'changes') AQ.changing.push(out);
+      (AQ.done = AQ.done || []).unshift(Object.assign({}, r, out, { updated: new Date().toISOString() }));
+      drawApprovals();
+    });
+    if (c.querySelector('.media')) c.classList.add('hasm');
+    q.append(c);
+  }
+
+  // right: alert, waiting on clients, in the works, this week
+  const side = mk('div', { className: 'hside' });
+  if (LOOPS_BAD && LOOPS_BAD.length) {
+    const al = mk('button', { type: 'button', className: 'alert' }, mk('i'), mk('span', {}, mk('b', { textContent: LOOPS_BAD.length === 1 ? '1 loop needs a look' : LOOPS_BAD.length + ' loops need a look' }),
+      mk('span', { textContent: LOOPS_BAD.slice(0, 2).map(l => l.loop + (l.client ? ' · ' + l.client : '')).join(', ') })));
+    al.onclick = () => { loopFilter = 'bad'; showTab('loops'); };
+    side.append(al);
+  }
   const by = {};
   AQ.waiting.forEach(r => (by[r.client] = by[r.client] || []).push(r));
-  box.append(aqHead('Waiting on clients', AQ.waiting.length));
-  if (!AQ.waiting.length) box.append(mk('p', { className: 'mute', style: 'margin-bottom:12px', textContent: 'Nothing is waiting on a client.' }));
+  const w = mk('section', { className: 'bt' }, teb('Waiting on clients', 'var(--b)'));
+  if (!AQ.waiting.length) w.append(mk('p', { className: 'mute', textContent: 'Nothing is waiting on a client.' }));
   Object.keys(by).forEach(name => {
     const nb = mk('button', { className: 'nudge', type: 'button', textContent: 'Nudge' });
     nb.onclick = () => {
       nb.disabled = true; nb.textContent = 'Sending...';
       call('adminNudge', K, name).then(() => { nb.textContent = 'Sent'; }, () => { nb.disabled = false; nb.textContent = 'Nudge'; });
     };
-    const s = mk('div', { className: 'sect' }, mk('div', { className: 'head' }, mk('h3', { textContent: name }), nb));
-    by[name].forEach(r => s.append(wrow(r)));
-    box.append(s);
+    w.append(mk('div', { className: 'wcl' }, mk('span', {}, mk('b', { textContent: name }), mk('span', { className: 'mute', textContent: ' · ' + by[name].length + ' to check' })), nb));
   });
+  side.append(w);
   const works = AQ.changing.concat(AQ.planned);
   if (works.length) {
-    const s = mk('div', { className: 'sect' }, mk('h3', { textContent: 'In the works' }));
-    works.forEach(r => s.append(wrow(Object.assign({}, r, { title: r.client + ': ' + r.title }), r.status === 'changes' ? 'being changed' + (r.comment ? ' (' + r.comment + ')' : '') : 'planned')));
-    box.append(s);
+    const t = mk('section', { className: 'bt' }, teb('In the works', 'var(--y)'));
+    works.slice(0, 5).forEach(r => t.append(wrow(Object.assign({}, r, { title: r.client + ': ' + r.title }), r.status === 'changes' ? 'being changed' : 'planned')));
+    if (works.length > 5) t.append(mk('p', { className: 'mute', textContent: '+' + (works.length - 5) + ' more' }));
+    side.append(t);
   }
-  box.append(aqHead('From the check-in'));
+  const wk = Date.now() - 7 * 864e5;
+  const approved = (AQ.done || []).filter(r => r.updated && new Date(r.updated) > wk).length;
+  const nums = mk('section', { className: 'bt nums' }, teb('This week', 'var(--g)'));
+  [[approved, 'answered this week'], [AQ.waiting.length, 'waiting on clients'], [works.length, 'in the works']].forEach(([n, t]) => nums.append(mk('div', {}, mk('span', { className: 'serif', textContent: String(n) }), mk('span', { textContent: t }))));
+  side.append(nums);
+  box.append(q, side, aqHead('From the check-in'));
+}
+// Broken loops for the Home alert. Quiet on an older Hub.
+function loadLoopAlert() {
+  post({ op: 'call', s: saved(), name: 'studioLoops', args: [] }).then(d => {
+    LOOPS_BAD = ((d.out || {}).loops || []).filter(l => l.state > 1);
+    if (AQ && !byId('todo').hidden) drawApprovals();
+  }, () => {});
 }
 // Reels live under Clients › Open Frame (Graham's own content).
 function reelsLine() {
