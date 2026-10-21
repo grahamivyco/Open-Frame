@@ -220,7 +220,7 @@ Ink pill, bottom center, white 14px text, slides up 20px and fades in.
 
 ## 6. Header and footer (use the real ones)
 
-**Header**: fixed, 16px from the top, floating pill nav inside `.wrap`. Frosted white: `background:rgba(255,255,255,.6);backdrop-filter:blur(22px) saturate(165%)`. Left: mark (32px) + "Open Frame" wordmark. Right: Work, Services, Pricing, About, then the ink pill "Contact" (no spark, hover red), then the round 42px person icon linking to `/studio/` (outline; filled ink when you're inside Studio). Under 860px: the person icon is hidden and the menu button sits alone on the right. It opens a full-screen cream card (`--panel`, `--r-lg`) with large links (Home, Work, Services, Pricing, About, Contact, then **Studio sign-in** last) and a colored spark beside the active one.
+**Header**: fixed, 16px from the top, floating pill nav inside `.wrap`. Frosted white: `background:rgba(255,255,255,.6);backdrop-filter:blur(22px) saturate(165%)`. Left: mark (32px) + "Open Frame" wordmark. Right: Work, Services, Pricing, About, then the ink pill "Contact" (no spark, hover red), then an outlined secondary pill **Log in** linking to `/studio/` (same size as Contact, `--line-2` outline, hover blue fill; it reads **Log out** inside Studio once signed in and signs you out). Under 860px: the Log in pill is hidden and the menu button sits alone on the right. It opens a full-screen cream card (`--panel`, `--r-lg`) with large links (Home, Work, Services, Pricing, About, Contact, then **Log in** last) and a colored spark beside the active one.
 
 **Footer**: cream panel (`--panel`, `--r-lg`), brand + one-line description on the left, uppercase "Pages" list on the right (a spark slides in on hover), icon-only socials (LinkedIn, Email, Résumé; hover blue/red/yellow), hairline divider, then 12.5px muted meta row with "Client sign-in" linking to /studio/.
 
@@ -276,7 +276,7 @@ Copy the header and footer markup from `studio/index.html` or `index.html` in th
 
 Already live at `openframe.design/studio/` (`studio/index.html`). Extend that page rather than starting a new one. It is the one page with an app layout:
 
-- **Body**: white like every other page, same header (person icon filled ink while you're in Studio; on mobile "Studio sign-in" shows as the active menu link). The mobile menu is the site's cream card.
+- **Body**: white like every other page, same header (the pill reads Log out once signed in; on mobile "Log in" / "Log out" shows as the active menu link). The mobile menu is the site's cream card.
 - **Signed out**: no title above anything. A full-screen bento under the header (gutter all round, gap 12-18px): the cream sign-in card (`--panel`, `--r-lg`) on the left half and the showreel's Bauhaus tile wave on a canvas on the right half, with the Open Frame mark in the middle tile. Up to 820px the art hides and the card fills the screen.
 - **Sign-in card** content, max 440px wide, vertically centered:
   - eyebrow with red spark "Studio", h1 Fraunces `clamp(2.4rem,4.4vw,3.8rem)` "Your *studio.*"
