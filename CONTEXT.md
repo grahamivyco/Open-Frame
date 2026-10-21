@@ -13,10 +13,10 @@ Last updated: 2026-10-21.
 
 ## Studio (openframe.design/studio)
 - Invite only. Admins = the script owner + `STUDIO_ADMINS`. Clients = any email in the `contact_email` column of the Hub Sheet's **Clients** tab. No sign-up flow.
-- Sign-in: email + 6-digit code, or the emailed button (both expire in 15 min), or Sign in with Google (`GOOGLE_CLIENT_ID`; the Google app is still in Testing, so only test users can use it). Unknown emails get the same reply. Sessions last 30 days, stored hashed in the `Studio sessions` tab; the page keeps its token in `localStorage` (`of-studio`).
+- Sign-in: email + 6-digit code, or the emailed button (both expire in 15 min), or Sign in with Google (`GOOGLE_CLIENT_ID`, Google Cloud project `enhanced-rite-512212-t9`, app "Open Frame": In production, External, since 2026-10-21, so any invited client can use it; scopes are only openid/email/profile, so no Google review is needed. Branding uses /privacy/ and /terms/, and openframe.design is verified in Search Console. If the button errors with a UrlFetchApp permission message, Graham runs `setup` once in the Apps Script editor and clicks Allow). Unknown emails get the same reply. Sessions last 30 days, stored hashed in the `Studio sessions` tab; the page keeps its token in `localStorage` (`of-studio`).
 - Adding a new Google service to `Code.gs` needs Graham to run `setup` once in the Apps Script editor to re-authorize. Clasp deploys code but never new scopes.
 - **Plan** (approved 2026-10-21): https://claude.ai/artifact/6v7kCGmq2XqVZaAcwRkdjs
-  - Phase 0: Graham publishes the Google sign-in app.
+  - Phase 0: Graham publishes the Google sign-in app. **Done 2026-10-21.**
   - Phase 1: Projects tab + client Project cards. **Shipped 2026-10-21** (social-assets #62, Open-Frame #99).
   - Phase 2: Deliverables tab + proof approvals + emails. **Next, when Graham asks.**
   - Phase 3: Files tab (Drive links). Phase 4: admin buttons in Studio. Later: billing.
