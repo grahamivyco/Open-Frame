@@ -1262,17 +1262,22 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
 .cursor.hidden{opacity:0}
 @media (hover:none),(pointer:coarse){.cursor{display:none!important}}
 
-/* cookie notice (Google Analytics consent): one centred pill in the bottom gutter, below the hero card */
-.cookie-note{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:390;display:none;align-items:center;gap:14px;white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:100px;padding:5px 5px 5px 18px;font-family:var(--sans);font-size:13px;line-height:1.3;color:var(--ink-2)}
+/* cookie notice (Google Analytics consent): a one-line black rounded rect. Desktop/tablet: centred in the gap
+   between the hero card and the bottom of the screen (html.cn-on widens that gap to fit it). Phones: sits inside
+   the hero's bottom edge and lifts the skip button above it. Below the custom cursor (z 300), which turns white over it. */
+:root{--cn-h:48px;--cn-gap:max(var(--gutter),calc(var(--cn-h) + 24px))}
+.cookie-note{position:fixed;left:50%;bottom:calc((var(--cn-gap) - var(--cn-h))/2);transform:translateX(-50%);z-index:290;display:none;align-items:center;gap:16px;white-space:nowrap;background:var(--ink);color:rgba(255,255,255,.82);border-radius:14px;padding:6px 6px 6px 18px;font-family:var(--sans);font-size:13px;line-height:1.3}
 .cookie-note.show{display:flex}
 .cookie-note p{margin:0}
 .cookie-note .cn-row{display:flex;gap:6px;align-items:center}
-.cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:100px;padding:7px 14px;border:1px solid var(--ink)}
-.cookie-note .cn-yes{background:var(--ink);color:#fff}
-.cookie-note .cn-no{background:none;color:var(--ink)}
-/* while the notice shows, the hero's bottom gap grows to fit it (no-op on desktop, where the gutter already fits) */
-html.cn-on .hero{--cn-gap:max(var(--gutter),calc(var(--cn-h,48px) + 20px));--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}
-@media (max-width:560px){.cookie-note{white-space:normal;width:calc(100% - 2*var(--gutter));justify-content:space-between;gap:10px;padding-left:14px;font-size:12px}}
+.cookie-note button{font:inherit;font-weight:600;white-space:nowrap;border-radius:10px;padding:8px 14px;border:1px solid var(--panel)}
+.cookie-note .cn-yes{background:var(--panel);color:var(--ink)}
+.cookie-note .cn-no{background:none;color:var(--panel);border-color:rgba(255,255,255,.4)}
+@media (min-width:561px){html.cn-on .hero{--hero-h:calc(100svh - 12px - var(--cn-gap) - clamp(84px,9vh,102px));margin-bottom:var(--cn-gap)}}
+@media (max-width:560px){
+  .cookie-note{white-space:normal;left:calc(var(--gutter) + 10px);right:calc(var(--gutter) + 10px);transform:none;bottom:calc(var(--gutter) + 10px + env(safe-area-inset-bottom,0px));justify-content:space-between;gap:10px;padding-left:14px;font-size:12px}
+  html.cn-on .hero-skip{bottom:calc(var(--cn-h) + 22px)}
+}
 
 /* toast (email-copied confirmation) */
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);z-index:400;background:var(--ink);color:#fff;font-family:var(--sans);font-size:14px;font-weight:500;padding:12px 20px;border-radius:100px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .35s var(--ease)}
@@ -3424,7 +3429,7 @@ html.cn-on .hero{--cn-gap:max(var(--gutter),calc(var(--cn-h,48px) + 20px));--her
     const it="a,button,[data-go],[data-nav],.nav-toggle,.pj,.bx,input,textarea,.link-arrow,.cs-back,.np-big,.svc-card";
     document.addEventListener("mouseover",e=>{if(e.target.closest(it))cur.classList.add("grow");});
     document.addEventListener("mouseout",e=>{if(e.target.closest(it))cur.classList.remove("grow");});
-    const darkSel=".cta-dark,.btn-dark,.cs-next .np-plate,.nav-cta";
+    const darkSel=".cta-dark,.btn-dark,.cs-next .np-plate,.nav-cta,.cookie-note";
     /* follows the mouse, then sleeps once it has caught up (no work while idle) */
     function loop(){
       cx+=(tx-cx)*.42; cy+=(ty-cy)*.42;
