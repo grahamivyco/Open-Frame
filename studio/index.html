@@ -173,6 +173,58 @@
   @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
+  /* One client, Graham's view */
+  .cacts{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin:-58px 0 22px}
+  .apill{display:inline-flex;align-items:center;gap:7px;padding:10px 16px;border-radius:100px;border:1px solid rgba(0,0,0,.18);background:#fff;font-size:14px;font-weight:500;color:var(--ink)}
+  .apill svg{width:16px;height:16px}
+  .apill:hover,.apill.on{border-color:var(--ink)}
+  .apill.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .apill.dark:hover{background:var(--r);border-color:var(--r)}
+  .paused{background:#fdf3d8;border-radius:14px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+  .agrid{display:grid;grid-template-columns:1.35fr 1fr 1fr;grid-template-areas:"appr proj pay" "appr month notes";gap:16px}
+  .a-appr{grid-area:appr;min-height:0}.a-proj{grid-area:proj}.a-pay{grid-area:pay}.a-month{grid-area:month}.notes{grid-area:notes}
+  .a-appr .acard{margin-top:8px}
+  .ah{display:flex;justify-content:space-between;align-items:center;margin:14px 4px 6px;font-size:13px}
+  .ah:first-child{margin-top:0}
+  .ah b{font-weight:600}
+  .arow{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 10px;border-radius:14px;background:#fff;margin-bottom:6px}
+  .arow .th{width:48px;height:48px}
+  .arow small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .arow b{display:block;font-weight:500;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .arow .mute{font-size:12.5px}
+  .mini{padding:6px 12px;font-size:13px;border-radius:100px;border:1px solid rgba(0,0,0,.18);background:#fff;white-space:nowrap}
+  .mini:hover:not(:disabled){border-color:var(--ink)}
+  .linkish{background:none;border:0;padding:6px 0;font-size:13.5px;color:var(--ink2);text-decoration:underline;text-underline-offset:3px}
+  .linkish:hover{color:var(--ink)}
+  .bt .proj.edit{cursor:pointer;border-radius:12px;padding:8px;margin:-8px -8px 6px}
+  .bt .proj.edit:hover{background:var(--cream)}
+  .lrow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid rgba(0,0,0,.08);font-size:14px}
+  .bt .teb+.lrow{border-top:0}
+  .lrow a{color:var(--ink)}
+  .bt.a-pay{background:#fdf3d8;border:0}
+  .bt.notes{border:1px dashed rgba(0,0,0,.22);display:flex;flex-direction:column}
+  .notes textarea{flex:1;min-height:110px;border:0;padding:0;background:transparent;font-size:14px;line-height:1.5;resize:none}
+  .notes textarea:focus{outline:none}
+  .nfoot{font-size:12.5px;margin-top:8px}
+  .pmenu{position:absolute;right:0;top:calc(100% + 8px);width:290px;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:20px;padding:8px;z-index:30;display:flex;flex-direction:column;gap:2px;text-align:left}
+  .pmenu button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;border:0;background:none;border-radius:12px;padding:9px 12px;text-align:left}
+  .pmenu button:hover,.pmenu button:focus-visible{background:rgba(0,0,0,.05);outline:none}
+  .pmenu b{font-weight:500;font-size:14px;color:var(--ink)}
+  .pmenu span{font-size:12px;color:var(--ink2)}
+  .pmenu hr{border:0;height:1px;background:rgba(0,0,0,.08);margin:4px 8px}
+  .pback{position:fixed;inset:0;z-index:200;background:rgba(17,17,16,.28);display:flex;align-items:center;justify-content:center;padding:16px}
+  .pform{background:#fff;border-radius:24px;padding:24px;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;display:flex;flex-direction:column;gap:12px}
+  .phead{display:flex;justify-content:space-between;align-items:center}
+  .phead h2{font:500 24px/1.2 Fraunces,serif}
+  .px{border:0;background:none;font-size:26px;line-height:1;padding:4px 8px;color:var(--ink2)}
+  .pf{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2)}
+  .pf input,.pf textarea,.pf select{font:inherit;font-size:15px;color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;background:#fff}
+  .pf textarea{min-height:80px}
+  .pf.ck{flex-direction:row;align-items:center;gap:10px;font-size:14px;color:var(--ink)}
+  .pf.ck input{width:18px;height:18px}
+  .pf[hidden]{display:none}
+  @media (max-width:1000px){.agrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"appr appr" "proj pay" "month notes"}}
+  @media (max-width:640px){.agrid{grid-template-columns:minmax(0,1fr);grid-template-areas:"appr" "proj" "pay" "month" "notes"}.cacts{margin:0 0 16px;justify-content:flex-start}}
   /* Client page bento (mock D version B) */
   .hub.wide.cview{max-width:1360px;padding-left:24px;padding-right:24px}
   .hub.cview .shead h1{font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em}
@@ -393,7 +445,7 @@
 <symbol id="i-linkedin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
 <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol><symbol id="i-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol><symbol id="i-chev-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol><symbol id="i-chev-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol><symbol id="i-loop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol><symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol><symbol id="i-chev-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol><symbol id="i-chev-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
 </defs></svg>
 <header class="site-header">
   <div class="wrap">
@@ -1015,7 +1067,7 @@ function showClientPage() {
 
 // ---------- clients (admins) ----------
 // Only the newest request draws, so a slow list can't land on top of a client page opened after it.
-let clientReq = 0;
+let clientReq = 0, showOthers = false;
 function showClients() {
   const box = byId('clients'), me = ++clientReq;
   crumbs(); byId('h').textContent = 'Clients';
@@ -1025,8 +1077,10 @@ function showClients() {
     if (me !== clientReq) return;
     box.textContent = '';
     const grid = mk('div', { className: 'ctiles' });
-    list.forEach(c => {
+    const rest = list.filter(c => !c.studio && !c.paused);
+    list.filter(c => c.studio || c.paused).concat(showOthers ? rest : []).forEach(c => {
       const t = mk('button', { className: 'ctile', type: 'button' }, mk('h3', { textContent: c.client }));
+      if (c.paused) t.append(mk('span', { className: 'tag', textContent: 'Paused' }));
       const bits = [];
       if (c.waiting) bits.push(mk('span', {}, mk('span', { className: 'n', textContent: c.waiting }), ' waiting on them'));
       if (c.needs) bits.push(mk('span', {}, mk('span', { className: 'n', textContent: c.needs }), ' need you'));
@@ -1038,10 +1092,17 @@ function showClients() {
       grid.append(t);
     });
     box.append(grid);
+    if (rest.length) {
+      const o = mk('button', { type: 'button', className: 'linkish', textContent: showOthers ? 'Hide clients not on Studio' : 'Show ' + rest.length + ' client' + (rest.length > 1 ? 's' : '') + ' not on Studio' });
+      o.onclick = () => { showOthers = !showOthers; showClients(); };
+      box.append(o);
+    }
   }, () => { box.innerHTML = '<p class="mute">Clients didn\'t load. Try again in a minute.</p>'; });
 }
 
-function showClient(name) {
+// Graham's view of one client (mock D): Manage menu, Preview as client, + Send for approval, then a bento of
+// their approvals (needs you / waiting on them), projects, links, this month and private notes.
+function showClient(name, preview) {
   const box = byId('clients'), me = ++clientReq;
   crumbs([['Clients', showClients]]); byId('h').textContent = name;
   history.replaceState(null, '', '?tab=clients&c=' + encodeURIComponent(name));
@@ -1050,14 +1111,198 @@ function showClient(name) {
   call('studioClient', K, name).then(P => {
     if (me !== clientReq) return;
     box.textContent = '';
-    if (P.needs.length) {
-      box.append(aqHead('Needs you first', P.needs.length));
-      P.needs.forEach(r => box.append(approvalCard(r, true, () => showClient(name))));
+    const X = P.admin || {}, again = () => showClient(name, preview);
+    const acts = mk('div', { className: 'cacts' });
+    const manage = mk('button', { type: 'button', className: 'apill', innerHTML: '<svg><use href="#i-gear"/></svg>Manage' });
+    manage.onclick = e => { e.stopPropagation(); menu(manage, [
+      ['Add a project', 'Name, step, next from you, need from them', () => projectPanel(P, null, again)],
+      ['Add a note', 'Only you see it', () => { const t = box.querySelector('.notes textarea'); if (t) { t.focus(); t.scrollIntoView({ block: 'center' }); } }],
+      ['Edit client details', 'Contacts who can sign in, links', () => detailsPanel(P, again)],
+      null,
+      X.paused ? ['Resume client', 'Shows their Studio page again', () => setClient(P.client, { studio: 'yes' }).then(again)]
+        : ['Pause client', 'Hides their Studio page and stops their emails', () => { if (confirm('Pause ' + P.client + '? Their Studio page and emails stop until you resume.')) setClient(P.client, { studio: 'paused' }).then(again); }],
+    ]); };
+    const pv = mk('button', { type: 'button', className: 'apill' + (preview ? ' on' : ''), textContent: preview ? 'Back to your view' : 'Preview as client' });
+    pv.onclick = () => showClient(name, !preview);
+    const send = mk('button', { type: 'button', className: 'apill dark', textContent: '+ Send for approval' });
+    send.onclick = () => sendPanel(P, again);
+    acts.append(manage, pv, send);
+    box.append(acts);
+    if (X.paused) box.append(mk('p', { className: 'paused', textContent: 'Paused. ' + P.client + ' doesn\'t see their Studio page or get emails.' }));
+    if (preview) {
+      box.append(mk('div', { className: 'preview' }, mk('p', { className: 'eyebrow', textContent: P.studio ? 'What ' + P.client + ' sees (buttons are off)' : 'What they would see (not switched on for them yet)' }), clientPageEl(P, { preview: true })));
+      return;
     }
-    if (/^open frame$/i.test(P.client)) box.append(reelsLine());
-    const pv = mk('div', { className: 'preview' }, mk('p', { className: 'eyebrow', textContent: P.studio ? 'Preview as client' : 'Preview as client (not switched on for them yet)' }), clientPageEl(P, { preview: true }));
-    box.append(pv);
+    const g = mk('div', { className: 'agrid' });
+    // Approvals
+    const ap = mk('section', { className: 'bt qtile a-appr' }, teb('Approvals', 'var(--r)'));
+    const list = mk('div');
+    const rowEl = (r, btn) => mk('div', { className: 'arow' }, thumb(r), mk('span', {}, mk('small', { textContent: KIND[r.kind] || r.kind }), mk('b', { textContent: r.title }),
+      mk('span', { className: 'mute', textContent: [r.made_by === 'graham' ? 'You made it' : r.made_by ? 'Made by a loop' : '', r.job && r.job !== 'none' ? r.job : '', dueText(r.due)].filter(Boolean).join(' · ') })), btn);
+    const drawList = () => {
+      list.textContent = '';
+      list.append(mk('div', { className: 'ah' }, mk('b', { textContent: 'Needs you first' }), mk('span', { textContent: String(P.needs.length) })));
+      if (!P.needs.length) list.append(mk('p', { className: 'mute', textContent: 'Nothing of theirs needs you.' }));
+      P.needs.forEach(r => {
+        const b = mk('button', { type: 'button', className: 'mini', textContent: 'Review' });
+        b.onclick = () => {
+          list.textContent = '';
+          const back = mk('button', { type: 'button', className: 'linkish', textContent: '‹ All approvals' });
+          back.onclick = drawList;
+          list.append(back, approvalCard(r, true, () => again()));
+        };
+        list.append(rowEl(r, b));
+      });
+      const nb = mk('button', { type: 'button', className: 'mini', textContent: 'Nudge' });
+      nb.onclick = () => { nb.disabled = true; nb.textContent = 'Sending...'; call('adminNudge', K, P.client).then(() => { nb.textContent = 'Sent'; }, () => { nb.disabled = false; nb.textContent = 'Nudge'; }); };
+      list.append(mk('div', { className: 'ah' }, mk('b', { textContent: 'Sent, waiting on ' + P.client }), P.waiting && P.waiting.length ? nb : mk('span', { textContent: '0' })));
+      const W = P.waiting || [];
+      if (!W.length) list.append(mk('p', { className: 'mute', textContent: 'Nothing is waiting on them.' }));
+      W.forEach(r => list.append(rowEl(r, '')));
+      if (P.approvals.coming.length) {
+        list.append(mk('div', { className: 'ah' }, mk('b', { textContent: 'Coming up' }), mk('span', { textContent: String(P.approvals.coming.length) })));
+        P.approvals.coming.forEach(r => list.append(rowEl(r, '')));
+      }
+    };
+    drawList();
+    ap.append(list);
+    if (/^open frame$/i.test(P.client)) ap.append(reelsLine());
+    g.append(ap);
+    // Projects
+    const projs = (P.projects && P.projects.projects) || [];
+    const pj = mk('section', { className: 'bt a-proj' }, teb('Projects', 'var(--b)'));
+    if (!projs.length) pj.append(mk('p', { className: 'mute', textContent: 'No projects yet.' }));
+    projs.forEach(p => { const c = projectCard(p, P.projects.stages); c.classList.add('flat', 'edit'); c.onclick = () => projectPanel(P, p, again); pj.append(c); });
+    const addp = mk('button', { type: 'button', className: 'linkish', textContent: '+ Add a project' });
+    addp.onclick = () => projectPanel(P, null, again);
+    pj.append(addp);
+    g.append(pj);
+    // Links (agreements and payments come in the next step)
+    const L = P.links || {};
+    const pay = mk('section', { className: 'bt a-pay' }, teb('Payments and files', 'var(--y)'));
+    [['pay', 'Invoice link'], ['files', 'Drive folder'], ['report', 'Monthly report']].forEach(([k, t]) => pay.append(mk('div', { className: 'lrow' }, mk('span', { textContent: t }),
+      L[k] ? mk('a', { href: L[k], target: '_blank', rel: 'noopener', textContent: 'Open ↗' }) : mk('span', { className: 'mute', textContent: 'Not set' }))));
+    const ed = mk('button', { type: 'button', className: 'linkish', textContent: 'Edit links' });
+    ed.onclick = () => detailsPanel(P, again);
+    pay.append(ed);
+    g.append(pay);
+    // This month
+    const M = P.month, mo = mk('section', { className: 'bt a-month' }, teb(M ? M.month : 'This month', 'var(--g)'));
+    if (!M) mo.append(mk('p', { className: 'mute', textContent: 'Numbers show after the first stats pull.' }));
+    else {
+      const n = v => v == null ? '–' : v >= 1000 ? (v / 1000).toFixed(1) + 'k' : String(Math.round(v));
+      const mg = mk('div', { className: 'mnums' });
+      M.tiles.forEach(t => mg.append(mk('div', {}, mk('span', { className: 'serif', textContent: n(t.value) }), mk('span', { textContent: t.title.toLowerCase() }))));
+      mo.append(mg);
+    }
+    g.append(mo);
+    // Private notes, saved when you click away
+    const nt = mk('section', { className: 'bt notes' }, teb('Your notes · only you', 'var(--muted)'));
+    const ta = mk('textarea', { placeholder: 'Anything to remember about ' + P.client + '.', value: X.notes || '' });
+    const saved_ = mk('span', { className: 'mute' });
+    ta.onblur = () => { if (ta.value === (X.notes || '')) return; saved_.textContent = 'Saving...'; setClient(P.client, { notes: ta.value }).then(() => { X.notes = ta.value; saved_.textContent = 'Saved'; }, () => { saved_.textContent = 'Not saved. Try again.'; }); };
+    nt.append(ta, mk('p', { className: 'mute nfoot' }, X.contact_email ? 'Signs in as ' + X.contact_email : 'No contact email yet', ' ', saved_));
+    g.append(nt);
+    box.append(g);
   }, () => { box.innerHTML = '<p class="mute">That client didn\'t load. Try again in a minute.</p>'; });
+}
+const setClient = (client, f) => call('adminClientSet', K, client, f);
+
+// A small dropdown under a button. items = [label, sub, fn] or null for a divider.
+function menu(anchor, items) {
+  document.querySelectorAll('.pmenu').forEach(m => m.remove());
+  const m = mk('div', { className: 'pmenu', role: 'menu' });
+  items.forEach(it => {
+    if (!it) return m.append(mk('hr'));
+    const b = mk('button', { type: 'button', role: 'menuitem' }, mk('b', { textContent: it[0] }), mk('span', { textContent: it[1] }));
+    b.onclick = () => { m.remove(); it[2](); };
+    m.append(b);
+  });
+  anchor.parentNode.style.position = 'relative';
+  anchor.after(m);
+  const off = e => { if (!m.contains(e.target)) { m.remove(); document.removeEventListener('click', off); } };
+  setTimeout(() => document.addEventListener('click', off));
+}
+
+// A centred form panel. fields = [[key, label, type, value, extra]]; type text|textarea|select|date|check.
+function panel(title, fields, saveText, onSave) {
+  const bg = mk('div', { className: 'pback' }), f = mk('form', { className: 'pform' });
+  const close = () => bg.remove();
+  bg.onclick = e => { if (e.target === bg) close(); };
+  const x = mk('button', { type: 'button', className: 'px', ariaLabel: 'Close', textContent: '×' });
+  x.onclick = close;
+  f.append(mk('div', { className: 'phead' }, mk('h2', { textContent: title }), x));
+  const el = {};
+  fields.forEach(([k, label, type, val, extra]) => {
+    let inp;
+    if (type === 'textarea') inp = mk('textarea', { value: val || '' });
+    else if (type === 'select') { inp = mk('select'); extra.forEach(([v, t]) => inp.append(mk('option', { value: v, textContent: t, selected: String(v) === String(val) }))); }
+    else if (type === 'check') { inp = mk('input', { type: 'checkbox', checked: !!val }); }
+    else inp = mk('input', { type: type || 'text', value: val || '' });
+    el[k] = inp;
+    const lab = mk('label', { className: 'pf' + (type === 'check' ? ' ck' : '') }, type === 'check' ? inp : mk('span', { textContent: label }), type === 'check' ? mk('span', { textContent: label }) : inp);
+    lab.dataset.k = k;
+    f.append(lab);
+  });
+  const err = mk('p', { className: 'err', hidden: true });
+  const go = mk('button', { type: 'submit', className: 'yes', textContent: saveText });
+  f.append(err, go);
+  f.onsubmit = e => {
+    e.preventDefault();
+    const v = {};
+    Object.keys(el).forEach(k => { v[k] = el[k].type === 'checkbox' ? (el[k].checked ? 'yes' : '') : el[k].value.trim(); });
+    go.disabled = true; err.hidden = true;
+    post({ op: 'call', s: saved(), name: onSave[0], args: onSave[1](v) }).then(d => { close(); onSave[2](d.out); },
+      x => { go.disabled = false; err.textContent = x.known ? x.message : 'That didn\'t go through. Try again.'; err.hidden = false; });
+  };
+  bg.append(f);
+  document.body.append(bg);
+  document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
+  const first = f.querySelector('input,textarea,select'); if (first) first.focus();
+  return el;
+}
+
+function sendPanel(P, done) {
+  const X = P.admin || {};
+  const kinds = (X.kinds || Object.keys(KIND)).filter(k => k !== 'reply').map(k => [k, KIND[k] || k]);
+  const el = panel('Send for approval', [
+    ['kind', 'What is it', 'select', 'design', kinds],
+    ['title', 'Title (they see this)', 'text', ''],
+    ['detail', 'A line or two about it', 'textarea', ''],
+    ['preview', 'Link to it (image, Drive, staging site)', 'url', ''],
+    ['options', 'Options, separated by |', 'text', ''],
+    ['due', 'Answer needed by', 'date', ''],
+    ['client_ok', P.client + ' signs off (off = only you)', 'check', X.client_approves !== false],
+  ], 'Send', ['adminApprovalNew', v => [P.client, v], () => done()]);
+  const opt = el.options.closest('label');
+  const sync = () => { opt.hidden = el.kind.value !== 'pick_one'; };
+  el.kind.onchange = sync; sync();
+}
+
+function projectPanel(P, p, done) {
+  const st = (P.admin && P.admin.stages) || ['Discover', 'Define', 'Design', 'Build', 'Launch'];
+  p = p || {};
+  panel(p.project ? 'Edit project' : 'Add a project', [
+    ['project', 'Project name', 'text', p.project || ''],
+    ['stage', 'Step', 'select', p.stage >= 0 ? p.stage + 1 : 1, st.map((s, i) => [i + 1, (i + 1) + '. ' + s])],
+    ['note', 'Note from you (they see it)', 'textarea', p.note || ''],
+    ['next', 'Next from you', 'text', p.next || ''],
+    ['due', 'By when', 'text', p.due || ''],
+    ['need', 'Need from them', 'text', p.need || ''],
+    ['link', 'Link to the latest work', 'url', p.link || ''],
+    ['status', 'Status', 'select', p.done ? 'done' : '', [['', 'Active'], ['done', 'Done'], ['hidden', 'Hidden']]],
+  ], p.project ? 'Save' : 'Add project', ['adminProjectSet', v => [P.client, v], () => done()]);
+}
+
+function detailsPanel(P, done) {
+  const X = P.admin || {};
+  panel('Client details', [
+    ['contact_email', 'Who can sign in (emails, comma separated)', 'text', X.contact_email || ''],
+    ['pay_url', 'Invoice or payment link', 'url', X.pay_url || ''],
+    ['files_url', 'Drive folder for finished work', 'url', X.files_url || ''],
+    ['report_url', 'Latest monthly report', 'url', X.report_url || ''],
+    ['client_approves', 'They sign off on posts by default', 'check', X.client_approves],
+  ], 'Save', ['adminClientSet', v => [P.client, Object.assign(v, { client_approves: v.client_approves || 'no' })], () => done()]);
 }
 
 function showResults() {
