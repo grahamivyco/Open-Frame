@@ -1469,8 +1469,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
   .nav.open .nav-links>*:nth-child(5){transition-delay:.21s}
   .nav.open .nav-links>*:nth-child(6){transition-delay:.25s}
   .nav.open .nav-links>*:nth-child(7){transition-delay:.29s}
+  .nav.open .nav-links>*:nth-child(8){transition-delay:.33s}
+  .nav.open .nav-links>*:nth-child(9){transition-delay:.37s}
+  .nav.open .nav-links>*:nth-child(10){transition-delay:.41s}
+  .nav.open .nav-links>*:nth-child(11){transition-delay:.45s}
   .nav-toggle{display:inline-flex}
-  .nav-studio{margin-left:auto;margin-right:6px;width:40px;height:40px}
+  .nav-studio{display:none}   /* on mobile the Studio sign-in lives inside the menu card instead */
   .svc-bento{grid-template-columns:1fr;grid-template-areas:"a" "b" "c" "d"}
   .svc-bento3{grid-template-columns:1fr;grid-template-areas:"a" "b" "c"}
   .svc-card.s4{flex-direction:column;align-items:flex-start}
@@ -1811,6 +1815,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <a data-go="pricing" href="/services#pricing" data-nav="pricing"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Pricing</a>
         <a data-go="about" href="/about" data-nav="about"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
         <a data-go="contact" href="/contact" data-nav="contact" class="only-mobile"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
+        <a class="only-mobile nav-signin" href="/studio/"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Studio sign-in</a>
         <a data-go="contact" class="btn nav-cta" href="/contact">Contact</a>
         <div class="nav-socials only-mobile">
           <a href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18"><use href="#i-linkedin"/></svg><span>LinkedIn</span></a>

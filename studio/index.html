@@ -21,8 +21,8 @@
     --bg:#fff;--line-2:rgba(0,0,0,.18);--gutter:clamp(18px,4.5vw,76px);--rad:20px;--rad-lg:30px;
     --head:calc(clamp(84px,9vh,102px) + 12px);--ease:cubic-bezier(.22,1,.36,1)}
   *{box-sizing:border-box;margin:0}
-  /* the site pages always scroll, so a Mac set to always show scrollbars has one there; keep its space here too or the menu shifts sideways */
-  html{scrollbar-gutter:stable}
+  /* the site pages always scroll, so a Mac set to always show scrollbars has one there; show the (empty) scrollbar here too or the menu shifts sideways. Not scrollbar-gutter: Chrome narrows the fixed header by the gutter even with overlay scrollbars */
+  html{overflow-y:scroll}
   body{background:var(--bg);color:var(--ink);font:400 16px/1.5 Inter,system-ui,sans-serif;min-height:100dvh;-webkit-font-smoothing:antialiased}
   .hub{max-width:560px;margin:0 auto;padding:calc(var(--head) + env(safe-area-inset-top)) 16px max(48px,env(safe-area-inset-bottom))}
   /* signed out: a full-screen bento like the site's deck pages. Sign-in card (cream) + Bauhaus tile art, 50/50 */
@@ -188,7 +188,9 @@
   .nav.open .nav-toggle .bars i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   @media (max-width:860px){
     .nav-toggle{display:inline-flex}
-    .nav-studio{margin-left:auto;margin-right:6px;width:40px;height:40px}
+    .nav-studio{display:none}
+    .nav-links a[aria-current] .nav-spark{width:.72em;opacity:1;margin-right:9px;transform:none}
+    .nav-links a[aria-current]{color:var(--ink)}
     .nav-links{position:fixed;top:calc(var(--head) + env(safe-area-inset-top));left:var(--gutter);right:var(--gutter);bottom:var(--gutter);z-index:119;flex-direction:column;align-items:flex-start;gap:clamp(2px,.5vh,7px);padding:clamp(24px,6vw,46px);background:var(--cream);border-radius:var(--rad-lg);overflow:hidden;opacity:0;transform:translateY(-10px) scale(.99);transform-origin:top center;visibility:hidden;pointer-events:none;transition:opacity .34s var(--ease),transform .42s var(--ease),visibility .34s}
     .nav.open .nav-links{opacity:1;transform:none;visibility:visible;pointer-events:auto}
     .site-header:has(.nav.open) ~ .nav-scrim{opacity:1;visibility:visible;pointer-events:auto}
@@ -232,6 +234,7 @@
         <a href="/services#pricing"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Pricing</a>
         <a href="/about"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
         <a class="only-mobile" href="/contact"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
+        <a class="only-mobile nav-signin" href="/studio/" aria-current="page"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Studio sign-in</a>
         <a class="nav-cta" href="/contact">Contact</a>
         <div class="nav-socials only-mobile">
           <a href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg><use href="#i-linkedin"/></svg><span>LinkedIn</span></a>
