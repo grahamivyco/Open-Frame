@@ -27,9 +27,9 @@ Last updated: 2026-10-21.
 
 ## Analytics and privacy
 - Google Analytics 4, ID **G-RF906YB2TT**. One tag only, in `<head>`. Never add a second one.
-- Consent first: Consent Mode defaults to denied, nothing is stored until the visitor taps Allow on the cookie notice. Choice saved in `localStorage` `of-consent`. Contact-form sends fire `generate_lead`.
+- Consent first: nothing from Google loads until the visitor taps Allow on the cookie notice. Choice saved in `localStorage` `of-consent` + `of-consent-at`. Contact-form sends fire `generate_lead`.
 - Graham is in Barcelona and serves US clients, so follow EU GDPR/ePrivacy (Spain's AEPD cookie guidance) **and** US rules (California privacy-policy law, honour Do Not Track / Global Privacy Control). Rejecting must be as easy as accepting, the choice must be changeable later, and the notice links to a privacy policy.
-- In progress 2026-10-21: the cookie notice is moving to a small corner card with no spark, plus a privacy page that also covers Studio sign-in data (email, Google sign-in, session token). Update this section when it ships.
+- Shipped 2026-10-21 (PR #101): `gtag.js` only loads after Allow. The cookie notice is a small white bottom-left card, no spark, with equal Allow / No thanks buttons and a link to **/privacy/**. GPC or Do Not Track counts as no, the choice is re-asked after 12 months, saying no clears `_ga*` cookies, and the footer "Cookie settings" reopens it. `/privacy/` (standalone `privacy/index.html`) is the one privacy & cookie policy for the whole site, Studio sign-in included; Studio uses it as its Google sign-in privacy URL. Update its date and text whenever data handling changes.
 - Studio, review and Glow pages carry no analytics.
 
 ## Copy rules
