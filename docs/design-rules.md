@@ -296,14 +296,13 @@ Already live at `openframe.design/studio/` (`studio/index.html`). Extend that pa
 
 ### 10B. Pricing
 
-Live as its own page at `openframe.design/pricing` (moved off Services 2026-10-21). Match it:
+Live as its own page at `openframe.design/pricing` (moved off Services and rebuilt as tiles, 2026-10-21). Match it:
 
-- Three sections, each with eyebrow + h2 + one-line sub: **Monthly plans.** / **Fixed-price projects.** / **Extras and billing.**
-- Header row: section head on the left, nonprofit toggle switch on the right ("Show 501(c)(3) nonprofit pricing", track turns green). Toggling shows the struck-through old price under the new one.
-- **Plan cards**: 4-column grid (2 at ≤1100px, 1 at ≤560px), gap 14px. White, `--line` border, `--r`. Inside: name (Fraunces ~1.5rem) with a cycled-accent spark top-right, price in Fraunces `clamp(2rem,3vw,2.8rem)` + "/month" in 0.9rem Inter, a one-line "For …" description, then a dot list. The recommended plan is the **ink** card with a yellow "Most popular" pill tag. One featured card only.
-- **Project list**: 2-column list (3 for extras), 2px ink rule on top, hairline between rows. Each row: Fraunces name left, price right (tabular figures, "from" in small muted Inter), one-line description below.
-- **Terms**: 4 small blocks (Fraunces 1.15rem title + .93rem `--ink-2` text): Nonprofit pricing, Projects, Monthly plans, Payments.
-- Closing note in muted .92rem: "Prices in USD, as of October 2026."
+- Three panels, each with eyebrow + heading + one-line sub: **Monthly plans.** (h1) / **Fixed-price projects.** / **Extras and billing.** The nonprofit toggle ("Show 501(c)(3) nonprofit pricing", track turns green) sits right of the plans and projects heads.
+- **Plans** use the Services accordion (`.svc-stage .svc-acc`): name left, price right, the open tile shows one line on who it's for and 3 short bullets, price grows in the card's accent. Growth carries the yellow "Most popular" pill.
+- **Projects and extras** are white hairline tiles (`--r`): name, one short line, price at the bottom in Fraunces, small arrow top-right. On phones each tile is one row with the price on the right.
+- Every plan and project tile links to Contact with its name filled into the message.
+- Billing terms go in one cream tile, one short line each.
 - End with the dark CTA band.
 
 ---
