@@ -173,6 +173,22 @@
   @media (hover:hover) and (min-width:761px){.rail:hover{width:154px}.rail:hover button span{opacity:1}}
   .hub.admin{max-width:720px}
   .hub.admin .shead{margin-bottom:22px}
+  /* Calendar sheet */
+  .pform.cal{width:min(980px,100%)}
+  .cgr{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .dow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 4px}
+  .day{min-height:92px;border:1px solid var(--line);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+  .day.off{border:0}
+  .day.today{border-color:var(--ink)}
+  .dn{font-size:12px;color:var(--ink2)}
+  .ev{display:flex;align-items:center;gap:5px;font-size:11.5px;line-height:1.3;background:var(--cream);border-radius:6px;padding:3px 5px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ev i,.leg i,.evd{width:7px;height:7px;border-radius:50%;flex:none;display:inline-block}
+  .leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink2)}
+  .leg span{display:flex;align-items:center;gap:6px}
+    .agenda{display:none;list-style:none;margin:0;padding:0;font-size:14px}
+  .agenda li{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
+  .agenda b{font-weight:500;min-width:3.2em;color:var(--muted)}
+  @media (max-width:640px){.agenda{display:block}.day{min-height:60px;padding:4px}.ev{font-size:0;padding:0;background:none}.ev i{width:8px;height:8px}.day{flex-direction:row;flex-wrap:wrap;align-content:flex-start}.dn{width:100%}}
   /* Analytics */
   .rnote{margin:-6px 0 12px}
   .rtiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:16px}
@@ -1033,7 +1049,9 @@ function clientPageEl(P, opts) {
     box.append(moneyTile(P, preview));
 
     // Coming up
-    const cu = mk('section', { className: 'bt c-coming' }, teb('Coming up', 'var(--b)'));
+    const calb = mk('button', { type: 'button', className: 'linkish', textContent: 'Calendar' });
+    calb.onclick = () => calendarSheet(preview ? P.client : null);
+    const cu = mk('section', { className: 'bt c-coming' }, mk('div', { className: 'thead' }, teb('Coming up', 'var(--b)'), calb));
     if (!A.coming.length) cu.append(mk('p', { className: 'mute', textContent: 'Nothing in the works right now.' }));
     A.coming.slice(0, 5).forEach(r => cu.append(mk('div', { className: 'cu' }, thumb(r), mk('span', {}, mk('b', { textContent: r.title }), mk('span', { className: 'mute', textContent: [KIND[r.kind], dueText(r.due)].filter(Boolean).join(' · ') })),
       mk('span', { className: 'st' }, mk('i', { style: 'background:' + (r.status === 'changes' ? 'var(--y)' : 'var(--b)') }), r.status === 'changes' ? 'Changing' : 'In the works'))));
@@ -1112,6 +1130,54 @@ function moneyTile(P, preview) {
   }
   if (preview) t.querySelectorAll('.pbtn').forEach(a => { a.removeAttribute('href'); a.classList.add('off'); });
   return t;
+}
+// Month calendar of everything with a date (Approvals rows): a sheet over the page, arrows between months.
+// client = name for Graham's view, null on a client's own page (the Hub knows who they are).
+const CAL_ST = { planned: ['In the works', 'var(--b)'], changes: ['Being changed', 'var(--y)'], draft: ['With Graham', 'var(--muted)'], client: ['Ready for you', 'var(--r)'], approved: ['Approved', 'var(--g)'] };
+function calendarSheet(client) {
+  const bg = mk('div', { className: 'pback' }), f = mk('div', { className: 'pform cal', role: 'dialog', ariaLabel: 'Calendar' });
+  const close = () => bg.remove();
+  bg.onclick = e => { if (e.target === bg) close(); };
+  document.addEventListener('keydown', function esc(e) { if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); } });
+  let at = new Date(); at = new Date(at.getFullYear(), at.getMonth(), 1);
+  const draw = () => {
+    f.innerHTML = LOADING;
+    const month = at.getFullYear() + '-' + String(at.getMonth() + 1).padStart(2, '0');
+    const req = client == null ? post({ op: 'call', s: saved(), name: 'getClientCalendar', args: [month] }).then(d => d.out) : call('studioCalendar', K, client, month);
+    req.then(C => {
+      f.textContent = '';
+      const prev = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Previous month', innerHTML: '<svg><use href="#i-chev-l"/></svg>' });
+      const next = mk('button', { className: 'qarrow', type: 'button', ariaLabel: 'Next month', innerHTML: '<svg><use href="#i-chev-r"/></svg>' });
+      prev.onclick = () => { at = new Date(at.getFullYear(), at.getMonth() - 1, 1); draw(); };
+      next.onclick = () => { at = new Date(at.getFullYear(), at.getMonth() + 1, 1); draw(); };
+      const x = mk('button', { type: 'button', className: 'px', ariaLabel: 'Close', textContent: '×' });
+      x.onclick = close;
+      f.append(mk('div', { className: 'phead' }, mk('h2', { textContent: at.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) }), mk('div', { className: 'qnav' }, prev, next, x)));
+      const grid = mk('div', { className: 'cgr' });
+      ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(d => grid.append(mk('span', { className: 'dow', textContent: d })));
+      const lead = (at.getDay() + 6) % 7, dim = new Date(at.getFullYear(), at.getMonth() + 1, 0).getDate(), now = new Date(), today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+      for (let i = 0; i < lead; i++) grid.append(mk('span', { className: 'day off' }));
+      for (let d = 1; d <= dim; d++) {
+        const key = month + '-' + String(d).padStart(2, '0'), cell = mk('div', { className: 'day' + (key === today ? ' today' : '') }, mk('span', { className: 'dn', textContent: d }));
+        C.items.filter(it => it.due === key).forEach(it => {
+          const st = CAL_ST[it.status] || CAL_ST.draft;
+          cell.append(mk('span', { className: 'ev', title: (client === '' ? it.client + ': ' : '') + it.title + ' (' + (KIND[it.kind] || it.kind) + ', ' + st[0] + ')' }, mk('i', { style: 'background:' + st[1] }), it.title));
+        });
+        grid.append(cell);
+      }
+      f.append(grid);
+      const ag = mk('ul', { className: 'agenda' });
+      C.items.slice().sort((a, b) => a.due.localeCompare(b.due)).forEach(it => ag.append(mk('li', {}, mk('b', { textContent: shortDate(it.due) }), mk('i', { className: 'evd', style: 'background:' + (CAL_ST[it.status] || CAL_ST.draft)[1] }), it.title)));
+      if (C.items.length) f.append(ag);
+      const leg = mk('div', { className: 'leg' });
+      Object.keys(CAL_ST).filter(k => client != null || k !== 'draft').forEach(k => leg.append(mk('span', {}, mk('i', { style: 'background:' + CAL_ST[k][1] }), CAL_ST[k][0])));
+      f.append(leg);
+      if (!C.items.length) f.append(mk('p', { className: 'mute', textContent: 'Nothing dated this month yet.' }));
+    }, () => { f.innerHTML = '<p class="mute">The calendar didn\'t load. Try again in a minute.</p>'; });
+  };
+  bg.append(f);
+  document.body.append(bg);
+  draw();
 }
 // Small square for a list row: the first image, else a cream square with the kind's first letter.
 function thumb(r) {
@@ -1204,7 +1270,9 @@ function showClient(name, preview) {
     pv.onclick = () => showClient(name, !preview);
     const send = mk('button', { type: 'button', className: 'apill dark', textContent: '+ Send for approval' });
     send.onclick = () => sendPanel(P, again);
-    acts.append(manage, pv, send);
+    const calp = mk('button', { type: 'button', className: 'apill', textContent: 'Calendar' });
+    calp.onclick = () => calendarSheet(P.client);
+    acts.append(manage, calp, pv, send);
     box.append(acts);
     if (X.paused) box.append(mk('p', { className: 'paused', textContent: 'Paused. ' + P.client + ' doesn\'t see their Studio page or get emails.' }));
     if (preview) {
