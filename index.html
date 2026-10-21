@@ -1815,7 +1815,7 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         <a data-go="pricing" href="/services#pricing" data-nav="pricing"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Pricing</a>
         <a data-go="about" href="/about" data-nav="about"><svg class="nav-spark spark c-green" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>About</a>
         <a data-go="contact" href="/contact" data-nav="contact" class="only-mobile"><svg class="nav-spark spark c-red" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Contact</a>
-        <a class="only-mobile nav-signin" href="/studio/"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg>Log in</a>
+        <a class="only-mobile nav-signin" href="/studio/"><svg class="nav-spark spark c-blue" viewBox="-52 -52 104 104" aria-hidden="true"><path d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z"/></svg><span class="lio">Log in</span></a>
         <a data-go="contact" class="btn nav-cta" href="/contact">Contact</a>
         <div class="nav-socials only-mobile">
           <a href="https://www.linkedin.com/in/graham-ivy/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="18" height="18"><use href="#i-linkedin"/></svg><span>LinkedIn</span></a>
@@ -1824,11 +1824,12 @@ a.eyebrow.eb-link:hover{color:var(--ink)}
         </div>
         <svg class="nav-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true"><path d="M74 22 H36 A14 14 0 0 0 22 36 V84 A14 14 0 0 0 36 98 H84 A14 14 0 0 0 98 84 V48" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(60,60) scale(0.42)"><path class="bm-spark" d="M0 -50 C0 -21 21 0 50 0 C21 0 0 21 0 50 C0 21 -21 0 -50 0 C-21 0 0 -21 0 -50 Z" fill="currentColor"/></g></svg>
       </div>
-      <a class="nav-studio" href="/studio/">Log in</a>
+      <a class="nav-studio" href="/studio/"><span class="lio">Log in</span></a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
     </nav>
   </div>
 </header>
+<script>/* signed in to Studio (same-origin session token) → the header button reads "Studio" */try{if(localStorage.getItem("of-studio"))document.querySelectorAll(".nav-studio .lio,.nav-signin .lio").forEach(function(e){e.textContent="Studio"})}catch(e){}</script>
 <div class="nav-scrim" aria-hidden="true"></div>
 
 <main>

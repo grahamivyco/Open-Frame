@@ -176,7 +176,7 @@
   .nav-links a.nav-cta{margin-left:6px;padding:9px 15px;border:1px solid transparent;font-weight:500;color:#fff;background:var(--ink);transition:background .16s}
   .nav-links a.nav-cta:hover{background:var(--r);color:#fff}
   .nav-cta svg{width:15px;height:15px;fill:currentColor}
-  /* same outlined pill as the site's "Log in"; reads "Log out" once signed in */
+  /* same outlined pill as the site's "Log in"; reads "Studio" once signed in */
   .nav-studio{flex:none;display:inline-flex;align-items:center;margin-left:8px;padding:9px 15px;border-radius:100px;border:1px solid rgba(0,0,0,.18);font-size:15px;font-weight:500;color:var(--ink);transition:color .25s,border-color .25s,background .25s}
   .nav-studio:hover{color:#fff;background:var(--b);border-color:var(--b)}
   .nav-scrim{position:fixed;inset:0;z-index:100;background:var(--bg);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .34s var(--ease),visibility .34s}
@@ -271,7 +271,7 @@
   <div id="reels" hidden></div>
   <div id="results" hidden></div>
   <div id="status" hidden></div>
-  <footer><span id="me"></span> <button id="out" hidden>Sign out</button></footer>
+  <footer><span id="me"></span> <button id="out" hidden>Log out</button></footer>
   </div>
 </main>
 <script>
@@ -436,8 +436,8 @@ function start(d) {
 
 const signOut = () => { const s = saved(); keep(''); if (s) post({ op: 'out', s }).catch(() => {}); location.replace(location.pathname); };
 byId('out').onclick = signOut;
-// header + mobile-menu Log in / Log out: signed in, a click signs out instead of reloading the sign-in page
-function lio(on) { document.querySelectorAll('.nav-studio,.nav-signin').forEach(a => { a.querySelector('.lio').textContent = on ? 'Log out' : 'Log in'; a.onclick = on ? e => { e.preventDefault(); signOut(); } : null; }); }
+// header + mobile-menu button: "Log in" signed out, "Studio" signed in (Log out lives in the Studio itself)
+function lio(on) { document.querySelectorAll('.nav-studio .lio,.nav-signin .lio').forEach(e => { e.textContent = on ? 'Studio' : 'Log in'; }); }
 
 // ---------- projects (clients) ----------
 
