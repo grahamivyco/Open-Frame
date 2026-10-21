@@ -21,6 +21,8 @@
     --bg:#fff;--line-2:rgba(0,0,0,.18);--gutter:clamp(18px,4.5vw,76px);--rad:20px;--rad-lg:30px;
     --head:calc(clamp(84px,9vh,102px) + 12px);--ease:cubic-bezier(.22,1,.36,1)}
   *{box-sizing:border-box;margin:0}
+  /* the site pages always scroll, so a Mac set to always show scrollbars has one there; keep its space here too or the menu shifts sideways */
+  html{scrollbar-gutter:stable}
   body{background:var(--bg);color:var(--ink);font:400 16px/1.5 Inter,system-ui,sans-serif;min-height:100dvh;-webkit-font-smoothing:antialiased}
   .hub{max-width:560px;margin:0 auto;padding:calc(var(--head) + env(safe-area-inset-top)) 16px max(48px,env(safe-area-inset-bottom))}
   /* signed out: a full-screen bento like the site's deck pages. Sign-in card (cream) + Bauhaus tile art, 50/50 */
@@ -37,7 +39,14 @@
   .sign button.yes{width:100%;border-color:var(--ink);transition:background .16s,border-color .16s}
   .sign button.yes:hover:not(:disabled){background:var(--r);border-color:var(--r)}
   .sign .skip{margin:16px 0 0;padding:6px 0;text-align:left}
-  .sign .gsi{justify-content:flex-start;margin-bottom:16px;overflow:hidden}
+  .sign .gsi{margin-bottom:16px}
+  .gsi{position:relative;width:100%}
+  .gsi.wait,.or.wait{visibility:hidden}
+  .gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#fff;border-color:var(--line-2);transition:background .16s,border-color .16s,color .16s}
+  .gbtn svg{width:18px;height:18px;flex:none}
+  .gsi:hover .gbtn{background:var(--ink);border-color:var(--ink);color:#fff}
+  .gsi-real{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:.01;overflow:hidden;border-radius:100px}
+  .gsi-real:empty{display:none}
   /* Google's button can't be wider than 400px, so the email column stops there too and everything lines up */
   .sign .gsi,.sign .or,.sign form{max-width:400px}
   .sign .or{display:flex;align-items:center;gap:12px;text-align:left;margin:0 0 14px!important}
@@ -82,7 +91,6 @@
   .done h2{font:500 26px/1.2 Fraunces,serif;margin-bottom:8px}
   .done h2 em{font-weight:400}
   .done p{color:var(--ink2)}
-  .gsi{display:flex;justify-content:center;margin-bottom:14px;min-height:44px}
   .or{text-align:center;font-size:13px;color:var(--muted)!important;margin:0 0 12px!important}
   .err{color:var(--r);font-size:14px;margin:-4px 0 12px}
   .more,#results{margin-top:24px;font-size:15px;color:var(--ink2)}
@@ -150,7 +158,7 @@
   .srow .fix{color:var(--ink);font-size:14px;margin-top:4px}
   [hidden]{display:none!important}
   /* the site's own menu, copied from index.html (desktop pill + footer-style cream card on mobile). Keep in sync. */
-  .site-header{position:fixed;top:0;left:0;right:0;z-index:120;padding:calc(16px + env(safe-area-inset-top)) 0 16px}
+  .site-header{position:fixed;top:0;left:0;right:0;z-index:120;font-size:16.5px;line-height:1.6;padding:calc(16px + env(safe-area-inset-top)) 0 16px}
   .site-header .wrap{max-width:2200px;margin:0 auto;padding:0 var(--gutter)}
   .site-header .nav{position:relative;display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 18px;border-radius:100px}
   .site-header .nav::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.6);backdrop-filter:blur(22px) saturate(165%);-webkit-backdrop-filter:blur(22px) saturate(165%);z-index:-1}
@@ -164,7 +172,8 @@
   .nav-links a{padding:9px 15px;border-radius:100px;font-size:15px;color:var(--ink2);display:inline-flex;align-items:center;gap:11px;transition:color .25s,background .25s}
   .nav-links a:hover{color:var(--ink);background:rgba(0,0,0,.05)}
   .nav-links a .nav-spark,.nav-links .only-mobile,.nav-h,.nav-mark{display:none}
-  .nav-links a.nav-cta{margin-left:6px;padding:11px 20px;color:#fff;background:var(--ink);transition:background .16s}
+  /* index.html's .nav-links a padding beats its .nav-cta padding, so the live CTA is 9px 15px with a 1px clear border. Match it exactly. */
+  .nav-links a.nav-cta{margin-left:6px;padding:9px 15px;border:1px solid transparent;font-weight:500;color:#fff;background:var(--ink);transition:background .16s}
   .nav-links a.nav-cta:hover{background:var(--r);color:#fff}
   .nav-cta svg{width:15px;height:15px;fill:currentColor}
   .nav-studio{flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;margin-left:8px;border-radius:50%;border:1px solid var(--ink);background:var(--ink);color:#fff}
@@ -338,28 +347,45 @@ function signIn(msg) {
     go.disabled = true; go.textContent = 'Sending...';
     post({ op: 'ask', email: v }).then(() => askCode(v), x => { go.disabled = false; go.textContent = 'Email me a code'; err.textContent = x.known ? x.message : 'That didn\'t go through. Try again in a minute.'; err.hidden = false; });
   };
-  const g = mk('div', { className: 'gsi', hidden: true });
-  const or = mk('p', { className: 'or mute', hidden: true, textContent: 'or use your email' });
+  // The Google row keeps its space from the start (hidden until we know Google sign-in is on) so nothing jumps.
+  const g = mk('div', { className: 'gsi wait', innerHTML: '<button class="gbtn" type="button">' + GLOGO + 'Sign in with Google</button><div class="gsi-real"></div>' });
+  const or = mk('p', { className: 'or mute wait', textContent: 'or use your email' });
   box.append(...head(['Open Frame ', 'Studio.']), mk('p', { className: 'lead', textContent: 'For Open Frame clients. Sign in with the email I have for you.' }), g, or, form);
   googleButton(g, or, err);
   if (matchMedia('(hover:hover)').matches) email.focus();
 }
 
-// Sign in with Google, when the Hub has a client ID (GOOGLE_CLIENT_ID). Google's script draws its own button.
-let gConfig = null;
-function googleButton(el, or, err) {
-  (gConfig || (gConfig = post({ op: 'config' }).catch(() => ({})))).then(c => {
-    if (!c.google) return;
-    const draw = () => {
-      google.accounts.id.initialize({ client_id: c.google, ux_mode: 'popup', callback: r => post({ op: 'google', credential: r.credential }).then(start, x => { err.textContent = x.known ? x.message : 'That didn\'t go through. Try again.'; err.hidden = false; }) });
-      // show it first so it can be measured: the email field's width (Google's button tops out at 400px)
-      el.hidden = false; or.hidden = false;
-      google.accounts.id.renderButton(el, { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', width: Math.max(200, Math.min(el.clientWidth, 400)) });
-    };
-    if (window.google && google.accounts) return draw();
+// Sign in with Google, when the Hub has a client ID (GOOGLE_CLIENT_ID).
+// The button you see is ours (site styling). Google's own button sits on top of it, invisible, so the click is Google's.
+// Google's script starts loading right away, and the client ID is remembered, so the row shows with the rest of the card.
+const GLOGO = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+const GKEY = 'of-studio-g';
+let gConfig = null, gScript = null;
+function gsiScript() {
+  return gScript || (gScript = new Promise((ok, no) => {
     const s = document.createElement('script');
-    s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = draw;
+    s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = ok; s.onerror = no;
     document.head.append(s);
+  }));
+}
+function googleButton(el, or, err) {
+  let id = ''; try { id = localStorage.getItem(GKEY) || ''; } catch (e) {}
+  const show = on => { el.classList.toggle('wait', !on); or.classList.toggle('wait', !on); el.hidden = or.hidden = !on && !id; };
+  if (id) show(true);
+  const real = el.querySelector('.gsi-real'), fake = el.querySelector('.gbtn');
+  fake.onclick = () => { if (window.google && google.accounts) google.accounts.id.prompt(); };
+  const draw = cid => {
+    google.accounts.id.initialize({ client_id: cid, ux_mode: 'popup', callback: r => post({ op: 'google', credential: r.credential }).then(start, x => { err.textContent = x.known ? x.message : 'That didn\'t go through. Try again.'; err.hidden = false; }) });
+    real.textContent = '';
+    google.accounts.id.renderButton(real, { theme: 'outline', size: 'large', shape: 'pill', text: 'signin_with', width: Math.max(200, Math.min(el.clientWidth, 400)) });
+  };
+  const ready = gsiScript().catch(() => null);
+  (gConfig || (gConfig = post({ op: 'config' }).catch(() => ({})))).then(c => {
+    try { c.google ? localStorage.setItem(GKEY, c.google) : (c.google === undefined || localStorage.removeItem(GKEY)); } catch (e) {}
+    const cid = c.google || id;
+    if (!cid) { el.hidden = or.hidden = true; return; }
+    show(true);
+    ready.then(() => { if (window.google && google.accounts && el.isConnected) draw(cid); });
   });
 }
 
