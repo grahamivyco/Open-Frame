@@ -296,7 +296,7 @@ Already live at `openframe.design/studio/` (`studio/index.html`). Extend that pa
 
 ### 10B. Pricing
 
-Already live at `openframe.design/services#pricing`. Match it:
+Live as its own page at `openframe.design/pricing` (moved off Services 2026-10-21). Match it:
 
 - Three sections, each with eyebrow + h2 + one-line sub: **Monthly plans.** / **Fixed-price projects.** / **Extras and billing.**
 - Header row: section head on the left, nonprofit toggle switch on the right ("Show 501(c)(3) nonprofit pricing", track turns green). Toggling shows the struck-through old price under the new one.
