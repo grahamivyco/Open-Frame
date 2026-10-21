@@ -2,7 +2,7 @@
 
 Any automation or loop that needs a yes from Graham or a client writes **one row per item** in the Hub Sheet's **Approvals** tab. Studio reads that tab to build Graham's Home queue and each client's "Ready for you" list, so one format covers posts, brand kits, website pages, brand deals and everything else.
 
-Status: agreed design (Graham, 2026-10-21). The Approvals tab and the Studio code that reads it are **not built yet**. They are Studio Phase 2 (Deliverables + approvals). Until then, loops keep writing social posts to the Queue sheets as they do today.
+Status: agreed design (Graham, 2026-10-21). The Hub writes the **Approvals** tab since 2026-10-21 (social-assets #65): loops call `approval-add` (the Hub checks kinds and `client_ok` rules), and an hourly sync gives every open Queue post, Reel, newsletter and topic a row. When Studio writes an answer, the sync copies it back to the Queue so the poster keeps working. The Studio code that reads the tab is **not built yet** (Studio Phase 2, Deliverables + approvals). Which loop writes which kind: social-assets [`loops/APPROVALS.md`](https://github.com/grahamivyco/social-assets/blob/main/loops/APPROVALS.md).
 
 ## Flow
 
