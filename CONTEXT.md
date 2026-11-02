@@ -9,7 +9,7 @@ Last updated: 2026-10-21.
 - **Site code**: `index.html` is the whole main site (single-file SPA). `CLAUDE.md` has the detailed technical notes. After any `index.html` change, run `node tools/build-pages.js` and commit the generated route files.
 - **Standalone pages** (outside the SPA): `studio/` (client portal), `review/` (client review links), `links/` (bio link page), `glow/` (app legal pages), `preview/` (noindex prospect concepts).
 - **Hub (Studio back end)**: Google Apps Script "Open Frame Hub", bound to the "NGM social queue" Sheet. Source is `hub/Code.gs` in `grahamivyco/social-assets` (public repo). Keep Studio code in `Code.gs`: the Mac keeper's clasp deploy only pushes that file and deletes other `.gs` files.
-- **Design rules**: [`docs/design-rules.md`](docs/design-rules.md). Tokens, components, header/footer, motion, copy voice, Studio and Pricing recipes, drift checklist. Use them for every new page.
+- **Design rules**: [`docs/design-rules.md`](docs/design-rules.md). Tokens, art plates, components, header/footer, motion, copy voice, Studio and Pricing recipes, drift checklist. Use them for every new page.
 
 ## Studio (openframe.design/studio)
 - Invite only. Admins = the script owner + `STUDIO_ADMINS`. Clients = any email in the `contact_email` column of the Hub Sheet's **Clients** tab. No sign-up flow.
