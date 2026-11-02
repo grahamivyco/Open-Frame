@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&family=Manrope:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600&display=swap" rel="stylesheet">
 <style>
   :root{--ink:#111110;--ink2:#4b4a46;--muted:#84827b;--cream:#f3f1ea;--line:rgba(0,0,0,.10);--r:#f24333;--b:#2f6bf0;--y:#f4bf3a;--g:#33ac66;
     /* site tokens (same values as index.html) */
@@ -31,8 +31,8 @@
   .sign>*{width:100%;max-width:440px}
   .sign .eyebrow{display:inline-flex;align-items:center;gap:9px;font:500 12px/1 Inter,sans-serif;letter-spacing:.2em;color:var(--muted);margin-bottom:16px}
   .sign .eyebrow svg{width:.8em;height:.8em;fill:var(--r)}
-  .sign h1{font:500 clamp(2.4rem,4.4vw,3.8rem)/1 Fraunces,serif;letter-spacing:-.02em;margin-bottom:14px}
-  .sign h1 em{font-weight:400}
+  .sign h1{font:700 clamp(2.4rem,4.4vw,3.8rem)/1 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.02em;margin-bottom:14px}
+  .sign h1 em,.done h2 em,.shead h1 em{font-style:normal;font-weight:700}
   .sign .lead{color:var(--ink2);font-size:clamp(1.02rem,1.3vw,1.14rem);margin-bottom:clamp(22px,3.4vh,34px)}
   .sign input{border:1px solid var(--line-2);margin-bottom:12px;transition:border-color .25s,box-shadow .25s}
   .sign input:focus{border-color:var(--b);box-shadow:0 0 0 3px rgba(47,107,240,.16)}
@@ -62,7 +62,7 @@
   .shead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
   .shead .who{flex:1;min-width:0}
   .eyebrow{font:600 11px/1 Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2)}
-  .shead h1{font:500 22px/1.2 Fraunces,serif;margin-top:4px;overflow-wrap:anywhere}
+  .shead h1{font:700 22px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin-top:4px;overflow-wrap:anywhere}
   .count{font-size:14px;color:var(--ink2);white-space:nowrap}
   .tabs{display:flex;gap:6px;margin-bottom:16px}
   .tabs button{flex:1;padding:10px 4px;font-size:14px;border-color:var(--line);background:transparent;white-space:nowrap}
@@ -76,7 +76,7 @@
   .quote{background:var(--cream);border-radius:12px;padding:12px 14px;white-space:pre-wrap;font-size:15px;margin:8px 0;overflow-wrap:anywhere}
   .note{background:#fdf3d8;border-radius:12px;padding:10px 12px;font-size:14px;margin:8px 0}
   a,.link{color:var(--ink)}
-  .ask{font:500 19px/1.3 Fraunces,serif;margin:16px 0 12px}
+  .ask{font:700 19px/1.3 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:16px 0 12px}
   .ask:empty{margin:8px 0 0}
   .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   button{font:500 16px/1.2 Inter,sans-serif;border-radius:100px;padding:15px 12px;cursor:pointer;border:1px solid var(--ink);background:#fff;color:var(--ink)}
@@ -86,10 +86,10 @@
   input,textarea{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1px solid var(--line-2);border-radius:14px;margin-bottom:12px;background:#fff;color:var(--ink)}
   textarea{min-height:100px;resize:vertical}
   input:focus,textarea:focus{outline:none;border-color:var(--ink)}
-  input.code{font:500 28px/1 Fraunces,serif;letter-spacing:.3em;text-align:center}
+  input.code{font:700 28px/1 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.3em;text-align:center}
   .done{text-align:center;padding:40px 20px}
-  .done h2{font:500 26px/1.2 Fraunces,serif;margin-bottom:8px}
-  .done h2 em{font-weight:400}
+  .done h2{font:700 26px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin-bottom:8px}
+  .done h2 em{font-weight:700}
   .done p{color:var(--ink2)}
   .or{text-align:center;font-size:13px;color:var(--muted)!important;margin:0 0 12px!important}
   .err{color:var(--r);font-size:14px;margin:-4px 0 12px}
@@ -103,12 +103,12 @@
   @media (prefers-reduced-motion:reduce){.skel i{animation:none}}
   .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
   .tile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13px}
-  .tile b{display:block;font:500 24px/1.2 Fraunces,serif;color:var(--ink)}
+  .tile b{display:block;font:700 24px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink)}
   .row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
   .row span:first-child{min-width:0;overflow-wrap:anywhere}
   .sect .row>:last-child{flex:none;white-space:nowrap;text-align:right}
   .sect{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin-bottom:12px}
-  .sect h3{font:500 19px/1.25 Fraunces,serif;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .sect h3{font:700 19px/1.25 "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
   .sect h3 i{width:9px;height:9px;border-radius:50%;flex:none}
   .sect .row:first-of-type{border-top:0}
   /* client Project cards (Hub "Projects" tab): step bar, Graham's note, next from me / need from you */
@@ -123,13 +123,13 @@
   .pnames{margin-top:-6px;font-size:11px;color:var(--muted)}
   .pnames span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .pnames .here{color:var(--ink);font-weight:600}
-  .pnote{font:500 19px/1.3 Fraunces,serif;overflow-wrap:anywhere}
+  .pnote{font:700 19px/1.3 "Helvetica Neue",Helvetica,Arial,sans-serif;overflow-wrap:anywhere}
   .prow{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;padding-top:10px;border-top:1px solid var(--line);font-size:15px}
   .prow>span:first-child{color:var(--ink2);font-size:14px}
   .prow>span:last-child{overflow-wrap:anywhere}
   .plink{align-self:flex-start;font-size:14px;font-weight:500;padding:6px 0}
   @media (max-width:380px){.prow{grid-template-columns:1fr;gap:2px}}
-  .big{font:500 30px/1.1 Fraunces,serif;color:var(--ink)}
+  .big{font:700 30px/1.1 "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink)}
   footer{margin-top:36px;text-align:center;font-size:13px;color:var(--muted)}
   footer a,footer button{color:var(--muted);font-size:13px}
   footer button{background:none;border:0;padding:4px;text-decoration:underline}
@@ -138,15 +138,15 @@
   .dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--g)}
   .dot.fixing{background:var(--y)}.dot.fail{background:var(--r)}.dot.off,.dot.stale{background:var(--muted)}
   .lights span:last-child{margin-left:auto;color:var(--ink2);font-size:14px}
-  .h2{font:500 22px/1.2 Fraunces,serif;margin:22px 0 10px}
-  .h2 em{font-weight:400;font-style:italic}
+  .h2{font:700 22px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:22px 0 10px}
+  .h2 em{font-weight:700;font-style:normal}
   .types{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
   .types button{flex:none;padding:9px 14px;font-size:14px;border-color:var(--line);background:transparent}
   .types button[aria-selected="true"]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
   .types b{font-weight:600;opacity:.6;margin-left:4px}
   .script{margin-bottom:12px}
-  .script h3{font:500 21px/1.2 Fraunces,serif;margin-bottom:10px}
-  .script h3 em{font-style:italic;color:var(--r)}
+  .script h3{font:700 21px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin-bottom:10px}
+  .script h3 em{font-style:normal;color:var(--r)}
   .lines{white-space:pre-wrap;font-size:16px;line-height:1.55;overflow-wrap:anywhere}
   .lines.short{max-height:11.5em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 70%,transparent)}
   .more-btn{background:none;border:0;padding:6px 0;font-size:14px;color:var(--ink2);text-decoration:underline}
@@ -251,7 +251,7 @@
   .pback{position:fixed;inset:0;z-index:200;background:rgba(17,17,16,.28);display:flex;align-items:center;justify-content:center;padding:16px}
   .pform{background:#fff;border-radius:24px;padding:24px;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;display:flex;flex-direction:column;gap:12px}
   .phead{display:flex;justify-content:space-between;align-items:center}
-  .phead h2{font:500 24px/1.2 Fraunces,serif}
+  .phead h2{font:700 24px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif}
   .px{border:0;background:none;font-size:26px;line-height:1;padding:4px 8px;color:var(--ink2)}
   .pf{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2)}
   .pf input,.pf textarea,.pf select{font:inherit;font-size:15px;color:var(--ink);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;background:#fff}
@@ -284,7 +284,7 @@
 
   .hub.wide.cview{max-width:1360px;padding-left:24px;padding-right:24px}
   .hub.cview .shead h1{font-size:clamp(28px,3.4vw,40px);letter-spacing:-.02em}
-  .hub.cview .shead h1 i{font-style:italic;font-weight:400}
+  .hub.cview .shead h1 i{font-style:normal;font-weight:700}
   .hub.cview>footer{display:none}
   .cgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-areas:"ready proj pay" "ready coming month" "files files files";gap:16px;align-items:stretch}
   .c-ready{grid-area:ready}.c-proj{grid-area:proj}.c-pay{grid-area:pay}.c-coming{grid-area:coming}.c-month{grid-area:month}.c-files{grid-area:files}
@@ -298,7 +298,7 @@
   .bt .teb+.cu{border-top:0}
   .cu b{display:block;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .cu .mute{font-size:12px}
-  .th{width:40px;height:40px;border-radius:9px;object-fit:cover;background:var(--cream);display:flex;align-items:center;justify-content:center;font:500 16px Fraunces,serif;color:var(--ink2)}
+  .th{width:40px;height:40px;border-radius:9px;object-fit:cover;background:var(--cream);display:flex;align-items:center;justify-content:center;font:700 16px "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink2)}
   .cu .st{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;white-space:nowrap}
   .cu .st i{width:7px;height:7px;border-radius:50%}
   .bt .foot{margin-top:10px;font-size:12.5px}
@@ -319,7 +319,7 @@
   .hub.admin.wide{max-width:1360px}
   @media (min-width:761px){.hub.admin.wide{padding-left:96px;padding-right:24px}}
   .hub.admin.wide #box,.hub.admin.wide #more{max-width:720px}
-  .serif{font-family:Fraunces,serif;font-weight:500;letter-spacing:-.01em}
+  .serif{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:-.01em}
   .bt{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 22px}
   .teb{display:flex;align-items:center;gap:8px;font:500 11.5px/1 Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
   .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
@@ -327,7 +327,7 @@
   .hside{display:flex;flex-direction:column;gap:16px}
   .qtile{background:var(--cream);border:0;border-radius:30px;padding:26px;min-height:min(640px,calc(100dvh - var(--head) - 120px));display:flex;flex-direction:column}
   .qhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
-  .qhead h2{font:500 32px/1.05 Fraunces,serif;letter-spacing:-.02em}
+  .qhead h2{font:700 32px/1.05 "Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:-.02em}
   .qnav{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink2);white-space:nowrap}
   .qarrow{width:36px;height:36px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line)}
   .qarrow svg{width:16px;height:16px}
@@ -373,11 +373,11 @@
     .hub.admin{padding-bottom:calc(100px + env(safe-area-inset-bottom))}
   }
   /* Home: approvals (Hub Approvals tab), then the check-in cards */
-  .aq-h{display:flex;align-items:center;gap:10px;font:500 22px/1.2 Fraunces,serif;margin:26px 0 12px}
+  .aq-h{display:flex;align-items:center;gap:10px;font:700 22px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;margin:26px 0 12px}
   #aq>.aq-h:first-child{margin-top:0}
   .aq-h .n{font:600 12px/1 Inter,sans-serif;background:var(--ink);color:#fff;border-radius:100px;padding:5px 9px}
   .acard{margin-bottom:12px}
-  .acard h3{font:500 20px/1.25 Fraunces,serif;margin-bottom:8px;overflow-wrap:anywhere}
+  .acard h3{font:700 20px/1.25 "Helvetica Neue",Helvetica,Arial,sans-serif;margin-bottom:8px;overflow-wrap:anywhere}
   .acard .hint{font-size:13px;color:var(--ink2);margin-top:10px}
   .acard .btns{margin-top:14px}
   .acard .btns.one{grid-template-columns:1fr}
@@ -402,7 +402,7 @@
   .ctiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
   .ctile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;border:1px solid var(--line);border-radius:20px;padding:18px;background:#fff;font-size:14px;color:var(--ink2);transition:border-color .16s}
   .ctile:hover{border-color:var(--ink)}
-  .ctile h3{font:500 20px/1.2 Fraunces,serif;color:var(--ink);overflow-wrap:anywhere}
+  .ctile h3{font:700 20px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink);overflow-wrap:anywhere}
   .ctile .n{color:var(--ink);font-weight:600}
   .ctile .tag{margin:4px 0 0}
   .links{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
