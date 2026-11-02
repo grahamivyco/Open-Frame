@@ -9,7 +9,7 @@ Source of truth: the live site code in `grahamivyco/Open-Frame` (`index.html`, `
 ## 0. Hard rules (check these before shipping any page)
 
 1. Use the tokens in section 1. No new colors, fonts, radii or easings.
-2. Fraunces for headings, Inter for everything else, Manrope only for the "Open Frame" wordmark.
+2. Helvetica (stack `"Helvetica Neue",Helvetica,Arial,sans-serif`, bold 700, no italics) for headings, Inter for everything else, Manrope only for the "Open Frame" wordmark.
 3. The four accents (red, blue, yellow, green) are for icons, sparks, hovers and small tags. Never for big backgrounds or body text. Exceptions: the yellow "feature" tag, per-project brand tints on case studies, and art plates (section 4b), where accents fill big shapes.
 4. Flat. No drop shadows on cards, buttons or panels. No gradients on UI or in art plates. (Only allowed shadow: tilted device mockups, and the soft colored glow on a hovered white/dark button.)
 5. Pill buttons (100px radius) = internal links. 14px rounded-rect buttons = external links, mailto, and form fields.
@@ -40,7 +40,7 @@ Source of truth: the live site code in `grahamivyco/Open-Frame` (`index.html`, `
   --red:#f24333; --blue:#2f6bf0; --yellow:#f4bf3a; --green:#33ac66;
 
   /* type */
-  --serif:"Fraunces",Georgia,serif;
+  --serif:"Helvetica Neue",Helvetica,Arial,sans-serif;
   --sans:"Inter",system-ui,-apple-system,sans-serif;
 
   /* layout */
@@ -61,7 +61,7 @@ Fonts (Google Fonts):
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
 ```
 
 Accent order when cycling (nav sparks, lists, steps, pricing cards): **red → blue → yellow → green**, then repeat.
@@ -90,11 +90,11 @@ p{text-wrap:pretty}
 
 | Role | Font | Size | Notes |
 |---|---|---|---|
-| Home hero h1 | Fraunces 500 | `clamp(2.6rem,4.4vw,4.6rem)` | line-height .96, letter-spacing -.025em; one word in `<em>` italic 400 |
-| Page hero h1 (subpages, case studies) | Fraunces 500 | `clamp(2.6rem,7vw,5rem)` | line-height 1 |
-| Section h2 | Fraunces 500 | `clamp(2.1rem,5vw,3.6rem)` | line-height 1.02, max ~26ch |
-| Card h3 | Fraunces 500 | `clamp(1.35rem,2.2vw,2rem)` | line-height 1.05–1.12 |
-| Big number / price | Fraunces 500 | `clamp(2rem,3vw,2.8rem)` | `font-variant-numeric:tabular-nums` |
+| Home hero h1 | Helvetica 700 | `clamp(2.6rem,4.4vw,4.6rem)` | line-height .96, letter-spacing -.025em; `<em>` is upright, same weight |
+| Page hero h1 (subpages, case studies) | Helvetica 700 | `clamp(2.6rem,7vw,5rem)` | line-height 1 |
+| Section h2 | Helvetica 700 | `clamp(2.1rem,5vw,3.6rem)` | line-height 1.02, max ~26ch |
+| Card h3 | Helvetica 700 | `clamp(1.35rem,2.2vw,2rem)` | line-height 1.05–1.12 |
+| Big number / price | Helvetica 700 | `clamp(2rem,3vw,2.8rem)` | `font-variant-numeric:tabular-nums` |
 | Lead paragraph | Inter 400 | `clamp(1.02rem,1.4vw,1.2rem)` | color `--ink-2` or `--muted`, max 44–52ch |
 | Body | Inter 400 | 16.5px | line-height 1.6 |
 | Small text / list items | Inter 400 | .92–.96rem | color `--ink-2` |
@@ -310,18 +310,18 @@ Already live at `openframe.design/studio/` (`studio/index.html`). Extend that pa
 - **Body**: white like every other page, same header (the pill reads Studio once signed in; on mobile "Log in" / "Studio" shows as the active menu link; Log out sits inside Studio). The mobile menu is the site's cream card.
 - **Signed out**: no title above anything. A full-screen bento under the header (gutter all round, gap 12-18px): the cream sign-in card (`--panel`, `--r-lg`) on the left half and the showreel's Bauhaus tile wave on a canvas on the right half, with the Open Frame mark in the middle tile. Up to 820px the art hides and the card fills the screen.
 - **Sign-in card** content, max 440px wide, vertically centered:
-  - eyebrow with red spark "Studio", h1 Fraunces `clamp(2.4rem,4.4vw,3.8rem)` "Your *studio.*"
+  - eyebrow with red spark "Studio", h1 Helvetica `clamp(2.4rem,4.4vw,3.8rem)` "Your *studio.*"
   - lead: "Everything we're working on together, in one place."
   - Sign in with Google (pill, outline), a hairline "or use your email" divider, email field, full-width ink pill "Email me a code" (hover red)
   - Code step: "Check your *email.*", one input `font:500 28px/1 var(--serif);letter-spacing:.3em;text-align:center`, `inputmode="numeric" autocomplete="one-time-code" maxlength="6"`, "Sign in" button, underlined "Use a different email".
   - Errors in red 14px under the field. Never blame the user.
 - **Signed in**: a 560px centered column on white.
-- **Hub header**: eyebrow "Studio", h1 Fraunces 22px with the client's name, count of items on the right in `--ink-2`.
+- **Hub header**: eyebrow "Studio", h1 Helvetica 22px with the client's name, count of items on the right in `--ink-2`.
 - **Tabs**: row of equal pill buttons; selected = white with ink border, others transparent with `--line` border.
 - **Item cards**: white, `--r`, 18px padding. Label line (13px `--ink-2`, bold client/project), media (rounded 12px, swipeable when several), body text 15px, a serif question line (19px) and a two-button row: ink pill "Approve" + outline pill "Request changes".
-- **Stats**: 2-column tiles, white, 14px radius, Fraunces 24px number over a 13px label.
+- **Stats**: 2-column tiles, white, 14px radius, Helvetica 24px number over a 13px label.
 - **Status rows**: dot (green ok / yellow in progress / red needs you) + text + right-aligned meta, separated by hairlines.
-- **Empty state**: centered, Fraunces 26px "You're all caught up." + one muted line.
+- **Empty state**: centered, Helvetica 26px "You're all caught up." + one muted line.
 - Footer: small muted signed-in email + underlined "Sign out".
 - `noindex`, no third-party scripts, token in `localStorage`.
 
@@ -331,7 +331,7 @@ Live as its own page at `openframe.design/pricing` (moved off Services and rebui
 
 - Three panels, each with eyebrow + heading + one-line sub: **Monthly plans.** (h1) / **Fixed-price projects.** / **Extras and billing.** The nonprofit toggle ("Show 501(c)(3) nonprofit pricing", track turns green) sits right of the plans and projects heads.
 - **Plans** use the Services accordion (`.svc-stage .svc-acc`): name left, price right, the open tile shows one line on who it's for and 3 short bullets, price grows in the card's accent. Growth carries the yellow "Most popular" pill.
-- **Projects and extras** are white hairline tiles (`--r`): name, one short line, price at the bottom in Fraunces, small arrow top-right. On phones each tile is one row with the price on the right.
+- **Projects and extras** are white hairline tiles (`--r`): name, one short line, price at the bottom in the heading font, small arrow top-right. On phones each tile is one row with the price on the right.
 - Every plan and project tile links to Contact with its name filled into the message.
 - Billing terms go in one cream tile, one short line each.
 - End with the dark CTA band.
@@ -341,7 +341,7 @@ Live as its own page at `openframe.design/pricing` (moved off Services and rebui
 ## 11. Drift checklist (run on every new page)
 
 - [ ] Only token colors? Search the CSS for any hex not in section 1.
-- [ ] Headings Fraunces 500, body Inter, nothing else loaded or used?
+- [ ] Headings Helvetica 700, body Inter, nothing else loaded or used?
 - [ ] No box-shadows except mockup stages and button hover glow?
 - [ ] Pill = internal, 14px = external/mailto/fields?
 - [ ] Every section has eyebrow + spark + serif heading?
