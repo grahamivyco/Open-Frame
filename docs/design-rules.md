@@ -10,8 +10,8 @@ Source of truth: the live site code in `grahamivyco/Open-Frame` (`index.html`, `
 
 1. Use the tokens in section 1. No new colors, fonts, radii or easings.
 2. Fraunces for headings, Inter for everything else, Manrope only for the "Open Frame" wordmark.
-3. The four accents (red, blue, yellow, green) are for icons, sparks, hovers and small tags. Never for big backgrounds or body text. Exception: the yellow "feature" tag and per-project brand tints on case studies.
-4. Flat. No drop shadows on cards, buttons or panels. No gradients on UI. (Only allowed shadow: tilted device mockups, and the soft colored glow on a hovered white/dark button.)
+3. The four accents (red, blue, yellow, green) are for icons, sparks, hovers and small tags. Never for big backgrounds or body text. Exceptions: the yellow "feature" tag, per-project brand tints on case studies, and art plates (section 4b), where accents fill big shapes.
+4. Flat. No drop shadows on cards, buttons or panels. No gradients on UI or in art plates. (Only allowed shadow: tilted device mockups, and the soft colored glow on a hovered white/dark button.)
 5. Pill buttons (100px radius) = internal links. 14px rounded-rect buttons = external links, mailto, and form fields.
 6. Cards are white with a 1px hairline (`--line`) or cream (`--panel`) with no border. Dark ink cards are for one emphasis per section only.
 7. Sections sit inside `.wrap` (max 2200px, gutter `clamp(18px,4.5vw,76px)`). Big content blocks use `--r-lg` (30px) corners, cards inside them `--r` (20px).
@@ -123,6 +123,36 @@ Headings are short statements ending in a period: "Monthly plans." "Tell me what
 ```
 
 **Icons**: Lucide line icons only, from one inline `<symbol>` sprite, used via `<svg><use href="#i-name"/></svg>`. Color through `currentColor`. Black at rest, accent on hover.
+
+---
+
+## 4b. Art plates (Studio primaries, picked 2026-11-02)
+
+Open Frame's illustration system: flat geometric compositions, made like numbered prints. Inspired by mid-century and Bauhaus poster work. Build every piece from scratch on the grid below; never copy a specific poster. Proposal with samples: https://claude.ai/artifact/MadqMhWvPcdmB3agTci6RD
+
+**Where plates go:** link-preview cards, social post templates, Studio sign-in art, the 404 page, section art.
+
+**Where they never go:** case studies, the Work tiles, or anything else that shows client work. Those keep real screens and photos in each project's own brand (Graham, 2026-11-02).
+
+**Palette** (art only):
+- Ground: cream `#f3f1ea` (`--panel`). Black is a full color: ink `#111110`.
+- Shapes: red `#f24333`, blue `#2f6bf0`, yellow `#f4bf3a`, green `#33ac66`, plus **pink `#f3a9c0`**, which exists only in art and never on UI.
+- Flat fills only. No gradients, shading, outlines or shadows.
+
+**Shapes** (8, nothing else): circle, capsule, quarter-round, half-disc, stripe field (equal bars and gaps), ring, the open-frame bracket (nested brackets make a line maze), and the spark. The spark is the only non-geometric mark.
+
+**Grid**
+- One square module. Poster 4 × 5, square 4 × 4, wide cover 5 × 4 beside a text column. Margin = 40/600 of the width.
+- Shapes take whole modules (1, 2 or 3). Curves meet edge to edge so the piece locks together.
+- Leave 2 to 4 cells empty. Use one texture (a stripe field or a bracket maze) at most per piece.
+- Don't let two shapes of the same color touch.
+
+**Plate label** (every piece)
+- Title in the site heading font (`--serif`, currently Fraunces; the heading font is under review, so use the token, not the name), sentence case, bottom-left.
+- Under it, one caps line in Inter 600, 0.14em tracking: `OPEN FRAME STUDIO · 2026 SERIES · PLATE 03`. The open-frame mark sits small in ink at the right, with `OPENFRAME.DESIGN`.
+- Plates are numbered in order of release.
+
+**Motion:** plates are static. A plate may animate only in the hero reel style (shapes slide in on the module, one quarter turn), and never under `prefers-reduced-motion`.
 
 ---
 
@@ -315,7 +345,8 @@ Live as its own page at `openframe.design/pricing` (moved off Services and rebui
 - [ ] Pill = internal, 14px = external/mailto/fields?
 - [ ] Every section has eyebrow + spark + serif heading?
 - [ ] Real site header and footer, Pricing and Studio links present?
-- [ ] Accent colors only on small things, cycling red → blue → yellow → green?
+- [ ] Accent colors only on small things, cycling red → blue → yellow → green? (Art plates excepted, section 4b.)
+- [ ] Art plates: only the 8 shapes, whole modules, flat fills, one texture, a plate label?
 - [ ] Reduced-motion turns all animation off?
 - [ ] No horizontal scroll at 360px; 16px input text on mobile?
 - [ ] Copy passed humanizer → structural-humanizer, no em dashes?
