@@ -126,33 +126,34 @@ Headings are short statements ending in a period: "Monthly plans." "Tell me what
 
 ---
 
-## 4b. Art plates (Studio primaries, picked 2026-11-02)
+## 4b. Art plates (picked 2026-11-02)
 
-Open Frame's illustration system: flat geometric compositions, made like numbered prints. Inspired by mid-century and Bauhaus poster work. Build every piece from scratch on the grid below; never copy a specific poster. Proposal with samples: https://claude.ai/artifact/MadqMhWvPcdmB3agTci6RD
+Open Frame's illustration system. The idea: **every piece is drawn inside the open frame from the logo, and one shape comes in through the open corner.** That's "bring your brand into frame", drawn. Plates are a numbered series, and each one stands for something real (a service or a project step). Full book with all nine plates: https://claude.ai/artifact/MadqMhWvPcdmB3agTci6RD
 
-**Where plates go:** link-preview cards, social post templates, Studio sign-in art, the 404 page, section art.
+**Where plates go:** link-preview cards, Instagram and LinkedIn templates, Studio sign-in art, the 404 page, service sections and the five Studio project steps.
 
-**Where they never go:** case studies, the Work tiles, or anything else that shows client work. Those keep real screens and photos in each project's own brand (Graham, 2026-11-02).
+**Where they never go:** case studies, the Work tiles, buttons, forms, or anything that shows client work. Client work keeps its real screens, photos and brand (Graham, 2026-11-02).
 
-**Palette** (art only):
-- Ground: cream `#f3f1ea` (`--panel`). Black is a full color: ink `#111110`.
-- Shapes: red `#f24333`, blue `#2f6bf0`, yellow `#f4bf3a`, green `#33ac66`, plus **pink `#f3a9c0`**, which exists only in art and never on UI.
-- Flat fills only. No gradients, shading, outlines or shadows.
+**Anatomy** (poster 600 × 800; scale everything with it)
+1. **Frame**: the logo bracket drawn in ink around the grid (30 → 570 × 30 → 698, stroke 10, corner radius 40). Top-right corner open by the mark's proportions: 31% of the top edge and 34% of the right edge.
+2. **Entrance**: one circle in the plate's lead color sits in the open corner, half in and half out (r = 80, centered 0.7r in from the missing corner). Nothing else touches the opening.
+3. **Grid**: 4 × 5 square modules of 128 starting at (44, 44). Shapes take 1, 2 or 3 whole modules. The three closed corners hold shapes that curve the same way as the frame.
+4. **Shapes**, eight only: circle, capsule, quarter-round, half-disc, ring, stripe field (equal bars and gaps), bracket, spark. At most one texture per plate (a stripe field or hatched arcs).
+5. **Label** under the frame: title in the heading font, bold, sentence case with a period. Under it, a caps line in Inter 600, 0.14em tracking: `PLATE 03 · MARKETING AND CONTENT · SERIES 01`. The mark sits at the right.
 
-**Shapes** (8, nothing else): circle, capsule, quarter-round, half-disc, stripe field (equal bars and gaps), ring, the open-frame bracket (nested brackets make a line maze), and the spark. The spark is the only non-geometric mark.
+**Color**
+- Ground cream `#f3f1ea`, ink `#111110` as a full color.
+- Lead color by meaning, matching the service tiles: Brand red `#f24333`, Web blue `#2f6bf0`, Marketing yellow `#f4bf3a`, Growth green `#33ac66`. The five project steps (Discover, Define, Design, Build, Launch) lead with **pink `#f3a9c0`**, which exists only in art and never on UI.
+- One plate = lead color + two others + ink. Two shapes of the same color never touch. Flat fills only: no gradients, shading, outlines on shapes or shadows. The frame is the only line.
 
-**Grid**
-- One square module. Poster 4 × 5, square 4 × 4, wide cover 5 × 4 beside a text column. Margin = 40/600 of the width.
-- Shapes take whole modules (1, 2 or 3). Curves meet edge to edge so the piece locks together.
-- Leave 2 to 4 cells empty. Use one texture (a stripe field or a bracket maze) at most per piece.
-- Don't let two shapes of the same color touch.
+**Rules**
+- Build the composition from the plate's meaning. Discover is loose circles; Define lines them up; Design joins four quarters into one circle.
+- Whole modules only. Leave 2 to 4 cells empty.
+- Never copy the layout of a reference poster.
 
-**Plate label** (every piece)
-- Title in the site heading font (`--serif`, currently Fraunces; the heading font is under review, so use the token, not the name), sentence case, bottom-left.
-- Under it, one caps line in Inter 600, 0.14em tracking: `OPEN FRAME STUDIO · 2026 SERIES · PLATE 03`. The open-frame mark sits small in ink at the right, with `OPENFRAME.DESIGN`.
-- Plates are numbered in order of release.
+**Series 01**: 01 Brand, 02 Web, 03 Marketing, 04 Growth, 05 Discover, 06 Define, 07 Design, 08 Build, 09 Launch. New plates continue the numbering.
 
-**Motion:** plates are static. A plate may animate only in the hero reel style (shapes slide in on the module, one quarter turn), and never under `prefers-reduced-motion`.
+**Motion:** plates are static. They may build in like the hero reel (shapes slide in on the module, the entrance circle arrives last), never under `prefers-reduced-motion`.
 
 ---
 
@@ -346,7 +347,7 @@ Live as its own page at `openframe.design/pricing` (moved off Services and rebui
 - [ ] Every section has eyebrow + spark + serif heading?
 - [ ] Real site header and footer, Pricing and Studio links present?
 - [ ] Accent colors only on small things, cycling red → blue → yellow → green? (Art plates excepted, section 4b.)
-- [ ] Art plates: only the 8 shapes, whole modules, flat fills, one texture, a plate label?
+- [ ] Art plates: open frame + entrance circle, 8 shapes on whole modules, lead color by meaning, flat fills, one texture, plate label, never on client work?
 - [ ] Reduced-motion turns all animation off?
 - [ ] No horizontal scroll at 360px; 16px input text on mobile?
 - [ ] Copy passed humanizer → structural-humanizer, no em dashes?
