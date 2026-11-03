@@ -2,16 +2,17 @@
 
 Read this before any work on openframe.design or Studio, from any Claude project (Portfolio, marketing, or other). Keep it short and current: when a fact here changes, update this file in the same PR.
 
-Last updated: 2026-10-21.
+Last updated: 2026-11-03.
 
 ## Where things live
 - **Website**: this repo, `grahamivyco/Open-Frame`, served by GitHub Pages at https://openframe.design. Merging to `main` deploys in 1–2 minutes.
 - **Site code**: `index.html` is the whole main site (single-file SPA). `CLAUDE.md` has the detailed technical notes. After any `index.html` change, run `node tools/build-pages.js` and commit the generated route files.
-- **Standalone pages** (outside the SPA): `studio/` (client portal), `review/` (client review links), `links/` (bio link page), `glow/` (app legal pages), `preview/` (noindex prospect concepts).
+- **Standalone pages** (outside the SPA): `studio/` (paused, see Studio below), `review/` (client review links), `links/` (bio link page), `glow/` (app legal pages), `preview/` (noindex prospect concepts).
 - **Hub (Studio back end)**: Google Apps Script "Open Frame Hub", bound to the "NGM social queue" Sheet. Source is `hub/Code.gs` in `grahamivyco/social-assets` (public repo). Keep Studio code in `Code.gs`: the Mac keeper's clasp deploy only pushes that file and deletes other `.gs` files.
 - **Design rules**: [`docs/design-rules.md`](docs/design-rules.md). Tokens, art plates, components, header/footer, motion, copy voice, Studio and Pricing recipes, drift checklist. Use them for every new page.
 
 ## Studio (openframe.design/studio)
+- **PAUSED 2026-11-03 (Graham):** Graham doesn't use Studio and doesn't want to keep it up. `/studio/` now shows a short "Client sign-in is paused" page (noindex). The header "Log in" buttons and the footer "Client sign-in" link are gone from every page. The full Studio page is kept on branch `archive/studio-2026-11` (restore `studio/index.html` from there, plus the header/footer links, to bring it back). Approvals and Reels now come to Graham in Claude: he asks "what needs me?" and Claude reads and answers the Hub Sheet (social-assets `hub/CLAUDE-INBOX.md`). The Hub back end keeps running. Don't rebuild or link Studio unless Graham asks.
 - Invite only. Admins = the script owner + `STUDIO_ADMINS`. Clients = any email in the `contact_email` column of the Hub Sheet's **Clients** tab. No sign-up flow.
 - Sign-in: email + 6-digit code, or the emailed button (both expire in 15 min), or Sign in with Google (`GOOGLE_CLIENT_ID`, Google Cloud project `enhanced-rite-512212-t9`, app "Open Frame": In production, External, since 2026-10-21, so any invited client can use it; scopes are only openid/email/profile, so no Google review is needed. Branding uses /privacy/ and /terms/, and openframe.design is verified in Search Console. If the button errors with a UrlFetchApp permission message, Graham runs `setup` once in the Apps Script editor and clicks Allow). Unknown emails get the same reply. Sessions last 30 days, stored hashed in the `Studio sessions` tab; the page keeps its token in `localStorage` (`of-studio`).
 - Adding a new Google service to `Code.gs` needs Graham to run `setup` once in the Apps Script editor to re-authorize. Clasp deploys code but never new scopes.
